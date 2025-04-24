@@ -15,7 +15,7 @@ import bookmarkActive from "../../../../public/bookmarkIconAtive.svg";
 import infoicon from "../../../../public/infoicon.svg";
 import reportIcon from "../../../../public/newReportIcon.svg";
 import reportIconActive from "../../../../public/reportIconActive.svg";
-import crossIcon from "../../../../public/crossIcon.svg";
+import crossIcon from "../../../../public/crossicon.svg";
 import keyIcon from "../../../../public/keyIcon.svg";
 import badge from "../../../../public/level-10.svg";
 
