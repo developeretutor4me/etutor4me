@@ -7,7 +7,7 @@ import hamburger from "../../../public/assets/icons/hamburger-button.svg";
 import cross from "../../../public/assets/icons/crossicon.svg";
 import Link from "next/link";
 import Button from "../Button";
-import VLine from '../../../public/VerticalLine3.svg'
+import VLine from "../../../public/VerticalLine3.svg";
 import { useRouter, usePathname } from "next/navigation";
 import {
   Select,
@@ -42,20 +42,22 @@ const Navbar = () => {
         </Link>
       </div>
 
-      <div className="hidden custom-2xl:flex  items-center justify-between gap-8 xl:gap-6 lg:gap-6 w-[82.4%]">
-        <ul className="flex  max-w-[46.4rem] w-full  justify-between items-center  text-[#473171]  xl:text-xl lg:w-[50%] lg:gap-1 lg:text-[15px] ">
+      <div className="hidden custom-2xl:flex  items-center justify-between gap-8 xl:gap-6 lg:gap-6 w-[82.6%] ">
+        <ul className="flex  max-w-[47.4rem] w-full  justify-between items-center  text-[#473171]  xl:text-xl lg:w-[50%] lg:gap-1 lg:text-[15px] ">
           <Link href="/" passHref>
             <li
-              className={`flex items-center justify-center leading-tight px-1 ${
-                path === "/" ? "text-[25px] border-b-2 border-[#a8a3c3]  font-medium " : "text-[23px]"
+              className={`flex items-center justify-center leading-tight px-1.5 custom-2xl:w-[138px]  ${
+                path === "/"
+                  ? "text-[25px] border-b-2 border-[#a8a3c3]  font-medium "
+                  : "text-[23px]"
               }`}
             >
-              How it works
+              How&nbsp;it&nbsp;works
             </li>
           </Link>
           <Link href="/ETutorSearch">
             <li
-              className={`flex items-center justify-center leading-tight px-1 ${
+              className={`flex items-center justify-center leading-tight px-1 custom-2xl:w-[94px] ${
                 path === "/ETutorSearch"
                   ? "text-[25px] border-b-2 border-[#a8a3c3]  font-medium "
                   : "text-[23px]"
@@ -66,7 +68,7 @@ const Navbar = () => {
           </Link>
           <Link href="/Packages">
             <li
-              className={`flex items-center justify-center leading-tight px-1 ${
+              className={`flex items-center justify-center leading-tight px-1 custom-2xl:w-[94px] ${
                 path === "/Packages"
                   ? "text-[25px] border-b-2 border-[#a8a3c3]  font-medium "
                   : "text-[23px]"
@@ -77,7 +79,7 @@ const Navbar = () => {
           </Link>
           <Link href="/Faqs">
             <li
-              className={`flex items-center justify-center leading-tight px-1 ${
+              className={`flex items-center justify-center leading-tight px-1 custom-2xl:w-[70px] ${
                 path === "/Faqs"
                   ? "text-[25px] border-b-2 border-[#a8a3c3]  font-medium "
                   : "text-[23px]"
@@ -87,26 +89,24 @@ const Navbar = () => {
             </li>
           </Link>
           <li className="text-[#a8a3c3]">
-            <Image src={VLine} alt="" className="hidden custom-2xl:block"/>
-            
-            
-            </li>
-          <li
-            className={`flex items-center justify-center leading-tight px-1 ${
-              path === "/for-etutor"
-                ? "text-[25px] border-b-2 border-[#a8a3c3]  font-medium "
-                : "text-[23px]"
-            }`}
-          >
-            <Link href="/for-etutor">
-              <p>For eTutors</p>
-            </Link>
+            <Image src={VLine} alt="" className="hidden custom-2xl:block " />
           </li>
+          <Link href="/for-etutor">
+            <li
+              className={`flex items-center justify-center leading-8 px-1 custom-2xl:w-[130px]  ${
+                path === "/for-etutor"
+                  ? "text-[27px] border-b-2 border-[#a8a3c3]  font-medium "
+                  : "text-[23px]"
+              }`}
+            >
+              <p>For&nbsp;eTutors</p>
+            </li>
+          </Link>
         </ul>
 
         <div className=" flex justify-between items-center max-w-[35.5rem] w-full ">
           <div className="">
-          <DropDown/>
+            <DropDown />
           </div>
 
           <div className="max-w-[18.8rem] w-full  flex justify-between items-center">
@@ -170,35 +170,25 @@ const Navbar = () => {
         >
           <ul className="flex font-bold text-darkBlue flex-col gap-3 py-4">
             <Link href="/">
-              <li >
-                How it works
-              </li>
+              <li>How it works</li>
             </Link>
             <Link href="/ETutorSearch">
-              <li >
-                eTutors
-              </li>
+              <li>eTutors</li>
             </Link>
             <Link href="/Packages">
-              <li >
-                Packages
-              </li>
+              <li>Packages</li>
             </Link>
             <Link href="/Faqs">
-              <li >
-                FAQs
-              </li>
+              <li>FAQs</li>
             </Link>
             <li className="hidden">|</li>
             <Link href="/for-etutor">
-              <li >
-                For eTutors
-              </li>
+              <li>For eTutors</li>
             </Link>
           </ul>
           <div className="flex flex-col gap-4">
-            <DropDown/>
-            
+            <DropDown />
+
             <Link href="/signin">
               <button className="text-customBlue focus:outline-none font-bold w-full">
                 SIGN IN
