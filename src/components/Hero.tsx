@@ -7,7 +7,7 @@ const Hero = () => {
   return (
     <div className='w-full px-4 flex items-center mb:flex-col mb:gap-6 mb:py-6 mb:px-0 mb:justify-center' >
       <div className='mb:w-full mb:text-center  w-1/2 '>
-        <h2 className=' text-[61px] leading-[1.18] pt-[50px] mb:text-3xl font-extrabold lg:text-[40px] xl:text-6xl '>
+        <h2 className=' text-[60.5px] leading-[1.18] pt-0 mb:text-3xl font-extrabold lg:text-[40px] xl:text-6xl '>
           <span className='text-darkBlue'>Unlock Better Grades With  <br /></span>
           <span className='text-customBlue'>Engaging</span>
           <span className='text-darkBlue'>, </span>
@@ -32,8 +32,8 @@ const Hero = () => {
          </Link> 
         </div>
       </div>
-      <div className='mb:w-full w-1/2 '>
-        <Image  loading="lazy"  alt='' src={heroimg} />
+      <div className='mb:w-full w-[57%] '>
+        <Image  loading="lazy"  alt='' src={heroimg}  className='mt-6'/>
       </div>
     </div>
   )
