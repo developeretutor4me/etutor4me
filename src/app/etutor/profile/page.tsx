@@ -216,7 +216,7 @@ const SessionsDashboard = () => {
   const renderContent:voide = () => {
     switch (activeSidebarItem) {
       case "Profile":
-        return <Profile/>
+        return <Profile />
       case "Bank Details":
         return <BankDetails/>
       case "Tax Information":
@@ -412,7 +412,7 @@ const SessionsDashboard = () => {
               <div className="w-6 custom-2xl:w-7 h-6 custom-2xl:h-7  rounded-full overflow-hidden">
                 <img 
                 //@ts-ignore
-                src={teacher?.user?.profilePicture} alt="" className="h-full w-full" />
+                src={teacher?.user?.profilePicture} alt="" className="object-contain object-top" />
               </div>
               {/* <div className="flex items-center  w-full  gap-2 custom-2xl:gap-4">
 
