@@ -11,7 +11,7 @@ const RadioInput = ({id, name, value, checked, onChange, label}:any) => {
         checked={checked}
         onChange={onChange}
         
-        className={`w-6 custom-xl:w-8 h-6 custom-xl:h-8 border custom-xl:border-2 rounded-full cursor-pointer appearance-none hover:border-none hover:bg-lightpurple transition-all duration-300 ${
+        className={`w-6 custom-xl:w-8 h-6 custom-xl:h-8 border rounded-full cursor-pointer appearance-none hover:border-none hover:bg-lightpurple transition-all duration-300 ${
           checked ? 'border-[#685AAD] border-4 custom-xl:border-8' : 'border-[#685AAD] border-[3px]'
         } focus:outline-none`}
       />
