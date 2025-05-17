@@ -418,6 +418,8 @@ function Profile() {
     setErrorMessage('');
     setUploadedUrls([]);
 
+
+
     const formData = new FormData();
     formData.append('userid', session?.user.id);
     formData.append('subject', selectedSubjectToVerifys);
@@ -771,6 +773,16 @@ function Profile() {
       setSelectedSubjects([...selectedSubjects, subject]);
     }
   };
+
+
+
+
+
+
+
+
+
+  
   const handleSubjectLEVELClick = (subject: string) => {
     // @ts-ignore
     if (selectedSubjectsLEVEL.includes(subject)) {

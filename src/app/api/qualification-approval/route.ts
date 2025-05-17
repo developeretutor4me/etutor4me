@@ -1,9 +1,10 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
-import TutorDocument from '../models/TutorDocument';
-import {connectMongoDB} from '../connection/connection';
+import { NextRequest, NextResponse } from "next/server";
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import TutorDocument from "../models/TutorDocument";
+import { connectMongoDB } from "../connection/connection";
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/app/auth/auth";
 
-// Initialize the S3 client
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
   credentials: {
@@ -12,16 +13,28 @@ const s3 = new S3Client({
   },
 });
 
-export async function POST(req:NextRequest) {
+export async function POST(req: NextRequest) {
   try {
+    const session = await getServerSession(authOptions);
+    if (!session) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
     await connectMongoDB();
 
     // Parse the incoming form data
     const formData = await req.formData();
-    const files = formData.getAll('files');
+    const files = formData.getAll("files");
 
-    if (!files || files.length === 0 || !files.every(file => file instanceof File)) {
-      return NextResponse.json({ success: false, error: 'No valid files provided' }, { status: 400 });
+    if (
+      !files ||
+      files.length === 0 ||
+      !files.every((file) => file instanceof File)
+    ) {
+      return NextResponse.json(
+        { success: false, error: "No valid files provided" },
+        { status: 400 }
+      );
     }
 
     const uploadedFiles = [];
@@ -49,25 +62,29 @@ export async function POST(req:NextRequest) {
       uploadedFiles.push({ fileName: file.name, fileUrl });
     }
 
-    const { userid,teacher, subject, purpose } = Object.fromEntries(formData.entries());
-
-
-    if (!userid) {
-      return NextResponse.json({ success: false, error: 'All fields are required.' }, { status: 400 });
-    }
+    const { userid, teacher, subject, purpose } = Object.fromEntries(
+      formData.entries()
+    );
 
     // Save document details to MongoDB
     const newDocument = await TutorDocument.create({
-      user:userid,
+      user: userid || session.user.id,
       teacher,
       subject,
       purpose,
       files: uploadedFiles,
     });
 
-    return NextResponse.json({ success: true, document: newDocument, uploadedFiles });
+    return NextResponse.json({
+      success: true,
+      document: newDocument,
+      uploadedFiles,
+    });
   } catch (error) {
-    console.error('File upload error:', error);
-    return NextResponse.json({ success: false, error: 'Failed to upload files' }, { status: 500 });
+    console.error("File upload error:", error);
+    return NextResponse.json(
+      { success: false, error: "Failed to upload files" },
+      { status: 500 }
+    );
   }
 }
