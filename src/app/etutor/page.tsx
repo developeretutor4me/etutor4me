@@ -271,7 +271,7 @@ const SessionsDashboard = () => {
     setProfilepicture(teacher?.user?.profilePicture);
     settutorlevelleft(80);
     setCompleteprofilestatus(90);
-  }, [session]);
+  }, [session, teacher]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -1117,7 +1117,7 @@ const SessionsDashboard = () => {
                 }`}
               >
                 <div className="w-6 custom-2xl:w-7 h-6 custom-2xl:h-7  rounded-full overflow-hidden">
-                  <img src={profilepicture} alt="" className="h-full w-full" />
+                  <img src={profilepicture || teacher?.user?.profilePicture} alt="" className="object-cover" />
                 </div>
                 {/* <div className="flex items-center  w-full  gap-2 custom-2xl:gap-4">
   
