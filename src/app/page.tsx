@@ -59,7 +59,7 @@ export default function Home() {
           textcolor={"text-[#534988]"}
           position={"flex items-start flex-col justify-center gap-0 mx-auto"}
           text1={"Our Packages"}
-          text2={""} width={"w-[94%] lg:w-[90%] m-auto mb:w-[95%] py-24 lg:py-8 xl:py-4 mb:py-5"} padding={"custom-2xl:px-10"}        />
+          text2={""} width={"w-[94%] lg:w-[90%] m-auto mb:w-[95%] py-28 lg:py-8 xl:py-4 mb:py-5"} padding={"custom-2xl:px-10"}        />
           
         <BundlePricing/> 
         <HowWorks />
