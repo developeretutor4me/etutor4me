@@ -6,280 +6,27 @@ import addicon2 from "../../../../../public/addicon2.svg";
 import bluefoldericon from "../../../../../public/blueFolderIconFilled.svg";
 import downloadicon from "../../../../../public/downloadIconDownARrow.svg";
 import Image from "next/image";
-import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
 import tooltip from '../../../../../public/alertnotification.svg'
 import alertsubject from '../../../../../public/alert_subject.svg'
-export interface Teacher {
-  user: string; // ObjectId reference to the User model
-  acceptsTrialSession?: boolean;
-  contactInformation: {
-    country?: string;
-    countryOfresident?: string;
-    firstName: string;
-    lastName?: string;
-    zipCode?: string;
-    phone?: string;
-    streetname?: string;
-    shippingAddress?: string;
-    city?: string;
-    postcode?: string;
-    email: string;
-  };
-  education: {
-    college: string;
-    degree: string;
-    major: string;
-    graduation?: any;
-    graduationSchool?: string;
-    graduationCountry?: string;
-    highestDegree?: string;
-    school?: string;
-  };
-  DOB: {
-    day?: string;
-    month?: string;
-    year?: string;
-  };
-  currentJob?: string;
-  timeZone?: string;
-  gender?: string;
-  VideoIntroduction?: string;
-  aboutyou?: string;
-  YourEducation?: string;
-  experience: {
-    experienceWithSpecialNeedsStudent?: string[];
-    tutoringExperience?: string;
-    internationalExperience?: string;
-    moreaboutProfessionalExperience?: string;
-    hasExperience: boolean;
-    tutoringLevel: string[];
-    subjectsTutored: string[];
-    languages: string[];
-    instructionTypes: string[];
-    availableHours: string;
-    startDate: any;
-    generalAvailability: any;
-    hasTeachingExperience: boolean;
-    is18OrAbove: boolean;
-  };
-  bankDetails?: {
-    accountholder?: string;
-    IBAN?: string;
-    BIC?: string;
-  };
-  currentMonthRegularSession?: number;
-  currentMonthGroupSession?: number;
-  TotalGroupSession?: number;
-  TotalRegularSession?: number;
-  totalbooking?: number;
-  level?: number;
-  badge?: string;
-  EarnedThisMonth?: number;
-  EarnedLastMonth?: number;
-  TotalEarning?: number;
-  isApproved?: boolean;
-}
 
-const subjectOptions = [
-  { value: "Mathematics", label: "Mathematics" },
-  { value: "Algebra", label: "Algebra" },
-  { value: "Geometry", label: "Geometry" },
-  { value: "Calculus", label: "Calculus" },
-  { value: "Trigonometry", label: "Trigonometry" },
-  { value: "Statistics", label: "Statistics" },
-  { value: "Science", label: "Science" },
-  { value: "Biology", label: "Biology" },
-  { value: "Chemistry", label: "Chemistry" },
-  { value: "Physics", label: "Physics" },
-  { value: "Environmental Science", label: "Environmental Science" },
-  { value: "Earth Science", label: "Earth Science" },
-  { value: "English Language Arts", label: "English Language Arts" },
-  { value: "Grammar", label: "Grammar" },
-  { value: "Literature", label: "Literature" },
-  { value: "Writing", label: "Writing" },
-  { value: "Reading Comprehension", label: "Reading Comprehension" },
-  { value: "Social Studies", label: "Social Studies" },
-  {
-    value: "History (World, U.S., Ancient)",
-    label: "History (World, U.S., Ancient)",
-  },
-  { value: "Geography", label: "Geography" },
-  { value: "Economics", label: "Economics" },
-  { value: "Political Science", label: "Political Science" },
-  { value: "Foreign Languages", label: "Foreign Languages" },
-  { value: "Spanish", label: "Spanish" },
-  { value: "French", label: "French" },
-  { value: "German", label: "German" },
-  { value: "Chinese (Mandarin)", label: "Chinese (Mandarin)" },
-  { value: "Japanese", label: "Japanese" },
-  { value: "Arabic", label: "Arabic" },
-  { value: "Russian", label: "Russian" },
-  {
-    value: "Specialized & Advanced Subjects",
-    label: "Specialized & Advanced Subjects",
-  },
-  { value: "Advanced Mathematics", label: "Advanced Mathematics" },
-  { value: "Differential Equations", label: "Differential Equations" },
-  { value: "Linear Algebra", label: "Linear Algebra" },
-  { value: "Discrete Math", label: "Discrete Math" },
-  {
-    value: "Computer Science & Technology",
-    label: "Computer Science & Technology",
-  },
-  {
-    value: "Programming (Python, Java, C++)",
-    label: "Programming (Python, Java, C++)",
-  },
-  { value: "Web Development", label: "Web Development" },
-  { value: "Data Science", label: "Data Science" },
-  { value: "Cybersecurity", label: "Cybersecurity" },
-  { value: "AI and Machine Learning", label: "AI and Machine Learning" },
-  { value: "Business & Economics", label: "Business & Economics" },
-  { value: "Accounting", label: "Accounting" },
-  { value: "Marketing", label: "Marketing" },
-  { value: "Finance", label: "Finance" },
-  { value: "Entrepreneurship", label: "Entrepreneurship" },
-  {
-    value: "Microeconomics/Macroeconomics",
-    label: "Microeconomics/Macroeconomics",
-  },
-];
-const PurposeOfAttachment = [
-  { value: "Degree certificate", label: "Degree certificate" },
-  { value: "Grade Transcript", label: "Grade Transcript" },
-  { value: "Professional Certification", label: "Professional Certification" },
-  { value: "Other", label: "Other" },
-];
+import {
+  subjectOptions,
+  PurposeOfAttachment,
+  subjectLevelOptions,
+  experienceoptions,
+  genderOptions,
+  countryoptions,
+  timezoneoptions,
+  Teacher,
+} from "./Data";
+import useSWR from "swr";
 
 
-
-const subjectLevelOptions = [
-  
-  { value: "Pre-Kindergarten", label: "Pre-Kindergarten" },
-  { value: "Kindergarten-2nd grade", label: "Kindergarten-2nd grade" },
-  { value: "3rd-5th Grade", label: "3rd-5th Grade" },
-  { value: "Middle School", label: "Middle School" },
-  { value: "High School", label: "High School" },
-  { value: "College", label: "College" },
-  { value: "Graduate", label: "Graduate" },
-  { value: "Adult", label: "Adult" },
-];
-
-
-const experienceoptions = [
- 
-  { value: "Autism Spectrum Disorder (ASD)", label: "Autism Spectrum Disorder (ASD)" },
-  { value: "Attention Deficit Hyperactivity Disorder (ADHD)", label: "Attention Deficit Hyperactivity Disorder (ADHD)" },
-  { value: "Dyslexia", label: "Dyslexia" },
-  { value: "Dyscalculia", label: "Dyscalculia" },
-  { value: "Dysgraphia", label: "Dysgraphia" },
-  { value: "Intellectual Disabilities", label: "Intellectual Disabilities" },
-  { value: "Speech and Language Disorders", label: "Speech and Language Disorders" },
-  { value: "Emotional and Behavioral Disorders", label: "Emotional and Behavioral Disorders" },
-  { value: "Hearing Impairments", label: "Hearing Impairments" },
-  { value: "Visual Impairments", label: "Visual Impairments" },
-  { value: "Traumatic Brain Injury (TBI)", label: "Traumatic Brain Injury (TBI)" },
-  { value: "Developmental Coordination Disorder (Dyspraxia)", label: "Developmental Coordination Disorder (Dyspraxia)" },
-  { value: "Sensory Processing Disorder", label: "Sensory Processing Disorder" },
-  { value: "Multiple Disabilities", label: "Multiple Disabilities" },
-];
-
-const genderOptions = [
-  { value: "male", label: "Male" },
-  { value: "female", label: "Female" },
-  { value: "other", label: "Other" },
-];
-const countryoptions = [
-  { value: "USA", label: "USA" },
-  { value: "United States", label: "United States" },
-  { value: "United Kingdom", label: "United Kingdom" },
-  { value: "Ireland", label: "Ireland" },
-  { value: "Canada", label: "Canada" },
-  { value: "Malta", label: "Malta" },
-  { value: "Belize", label: "Belize" },
-  { value: "France", label: "France" },
-  { value: "Canada (especially Quebec)", label: "Canada (especially Quebec)" },
-  { value: "Belgium", label: "Belgium" },
-  { value: "Switzerland", label: "Switzerland" },
-  { value: "Luxembourg", label: "Luxembourg" },
-  { value: "Monaco", label: "Monaco" },
-  { value: "Haiti", label: "Haiti" },
-  { value: "Germany", label: "Germany" },
-  { value: "Austria", label: "Austria" },
-  { value: "Liechtenstein", label: "Liechtenstein" },
-];
-const timezoneoptions = [
-  { label: "Baker Island, GMT -12:00", value: "Baker Island, GMT -12:00" },
-  { label: "American Samoa, GMT -11:00", value: "American Samoa, GMT -11:00" },
-  { label: "Hawaii, GMT -10:00", value: "Hawaii, GMT -10:00" },
-  { label: "Alaska, GMT -09:00", value: "Alaska, GMT -09:00" },
-  {
-    label: "Pacific Time (US & Canada), GMT -08:00",
-    value: "Pacific Time (US & Canada), GMT -08:00",
-  },
-  {
-    label: "Mountain Time (US & Canada), GMT -07:00",
-    value: "Mountain Time (US & Canada), GMT -07:00",
-  },
-  {
-    label: "Central Time (US & Canada), GMT -06:00",
-    value: "Central Time (US & Canada), GMT -06:00",
-  },
-  {
-    label: "Eastern Time (US & Canada), GMT -05:00",
-    value: "Eastern Time (US & Canada), GMT -05:00",
-  },
-  { label: "Caracas, GMT -04:00", value: "Caracas, GMT -04:00" },
-  { label: "Buenos Aires, GMT -03:00", value: "Buenos Aires, GMT -03:00" },
-  { label: "South Georgia, GMT -02:00", value: "South Georgia, GMT -02:00" },
-  { label: "Cape Verde, GMT -01:00", value: "Cape Verde, GMT -01:00" },
-  { label: "London, GMT ±00:00", value: "London, GMT ±00:00" },
-  { label: "Berlin, GMT +01:00", value: "Berlin, GMT +01:00" },
-  { label: "Cairo, GMT +02:00", value: "Cairo, GMT +02:00" },
-  { label: "Moscow, GMT +03:00", value: "Moscow, GMT +03:00" },
-  { label: "Dubai, GMT +04:00", value: "Dubai, GMT +04:00" },
-  { label: "Islamabad, GMT +05:00", value: "Islamabad, GMT +05:00" },
-  {
-    label: "India Standard Time, GMT +05:30",
-    value: "India Standard Time, GMT +05:30",
-  },
-  { label: "Nepal, GMT +05:45", value: "Nepal, GMT +05:45" },
-  { label: "Dhaka, GMT +06:00", value: "Dhaka, GMT +06:00" },
-  { label: "Myanmar, GMT +06:30", value: "Myanmar, GMT +06:30" },
-  { label: "Bangkok, GMT +07:00", value: "Bangkok, GMT +07:00" },
-  { label: "Beijing, GMT +08:00", value: "Beijing, GMT +08:00" },
-  {
-    label: "Australia Central Time, GMT +08:45",
-    value: "Australia Central Time, GMT +08:45",
-  },
-  { label: "Tokyo, GMT +09:00", value: "Tokyo, GMT +09:00" },
-  {
-    label: "Australia Central Time, GMT +09:30",
-    value: "Australia Central Time, GMT +09:30",
-  },
-  { label: "Sydney, GMT +10:00", value: "Sydney, GMT +10:00" },
-  {
-    label: "Lord Howe Island, GMT +10:30",
-    value: "Lord Howe Island, GMT +10:30",
-  },
-  {
-    label: "Solomon Islands, GMT +11:00",
-    value: "Solomon Islands, GMT +11:00",
-  },
-  { label: "Norfolk Island, GMT +11:30", value: "Norfolk Island, GMT +11:30" },
-  { label: "Auckland, GMT +12:00", value: "Auckland, GMT +12:00" },
-  {
-    label: "Chatham Islands, GMT +12:45",
-    value: "Chatham Islands, GMT +12:45",
-  },
-  { label: "Nuku'alofa, GMT +13:00", value: "Nuku'alofa, GMT +13:00" },
-  { label: "Kiritimati, GMT +14:00", value: "Kiritimati, GMT +14:00" },
-];
 function Profile() {
   const { toast } = useToast();
-  const { data: session,update } = useSession();
+  const { data: session, update } = useSession();
   const [activeTab, setActiveTab] = useState("GENERAL");
   const [error, setError] = useState<string | null>(null);
   const [isSubjectDropdownOpen, setIsSubjectDropdownOpen] = useState(false);
@@ -288,6 +35,7 @@ function Profile() {
   const [isExperienceOpen, setIsExperienceOpen] = useState(false);
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
   const [selectedSubjectsLEVEL, setSelectedSubjectsLEVEL] = useState<string[]>([]);
+
   const [selectedExperience, setSelectedExperience] = useState<string[]>([]);
   const [teacher, setTeacher] = useState<Teacher>();
   const [isGenderOpen, setIsGenderOpen] = useState(false);
@@ -298,7 +46,7 @@ function Profile() {
   const [selectedCountry, setselectedCountry] = useState("");
   const [selectedTimezone, setselectedTimezone] = useState("");
   const [selectedAcademicCountry, setselectedAcademicCountry] = useState("");
-  const [isEditing, setIsEditing] = useState(false);
+  const [isEditing, setIsEditing] = useState(true);
   const [acceptsTrialSession, setAcceptsTrialSession] = useState(false);
 
   // Contact Information
@@ -385,20 +133,15 @@ function Profile() {
   ] = useState(false);
   const [selectedPurposeOfAttechments, setSelectedPurposeOfAttechments] =
     useState("");
-  const [profilePicture, setprofilePicture] = useState("")
+  const [profilePicture, setprofilePicture] = useState("");
 
 
-
-    // qualification approval-------------------------
-    const [tutorId, setTutorId] = useState('');
-  const [subject, setSubject] = useState('');
-  const [purpose, setPurpose] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [uploadedUrls, setUploadedUrls] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const [pictureuploadloading, setpictureuploadloading] = useState(false)  
+  const [pictureuploadloading, setpictureuploadloading] = useState(false);
   const [image, setImage] = useState<File | null>(null); // State to hold the selected image
   const [isUploading, setIsUploading] = useState(false); // State to show the uploading status
   
@@ -409,6 +152,8 @@ const [isCheckingApproval, setIsCheckingApproval] = useState(false);
 const [subjethover, setsubjethover] = useState("")
 
 
+  const [uploadedImage, setUploadedImage] = useState<string | null>("");
+
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       setFiles(Array.from(event.target.files));
@@ -418,38 +163,41 @@ const [subjethover, setsubjethover] = useState("")
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsSubmitting(true);
-    setErrorMessage('');
+    setErrorMessage("");
     setUploadedUrls([]);
 
 
 
     const formData = new FormData();
-    formData.append('userid', session?.user.id);
-    formData.append('subject', selectedSubjectToVerifys);
-    formData.append('purpose', selectedPurposeOfAttechments);
+    formData.append("userid", session?.user.id);
+    formData.append("subject", selectedSubjectToVerifys);
+    formData.append("purpose", selectedPurposeOfAttechments);
     // @ts-ignore
-    formData.append('teacher', teacher?._id);
-    files.forEach((file) => formData.append('files', file));
+    formData.append("teacher", teacher?._id);
+    files.forEach((file) => formData.append("files", file));
 
     try {
-      const response = await fetch('/api/qualification-approval', {
-        method: 'POST',
+      const response = await fetch("/api/qualification-approval", {
+        method: "POST",
         body: formData,
       });
 
       const result = await response.json();
 
       if (result.success) {
-        setUploadedUrls(result.uploadedFiles.map((file: { fileUrl: string }) => file.fileUrl));
+        setUploadedUrls(
+          result.uploadedFiles.map((file: { fileUrl: string }) => file.fileUrl)
+        );
 
         toast({
           title: "Success",
-          description: "Your files have been successfully submitted for verification. Thank you!",
+          description:
+            "Your files have been successfully submitted for verification. Thank you!",
           variant: "default",
         });
-        setIsPopupOpen(false)
+        setIsPopupOpen(false);
       } else {
-        setErrorMessage(result.error || 'Failed to upload files');
+        setErrorMessage(result.error || "Failed to upload files");
       }
     } catch (error) {
       toast({
@@ -457,40 +205,14 @@ const [subjethover, setsubjethover] = useState("")
         description: `'Error uploading files:' ${error}`,
         variant: "destructive",
       });
-    
     } finally {
       setIsSubmitting(false);
-      
-      setSelectedSubjectToVerifys("")
-      setSelectedPurposeOfAttechments("")
-      setFiles([])
+
+      setSelectedSubjectToVerifys("");
+      setSelectedPurposeOfAttechments("");
+      setFiles([]);
     }
   };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
  
@@ -542,11 +264,9 @@ const [subjethover, setsubjethover] = useState("")
     setLanguages(languages.filter((_, index) => index !== indexToDelete));
   };
 
- 
-
   // update function-------------------------
   const handleSave = async () => {
-    setIsEditing(false);
+    setIsEditing(true);
     try {
        const approvedSubjects = selectedSubjects.filter(
       subject => !unapprovedSubjects.includes(subject)
@@ -610,6 +330,8 @@ const [subjethover, setsubjethover] = useState("")
         },
       };
 
+     
+
       const response = await fetch("/api/Teacher-Apis/Update-Teacher-Data", {
         method: "PUT",
         headers: {
@@ -620,41 +342,36 @@ const [subjethover, setsubjethover] = useState("")
 
       if (response.ok) {
         const result = await response.json();
-      
+
         toast({
           title: "Updated successfully!",
           description: "",
           variant: "default",
         });
-       
-        
       } else {
         const error = await response.json();
-   
+
         toast({
-          title:`Error: ${error.error}`,
+          title: `Error: ${error.error}`,
           description: "",
           variant: "destructive",
         });
       }
     } catch (error) {
-     
       toast({
-        title:`Failed to update teacher data.`,
+        title: `Failed to update teacher data.`,
         description: "",
         variant: "destructive",
       });
     }
   };
 
-  
   useEffect(() => {
-    if (teacher && isEditing !== true) {
-
+    if (teacher) {
       // Contact Information
 
       // @ts-ignore
-      setprofilePicture(teacher?.user?.profilePicture)
+      setprofilePicture(teacher?.user?.profilePicture);
       setselectedCountry(teacher?.contactInformation?.country || "");
       setCountryOfResident(
         teacher?.contactInformation?.countryOfresident || ""
@@ -743,7 +460,7 @@ const [subjethover, setsubjethover] = useState("")
       // Approval
       setIsApproved(teacher?.isApproved || false);
     }
-  }, [teacher, activeTab]);
+  }, [teacher]);
 
   const toggleEdit = () => {
     setIsEditing((prev) => !prev);
@@ -884,14 +601,12 @@ const removeSubject = (subject: string) => {
     }
   };
   const toggleTimezoneDropdown = () => {
-    if(isEditing){
-
+    if (isEditing) {
       setIsTimezoneOpen(!isTimezoneOpen);
     }
   };
   const toggleAcedmicCountrydown = () => {
-    if(isEditing){
-
+    if (isEditing) {
       setisAcademicCountryopen(!isAcademicCountryopen);
     }
   };
@@ -939,7 +654,8 @@ const removeSubject = (subject: string) => {
     return "#EDE8FA"; // Active tab color
   };
 
-  const fetcher = async (url: string) => {
+  
+    const fetcher = async (url: string) => {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error("Teacher not found or internal server error");
@@ -964,76 +680,64 @@ const removeSubject = (subject: string) => {
   );
 
 
-
-
-  // Handle the image selection
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
-   if (file) {
-     setImage(file);
-     setError(""); // Reset any previous error
-   }
- };
+    if (file) {
+      setImage(file);
+      setError(""); // Reset any previous error
+    }
+  };
 
- // Handle image upload
- const handleUpload = async () => {
-   setpictureuploadloading(true)
-   if (!image) {
-     setError("Please select an image first.");
-     return;
-   }
+  const handleUpload = async () => {
+    setpictureuploadloading(true);
+    if (!image) {
+      setError("Please select an image first.");
+      return;
+    }
 
-   const reader = new FileReader();
-   reader.onloadend = async () => {
-     const imageBase64 = reader.result as string;
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const imageBase64 = reader.result as string;
 
-     setIsUploading(true); // Show the uploading status
+      setIsUploading(true); // Show the uploading status
 
-     try {
-       // Call the API to upload the image to S3 and store the URL in the database
-       const response = await fetch('/api/upload-profile-picture', {
-         method: 'POST',
-         headers: {
-           'Content-Type': 'application/json',
-         },
-         body: JSON.stringify({
-           userId: session?.user.id,
-           imageBase64: imageBase64.split(',')[1], // Send only base64 data (not the prefix)
-         }),
-       });
+      try {
+        // Call the API to upload the image to S3 and store the URL in the database
+        const response = await fetch("/api/upload-profile-picture", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            userId: session?.user.id,
+            imageBase64: imageBase64.split(",")[1], // Send only base64 data (not the prefix)
+          }),
+        });
 
-       const data = await response.json();
+        const data = await response.json();
 
-       if (response.ok) {
-         setImage(null)
-         // Successfully uploaded the image, update the profile picture URL
-         setUploadedImage(data.profilePictureUrl);
-         setpictureuploadloading(false)
-       } else {
-         setImage(null)
-         setpictureuploadloading(false)
-         setError(data.message || 'Failed to upload the image.');
-       }
-     } catch (error) {
-       setImage(null)
-       setpictureuploadloading(false)
-       console.error("Error uploading profile picture:", error);
-       setError("An error occurred while uploading the image.");
-     } finally {
-       setIsUploading(false); // Hide the uploading status
-     }
-   };
+        if (response.ok) {
+          setImage(null);
+          // Successfully uploaded the image, update the profile picture URL
+          setUploadedImage(data.profilePictureUrl);
+          setpictureuploadloading(false);
+        } else {
+          setImage(null);
+          setpictureuploadloading(false);
+          setError(data.message || "Failed to upload the image.");
+        }
+      } catch (error) {
+        setImage(null);
+        setpictureuploadloading(false);
+        console.error("Error uploading profile picture:", error);
+        setError("An error occurred while uploading the image.");
+      } finally {
+        setIsUploading(false); // Hide the uploading status
+      }
+    };
 
-   reader.readAsDataURL(image); // Convert the image file to base64
- };
-
-
-
-
-
-
-
-
+    reader.readAsDataURL(image); // Convert the image file to base64
+  };
 
   return (
     <div className=" h-fit w-full -mt-1 rounded-tl-3xl flex mb-12 pb-12   ">
@@ -1069,7 +773,7 @@ const removeSubject = (subject: string) => {
               {/* first name and image dive */}
               <div className=" mt-1.5 flex custom-xl:items-center flex-col custom-xl:flex-row  gap-4 custom-xl:gap-11 ">
                 <div className="img h-[9rem] w-[9rem]  rounded-full flex items-center justify-center overflow-hidden">
-                  <img src={uploadedImage || profilePicture} alt="" />
+                  <img src={uploadedImage || profilePicture} alt="" className="" />
                 </div>
                 <div className="name flex flex-col items-start  ">
                   <h1 className="uppercase text-3xl font-bold text-[#685AAD]">
@@ -1095,6 +799,7 @@ const removeSubject = (subject: string) => {
                   ) : (
                     <button className="px-7 text-white rounded-md py-0.5 bg-[#FC7777] relative">
                       Edit image
+
                       <input
                         type="file"
                         accept="image/*"
@@ -1107,7 +812,7 @@ const removeSubject = (subject: string) => {
               </div>
 
               {/* name last name div */}
-              <div className="flex mt-12 pt-0.5 w-full sm:max-w-[48.7rem] justify-between flex-wrap gap-4">
+              <div className="flex mt-12 pt-0.5 w-full  justify-between flex-wrap gap-4">
                 <div className="sm:max-w-[17rem] w-full">
                   <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
                     First name <span className="text-[#FC7777]">*</span>
@@ -1134,6 +839,16 @@ const removeSubject = (subject: string) => {
                       setLastName(e.target.value);
                     }}
                     disabled={!isEditing}
+                  />
+                </div>
+                <div className="sm:max-w-[17rem] w-full opacity-0 select-none">
+                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
+                    Last name <span className="text-[#FC7777]">*</span>
+                  </label>
+                  <input
+                    type="text"
+                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
+                
                   />
                 </div>
               </div>
@@ -1771,6 +1486,7 @@ const removeSubject = (subject: string) => {
                               hanging={20}
                               width={20}
                               className="  cursor-pointer"
+                              // @ts-ignore
                               onClick={() => removeSubjectLEVEL(subjectlevel)}
                             />
                           </span>
@@ -1861,7 +1577,7 @@ const removeSubject = (subject: string) => {
 
                     {selectedExperience.length > 0 && (
                       <div className="flex flex-wrap items-start justify-start  gap-2 mt-5      mx-auto min-h-[5rem]">
-                        {selectedExperience.map((experience) => (
+                        {selectedExperience.map((experience: string) => (
                           <span
                             key={experience}
                             className="bg-[#B4A5D7] text-white px-4 gap-2 flex items-center  text-xl  w-fit py-2 rounded-lg justify-between"

@@ -19,14 +19,10 @@ import uparrow from "../../../public/assets/icons/uparrow.svg";
 import ContinueBtn from "@/app/ETutorSignup/components/ContinueBtn";
 import ConfirmBtn from "@/app/ParentSignup/Components/ConfirmBtn";
 import RadioInput from "./components/RadioInput";
-
 import CheckboxInput from "./components/CheckboxInput";
 import Dropdown from "@/components/Dropdonw";
-// import DaysHeading from "@/components/DaysHeading";
-// import tick from "../../../../../../public/assets/icons/tickicon.svg";
 import DaysOfWeek from "./components/DaysOfWeek";
 import DayRow from "./components/DayRow";
-
 import ReviewFormHead from "./components/ReviewFormHead";
 import ReviewContactInfo from "./components/ReviewComponents/ReviewContactInfo";
 import ReviewEducation from "./components/ReviewComponents/ReviewEducation";
@@ -46,15 +42,25 @@ import {
 import { sendGAEvent } from "@next/third-parties/google";
 import { useToast } from "@/hooks/use-toast";
 import { signIn } from "next-auth/react";
+import {
+  subjectOptions,
+  languageoptions,
+  subjects,
+  degrees,
+  countries,
+  months,
+  levels,
+  days,
+} from "./components/Data";
 
-const ExperienceQuestions = ({ question, className, span }: any) => {
+const ExperienceQuestions = ({ question, className, span,star }: any) => {
   return (
     <div>
       <h2
         className={`${className} text-[#534988] py-3 custom-xl:py-5 text-lg custom-xl:text-[26px] font-medium `}
       >
       
-        {question} <span className="!font-light">{span}</span>
+        {question} <span className="!font-light">{span}</span><span className="!font-light text-[#FC7777]">{star}</span>
       </h2>
     </div>
   );
@@ -66,218 +72,7 @@ for (let year = 1950; year <= 2026; year++) {
   }
 }
 
-const subjectOptions = [
-  { value: "Mathematics", label: "Mathematics" },
-  { value: "Algebra", label: "Algebra" },
-  { value: "Geometry", label: "Geometry" },
-  { value: "Calculus", label: "Calculus" },
-  { value: "Trigonometry", label: "Trigonometry" },
-  { value: "Statistics", label: "Statistics" },
-  { value: "Science", label: "Science" },
-  { value: "Biology", label: "Biology" },
-  { value: "Chemistry", label: "Chemistry" },
-  { value: "Physics", label: "Physics" },
-  { value: "Environmental Science", label: "Environmental Science" },
-  { value: "Earth Science", label: "Earth Science" },
-  { value: "English Language Arts", label: "English Language Arts" },
-  { value: "Grammar", label: "Grammar" },
-  { value: "Literature", label: "Literature" },
-  { value: "Writing", label: "Writing" },
-  { value: "Reading Comprehension", label: "Reading Comprehension" },
-  { value: "Social Studies", label: "Social Studies" },
-  {
-    value: "History (World, U.S., Ancient)",
-    label: "History (World, U.S., Ancient)",
-  },
-  { value: "Geography", label: "Geography" },
-  { value: "Economics", label: "Economics" },
-  { value: "Political Science", label: "Political Science" },
-  { value: "Foreign Languages", label: "Foreign Languages" },
-  { value: "Spanish", label: "Spanish" },
-  { value: "French", label: "French" },
-  { value: "German", label: "German" },
-  { value: "Chinese (Mandarin)", label: "Chinese (Mandarin)" },
-  { value: "Japanese", label: "Japanese" },
-  { value: "Arabic", label: "Arabic" },
-  { value: "Russian", label: "Russian" },
-  {
-    value: "Specialized & Advanced Subjects",
-    label: "Specialized & Advanced Subjects",
-  },
-  { value: "Advanced Mathematics", label: "Advanced Mathematics" },
-  { value: "Differential Equations", label: "Differential Equations" },
-  { value: "Linear Algebra", label: "Linear Algebra" },
-  { value: "Discrete Math", label: "Discrete Math" },
-  {
-    value: "Computer Science & Technology",
-    label: "Computer Science & Technology",
-  },
-  {
-    value: "Programming (Python, Java, C++)",
-    label: "Programming (Python, Java, C++)",
-  },
-  { value: "Web Development", label: "Web Development" },
-  { value: "Data Science", label: "Data Science" },
-  { value: "Cybersecurity", label: "Cybersecurity" },
-  { value: "AI and Machine Learning", label: "AI and Machine Learning" },
-  { value: "Business & Economics", label: "Business & Economics" },
-  { value: "Accounting", label: "Accounting" },
-  { value: "Marketing", label: "Marketing" },
-  { value: "Finance", label: "Finance" },
-  { value: "Entrepreneurship", label: "Entrepreneurship" },
-  {
-    value: "Microeconomics/Macroeconomics",
-    label: "Microeconomics/Macroeconomics",
-  },
-];
-const languageoptions = [
-  { value: "English", label: "English" },
-  { value: "Mandarin Chinese", label: "Mandarin Chinese" },
-  { value: "Spanish", label: "Spanish" },
-  { value: "Hindi", label: "Hindi" },
-  { value: "Arabic", label: "Arabic" },
-  { value: "French", label: "French" },
-  { value: "Bengali", label: "Bengali" },
-  { value: "Russian", label: "Russian" },
-  { value: "Portuguese", label: "Portuguese" },
-  { value: "Urdu", label: "Urdu" },
-  { value: "Indonesian", label: "Indonesian" },
-  { value: "German", label: "German" },
-  { value: "Japanese", label: "Japanese" },
-  { value: "Turkish", label: "Turkish" },
-  { value: "Korean", label: "Korean" },
-  { value: "Vietnamese", label: "Vietnamese" },
-  { value: "Italian", label: "Italian" },
-  { value: "Thai", label: "Thai" },
-  { value: "Farsi (Persian)", label: "Farsi (Persian)" },
-  { value: "Polish", label: "Polish" },
-];
-const subjects = [
-  "Mathematics",
-  "Algebra",
-  "Geometry",
-  "Calculus",
-  "Trigonometry",
-  "Statistics",
-  "Science",
-  "Biology",
-  "Chemistry",
-  "Physics",
-  "Environmental Science",
-  "Earth Science",
-  "English Language Arts",
-  "Grammar",
-  "Literature",
-  "Writing",
-  "Reading Comprehension",
-  "Social Studies",
-  "History (World, U.S., Ancient)",
-  "Geography",
-  "Economics",
-  "Political Science",
-  "Foreign Languages",
-  "Spanish",
-  "French",
-  "German",
-  "Chinese (Mandarin)",
-  "Japanese",
-  "Arabic",
-  "Russian",
-  "Specialized & Advanced Subjects",
-  "Advanced Mathematics",
-  "Differential Equations",
-  "Linear Algebra",
-  "Discrete Math",
-  "Computer Science & Technology",
-  "Programming (Python, Java, C++)",
-  "Web Development",
-  "Data Science",
-  "Cybersecurity",
-  "AI and Machine Learning",
-  "Business & Economics",
-  "Accounting",
-  "Marketing",
-  "Finance",
-  "Entrepreneurship",
-  "Microeconomics/Macroeconomics",
-];
-const degrees = [
-  // Undergraduate Degrees
-  "Associate Degree (AA, AS)",
-  "Bachelor's Degree (BA, BS, BFA, BBA)",
-  // Graduate Degrees
-  "Master's Degree (MA, MS, MBA, MEd, MFA)",
-  "Doctoral Degree (PhD, EdD, DBA)",
-  // Professional Degrees
-  "Juris Doctor (JD) - Law",
-  "Doctor of Medicine (MD)",
-  "Doctor of Dental Surgery (DDS)",
-  "Doctor of Pharmacy (PharmD)",
-  "Master of Architecture (MArch)",
-  // Other Degrees
-  "Certificate Programs",
-  "Diploma Programs",
-  "Postgraduate Diploma",
-  "Higher National Diploma (HND)",
-];
-const countries = [
-  "USA",
-  // English-Speaking Countries (Americas & Europe)
-  "United States",
-  "United Kingdom",
-  "Ireland",
-  "Canada",
-  "Malta",
-  "Belize",
-  // French-Speaking Countries (Americas & Europe)
-  "France",
-  "Canada (especially Quebec)",
-  "Belgium",
-  "Switzerland",
-  "Luxembourg",
-  "Monaco",
-  "Haiti",
-  // German-Speaking Countries (Europe)
-  "Germany",
-  "Austria",
-  "Switzerland",
-  "Belgium",
-  "Luxembourg",
-  "Liechtenstein",
-];
-const months = [
-  "January",
-  "February",
-  "March",
-  "April",
-  "May",
-  "June",
-  "July",
-  "August",
-  "September",
-  "October",
-  "November",
-  "December",
-];
-const levels = [
-  "Pre-Kindergarten",
-  "Kindergarten-2nd grade",
-  "3rd-5th Grade",
-  "Middle School",
-  "High School",
-  "College",
-  "Graduate",
-  "Adult",
-];
-const days = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
-];
+
 const Page = () => {
   const router = useRouter();
   const { toast } = useToast();
@@ -307,7 +102,6 @@ const Page = () => {
   const [selectedYearedu, setselectedYearedu] = useState(""); // State for selected year
   const [degree, setDegree] = useState(false); // Dropdown toggle state
   const [selectedDegree, setSelectedDegree] = useState(""); // State for selected degree
-
   const [EditActive, setEditActive] = useState(false);
   const [EditActiveTutoringExp, setEditActiveTutoringExp] = useState(false);
   const [EditActiveEducation, setEditActiveEducation] = useState(false);
@@ -315,9 +109,7 @@ const Page = () => {
   const [school, setschool] = useState("");
   const [universityCollage, setUniversityCollage] = useState("");
   const [phone, setphone] = useState("");
-  // const [language, setlanguage] = useState<string[]>([]);
   const [agreeterms, setagreeterms] = useState(false);
-  // const [tutoredIN, setTutoredIN] = useState<string[]>([]);
   const [error, seterror] = useState("");
   const [isSubjectDropdownOpen, setIsSubjectDropdownOpen] = useState(false);
   const [tutoredIN, setTutoredIN] = useState([]);
@@ -609,7 +401,6 @@ const Page = () => {
     );
   };
 
-  const languages = ["English", "Spanish", "French", "German"];
 
   const timeSlots = ["Morning", "Afternoon", "Evening"];
 
@@ -1111,7 +902,7 @@ const Page = () => {
         return (
           <>
             {/* <Experience NextStep={NextStep}/>; */}
-            <div className="bg-questionbg px-4 py-6 sm:px-8 sm:py-8 md:px-12  md:py-10 custom-lg:px-16 custom-lg:py-12 custom-xl:px-[69px] custom-xl:py-12 rounded-[30px]">
+            <div className="bg-questionbg px-4 py-6 sm:px-8 sm:py-8 md:px-12  md:py-10 custom-lg:px-16 custom-lg:py-12 custom-xl:px-[73px] custom-xl:py-16 rounded-3xl custom-xl:rounded-[50px]">
               <FormHeading
                 className=""
                 heading="Teaching & Tutoring"
@@ -1119,7 +910,7 @@ const Page = () => {
               />
               <form className="pt-12  flex flex-col " action="">
                 <div>
-                  <ExperienceQuestions question="Do you have tutoring experience?* " />
+                  <ExperienceQuestions question="Do you have tutoring experience?" star="*" />
                   <RadioInput
                     id="experienceYes"
                     name="tutoringExperience"
@@ -1134,14 +925,16 @@ const Page = () => {
                     value="no"
                     checked={hasTutoringExperience === "no"}
                     onChange={() => handleRadioChange("no")}
-                    label="No"
+                    label="NO"
                   />
                 </div>
 
-                <div className="mt-5 custom-xl:mt-0">
+                <div className="mt-5 custom-xl:mt-6">
                   <ExperienceQuestions
                     question="What level(s) are you interested in tutoring? "
-                    span="(Select all that apply)*"
+                    span="(Select all that apply)"
+                    star="*"
+                    className="mt-3 !py-3.5"
                   />
 
                   {levels.map((level) => {
@@ -1150,7 +943,7 @@ const Page = () => {
                     return (
                       <div
                         key={level}
-                        className="flex items-center py-3 custom-xl:py-6 relative"
+                        className="flex items-center py-3 custom-xl:py-[23px] px-[5px] relative"
                       >
                         <div className="relative flex items-center justify-center w-7 h-7">
                           <input
@@ -1161,7 +954,7 @@ const Page = () => {
                             className="absolute w-6  h-6  custom-xl:w-7  custom-xl:h-7 opacity-0 cursor-pointer hover:!bg-darkBlue "
                           />
                           <div
-                            className={`w-6 h-6  custom-xl:w-7  custom-xl:h-7  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-md flex items-center justify-center ${
+                            className={`w-6 h-6  custom-xl:w-[26.5px]  custom-xl:h-[26.5px]  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-sm flex items-center justify-center ${
                               clicked ? "bg-[#685AAD]" : "bg-transparent"
                             }`}
                           >
@@ -1172,7 +965,7 @@ const Page = () => {
                           </div>
                         </div>
                         <label
-                          className="text-darkBlue  text-xl custom-xl:text-2xl pl-3 custom-xl:pl-6"
+                          className="text-[#685AAD]  text-xl custom-xl:text-2xl pl-3 custom-xl:pl-7"
                           htmlFor={`checkbox-${level}`}
                         >
                           {level}
@@ -1181,26 +974,23 @@ const Page = () => {
                     );
                   })}
 
-                  {/* You can display the selected levels array for debugging purposes */}
-                  <div className="text-darkBlue">
-                    Selected Levels: {selectedLevelsexp.join(", ")}
-                  </div>
+                  
                 </div>
 
-                <div className="mt-5">
-                  <ExperienceQuestions question="What subject(s) can you tutor in?" />
+                <div className="mt-6">
+                  <ExperienceQuestions question="What subject(s) can you tutor in?" star="*" />
 
 
-                  <div className="w-full  mx-auto mt-2 custom-xl:mt-4 mb-4">
-                    <div className="relative  select-none max-w-[30.5rem]">
+                  <div className="w-full  mx-auto mt-2 custom-xl:mt-3 mb-3">
+                    <div className="relative  select-none max-w-[28rem]">
                       <div
-                        className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm  custom-2xl:text-lg pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 custom-2xl:py-2.5 rounded-full cursor-pointer flex justify-between items-center"
+                        className="w-full bg-[#DBCAFF] text-[#ad9dde]  text-sm  custom-2xl:text-[22px] pr-7 sm:pr-8 pl-10 sm:pl-10 py-2 custom-2xl:py-[17px] rounded-full cursor-pointer flex justify-between items-center"
                         onClick={toggleSubjectDropdown}
                       >
                         <span>
                           {tutoredIN.length > 0
                             ? `${tutoredIN.length} selected`
-                            : "select subject(s)"}
+                            : "select a subject"}
                         </span>
                         {isSubjectDropdownOpen ? (
                           <ChevronUp size={30} className="text-[#a394d6] " />
@@ -1269,11 +1059,12 @@ const Page = () => {
                         {tutoredIN.map((subject) => (
                           <span
                             key={subject}
-                            className="bg-[#6C5BAA] text-white text-xs custom-xl:text-xl px-5 py-2 custom-2xl:py-3.5 rounded-full flex items-center  gap-7  justify-between"
+                            className="bg-[#6C5BAA] text-white text-xs custom-xl:text-xl leading-none px-5 py-1.5 custom-2xl:py-1.5 rounded-full flex items-center  gap-7  justify-between"
                           >
                             {subject}
+                            
                             <X
-                              className="ml-2 h-4 custom-2xl:h-7 w-4 custom-2xl:w-7 cursor-pointer"
+                              className="ml-7 h-4 custom-2xl:h-5 w-4 custom-2xl:w-5 cursor-pointer"
                               onClick={() => removeSubject(subject)}
                             />
                           </span>
@@ -1302,18 +1093,18 @@ const Page = () => {
                   
                 </div>
 
-                <div className="mt-5 custom-xl:mt-10">
+                <div className="">
                   <ExperienceQuestions question="What languages can you tutor in?" />
-                  <div className="w-full  mx-auto mt-2 custom-xl:mt-4 mb-4">
-                    <div className="relative  select-none max-w-[30.5rem] w-full">
+                  <div className="w-full  mx-auto mt-2 custom-xl:mt-3 mb-4">
+                    <div className="relative  select-none max-w-[28rem] w-full">
                       <div
-                        className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm  custom-2xl:text-lg pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 custom-2xl:py-2.5 rounded-full cursor-pointer flex justify-between items-center"
+                        className="w-full bg-[#DBCAFF] text-[#ad9dde]  text-sm  custom-2xl:text-[22px] pr-7 sm:pr-8 pl-10 sm:pl-10 py-2 custom-2xl:py-[17px] rounded-full cursor-pointer flex justify-between items-center"
                         onClick={toggleLanguageDropdown}
                       >
                         <span>
                           {language.length > 0
                             ? `${language.length} selected`
-                            : "select Language(s)"}
+                            : "select a language"}
                         </span>
                         {isLanguageDropdownOpen ? (
                           <ChevronUp size={30} className="text-[#a394d6] " />
@@ -1379,11 +1170,11 @@ const Page = () => {
                         {language.map((subject) => (
                           <span
                             key={subject}
-                            className="bg-[#6C5BAA] text-white text-xs custom-xl:text-xl px-5 py-2 custom-2xl:py-3.5 rounded-full flex items-center  gap-7  justify-between"
+                            className="bg-[#6C5BAA] text-white text-xs custom-xl:text-xl leading-none px-5 py-1.5 custom-2xl:py-1.5 rounded-full flex items-center  gap-7  justify-between"
                           >
                             {subject}
                             <X
-                              className="ml-2 h-4 custom-2xl:h-7 w-4 custom-2xl:w-7 cursor-pointer"
+                              className="ml-7 h-4 custom-2xl:h-5 w-4 custom-2xl:w-5 cursor-pointer"
                               onClick={() => removeLanguage(subject)}
                             />
                           </span>
@@ -1410,10 +1201,11 @@ const Page = () => {
                   </div>
                 </div>
 
-                <div className="mt-5 custom-xl:mt-16">
+                <div className="mt-5 custom-xl:mt-6">
                   <ExperienceQuestions
                     question="What type of instruction are you interested in? "
-                    span="(Select all that apply)*"
+                    span="(Select all that apply)"
+                    star="*"
                   />
                   <div className="flex items-center py-3 custom-xl:py-6 relative">
                     <div className="relative flex items-center justify-center w-7 h-7">
@@ -1427,7 +1219,7 @@ const Page = () => {
                         className="absolute w-6  h-6  custom-xl:w-7  custom-xl:h-7 opacity-0 cursor-pointer hover:!bg-darkBlue "
                       />
                       <div
-                        className={`w-6 h-6  custom-xl:w-7  custom-xl:h-7  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-md flex items-center justify-center  ${
+                        className={`w-6 h-6  custom-xl:w-[26.5px]  custom-xl:h-[26.5px]  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-sm flex items-center justify-center  ${
                           selectedInstructionsexp.includes("1-on-1")
                             ? "bg-[#685AAD]"
                             : "bg-transparent"
@@ -1439,7 +1231,7 @@ const Page = () => {
                       </div>
                     </div>
                     <label
-                      className="text-[#685AAD] text-xl custom-xl:text-2xl pl-3 custom-xl:pl-6"
+                      className="text-[#685AAD]  text-xl custom-xl:text-2xl pl-3 custom-xl:pl-7"
                       htmlFor="instructionOne"
                     >
                       1-on-1
@@ -1462,7 +1254,7 @@ const Page = () => {
                         className="absolute w-6  h-6  custom-xl:w-7  custom-xl:h-7 opacity-0 cursor-pointer hover:!bg-darkBlue "
                       />
                       <div
-                        className={`w-6 h-6  custom-xl:w-7  custom-xl:h-7  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-md flex items-center justify-center  ${
+                        className={`w-6 h-6  custom-xl:w-[26.5px]  custom-xl:h-[26.5px]  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-sm flex items-center justify-center  ${
                           selectedInstructionsexp.includes(
                             "Small group (5 to 15 students)"
                           )
@@ -1473,24 +1265,23 @@ const Page = () => {
                         {selectedInstructionsexp.includes(
                           "Small group (5 to 15 students)"
                         ) && (
-                           <Check className="w-10 h-10"/>
+                           <Check className="w-10 h-10 text-white "/>
                         )}
                       </div>
                     </div>
                     <label
-                      className="text-[#685AAD] text-xl custom-xl:text-2xl pl-3 custom-xl:pl-6"
+                      className="text-[#685AAD]  text-xl custom-xl:text-2xl pl-3 custom-xl:pl-7"
                       htmlFor="instructionGroup"
                     >
                       Small group (5 to 15 students)
                     </label>
                   </div>
 
-                  {/* Debugging: Display selected instructions */}
-                  {/* <div>Selected Instructions: {selectedInstructionsexp.join(", ")}</div> */}
+                
                 </div>
 
-                <div className="mt-5 custom-xl:mt-28">
-                  <ExperienceQuestions question="How many hours are you available to tutor each week?* " />
+                <div className="mt-5 custom-xl:mt-8">
+                  <ExperienceQuestions question="How many hours are you available to tutor each week?" star="*" />
                   <RadioInput
                     id="hoursLessThan5"
                     name="tutoringHours"
@@ -1527,11 +1318,11 @@ const Page = () => {
 
                 <div className="mt-5 custom-xl:mt-8">
                   <ExperienceQuestions question="What date can you start tutoring?" />
-                  <div className="w-full  mx-auto relative  custom-xl:mt-14">
-                    <div className="relative  select-none max-w-[30.5rem] w-full">
+                  <div className="w-full  mx-auto relative  custom-xl:mt-6">
+                    <div className="relative  select-none max-w-[30rem] w-full">
                       {/* Input field */}
                       <div
-                        className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm  custom-2xl:text-lg pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 custom-2xl:py-2.5 rounded-full cursor-pointer flex justify-between items-center"
+                        className="w-full bg-[#DBCAFF] text-[#ad9dde]  text-sm  custom-2xl:text-[22px] pr-7 sm:pr-8 pl-10 sm:pl-10 py-2 custom-2xl:py-[17px] rounded-full cursor-pointer flex justify-between items-center"
                         onClick={() => setIsOpen(!isOpen)}
                       >
                         <span className="text-purple-400">
@@ -1617,22 +1408,22 @@ const Page = () => {
                   </div>
                 </div>
 
-                <div className="mt-5 custom-xl:mt-16">
+                <div className="mt-5 custom-xl:mt-14">
                   <ExperienceQuestions
                     question="What’s your general availability? "
                     span="(Select all that apply)"
                   />
 
-                  <div className="w-[85%]">
+                  <div className="w-[81.8%] mt-2.5 ">
                     {days.map((day) => (
                       <div
                         key={day}
-                        className="flex custom-xl:pl-8 flex-col custom-xl:flex-row items-start custom-xl:justify-between  custom-xl:items-center mb-2"
+                        className="flex custom-xl:pl-[29px] flex-col custom-xl:flex-row items-start custom-xl:justify-between  custom-xl:items-center mb-2"
                       >
                         <span className="text-darkBlue  text-xl font-medium custom-xl:font-normal custom-xl:text-[25px]   ">
                           {day}
                         </span>
-                        <div className="flex gap-2 flex-col sm:flex-row sm:justify-between custom-xl:w-[72%] w-full  ">
+                        <div className="flex gap-2 flex-col sm:flex-row sm:justify-between custom-xl:w-[71.4%] w-full  ">
                           {timeSlots.map((timeSlot) => {
                             const isChecked =
                               availabilityexp[day]?.includes(timeSlot) || false;
@@ -1642,7 +1433,7 @@ const Page = () => {
                                 key={timeSlot}
                                 className="flex items-center space-x-2"
                               >
-                                <div className="flex items-center py-3 custom-xl:py-6 relative">
+                                <div className="flex items-center py-3 custom-xl:py-5 relative">
                                   <div className="relative flex items-center justify-center w-7 h-7">
                                     <input
                                       type="checkbox"
@@ -1654,7 +1445,7 @@ const Page = () => {
                                       className="absolute w-7 h-7 opacity-0 cursor-pointer hover:!bg-darkBlue"
                                     />
                                     <div
-                                      className={`w-6 h-6  custom-xl:w-7  custom-xl:h-7  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-md flex items-center justify-center ${
+                                      className={`w-6 h-6  custom-xl:w-[26.5px]  custom-xl:h-[26.5px]  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-sm flex items-center justify-center ${
                                         isChecked
                                           ? "bg-[#685AAD]"
                                           : "bg-transparent "
@@ -1667,7 +1458,7 @@ const Page = () => {
                                   </div>
                                   <label
                                     htmlFor={`${day}-${timeSlot}`}
-                                    className="text-darkBlue  text-xl custom-xl:text-2xl pl-3 custom-xl:pl-6"
+                                    className="text-[#685AAD]  text-xl custom-xl:text-2xl pl-3 custom-xl:pl-7"
                                   >
                                     {timeSlot}
                                   </label>
@@ -1681,7 +1472,7 @@ const Page = () => {
                   </div>
                 </div>
 
-                <div>
+                <div className="mt-5 custom-xl:mt-7">
                   <ExperienceQuestions question="Do you have classroom teaching experience?* " />
                   <RadioInput
                     id="classroomexperienceYes"
@@ -1710,7 +1501,7 @@ const Page = () => {
                   <div className=" max-w-[33.2rem]  ml-0 mt-5  custom-xl:mt-20">
                     <ConfirmBtn
                       btnName="Continue"
-                      className="text-3xl font-medium ml-0 mx-auto w-full"
+                      className="text-3xl font-medium ml-0 mx-auto w-full ![12.5px] "
                       onClick={() => {
                     
                         toast({
@@ -1740,23 +1531,24 @@ const Page = () => {
         return (
           <>
             {/* <Review NextStep={NextStep}/>;    */}
-            <div className="text-white bg-questionbg px-4 py-6 sm:px-8 sm:py-8 md:px-12  md:py-10 custom-lg:px-16 custom-lg:py-12 custom-xl:px-[69px] custom-xl:py-12 rounded-[30px]">
+            <div className="bg-questionbg px-4 py-6 sm:px-8 sm:py-8 md:px-12  md:py-10 custom-lg:px-16 custom-lg:py-12 custom-xl:px-[64px] custom-xl:py-16 rounded-3xl custom-xl:rounded-[50px] mt-1">
               <FormHeading
                 className=""
                 heading="Review Appllication"
-                paragraph="Please review each section of your application to insure your information is correct. once you&apos;re ready click &lsquo;submit&rsquo; to finalize this portion of the application process "
+                paragraph="Please review each section of your application to insure your information is correct. once you&apos;re ready click &lsquo;&rsquo;submit&rsquo;&rsquo; to finalize this portion of the application process "
               />
               {/* <ReviewContactInfo /> */}
-              <div className="bg-reviewbg py-5 custom-xl:py-8 px-5 custom-xl:px-10 rounded-[30px] mt-12 custom-xl:mt-16">
+              <div className="bg-[#e6ddff]  px-5 custom-xl:px-8 rounded-[30px] mt-12 custom-xl:mt-[70px]">
                 <ReviewFormHead
                   heading="Contact Information"
                   EditActive={EditActive}
                   handleEditToggle={handleEditToggle}
                 />
 
-                <div className="grid grid-cols-1 custom-2xl:grid-cols-2 gap-3 custom-xl:gap-6 py-5 custom-xl:py-12 custom-xl:pl-5">
+                <div className="grid grid-cols-1 custom-2xl:grid-cols-2 gap-3 custom-xl:gap-[4.4rem] py-5 custom-xl:py-12 custom-xl:pl-5">
                   <div>
                     <EnteredInfo
+                    EditActive={EditActive}
                       name="Selected Country"
                       // @ts-ignore
                       info={
@@ -1834,7 +1626,9 @@ const Page = () => {
                     />
                   </div>
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="ZIP Code"
+                  
                     // @ts-ignore
                     info={
                       EditActive ? (
@@ -1859,6 +1653,7 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="First Name"
                     // @ts-ignore
                     info={
@@ -1885,6 +1680,7 @@ const Page = () => {
                   />
 
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="Email"
                     // @ts-ignore
                     info={
@@ -1911,6 +1707,7 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="Last Name"
                     // @ts-ignore
                     info={
@@ -1936,6 +1733,7 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="Phone Number"
                     // @ts-ignore
                     info={
@@ -1965,15 +1763,16 @@ const Page = () => {
 
               {/* Review education info */}
               {/* <ReviewEducation /> */}
-              <div className="bg-reviewbg py-5 custom-xl:py-8 px-5 custom-xl:px-10  rounded-[30px] mt-5 custom-xl:mt-16">
+              <div className="bg-[#e6ddff]  px-5 custom-xl:px-10  rounded-[30px] mt-5 custom-xl:mt-16">
                 <ReviewFormHead
                   heading="Education"
                   EditActive={EditActiveEducation}
                   handleEditToggle={handleEditEduoggle}
                 />
 
-                <div className="grid grid-cols-1 custom-2xl:grid-cols-2 gap-3 custom-xl:gap-6 py-5 custom-xl:py-12 custom-xl:pl-5">
+                <div className="grid grid-cols-1 custom-2xl:grid-cols-2 gap-3 custom-xl:gap-[4.4rem] py-5 custom-xl:py-12 custom-xl:pl-5">
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="University/college"
                     // @ts-ignore
                     info={
@@ -1999,6 +1798,7 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="Major"
                     // @ts-ignore
                     info={
@@ -2054,6 +1854,7 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="Degree"
                     // @ts-ignore
                     info={
@@ -2112,6 +1913,7 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="Graduation Year "
                     span="(or expected)"
                     // @ts-ignore
@@ -2170,15 +1972,16 @@ const Page = () => {
               </div>
 
               {/* review exprerience */}
-              <div className="bg-reviewbg py-5 custom-xl:py-8 px-5 custom-xl:px-10 rounded-[30px] mt-5 custom-xl:mt-16">
+              <div className="bg-[#e6ddff] px-5 custom-xl:px-10 rounded-[30px] mt-5 custom-xl:mt-16">
                 <ReviewFormHead
                   heading="Education"
                   EditActive={EditActiveTutoringExp}
                   handleEditToggle={handleEditTutoringexpoggle}
                 />
 
-                <div className="grid grid-cols-1 gap-6 custom-xl:gap-20 py-5 custom-xl:py-12 custom-xl:pl-5">
+                <div className="grid grid-cols-1 gap-6 custom-xl:gap-[4.4rem] py-5 custom-xl:py-12 custom-xl:pl-5">
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="Do you have tutoring experience?*"
                     // @ts-ignore
                     info={
@@ -2212,6 +2015,7 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="What level(s) are you interested in tutoring?"
                     // @ts-ignore
                     info={
@@ -2235,7 +2039,7 @@ const Page = () => {
                             className="absolute w-6  h-6  custom-xl:w-7  custom-xl:h-7 opacity-0 cursor-pointer hover:!bg-darkBlue "
                           />
                           <div
-                            className={`w-6 h-6  custom-xl:w-7  custom-xl:h-7  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-md flex items-center justify-center ${
+                            className={`w-6 h-6  custom-xl:w-[26.5px]  custom-xl:h-[26.5px]  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-sm flex items-center justify-center ${
                               clicked ? "bg-[#685AAD]" : "bg-transparent"
                             }`}
                           >
@@ -2269,117 +2073,119 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="What subject(s) can you tutor in?"
                     // @ts-ignore
                     info={
                       EditActiveTutoringExp ? (
-                        <div className="w-full  mx-auto mt-2 custom-xl:mt-4 mb-4">
-                        <div className="relative  select-none max-w-[30.5rem]">
+                        <div className="w-full  mx-auto mt-2 custom-xl:mt-3 mb-3">
+                    <div className="relative  select-none max-w-[28rem]">
+                      <div
+                        className="w-full bg-[#DBCAFF] text-[#ad9dde]  text-sm  custom-2xl:text-[22px] pr-7 sm:pr-8 pl-10 sm:pl-10 py-2 custom-2xl:py-[17px] rounded-full cursor-pointer flex justify-between items-center"
+                        onClick={toggleSubjectDropdown}
+                      >
+                        <span>
+                          {tutoredIN.length > 0
+                            ? `${tutoredIN.length} selected`
+                            : "select a subject"}
+                        </span>
+                        {isSubjectDropdownOpen ? (
+                          <ChevronUp size={30} className="text-[#a394d6] " />
+                        ) : (
+                          <ChevronDown size={30} className="text-[#a394d6] " />
+                        )}
+                      </div>
+
+                      {isSubjectDropdownOpen && (
+                        <div
+                          onMouseLeave={() => {
+                            setIsSubjectDropdownOpen(false);
+                          }}
+                          className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#DBCAFF] rounded-3xl overflow-hidden z-10 w-[92%] mx-auto py-4 custom-2xl:py-7 "
+                        >
                           <div
-                            className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm  custom-2xl:text-lg pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 custom-2xl:py-2.5 rounded-full cursor-pointer flex justify-between items-center"
-                            onClick={toggleSubjectDropdown}
+                            id="style-2"
+                            className="max-h-[16.4rem] overflow-y-scroll  "
                           >
-                            <span>
-                              {tutoredIN.length > 0
-                                ? `${tutoredIN.length} selected`
-                                : "select subject(s)"}
-                            </span>
-                            {isSubjectDropdownOpen ? (
-                              <ChevronUp size={30} className="text-[#a394d6] " />
-                            ) : (
-                              <ChevronDown size={30} className="text-[#a394d6] " />
-                            )}
-                          </div>
-    
-                          {isSubjectDropdownOpen && (
-                            <div
-                              onMouseLeave={() => {
-                                setIsSubjectDropdownOpen(false);
-                              }}
-                              className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#DBCAFF] rounded-3xl overflow-hidden z-10 w-[92%] mx-auto py-4 custom-2xl:py-7 "
-                            >
+                            {subjectOptions.map((subject) => (
                               <div
-                                id="style-2"
-                                className="max-h-[16.4rem] overflow-y-scroll  "
+                                key={subject.value}
+                                className="  custom-xl:py-2 cursor-pointer flex !items-center"
+                                onClick={() =>
+                                  handleSubjectClick(subject.value)
+                                }
                               >
-                                {subjectOptions.map((subject) => (
-                                  <div
-                                    key={subject.value}
-                                    className="  custom-xl:py-2 cursor-pointer flex !items-center"
-                                    onClick={() =>
-                                      handleSubjectClick(subject.value)
-                                    }
-                                  >
-                                    <div className=" border-b-2 border-[#a394d682] py-2 custom-xl:py-3 flex items-center  gap-4  w-full px-0 custom-xl:px-4 max-w-[90%] truncate">
-                                      <div className="relative">
-                                        <input
-                                          type="checkbox"
-                                          checked={tutoredIN.includes(
-                                            // @ts-ignore
-                                            subject.value
-                                          )}
-                                          onChange={() => {}}
-                                          className="absolute opacity-0 cursor-pointer"
-                                        />
-                                        <div
-                                          className={`h-4 custom-xl:h-7 w-4 custom-xl:w-7  border custom-xl:border-2 border-[#6C5BAA] hover:bg-[#a394d6] hover:border-[#a394d6] rounded-sm custom-xl:rounded-md flex items-center justify-center
-                         ${
-                           tutoredIN.includes(
-                            // @ts-ignore
-                            subject.value) ? "bg-[#6c5baa]" : ""
-                         }`}
-                                        >
-                                          {tutoredIN.includes(
-                                            // @ts-ignore
-                                            subject.value) && (
-                                            <Check className="text-white" />
-                                          )}
-                                        </div>
-                                      </div>
-                                      <span className="ml-1 sm:ml-2 text-base sm:text-lg custom-xl:text-2xl text-[#6C5BAA] truncate ">
-                                        {subject.label}
-                                      </span>
+                                <div className=" border-b-2 border-[#a394d682] py-2 custom-xl:py-3 flex items-center  gap-4  w-full px-0 custom-xl:px-4 max-w-[90%] truncate">
+                                  <div className="relative">
+                                    <input
+                                      type="checkbox"
+                                      checked={tutoredIN.includes(
+                                        // @ts-ignore
+                                        subject.value
+                                      )}
+                                      onChange={() => {}}
+                                      className="absolute opacity-0 cursor-pointer"
+                                    />
+                                    <div
+                                      className={`h-4 custom-xl:h-7 w-4 custom-xl:w-7  border custom-xl:border-2 border-[#6C5BAA] hover:bg-[#a394d6] hover:border-[#a394d6] rounded-sm custom-xl:rounded-md flex items-center justify-center
+                     ${
+                       tutoredIN.includes(
+                        // @ts-ignore
+                        subject.value) ? "bg-[#6c5baa]" : ""
+                     }`}
+                                    >
+                                      {tutoredIN.includes(
+                                        // @ts-ignore
+                                        subject.value) && (
+                                        <Check className="text-white" />
+                                      )}
                                     </div>
                                   </div>
-                                ))}
+                                  <span className="ml-1 sm:ml-2 text-base sm:text-lg custom-xl:text-2xl text-[#6C5BAA] truncate ">
+                                    {subject.label}
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          )}
-                        </div>
-                        {tutoredIN.length > 0 && (
-                          <div className="flex flex-wrap items-start justify-start gap-2 mt-3 sm:mt-5 custom-xl:mt-8   px-2 custom-xl:px-6 mx-auto min-h-[3.4rem]">
-                            {tutoredIN.map((subject) => (
-                              <span
-                                key={subject}
-                                className="bg-[#6C5BAA] text-white text-xs custom-xl:text-xl px-5 py-2 custom-2xl:py-3.5 rounded-full flex items-center  gap-7  justify-between"
-                              >
-                                {subject}
-                                <X
-                                  className="ml-2 h-4 custom-2xl:h-7 w-4 custom-2xl:w-7 cursor-pointer"
-                                  onClick={() => removeSubject(subject)}
-                                />
-                              </span>
                             ))}
                           </div>
-                        )}
-                        <style jsx>{`
-                          #style-2::-webkit-scrollbar-track {
-                            border-radius: 10px;
-                            background-color: #c9bbef;
-                          }
-    
-                          #style-2::-webkit-scrollbar {
-                            width: 5px;
-                            background-color: transparent;
-                          }
-    
-                          #style-2::-webkit-scrollbar-thumb {
-                            border-radius: 10px;
-    
-                            background-color: #8f81c7;
-                          }
-                        `}</style>
+                        </div>
+                      )}
+                    </div>
+                    {tutoredIN.length > 0 && (
+                      <div className="flex flex-wrap items-start justify-start gap-2 mt-3 sm:mt-5 custom-xl:mt-8   px-2 custom-xl:px-6 mx-auto min-h-[3.4rem]">
+                        {tutoredIN.map((subject) => (
+                          <span
+                            key={subject}
+                            className="bg-[#6C5BAA] text-white text-xs custom-xl:text-xl leading-none px-5 py-1.5 custom-2xl:py-1.5 rounded-full flex items-center  gap-7  justify-between"
+                          >
+                            {subject}
+                            
+                            <X
+                              className="ml-7 h-4 custom-2xl:h-5 w-4 custom-2xl:w-5 cursor-pointer"
+                              onClick={() => removeSubject(subject)}
+                            />
+                          </span>
+                        ))}
                       </div>
+                    )}
+                    <style jsx>{`
+                      #style-2::-webkit-scrollbar-track {
+                        border-radius: 10px;
+                        background-color: #c9bbef;
+                      }
+
+                      #style-2::-webkit-scrollbar {
+                        width: 5px;
+                        background-color: transparent;
+                      }
+
+                      #style-2::-webkit-scrollbar-thumb {
+                        border-radius: 10px;
+
+                        background-color: #8f81c7;
+                      }
+                    `}</style>
+                  </div>
     
                       ) : (
                         // @ts-ignore
@@ -2392,114 +2198,115 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="What languages can you tutor in?"
                     // @ts-ignore
                     info={
                       EditActiveTutoringExp ? (
-                        <div className="w-full  mx-auto mt-2 custom-xl:mt-4 mb-4">
-                        <div className="relative  select-none max-w-[30.5rem] w-full">
+                      <div className="w-full  mx-auto mt-2 custom-xl:mt-3 mb-4">
+                    <div className="relative  select-none max-w-[28rem] w-full">
+                      <div
+                        className="w-full bg-[#DBCAFF] text-[#ad9dde]  text-sm  custom-2xl:text-[22px] pr-7 sm:pr-8 pl-10 sm:pl-10 py-2 custom-2xl:py-[17px] rounded-full cursor-pointer flex justify-between items-center"
+                        onClick={toggleLanguageDropdown}
+                      >
+                        <span>
+                          {language.length > 0
+                            ? `${language.length} selected`
+                            : "select a language"}
+                        </span>
+                        {isLanguageDropdownOpen ? (
+                          <ChevronUp size={30} className="text-[#a394d6] " />
+                        ) : (
+                          <ChevronDown size={30} className="text-[#a394d6] " />
+                        )}
+                      </div>
+
+                      {isLanguageDropdownOpen && (
+                        <div
+                          onMouseLeave={() => {
+                            setIsLanguageDropdownOpen(false);
+                          }}
+                          className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#DBCAFF] rounded-3xl overflow-hidden z-10 w-[92%] mx-auto py-4 custom-2xl:py-7  "
+                        >
                           <div
-                            className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm  custom-2xl:text-lg pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 custom-2xl:py-2.5 rounded-full cursor-pointer flex justify-between items-center"
-                            onClick={toggleLanguageDropdown}
+                            id="style-2"
+                            className="max-h-[16.4rem] overflow-y-scroll  "
                           >
-                            <span>
-                              {language.length > 0
-                                ? `${language.length} selected`
-                                : "select Language(s)"}
-                            </span>
-                            {isLanguageDropdownOpen ? (
-                              <ChevronUp size={30} className="text-[#a394d6] " />
-                            ) : (
-                              <ChevronDown size={30} className="text-[#a394d6] " />
-                            )}
-                          </div>
-    
-                          {isLanguageDropdownOpen && (
-                            <div
-                              onMouseLeave={() => {
-                                setIsLanguageDropdownOpen(false);
-                              }}
-                              className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#DBCAFF] rounded-3xl overflow-hidden z-10 w-[92%] mx-auto py-4 custom-2xl:py-7  "
-                            >
+                            {languageoptions.map((subject) => (
                               <div
-                                id="style-2"
-                                className="max-h-[16.4rem] overflow-y-scroll  "
+                                key={subject.value}
+                                className=" custom-xl:py-2 cursor-pointer flex !items-center"
+                                onClick={() =>
+                                  handleLanguageClick(subject.value)
+                                }
                               >
-                                {languageoptions.map((subject) => (
-                                  <div
-                                    key={subject.value}
-                                    className=" custom-xl:py-2 cursor-pointer flex !items-center"
-                                    onClick={() =>
-                                      handleLanguageClick(subject.value)
-                                    }
-                                  >
-                                    <div className=" border-b-2 border-[#a394d682] py-2 custom-xl:py-3 flex items-center  gap-4  w-full px-0 custom-xl:px-4 max-w-[90%] truncate">
-                                      <div className="relative">
-                                        <input
-                                          type="checkbox"
-                                          checked={language.includes(
-                                            // @ts-ignore
-                                            subject.value)}
-                                          onChange={() => {}}
-                                          className="absolute opacity-0 cursor-pointer"
-                                        />
-                                        <div
-                                          className={`h-4 custom-xl:h-7 w-4 custom-xl:w-7  border custom-xl:border-2 border-[#6C5BAA] hover:bg-[#a394d6] hover:border-[#a394d6] rounded-sm custom-xl:rounded-md flex items-center justify-center
-                         ${language.includes(
-                          // @ts-ignore
-                          subject.value) ? "bg-[#6c5baa]" : ""}`}
-                                        >
-                                          {language.includes(
-                                            // @ts-ignore
-                                            subject.value) && (
-                                            <Check className="text-white" />
-                                          )}
-                                        </div>
-                                      </div>
-                                      <span className="ml-1 sm:ml-2 text-base sm:text-lg custom-xl:text-2xl text-[#6C5BAA] truncate ">
-                                        {subject.label}
-                                      </span>
+                                <div className=" border-b-2 border-[#a394d682] py-2 custom-xl:py-3 flex items-center  gap-4  w-full px-0 custom-xl:px-4 max-w-[90%] truncate">
+                                  <div className="relative">
+                                    <input
+                                      type="checkbox"
+                                      checked={language.includes(
+                                        // @ts-ignore
+                                        subject.value)}
+                                      onChange={() => {}}
+                                      className="absolute opacity-0 cursor-pointer"
+                                    />
+                                    <div
+                                      className={`h-4 custom-xl:h-7 w-4 custom-xl:w-7  border custom-xl:border-2 border-[#6C5BAA] hover:bg-[#a394d6] hover:border-[#a394d6] rounded-sm custom-xl:rounded-md flex items-center justify-center
+                     ${language.includes(
+                      // @ts-ignore
+                      subject.value) ? "bg-[#6c5baa]" : ""}`}
+                                    >
+                                      {language.includes(
+                                        // @ts-ignore
+                                        subject.value) && (
+                                        <Check className="text-white" />
+                                      )}
                                     </div>
                                   </div>
-                                ))}
+                                  <span className="ml-1 sm:ml-2 text-base sm:text-lg custom-xl:text-2xl text-[#6C5BAA] truncate ">
+                                    {subject.label}
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          )}
-                        </div>
-                        {language.length > 0 && (
-                          <div className="flex flex-wrap items-start justify-start gap-2 mt-3 sm:mt-5 custom-xl:mt-8   px-2 custom-xl:px-6 mx-auto min-h-[3.4rem]">
-                            {language.map((subject) => (
-                              <span
-                                key={subject}
-                                className="bg-[#6C5BAA] text-white text-xs custom-xl:text-xl px-5 py-2 custom-2xl:py-3.5 rounded-full flex items-center  gap-7  justify-between"
-                              >
-                                {subject}
-                                <X
-                                  className="ml-2 h-4 custom-2xl:h-7 w-4 custom-2xl:w-7 cursor-pointer"
-                                  onClick={() => removeLanguage(subject)}
-                                />
-                              </span>
                             ))}
                           </div>
-                        )}
-                        <style jsx>{`
-                          #style-2::-webkit-scrollbar-track {
-                            border-radius: 10px;
-                            background-color: #c9bbef;
-                          }
-    
-                          #style-2::-webkit-scrollbar {
-                            width: 5px;
-                            background-color: transparent;
-                          }
-    
-                          #style-2::-webkit-scrollbar-thumb {
-                            border-radius: 10px;
-    
-                            background-color: #8f81c7;
-                          }
-                        `}</style>
+                        </div>
+                      )}
+                    </div>
+                    {language.length > 0 && (
+                      <div className="flex flex-wrap items-start justify-start gap-2 mt-3 sm:mt-5 custom-xl:mt-8   px-2 custom-xl:px-6 mx-auto min-h-[3.4rem]">
+                        {language.map((subject) => (
+                          <span
+                            key={subject}
+                            className="bg-[#6C5BAA] text-white text-xs custom-xl:text-xl leading-none px-5 py-1.5 custom-2xl:py-1.5 rounded-full flex items-center  gap-7  justify-between"
+                          >
+                            {subject}
+                            <X
+                              className="ml-7 h-4 custom-2xl:h-5 w-4 custom-2xl:w-5 cursor-pointer"
+                              onClick={() => removeLanguage(subject)}
+                            />
+                          </span>
+                        ))}
                       </div>
+                    )}
+                    <style jsx>{`
+                      #style-2::-webkit-scrollbar-track {
+                        border-radius: 10px;
+                        background-color: #c9bbef;
+                      }
+
+                      #style-2::-webkit-scrollbar {
+                        width: 5px;
+                        background-color: transparent;
+                      }
+
+                      #style-2::-webkit-scrollbar-thumb {
+                        border-radius: 10px;
+
+                        background-color: #8f81c7;
+                      }
+                    `}</style>
+                  </div>
                       ) : (
                         // @ts-ignore
                         language.map((lang) => lang.toUpperCase()).join(", ")
@@ -2511,6 +2318,7 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="What type of instruction are you interested in?"
                     // @ts-ignore
                     info={
@@ -2529,7 +2337,7 @@ const Page = () => {
                               className="absolute w-6  h-6  custom-xl:w-7  custom-xl:h-7 opacity-0 cursor-pointer hover:!bg-darkBlue "
                             />
                             <div
-                              className={`w-6 h-6  custom-xl:w-7  custom-xl:h-7  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-md flex items-center justify-center  ${
+                              className={`w-6 h-6  custom-xl:w-[26.5px]  custom-xl:h-[26.5px]  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-sm flex items-center justify-center  ${
                                 selectedInstructionsexp.includes("1-on-1")
                                   ? "bg-[#685AAD]"
                                   : "bg-transparent"
@@ -2541,7 +2349,7 @@ const Page = () => {
                             </div>
                           </div>
                           <label
-                            className="text-[#685AAD] text-xl custom-xl:text-2xl pl-3 custom-xl:pl-6"
+                            className="text-[#685AAD]  text-xl custom-xl:text-2xl pl-3 custom-xl:pl-7"
                             htmlFor="instructionOne"
                           >
                             1-on-1
@@ -2564,7 +2372,7 @@ const Page = () => {
                               className="absolute w-6  h-6  custom-xl:w-7  custom-xl:h-7 opacity-0 cursor-pointer hover:!bg-darkBlue "
                             />
                             <div
-                              className={`w-6 h-6  custom-xl:w-7  custom-xl:h-7  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-md flex items-center justify-center  ${
+                              className={`w-6 h-6  custom-xl:w-[26.5px]  custom-xl:h-[26.5px]  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-sm flex items-center justify-center  ${
                                 selectedInstructionsexp.includes(
                                   "Small group (5 to 15 students)"
                                 )
@@ -2580,7 +2388,7 @@ const Page = () => {
                             </div>
                           </div>
                           <label
-                            className="text-[#685AAD] text-xl custom-xl:text-2xl pl-3 custom-xl:pl-6"
+                            className="text-[#685AAD]  text-xl custom-xl:text-2xl pl-3 custom-xl:pl-7"
                             htmlFor="instructionGroup"
                           >
                             Small group (5 to 15 students)
@@ -2600,6 +2408,7 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="How many hours are you available to tutor each week?"
                     // @ts-ignore
                     info={
@@ -2648,97 +2457,98 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="What date can you start tutoring?"
                     info={
                       EditActiveTutoringExp ? (
-                        <div className="w-full  mx-auto relative  custom-xl:mt-14">
-                        <div className="relative  select-none max-w-[30.5rem] w-full">
-                          {/* Input field */}
-                          <div
-                            className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm  custom-2xl:text-lg pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 custom-2xl:py-2.5 rounded-full cursor-pointer flex justify-between items-center"
-                            onClick={() => setIsOpen(!isOpen)}
-                          >
-                            <span className="text-purple-400">
-                              {selectedDate
-                              // @ts-ignore
-                                ? selectedDate.toLocaleDateString()
-                                : "Select a date"}
-                            </span>
-                            <Image  loading="lazy"  src={calendaricon} alt="" className="w-6 h-6" />
-                          </div>
-    
-                          {/* Calendar dropdown */}
-                          {isOpen && (
-                            <div className="bg-[#e2d5fd] text-[#a394d6] z-50 rounded-3xl p-4 shadow-lg absolute top-[72px] w-full  px-4 sm:px-10 py-4 sm:py-9">
-                              {/* Header */}
-                              <div className="flex items-center justify-between mb-11  ">
-                                <button
-                                  onClick={handlePrevMonth}
-                                  className="text-purple-600"
-                                >
-                                  <ChevronLeft className="w-8 h-8 font-bold" />
-                                </button>
-                                <h2 className="text-[#685AAD] font-medium text-sm sm:text-xl custom-2xl:text-3xl">
-                                  {months[currentDate.getMonth()]}{" "}
-                                  {currentDate.getFullYear()}
-                                </h2>
-                                <button
-                                  onClick={handleNextMonth}
-                                  className="text-purple-600"
-                                >
-                                  <ChevronRight className="w-8 h-8 font-bold " />
-                                </button>
-                              </div>
-    
-                              {/* Days of week */}
-                              <div className="grid grid-cols-7 gap-1 mb-2 ">
-                                {["S", "M", "T", "W", "T", "F", "S"].map(
-                                  (day, index) => (
-                                    <div
-                                      key={index}
-                                      className="text-center text-[#76639b] text-sm sm:text-lg custom-2xl:text-2xl font-medium"
-                                    >
-                                      {day}
-                                    </div>
-                                  )
-                                )}
-                              </div>
-    
-                              {/* Calendar grid */}
-                              <div className="grid grid-cols-7 gap-1">
-                                {generateDays().map((day, index) => (
-                                  <button
-                                    key={index}
-                                    onClick={() => {
-                                      if (day.isCurrentMonth) {
-                                        handleStartTutoringDateChange(
-                                          new Date(
-                                            currentDate.getFullYear(),
-                                            currentDate.getMonth(),
-                                            day.day
-                                          )
-                                        );
-                                      }
-                                    }}
-                                    className={`
-                      p-2 text-center rounded-full text-sm sm:text-lg custom-2xl:text-2xl font-medium
-                      ${day.isCurrentMonth ? "text-[#685aad] " : "text-[#d3c6ef]"}
-                      ${
-                      // @ts-ignore
-                        selectedDate && selectedDate.getDate() === day.day && selectedDate.getMonth() === currentDate.getMonth() && selectedDate.getFullYear() === currentDate.getFullYear()
-                          ? ""
-                          : ""
-                      }
-                    `}
-                                  >
-                                    {day.day}
-                                  </button>
-                                ))}
-                              </div>
-                            </div>
-                          )}
-                        </div>
+                      <div className="w-full  mx-auto relative  custom-xl:mt-6">
+                    <div className="relative  select-none max-w-[30rem] w-full">
+                      {/* Input field */}
+                      <div
+                        className="w-full bg-[#DBCAFF] text-[#ad9dde]  text-sm  custom-2xl:text-[22px] pr-7 sm:pr-8 pl-10 sm:pl-10 py-2 custom-2xl:py-[17px] rounded-full cursor-pointer flex justify-between items-center"
+                        onClick={() => setIsOpen(!isOpen)}
+                      >
+                        <span className="text-purple-400">
+                          {selectedDate
+                          // @ts-ignore
+                            ? selectedDate.toLocaleDateString()
+                            : "Select a date"}
+                        </span>
+                        <Image  loading="lazy"  src={calendaricon} alt="" className="w-6 h-6" />
                       </div>
+
+                      {/* Calendar dropdown */}
+                      {isOpen && (
+                        <div className="bg-[#e2d5fd] text-[#a394d6] z-50 rounded-3xl p-4 shadow-lg absolute top-[72px] w-full  px-4 sm:px-10 py-4 sm:py-9">
+                          {/* Header */}
+                          <div className="flex items-center justify-between mb-11  ">
+                            <button
+                              onClick={handlePrevMonth}
+                              className="text-purple-600"
+                            >
+                              <ChevronLeft className="w-8 h-8 font-bold" />
+                            </button>
+                            <h2 className="text-[#685AAD] font-medium text-sm sm:text-xl custom-2xl:text-3xl">
+                              {months[currentDate.getMonth()]}{" "}
+                              {currentDate.getFullYear()}
+                            </h2>
+                            <button
+                              onClick={handleNextMonth}
+                              className="text-purple-600"
+                            >
+                              <ChevronRight className="w-8 h-8 font-bold " />
+                            </button>
+                          </div>
+
+                          {/* Days of week */}
+                          <div className="grid grid-cols-7 gap-1 mb-2 ">
+                            {["S", "M", "T", "W", "T", "F", "S"].map(
+                              (day, index) => (
+                                <div
+                                  key={index}
+                                  className="text-center text-[#76639b] text-sm sm:text-lg custom-2xl:text-2xl font-medium"
+                                >
+                                  {day}
+                                </div>
+                              )
+                            )}
+                          </div>
+
+                          {/* Calendar grid */}
+                          <div className="grid grid-cols-7 gap-1">
+                            {generateDays().map((day, index) => (
+                              <button
+                                key={index}
+                                onClick={() => {
+                                  if (day.isCurrentMonth) {
+                                    handleStartTutoringDateChange(
+                                      new Date(
+                                        currentDate.getFullYear(),
+                                        currentDate.getMonth(),
+                                        day.day
+                                      )
+                                    );
+                                  }
+                                }}
+                                className={`
+                  p-2 text-center rounded-full text-sm sm:text-lg custom-2xl:text-2xl font-medium
+                  ${day.isCurrentMonth ? "text-[#685aad] " : "text-[#d3c6ef]"}
+                  ${
+                  // @ts-ignore
+                    selectedDate && selectedDate.getDate() === day.day && selectedDate.getMonth() === currentDate.getMonth() && selectedDate.getFullYear() === currentDate.getFullYear()
+                      ? ""
+                      : ""
+                  }
+                `}
+                              >
+                                {day.day}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
                       ) : (
                         // @ts-ignore
                         selectedDate?.toLocaleDateString()
@@ -2750,20 +2560,21 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="What&apos;s you general availability?"
                     // @ts-ignore
                     info={
                       EditActiveTutoringExp ? (
-                        <div className="w-[85%]">
+                      <div className="w-[81.8%] mt-2.5 ">
                     {days.map((day) => (
                       <div
                         key={day}
-                        className="flex custom-xl:pl-8 flex-col custom-xl:flex-row items-start custom-xl:justify-between  custom-xl:items-center mb-2"
+                        className="flex custom-xl:pl-[29px] flex-col custom-xl:flex-row items-start custom-xl:justify-between  custom-xl:items-center mb-2"
                       >
                         <span className="text-darkBlue  text-xl font-medium custom-xl:font-normal custom-xl:text-[25px]   ">
                           {day}
                         </span>
-                        <div className="flex gap-2 flex-col sm:flex-row sm:justify-between custom-xl:w-[72%] w-full  ">
+                        <div className="flex gap-2 flex-col sm:flex-row sm:justify-between custom-xl:w-[71.4%] w-full  ">
                           {timeSlots.map((timeSlot) => {
                             const isChecked =
                               availabilityexp[day]?.includes(timeSlot) || false;
@@ -2773,7 +2584,7 @@ const Page = () => {
                                 key={timeSlot}
                                 className="flex items-center space-x-2"
                               >
-                                <div className="flex items-center py-3 custom-xl:py-6 relative">
+                                <div className="flex items-center py-3 custom-xl:py-5 relative">
                                   <div className="relative flex items-center justify-center w-7 h-7">
                                     <input
                                       type="checkbox"
@@ -2785,7 +2596,7 @@ const Page = () => {
                                       className="absolute w-7 h-7 opacity-0 cursor-pointer hover:!bg-darkBlue"
                                     />
                                     <div
-                                      className={`w-6 h-6  custom-xl:w-7  custom-xl:h-7  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-md flex items-center justify-center ${
+                                      className={`w-6 h-6  custom-xl:w-[26.5px]  custom-xl:h-[26.5px]  border-2 custom-xl:border-[3px] border-[#685AAD] rounded-sm flex items-center justify-center ${
                                         isChecked
                                           ? "bg-[#685AAD]"
                                           : "bg-transparent "
@@ -2798,7 +2609,7 @@ const Page = () => {
                                   </div>
                                   <label
                                     htmlFor={`${day}-${timeSlot}`}
-                                    className="text-darkBlue  text-xl custom-xl:text-2xl pl-3 custom-xl:pl-6"
+                                    className="text-[#685AAD]  text-xl custom-xl:text-2xl pl-3 custom-xl:pl-7"
                                   >
                                     {timeSlot}
                                   </label>
@@ -2831,6 +2642,7 @@ const Page = () => {
                     span={""}
                   />
                   <EnteredInfo
+                  EditActive={EditActive}
                     name="Do you have classroom teaching experience?"
                     // @ts-ignore
                     info={
@@ -2894,7 +2706,7 @@ const Page = () => {
                     htmlFor="checkbox"
                   >
                     I confirm that I am 18 years or older and agree to the
-                    eTutor4Me LLC Terms of Use and Privacy Policy.
+                    eTutor4Me <span className="!text-[#8458f8] underline font-medium hover:cursor-pointer">LLC Terms of Use</span>  and <span className="!text-[#8458f8] underline font-medium hover:cursor-pointer">Privacy Policy.</span>
                   </label>
                 </div>
                 {error && <p className="text-red-600 text-base"> {error}</p>}
@@ -2902,7 +2714,7 @@ const Page = () => {
                   <ConfirmBtn
                     btnName={loading}
                     onClick={handleSubmit}
-                    className="text-3xl font-medium mt-4 ml-0"
+                    className="!text-3xl font-medium mt-4 ml-0 !py-[15px]"
                   />
                 </div>
               </div>
@@ -2937,7 +2749,7 @@ const Page = () => {
       <div>
         <SignUpNavbar />
       </div>
-      <div className="flex justify-center  custom-xl:justify-between w-full custom-lg:w-[90%] mx-auto min-h-screen gap-3 mt-6 custom-xl:mt-1">
+      <div className="flex justify-center  custom-xl:justify-between w-full custom-lg:w-[91%] mx-auto min-h-screen gap-3 mt-6 custom-xl:mt-1">
         <div className="  mt-32 ml-7 hidden custom-xl:block">
           <FormSteps steps={steps} currentStep={currentStep} step={{
             selected: undefined,
@@ -2945,7 +2757,7 @@ const Page = () => {
           }} />
         </div>
         {/* Navigation */}
-        <div className="w-full custom-xl:w-[71.5%] pb-20 overflow-y-auto max-h-screen scrollbar-none">
+        <div className="w-full custom-xl:w-[71.4%] pb-20 overflow-y-auto max-h-screen scrollbar-none">
           {displayStep(currentStep)}
         </div>
       </div>
