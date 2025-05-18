@@ -1,4 +1,4 @@
-import { Check, ChevronDown, ChevronUp, Cross, X, XCircle } from "lucide-react";
+import { AlertTriangle, Check, ChevronDown, ChevronUp, Cross, Trash2, TriangleAlert, X, XCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import infoiconfill from "../../../../../public/infoiconfill.svg";
 import addicon from "../../../../../public/addQualificationIcon.svg";
@@ -8,6 +8,9 @@ import downloadicon from "../../../../../public/downloadIconDownARrow.svg";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
+import tooltip from '../../../../../public/alertnotification.svg'
+import alertsubject from '../../../../../public/alert_subject.svg'
+
 import {
   subjectOptions,
   PurposeOfAttachment,
@@ -20,6 +23,7 @@ import {
 } from "./Data";
 import useSWR from "swr";
 
+
 function Profile() {
   const { toast } = useToast();
   const { data: session, update } = useSession();
@@ -29,10 +33,9 @@ function Profile() {
   const [isSubjectLEVELDropdownOpen, setIsSubjectLEVELDropdownOpen] =
     useState(false);
   const [isExperienceOpen, setIsExperienceOpen] = useState(false);
-  const [selectedSubjects, setSelectedSubjects] = useState([]);
-  const [selectedSubjectsLEVEL, setSelectedSubjectsLEVEL] = useState<string[]>(
-    []
-  );
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+  const [selectedSubjectsLEVEL, setSelectedSubjectsLEVEL] = useState<string[]>([]);
+
   const [selectedExperience, setSelectedExperience] = useState<string[]>([]);
   const [teacher, setTeacher] = useState<Teacher>();
   const [isGenderOpen, setIsGenderOpen] = useState(false);
@@ -141,6 +144,13 @@ function Profile() {
   const [pictureuploadloading, setpictureuploadloading] = useState(false);
   const [image, setImage] = useState<File | null>(null); // State to hold the selected image
   const [isUploading, setIsUploading] = useState(false); // State to show the uploading status
+  
+  const [uploadedImage, setUploadedImage] = useState<string | null>(""); 
+
+const [unapprovedSubjects, setUnapprovedSubjects] = useState<string[]>([]);
+const [isCheckingApproval, setIsCheckingApproval] = useState(false);
+const [subjethover, setsubjethover] = useState("")
+
 
   const [uploadedImage, setUploadedImage] = useState<string | null>("");
 
@@ -155,6 +165,8 @@ function Profile() {
     setIsSubmitting(true);
     setErrorMessage("");
     setUploadedUrls([]);
+
+
 
     const formData = new FormData();
     formData.append("userid", session?.user.id);
@@ -201,6 +213,7 @@ function Profile() {
       setFiles([]);
     }
   };
+
 
  
 
@@ -255,6 +268,9 @@ function Profile() {
   const handleSave = async () => {
     setIsEditing(true);
     try {
+       const approvedSubjects = selectedSubjects.filter(
+      subject => !unapprovedSubjects.includes(subject)
+    );
       const body = {
         acceptsTrialSession: acceptsTrialSession,
         contactInformation: {
@@ -298,7 +314,7 @@ function Profile() {
           moreaboutProfessionalExperience: moreAboutProfessionalExperience,
           hasExperience: hasExperience,
           tutoringLevel: selectedSubjectsLEVEL,
-          subjectsTutored: selectedSubjects,
+          subjectsTutored: approvedSubjects,
           languages: languages,
           instructionTypes: instructionTypes,
           availableHours: availableHours,
@@ -466,15 +482,74 @@ function Profile() {
     }
   };
 
-  const handleSubjectClick = (subject: string) => {
-    // @ts-ignore
-    if (selectedSubjects.includes(subject)) {
-      setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
-    } else {
-      // @ts-ignore
+  // const handleSubjectClick = (subject: string) => {
+  //   // @ts-ignore
+  //   if (selectedSubjects.includes(subject)) {
+  //     setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
+  //   } else {
+  //     // @ts-ignore
+  //     setSelectedSubjects([...selectedSubjects, subject]);
+  //   }
+  // };
+const handleSubjectClick = async (subject: string) => {
+  // If already selected, just remove it
+  if (selectedSubjects.includes(subject)) {
+    setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
+    setUnapprovedSubjects(unapprovedSubjects.filter(item => item !== subject));
+    return;
+  }
+  
+  // If adding a new subject and we already have 2 or more subjects
+  if (selectedSubjects.length >= 2) {
+    setIsCheckingApproval(true);
+    try {
+      // Call the API to check if subject is approved
+      const response = await fetch('/api/check-subject-approval', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ subject }),
+      });
+      
+      const result = await response.json();
+      
+      // Add the subject to selected subjects regardless
       setSelectedSubjects([...selectedSubjects, subject]);
+      
+      // If not approved, also add to unapproved list
+
+      if (!(response.status === 200)) {
+        setUnapprovedSubjects([...unapprovedSubjects, subject]);
+      }
+    } catch (error) {
+      console.error("Error checking subject approval:", error);
+      // In case of error, still add the subject but mark as unapproved
+      setSelectedSubjects([...selectedSubjects, subject]);
+      setUnapprovedSubjects([...unapprovedSubjects, subject]);
+    } finally {
+      setIsCheckingApproval(false);
     }
-  };
+  } else {
+    // If less than 2 subjects, no need to check approval
+    setSelectedSubjects([...selectedSubjects, subject]);
+  }
+};
+
+const isSubjectUnapproved = (subject: string) => {
+  return unapprovedSubjects.includes(subject);
+};
+
+
+const removeSubject = (subject: string) => {
+  setSelectedSubjects(selectedSubjects.filter(item => item !== subject));
+  setUnapprovedSubjects(unapprovedSubjects.filter(item => item !== subject));
+};
+
+
+
+
+  
   const handleSubjectLEVELClick = (subject: string) => {
     // @ts-ignore
     if (selectedSubjectsLEVEL.includes(subject)) {
@@ -497,12 +572,12 @@ function Profile() {
       setSelectedExperience([...selectedExperience, subject]);
     }
   };
-  const removeSubject = (subject: never) => {
-    if (isEditing === true) {
-      setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
-    }
-  };
-  const removeSubjectLEVEL = (subject: never) => {
+  // const removeSubject = (subject: never) => {
+  //   if (isEditing === true) {
+  //     setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
+  //   }
+  // };
+  const removeSubjectLEVEL = (subject: string) => {
     if (isEditing === true) {
       setSelectedSubjectsLEVEL(
         selectedSubjectsLEVEL.filter((item) => item !== subject)
@@ -722,8 +797,9 @@ function Profile() {
                       {pictureuploadloading ? "wait..." : "upload"}
                     </button>
                   ) : (
-                    <button className="px-7 text-white rounded-sm py-0.5 bg-[#FC7777] relative">
-                      edit image
+                    <button className="px-7 text-white rounded-md py-0.5 bg-[#FC7777] relative">
+                      Edit image
+
                       <input
                         type="file"
                         accept="image/*"
@@ -793,7 +869,15 @@ function Profile() {
                       className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
                       value={day}
                       onChange={(e) => {
-                        setDay(e.target.value);
+                        const value = e.target.value;
+
+                        // Check if value is numeric and max two digits
+                        if (/^\d{0,2}$/.test(value)) {
+                          // Convert to number and check if it's 31 or less
+                          if (Number(value) <= 31) {
+                            setDay(value);
+                          }
+                        }
                       }}
                       disabled={!isEditing}
                     />
@@ -807,7 +891,15 @@ function Profile() {
                       className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
                       value={month}
                       onChange={(e) => {
-                        setMonth(e.target.value);
+                        const value = e.target.value;
+
+                        // Allow only numeric values with a maximum of two digits
+                        if (/^\d{0,2}$/.test(value)) {
+                          // Check if the number is not greater than 12
+                          if (Number(value) <= 12) {
+                            setMonth(value);
+                          }
+                        }
                       }}
                       disabled={!isEditing}
                     />
@@ -821,7 +913,11 @@ function Profile() {
                       className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
                       value={year}
                       onChange={(e) => {
-                        setYear(e.target.value);
+                        const value = e.target.value;
+
+                        if (/^\d{0,4}$/.test(value)) {
+                          setYear(value);
+                        }
                       }}
                       disabled={!isEditing}
                     />
@@ -944,27 +1040,57 @@ function Profile() {
                     </div>
 
                     {selectedSubjects.length > 0 && (
-                      <div className="flex flex-wrap items-start justify-start px-4 gap-2 mt-5     sm:max-w-[26rem] mx-auto min-h-[5rem]">
+                      <div className="flex flex-wrap items-start justify-start px-4 gap-2 mt-5 sm:max-w-[26rem] mx-auto min-h-[5rem]">
                         {selectedSubjects.map((subject) => (
-                          <span
-                            key={subject}
-                            className="bg-[#B4A5D7] text-white px-4 gap-2 flex items-center  text-xl  w-fit py-2 rounded-lg justify-between"
-                          >
-                            {subject}
-                            <X
-                              hanging={20}
-                              width={20}
-                              className="  cursor-pointer"
-                              onClick={() => removeSubject(subject)}
-                            />
-                          </span>
+                          <div key={subject} className="relative group ">
+                            <span
+                              className={`${
+                                isSubjectUnapproved(subject)
+                                  ? "bg-[#B4A5D7] text-white border-2 border-[#fc7777]"
+                                  : "bg-[#B4A5D7] text-white"
+                              } px-4 gap-2 flex items-center text-xl w-fit py-2 rounded-[6px] justify-between  text-[20px] !max-h-[41px] relative`}
+                            >
+                              {subject}
+
+                              {isSubjectUnapproved(subject) && (
+                                <span className=" opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-md text-orange-400 absolute -top-2 -left-1 bg-[#fc7777] h-6 w-6 flex items-center justify-center">
+                                  <Trash2
+                                    onClick={() => removeSubject(subject)}
+                                    className=" w-[70%] text-white hover:cursor-pointer"
+                                  />
+                                </span>
+                              )}
+                              {isSubjectUnapproved(subject) ? (
+                                <span className="text-[#fc7777] relative group">
+                                  {/* <AlertTriangle size={20} /> */}
+                                  <Image
+                                onMouseEnter={() => setsubjethover(subject)}
+      onMouseLeave={() => setsubjethover("")}
+                                  src={alertsubject} alt="" />
+
+                                  <Image
+                                    src={tooltip}
+                                    alt=""
+                                    className= {`transition-all duration-300  min-w-[354px] absolute -top-2 left-[14px]  ${subjethover === subject  ? "opacity-100":"opacity-0"}  z-[3333333]`}
+                                  />
+                                </span>
+                              ) : (
+                                <X
+                                  hanging={20}
+                                  width={20}
+                                  className="cursor-pointer "
+                                  onClick={() => removeSubject(subject)}
+                                />
+                              )}
+                            </span>
+                          </div>
                         ))}
                       </div>
                     )}
                   </div>
                 </div>
 
-                <div className="sm:max-w-[28.6rem] w-full mt-28">
+                <div className="sm:max-w-[28.6rem] w-full mt-3">
                   <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
                     Video introduction<span className="text-[#FC7777]">*</span>
                   </label>
@@ -985,8 +1111,9 @@ function Profile() {
                     <span className="text-[#FC7777]">*</span>
                   </label>
                   <textarea
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-3xl  text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl placeholder:text-white"
+                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-3xl scrollbar-none  text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl placeholder:text-white"
                     disabled={!isEditing}
+                    rows={5}
                     placeholder="Tell us something about who you are and what do you like: it will help us find the right matching for you."
                     value={aboutYou}
                     onChange={(e) => {
@@ -1015,6 +1142,7 @@ function Profile() {
                   <textarea
                     className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-3xl  text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl placeholder:text-white"
                     disabled={!isEditing}
+                    rows={5}
                     placeholder="Tell us something about who you are and what do you like: it will help us find the right matching for you."
                     value={yourEducation}
                     onChange={(e) => {
