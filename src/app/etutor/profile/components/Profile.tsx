@@ -1,4 +1,4 @@
-import { Check, ChevronDown, ChevronUp, Cross, X, XCircle } from "lucide-react";
+import { AlertTriangle, Check, ChevronDown, ChevronUp, Cross, Trash2, TriangleAlert, X, XCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import infoiconfill from "../../../../../public/infoiconfill.svg";
 import addicon from "../../../../../public/addQualificationIcon.svg";
@@ -9,6 +9,8 @@ import Image from "next/image";
 import useSWR from "swr";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
+import tooltip from '../../../../../public/alertnotification.svg'
+import alertsubject from '../../../../../public/alert_subject.svg'
 export interface Teacher {
   user: string; // ObjectId reference to the User model
   acceptsTrialSession?: boolean;
@@ -284,9 +286,9 @@ function Profile() {
   const [isSubjectLEVELDropdownOpen, setIsSubjectLEVELDropdownOpen] =
     useState(false);
   const [isExperienceOpen, setIsExperienceOpen] = useState(false);
-  const [selectedSubjects, setSelectedSubjects] = useState([]);
-  const [selectedSubjectsLEVEL, setSelectedSubjectsLEVEL] = useState([]);
-  const [selectedExperience, setSelectedExperience] = useState([]);
+  const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
+  const [selectedSubjectsLEVEL, setSelectedSubjectsLEVEL] = useState<string[]>([]);
+  const [selectedExperience, setSelectedExperience] = useState<string[]>([]);
   const [teacher, setTeacher] = useState<Teacher>();
   const [isGenderOpen, setIsGenderOpen] = useState(false);
   const [isCountryOpen, setIsCountryOpen] = useState(false);
@@ -402,8 +404,9 @@ function Profile() {
   
   const [uploadedImage, setUploadedImage] = useState<string | null>(""); 
 
-
-
+const [unapprovedSubjects, setUnapprovedSubjects] = useState<string[]>([]);
+const [isCheckingApproval, setIsCheckingApproval] = useState(false);
+const [subjethover, setsubjethover] = useState("")
 
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -469,7 +472,6 @@ function Profile() {
 
 
 
-    // -------------------------------------------
 
 
 
@@ -491,11 +493,7 @@ function Profile() {
 
 
 
-
-  // const handleFileChange = (event: any) => {
-  //   //@ts-ignore
-  //   setFiles([...files, ...event.target.files]);
-  // };
+ 
 
   const removeFile = (index: any) => {
     const updatedFiles = [...files];
@@ -550,6 +548,9 @@ function Profile() {
   const handleSave = async () => {
     setIsEditing(false);
     try {
+       const approvedSubjects = selectedSubjects.filter(
+      subject => !unapprovedSubjects.includes(subject)
+    );
       const body = {
         acceptsTrialSession: acceptsTrialSession,
         contactInformation: {
@@ -593,7 +594,7 @@ function Profile() {
           moreaboutProfessionalExperience: moreAboutProfessionalExperience,
           hasExperience: hasExperience,
           tutoringLevel: selectedSubjectsLEVEL,
-          subjectsTutored: selectedSubjects,
+          subjectsTutored: approvedSubjects,
           languages: languages,
           instructionTypes: instructionTypes,
           availableHours: availableHours,
@@ -764,20 +765,69 @@ function Profile() {
     }
   };
 
-  const handleSubjectClick = (subject: string) => {
-    // @ts-ignore
-    if (selectedSubjects.includes(subject)) {
-      setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
-    } else {
-      // @ts-ignore
+  // const handleSubjectClick = (subject: string) => {
+  //   // @ts-ignore
+  //   if (selectedSubjects.includes(subject)) {
+  //     setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
+  //   } else {
+  //     // @ts-ignore
+  //     setSelectedSubjects([...selectedSubjects, subject]);
+  //   }
+  // };
+const handleSubjectClick = async (subject: string) => {
+  // If already selected, just remove it
+  if (selectedSubjects.includes(subject)) {
+    setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
+    setUnapprovedSubjects(unapprovedSubjects.filter(item => item !== subject));
+    return;
+  }
+  
+  // If adding a new subject and we already have 2 or more subjects
+  if (selectedSubjects.length >= 2) {
+    setIsCheckingApproval(true);
+    try {
+      // Call the API to check if subject is approved
+      const response = await fetch('/api/check-subject-approval', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ subject }),
+      });
+      
+      const result = await response.json();
+      
+      // Add the subject to selected subjects regardless
       setSelectedSubjects([...selectedSubjects, subject]);
+      
+      // If not approved, also add to unapproved list
+
+      if (!(response.status === 200)) {
+        setUnapprovedSubjects([...unapprovedSubjects, subject]);
+      }
+    } catch (error) {
+      console.error("Error checking subject approval:", error);
+      // In case of error, still add the subject but mark as unapproved
+      setSelectedSubjects([...selectedSubjects, subject]);
+      setUnapprovedSubjects([...unapprovedSubjects, subject]);
+    } finally {
+      setIsCheckingApproval(false);
     }
-  };
+  } else {
+    // If less than 2 subjects, no need to check approval
+    setSelectedSubjects([...selectedSubjects, subject]);
+  }
+};
+
+const isSubjectUnapproved = (subject: string) => {
+  return unapprovedSubjects.includes(subject);
+};
 
 
-
-
-
+const removeSubject = (subject: string) => {
+  setSelectedSubjects(selectedSubjects.filter(item => item !== subject));
+  setUnapprovedSubjects(unapprovedSubjects.filter(item => item !== subject));
+};
 
 
 
@@ -805,19 +855,19 @@ function Profile() {
       setSelectedExperience([...selectedExperience, subject]);
     }
   };
-  const removeSubject = (subject: never) => {
-    if (isEditing === true) {
-      setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
-    }
-  };
-  const removeSubjectLEVEL = (subject: never) => {
+  // const removeSubject = (subject: never) => {
+  //   if (isEditing === true) {
+  //     setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
+  //   }
+  // };
+  const removeSubjectLEVEL = (subject: string) => {
     if (isEditing === true) {
       setSelectedSubjectsLEVEL(
         selectedSubjectsLEVEL.filter((item) => item !== subject)
       );
     }
   };
-  const removeExperience = (subject: never) => {
+  const removeExperience = (subject: string) => {
     setSelectedExperience(
       selectedExperience.filter((item) => item !== subject)
     );
@@ -1026,34 +1076,33 @@ function Profile() {
                     {firstName}
                   </h1>
                   <span className="text-xl  mb-5 text-[#685AAD]">
-                    
-                    eTutor since:{
-                    // @ts-ignore
-                    new Date(teacher?.user?.createdAt).toLocaleDateString() || ""}
-
+                    eTutor since:
+                    {
+                      // @ts-ignore
+                      new Date(teacher?.user?.createdAt).toLocaleDateString() ||
+                        ""
+                    }
                   </span>
-                  {image ?(
-                <button
-                className="w-full sm:w-auto py-1 px-9 mt-6 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors"
-                onClick={()=>{
-                  handleUpload()
-                }}
-                >
-                  {pictureuploadloading ? "wait...":"upload"} 
-                  
-                  </button>
-              ):(
-
-                  <button className="px-7 text-white rounded-sm py-0.5 bg-[#FC7777] relative">
-                    edit image
-                    <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageChange} 
-                className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-              />
-                  </button>
-              )}
+                  {image ? (
+                    <button
+                      className="w-full sm:w-auto py-1 px-9 mt-6 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors"
+                      onClick={() => {
+                        handleUpload();
+                      }}
+                    >
+                      {pictureuploadloading ? "wait..." : "upload"}
+                    </button>
+                  ) : (
+                    <button className="px-7 text-white rounded-md py-0.5 bg-[#FC7777] relative">
+                      Edit image
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+                      />
+                    </button>
+                  )}
                 </div>
               </div>
 
@@ -1105,7 +1154,15 @@ function Profile() {
                       className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
                       value={day}
                       onChange={(e) => {
-                        setDay(e.target.value);
+                        const value = e.target.value;
+
+                        // Check if value is numeric and max two digits
+                        if (/^\d{0,2}$/.test(value)) {
+                          // Convert to number and check if it's 31 or less
+                          if (Number(value) <= 31) {
+                            setDay(value);
+                          }
+                        }
                       }}
                       disabled={!isEditing}
                     />
@@ -1119,7 +1176,15 @@ function Profile() {
                       className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
                       value={month}
                       onChange={(e) => {
-                        setMonth(e.target.value);
+                        const value = e.target.value;
+
+                        // Allow only numeric values with a maximum of two digits
+                        if (/^\d{0,2}$/.test(value)) {
+                          // Check if the number is not greater than 12
+                          if (Number(value) <= 12) {
+                            setMonth(value);
+                          }
+                        }
                       }}
                       disabled={!isEditing}
                     />
@@ -1133,7 +1198,11 @@ function Profile() {
                       className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
                       value={year}
                       onChange={(e) => {
-                        setYear(e.target.value);
+                        const value = e.target.value;
+
+                        if (/^\d{0,4}$/.test(value)) {
+                          setYear(value);
+                        }
                       }}
                       disabled={!isEditing}
                     />
@@ -1256,27 +1325,57 @@ function Profile() {
                     </div>
 
                     {selectedSubjects.length > 0 && (
-                      <div className="flex flex-wrap items-start justify-start px-4 gap-2 mt-5     sm:max-w-[26rem] mx-auto min-h-[5rem]">
+                      <div className="flex flex-wrap items-start justify-start px-4 gap-2 mt-5 sm:max-w-[26rem] mx-auto min-h-[5rem]">
                         {selectedSubjects.map((subject) => (
-                          <span
-                            key={subject}
-                            className="bg-[#B4A5D7] text-white px-4 gap-2 flex items-center  text-xl  w-fit py-2 rounded-lg justify-between"
-                          >
-                            {subject}
-                            <X
-                              hanging={20}
-                              width={20}
-                              className="  cursor-pointer"
-                              onClick={() => removeSubject(subject)}
-                            />
-                          </span>
+                          <div key={subject} className="relative group ">
+                            <span
+                              className={`${
+                                isSubjectUnapproved(subject)
+                                  ? "bg-[#B4A5D7] text-white border-2 border-[#fc7777]"
+                                  : "bg-[#B4A5D7] text-white"
+                              } px-4 gap-2 flex items-center text-xl w-fit py-2 rounded-[6px] justify-between  text-[20px] !max-h-[41px] relative`}
+                            >
+                              {subject}
+
+                              {isSubjectUnapproved(subject) && (
+                                <span className=" opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-md text-orange-400 absolute -top-2 -left-1 bg-[#fc7777] h-6 w-6 flex items-center justify-center">
+                                  <Trash2
+                                    onClick={() => removeSubject(subject)}
+                                    className=" w-[70%] text-white hover:cursor-pointer"
+                                  />
+                                </span>
+                              )}
+                              {isSubjectUnapproved(subject) ? (
+                                <span className="text-[#fc7777] relative group">
+                                  {/* <AlertTriangle size={20} /> */}
+                                  <Image
+                                onMouseEnter={() => setsubjethover(subject)}
+      onMouseLeave={() => setsubjethover("")}
+                                  src={alertsubject} alt="" />
+
+                                  <Image
+                                    src={tooltip}
+                                    alt=""
+                                    className= {`transition-all duration-300  min-w-[354px] absolute -top-2 left-[14px]  ${subjethover === subject  ? "opacity-100":"opacity-0"}  z-[3333333]`}
+                                  />
+                                </span>
+                              ) : (
+                                <X
+                                  hanging={20}
+                                  width={20}
+                                  className="cursor-pointer "
+                                  onClick={() => removeSubject(subject)}
+                                />
+                              )}
+                            </span>
+                          </div>
                         ))}
                       </div>
                     )}
                   </div>
                 </div>
 
-                <div className="sm:max-w-[28.6rem] w-full mt-28">
+                <div className="sm:max-w-[28.6rem] w-full mt-3">
                   <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
                     Video introduction<span className="text-[#FC7777]">*</span>
                   </label>
@@ -1297,8 +1396,9 @@ function Profile() {
                     <span className="text-[#FC7777]">*</span>
                   </label>
                   <textarea
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-3xl  text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl placeholder:text-white"
+                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-3xl scrollbar-none  text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl placeholder:text-white"
                     disabled={!isEditing}
+                    rows={5}
                     placeholder="Tell us something about who you are and what do you like: it will help us find the right matching for you."
                     value={aboutYou}
                     onChange={(e) => {
@@ -1308,7 +1408,12 @@ function Profile() {
                 </div>
 
                 <div className="w-full bg-[#B4A5D7] py-2.5 rounded-lg mt-9 px-6 text-xl sm:max-w-[43rem] text-white flex items-center gap-5 ">
-                  <Image  loading="lazy"  src={infoiconfill} alt="" className="w-5 h-5" />
+                  <Image
+                    loading="lazy"
+                    src={infoiconfill}
+                    alt=""
+                    className="w-5 h-5"
+                  />
                   <p>
                     This section will be visible to parents on the student’s
                     Dashboard
@@ -1322,6 +1427,7 @@ function Profile() {
                   <textarea
                     className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-3xl  text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl placeholder:text-white"
                     disabled={!isEditing}
+                    rows={5}
                     placeholder="Tell us something about who you are and what do you like: it will help us find the right matching for you."
                     value={yourEducation}
                     onChange={(e) => {
@@ -1331,7 +1437,12 @@ function Profile() {
                 </div>
 
                 <div className="w-full bg-[#B4A5D7] py-2.5 rounded-lg mt-9 px-6 text-xl sm:max-w-[43rem] text-white flex items-center gap-5 ">
-                  <Image  loading="lazy"  src={infoiconfill} alt="" className="w-5 h-5" />
+                  <Image
+                    loading="lazy"
+                    src={infoiconfill}
+                    alt=""
+                    className="w-5 h-5"
+                  />
                   <p>
                     This section will be visible to parents on the student’s
                     Dashboard
@@ -1488,25 +1599,22 @@ function Profile() {
                     {isTimezoneOpen && (
                       <div className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  ">
                         <div
-                         id="style-2"
-                  className="max-h-[16.4rem] overflow-y-scroll  "
+                          id="style-2"
+                          className="max-h-[16.4rem] overflow-y-scroll  "
                         >
-
-                        {timezoneoptions.map((time) => (
-                          <div
-                            key={time.value}
-                            className=" py-2 cursor-pointer flex items-center"
-                            onClick={() => handletimezoneClick(time.value)}
-                          >
-                          
-
-                            <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 sm:max-w-[22rem] truncate">
-                        <span className="ml-2 text-xl text-white ">
-                        {time.label}
-                        </span>
-                      </div>
-                          </div>
-                        ))}
+                          {timezoneoptions.map((time) => (
+                            <div
+                              key={time.value}
+                              className=" py-2 cursor-pointer flex items-center"
+                              onClick={() => handletimezoneClick(time.value)}
+                            >
+                              <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 sm:max-w-[22rem] truncate">
+                                <span className="ml-2 text-xl text-white ">
+                                  {time.label}
+                                </span>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       </div>
                     )}
@@ -1627,7 +1735,9 @@ function Profile() {
                                     <div
                                       className={`h-5 w-5 rounded-sm border border-white hover:bg-[#a394d6] hover:border-[#a394d6] flex items-center justify-center ${
                                         // @ts-ignore
-                                        selectedSubjectsLEVEL.includes(subjectlevel.value)
+                                        selectedSubjectsLEVEL.includes(
+                                          subjectlevel.value
+                                        )
                                           ? "bg-[#6c5baa] border-none p-0.5"
                                           : ""
                                       }`}
@@ -1716,14 +1826,18 @@ function Profile() {
                                     <input
                                       type="checkbox"
                                       // @ts-ignore
-                                      checked={selectedExperience.includes(experience.value)}
+                                      checked={selectedExperience.includes(
+                                        experience.value
+                                      )}
                                       onChange={() => {}}
                                       className="absolute opacity-0 cursor-pointer"
                                     />
                                     <div
                                       className={`h-5 w-5 rounded-sm border border-white hover:bg-[#a394d6] hover:border-[#a394d6] flex items-center justify-center ${
                                         // @ts-ignore
-                                        selectedExperience.includes(experience.value)
+                                        selectedExperience.includes(
+                                          experience.value
+                                        )
                                           ? "bg-[#6c5baa] border-none p-0.5"
                                           : ""
                                       }`}
@@ -1831,26 +1945,24 @@ function Profile() {
                       {isAcademicCountryopen && (
                         <div className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  ">
                           <div
-                          id="style-2"
-                  className="max-h-[16.4rem] overflow-y-scroll  "
+                            id="style-2"
+                            className="max-h-[16.4rem] overflow-y-scroll  "
                           >
-
-                          {countryoptions.map((country) => (
-                            <div
-                              key={country.value}
-                              className="py-1 cursor-pointer flex items-center w-[70%]"
-                              onClick={() =>
-                                handleAcademicCountryClick(country.value)
-                              }
-                            >
-                              
-                              <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 sm:max-w-[22rem] truncate">
-                        <span className="ml-2 text-xl text-white ">
-                        {country.label}
-                        </span>
-                      </div>
-                            </div>
-                          ))}
+                            {countryoptions.map((country) => (
+                              <div
+                                key={country.value}
+                                className="py-1 cursor-pointer flex items-center w-[70%]"
+                                onClick={() =>
+                                  handleAcademicCountryClick(country.value)
+                                }
+                              >
+                                <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 sm:max-w-[22rem] truncate">
+                                  <span className="ml-2 text-xl text-white ">
+                                    {country.label}
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
                           </div>
                         </div>
                       )}
@@ -1866,7 +1978,7 @@ function Profile() {
                       Qualifications
                     </label>
                     <div className="flex items-center hover:cursor-pointer h-fit gap-4 mt-5">
-                      <Image  loading="lazy"  src={addicon} alt="" className="" />
+                      <Image loading="lazy" src={addicon} alt="" className="" />
                       <span className="font-medium text-[#B4A5D7] text-lg ">
                         Add Qualification
                       </span>
@@ -2044,14 +2156,22 @@ function Profile() {
                                   />
                                 </span>
                                 <span className=" font-medium flex gap-4 items-center">
-                                  <Image  loading="lazy"  src={bluefoldericon} alt="" />{" "}
+                                  <Image
+                                    loading="lazy"
+                                    src={bluefoldericon}
+                                    alt=""
+                                  />{" "}
                                   {
                                     //@ts-ignore
                                     file.name
                                   }
                                 </span>
 
-                                <Image  loading="lazy"  src={downloadicon} alt="" />
+                                <Image
+                                  loading="lazy"
+                                  src={downloadicon}
+                                  alt=""
+                                />
                               </div>
                             ))}
 
@@ -2060,7 +2180,12 @@ function Profile() {
                                 htmlFor="file-upload"
                                 className="cursor-pointer flex items-center gap-4"
                               >
-                                <Image  loading="lazy"  src={addicon2} alt="" className="w-12" />
+                                <Image
+                                  loading="lazy"
+                                  src={addicon2}
+                                  alt=""
+                                  className="w-12"
+                                />
                                 <span className="text-white font-medium">
                                   Attach Your File Here
                                 </span>
@@ -2074,10 +2199,11 @@ function Profile() {
                               />
                             </div>
                           </div>
-                        </div>  
+                        </div>
 
-
-                        {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
+                        {errorMessage && (
+                          <p className="text-red-500 mt-4">{errorMessage}</p>
+                        )}
 
                         <div className=" custom-2xl:absolute bottom-8 custom-xl:bottom-10 right-9 space-x-2 sm:space-x-6  space-y-2 ">
                           <button
@@ -2090,11 +2216,14 @@ function Profile() {
                           </button>
                           {files.length > 0 && (
                             <button
-                            onClick={(e)=>{
-                              handleSubmit(e)
-                            }}
-                            className=" bg-[#9052FC] text-white  px-10 sm:px-24 py-2.5 text-xs sm:text-xl  rounded-md hover:bg-[#FF6B6B] transition-colors">
-                               {isSubmitting ? 'Uploading...' : 'Submit Document for Verification'}
+                              onClick={(e) => {
+                                handleSubmit(e);
+                              }}
+                              className=" bg-[#9052FC] text-white  px-10 sm:px-24 py-2.5 text-xs sm:text-xl  rounded-md hover:bg-[#FF6B6B] transition-colors"
+                            >
+                              {isSubmitting
+                                ? "Uploading..."
+                                : "Submit Document for Verification"}
                             </button>
                           )}
                         </div>
@@ -2211,7 +2340,8 @@ function Profile() {
                   {/* Add button - always visible when isEditing is true */}
                   {isEditing && (
                     <div className="mt-6">
-                      <Image  loading="lazy" 
+                      <Image
+                        loading="lazy"
                         onClick={() => {
                           handleSubmitLanguage();
                           handleAddLanguage();

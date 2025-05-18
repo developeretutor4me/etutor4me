@@ -4,7 +4,7 @@ import { connectMongoDB } from "@/app/api/connection/connection";
 import mongoose from "mongoose";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/auth/auth";
-
+import TeacherModel from "../models/Teacher";
 export async function POST(request: Request) {
   try {
     const session = await getServerSession(authOptions);
@@ -12,9 +12,21 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    const { teacherId, subject } = await request.json();
+    const { subject } = await request.json();
 
-    if (!teacherId || !mongoose.Types.ObjectId.isValid(teacherId)) {
+    const teacher = await TeacherModel.findOne({ user: session.user.id });
+    if (!teacher) {
+      return NextResponse.json({ error: "Teacher not found" }, { status: 404 });
+    }
+
+    const teacherId = teacher._id.toString();
+
+
+
+    console.log("Teacher ID:", teacherId);
+    console.log("Subject:", subject);
+
+    if (!teacherId ) {
       return NextResponse.json(
         { error: "Invalid teacher ID" },
         { status: 400 }
