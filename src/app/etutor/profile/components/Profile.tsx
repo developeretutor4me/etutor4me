@@ -10,6 +10,8 @@ import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
 import tooltip from '../../../../../public/alertnotification.svg'
 import alertsubject from '../../../../../public/alert_subject.svg'
+import infoicon from '../../../../../public/infoicon.svg'
+import videouploadPopup from '../../../../../public/videoupload_popup.svg'
 
 import {
   subjectOptions,
@@ -150,9 +152,8 @@ function Profile() {
 const [unapprovedSubjects, setUnapprovedSubjects] = useState<string[]>([]);
 const [isCheckingApproval, setIsCheckingApproval] = useState(false);
 const [subjethover, setsubjethover] = useState("")
+const [onvideoiconhover, setonvideoiconhover] = useState(false)
 
-
-  const [uploadedImage, setUploadedImage] = useState<string | null>("");
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -769,11 +770,15 @@ const removeSubject = (subject: string) => {
           className={`px-5 sm:px-0 sm:pl-10 custom-xl:pl-20 sm:pr-10 custom-xl:pr-16 py-6 custom-xl:py-12  custom-2xl:rounded-tr-3xl  bg-[#EDE8FA] h-full rounded-b-3xl`}
         >
           {activeTab === "GENERAL" && (
-            <div className="  ">
+            <div className=" overflow-x-hidden ">
               {/* first name and image dive */}
               <div className=" mt-1.5 flex custom-xl:items-center flex-col custom-xl:flex-row  gap-4 custom-xl:gap-11 ">
                 <div className="img h-[9rem] w-[9rem]  rounded-full flex items-center justify-center overflow-hidden">
-                  <img src={uploadedImage || profilePicture} alt="" className="" />
+                  <img
+                    src={uploadedImage || profilePicture}
+                    alt=""
+                    className=""
+                  />
                 </div>
                 <div className="name flex flex-col items-start  ">
                   <h1 className="uppercase text-3xl font-bold text-[#685AAD]">
@@ -799,7 +804,6 @@ const removeSubject = (subject: string) => {
                   ) : (
                     <button className="px-7 text-white rounded-md py-0.5 bg-[#FC7777] relative">
                       Edit image
-
                       <input
                         type="file"
                         accept="image/*"
@@ -848,7 +852,6 @@ const removeSubject = (subject: string) => {
                   <input
                     type="text"
                     className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                
                   />
                 </div>
               </div>
@@ -961,7 +964,11 @@ const removeSubject = (subject: string) => {
                   </div>
 
                   {/* subject select */}
-                  <div className="w-full sm:max-w-[25.8rem] mt-4">
+                  <div
+                    className={`w-full sm:max-w-[25.8rem] mt-4 ${
+                      selectedSubjects.length > 0 ? "mb-0" : "mb-10"
+                    } `}
+                  >
                     <label className="block text-lg sm:text-xl font-semibold text-[#685AAD] ">
                       Subjects you teach{" "}
                       <span className="text-[#FC7777]">*</span>
@@ -989,7 +996,7 @@ const removeSubject = (subject: string) => {
                           onMouseLeave={() => {
                             setIsSubjectDropdownOpen(false);
                           }}
-                          className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  "
+                          className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  z-50 "
                         >
                           <div
                             id="style-2"
@@ -1040,9 +1047,13 @@ const removeSubject = (subject: string) => {
                     </div>
 
                     {selectedSubjects.length > 0 && (
-                      <div className="flex flex-wrap items-start justify-start px-4 gap-2 mt-5 sm:max-w-[26rem] mx-auto min-h-[5rem]">
+                      <div className="flex flex-wrap items-start justify-start px-4 gap-2 mt-5 sm:max-w-[26rem] mx-auto min-h-[5rem] relative z-10">
                         {selectedSubjects.map((subject) => (
-                          <div key={subject} className="relative group ">
+                          <div 
+                            onMouseLeave={() => setsubjethover("")}
+                                                               
+
+                          key={subject} className="relative group ">
                             <span
                               className={`${
                                 isSubjectUnapproved(subject)
@@ -1053,7 +1064,7 @@ const removeSubject = (subject: string) => {
                               {subject}
 
                               {isSubjectUnapproved(subject) && (
-                                <span className=" opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-md text-orange-400 absolute -top-2 -left-1 bg-[#fc7777] h-6 w-6 flex items-center justify-center">
+                                <span className={`opacity-0 ${subjethover === subject ? "opacity-100":""} transition-all duration-300 rounded-md text-orange-400 absolute -top-2 -left-1 bg-[#fc7777] h-6 w-6 flex items-center justify-center`}>
                                   <Trash2
                                     onClick={() => removeSubject(subject)}
                                     className=" w-[70%] text-white hover:cursor-pointer"
@@ -1064,14 +1075,20 @@ const removeSubject = (subject: string) => {
                                 <span className="text-[#fc7777] relative group">
                                   {/* <AlertTriangle size={20} /> */}
                                   <Image
-                                onMouseEnter={() => setsubjethover(subject)}
-      onMouseLeave={() => setsubjethover("")}
-                                  src={alertsubject} alt="" />
+                                    onMouseEnter={() => setsubjethover(subject)}
+                                  
+                                    src={alertsubject}
+                                    alt=""
+                                  />
 
                                   <Image
                                     src={tooltip}
                                     alt=""
-                                    className= {`transition-all duration-300  min-w-[354px] absolute -top-2 left-[14px]  ${subjethover === subject  ? "opacity-100":"opacity-0"}  z-[3333333]`}
+                                    className={`transition-all duration-300 origin-top-left  min-w-[354px] absolute -top-2 left-[14px]  ${
+                                      subjethover === subject
+                                        ? "opacity-100 scale-100"
+                                        : "opacity-0 scale-0"
+                                    }  z-[3333333]`}
                                   />
                                 </span>
                               ) : (
@@ -1091,8 +1108,16 @@ const removeSubject = (subject: string) => {
                 </div>
 
                 <div className="sm:max-w-[28.6rem] w-full mt-3">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    Video introduction<span className="text-[#FC7777]">*</span>
+                  <label className=" text-lg sm:text-xl font-semibold text-[#685AAD] flex  items-center gap-2">
+                    Video introduction
+                    <span className="h-[16px] w-[16px] relative group">
+                      <Image
+                      onMouseEnter={() => setonvideoiconhover(true)}
+                      onMouseLeave={() => setonvideoiconhover(false)}
+                      src={infoicon} alt="" />
+                      <Image src={videouploadPopup} alt="" className={` hidden sm:block min-w-[267px] custom-xl:min-w-[467px] absolute top-1 left-4 origin-top-left transition-all duration-300 ${onvideoiconhover ? "opacity-100 scale-100 ":"opacity-0 scale-0 "} `} />
+
+                    </span>
                   </label>
                   <input
                     type="text"
