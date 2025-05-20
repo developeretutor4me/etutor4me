@@ -15,25 +15,29 @@ const AcademicBackground: React.FC<AcademicBackgroundprops> = ({
   activeTab,
   isEditing,
   errorMessage,
-  toggleAcedmicCountrydown,
   selectedAcademicCountry,
   isAcademicCountryopen,
-  handleAcademicCountryClick,
   graduationSchool,
-  setGraduationSchool,
-  handleSubjectToVerifyClick,
   highestDegree,
-  setHighestDegree,
   isSubmitting,
-  handlePurposeOfAttechmentClick,
   internationalExperience,
-  setInternationalExperience,
+  isPopupOpen,
   languages,
   selectedSubjectToVerifys,
+  files,
   showNewInput,
+  isSubjectToVerifyDropdownOpen,
   selectedPurposeOfAttechments,
   isPurposeOfAttechmentDropdownOpen,
   newLanguage,
+  subjectOptions,
+  setInternationalExperience,
+  setHighestDegree,
+  handlePurposeOfAttechmentClick,
+  handleSubjectToVerifyClick,
+  setGraduationSchool,
+  handleAcademicCountryClick,
+  toggleAcedmicCountrydown,
   setNewLanguage,
   handleSubmitLanguage,
   handleDeleteLanguage,
@@ -41,15 +45,11 @@ const AcademicBackground: React.FC<AcademicBackgroundprops> = ({
   handleSubmit,
   handleFileChange,
   removeFile,
-  files,
   setIsPurposeOfAttechmentDropdownOpen,
   togglePurposeOfAttechmentDropdown,
   setIsPopupOpen,
-  isPopupOpen,
   setIsSubjectToVerifyDropdownOpen,
-  isSubjectToVerifyDropdownOpen,
   toggleSubjectToVerifyDropdown,
-  subjectOptions,
 }) => {
   return (
     activeTab === "ACADEMICBACKGROUND" && (
@@ -408,7 +408,13 @@ const AcademicBackground: React.FC<AcademicBackgroundprops> = ({
                   {isEditing && (
                     <div
                       className="absolute top-1/2 -translate-y-1/2 -right-10 cursor-pointer"
-                      onClick={() => handleDeleteLanguage(index)}
+                      onClick={() => {
+                        if (languages.length > 1) {
+
+                          handleDeleteLanguage(index)
+                        }
+                      }
+                      }
                     >
                       <svg
                         width="24"
@@ -474,8 +480,6 @@ const AcademicBackground: React.FC<AcademicBackgroundprops> = ({
                 </div>
               )}
             </div>
-
-            {/* Add button - always visible when isEditing is true */}
             {isEditing && (
               <div className="mt-6">
                 <Image
@@ -492,7 +496,6 @@ const AcademicBackground: React.FC<AcademicBackgroundprops> = ({
             )}
           </div>
         </div>
-
         <style jsx>{`
           #style-2::-webkit-scrollbar-track {
             border-radius: 10px;
