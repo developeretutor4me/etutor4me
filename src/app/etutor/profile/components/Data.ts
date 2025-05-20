@@ -69,6 +69,168 @@ export interface Teacher {
   isApproved?: boolean;
 }
 
+export interface GenderOption {
+  value: string;
+  label: string;
+}
+
+export interface SubjectOption {
+  value: string;
+  label: string;
+}
+
+export interface GeneralTabProps {
+  uploadedImage: string | null;
+  profilePicture: string;
+  image: any; // ideally replace 'any' with a proper image file type or URL type
+  handleUpload: () => void;
+  pictureuploadloading: boolean;
+  handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  firstName: string;
+  setFirstName: (name: string) => void;
+  setYourEducation: (edu: string) => void;
+  setAboutYou: (about: string) => void;
+  setVideoIntroduction: (video: string) => void;
+  videoIntroduction: string;
+  activeTab: string;
+  aboutYou: string;
+  yourEducation: string;
+  lastName: string;
+  setLastName: (name: string) => void;
+  teacher: any;
+  isEditing: boolean;
+  day: string;
+  setDay: (day: string) => void;
+  month: string;
+  setMonth: (month: string) => void;
+  year: string;
+  setYear: (year: string) => void;
+  selectedGender: string;
+  isGenderOpen: boolean;
+  toggleGenderDropdown: () => void;
+  genderOptions: GenderOption[];
+  handleGenderClick: (gender: string) => void;
+  selectedSubjects: string[];
+  isSubjectDropdownOpen: boolean;
+  setIsSubjectDropdownOpen: (open: boolean) => void; // added missing setter prop
+  toggleSubjectDropdown: () => void;
+  subjectOptions: SubjectOption[];
+  handleSubjectClick: (subject: string) => void;
+  removeSubject: (subject: string) => void;
+  isSubjectUnapproved: (subject: string) => boolean;
+  setsubjethover: (value: string) => void;
+}
+
+export interface CountryOption {
+  value: string;
+  label: string;
+}
+
+export interface TimezoneOption {
+  value: string;
+  label: string;
+}
+
+export interface ContactInformationProps {
+  phone: string;
+  email: string;
+  activeTab: string;
+  streetName: string;
+  setStreetName: (value: string) => void;
+  shippingAddress: string;
+  setShippingAddress: (value: string) => void;
+  city: string;
+  setCity: (value: string) => void;
+  postcode: string;
+  setPostcode: (value: string) => void;
+  selectedCountry: string;
+  isCountryOpen: boolean;
+  toggleCountryDropdown: () => void;
+  countryoptions: CountryOption[];
+  handleCountryClick: (value: string) => void;
+  selectedTimezone: string;
+  isTimezoneOpen: boolean;
+  toggleTimezoneDropdown: () => void;
+  timezoneoptions: TimezoneOption[];
+  handletimezoneClick: (value: string) => void;
+  isEditing: boolean;
+}
+export interface ProfessionalExperienceProps {
+  isEditing: boolean;
+  activeTab: string;
+  toggleSubjectLEVELDropdown: () => void;
+  toggleExperienceWithSpecialNeeds: () => void;
+
+  currentJob: string;
+  setCurrentJob: (value: string) => void;
+  handleSubjectLEVELClick: (value: string) => void;
+  setIsCountryOpen: (value: boolean) => void;
+  setIsSubjectLEVELDropdownOpen: (value: boolean) => void;
+  removeExperience: (value: string) => void;
+  handleExperienceClick: (value: string) => void;
+  removeSubjectLEVEL: (value: string) => void;
+
+  tutoringExperience: string;
+  isExperienceOpen: boolean;
+  isSubjectLEVELDropdownOpen: boolean;
+  setTutoringExperience: (value: string) => void;
+
+  moreAboutProfessionalExperience: string;
+  setMoreAboutProfessionalExperience: (value: string) => void;
+
+  selectedSubjectsLEVEL: string[];
+  setSelectedSubjectsLEVEL: (values: string[]) => void;
+
+  selectedExperience: string[];
+  setSelectedExperience: (values: string[]) => void;
+}
+
+export interface AcademicBackgroundprops {
+  activeTab: string;
+  errorMessage: string;
+  isEditing: boolean;
+  isSubmitting: boolean;
+  setIsSubmitting: boolean;
+  graduationSchool: string;
+  setGraduationSchool: (value: string) => void;
+  highestDegree: string;
+  setHighestDegree: (value: string) => void;
+  internationalExperience: string;
+  setInternationalExperience: (value: string) => void;
+  languages: string[];
+  setLanguages: (value: string[]) => void;
+  showNewInput: boolean;
+  newLanguage: string;
+  setNewLanguage: (value: string) => void;
+  handleSubmitLanguage: () => void;
+  handleDeleteLanguage: (index: number) => void;
+  handleAddLanguage: () => void;
+  handleSubmit: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  removeFile: (index: number) => void;
+  files: File[];
+  setFiles: (files: File[]) => void;
+  setIsPopupOpen: (value: boolean) => void;
+  isPopupOpen: boolean;
+  setIsSubjectToVerifyDropdownOpen: (value: boolean) => void;
+  isSubjectToVerifyDropdownOpen: boolean;
+  toggleSubjectToVerifyDropdown: () => void;
+  subjectOptions: { value: string; label: string }[];
+  toggleAcedmicCountrydown: () => void;
+  selectedAcademicCountry: string;
+  isAcademicCountryopen: boolean;
+  countryoptions: { value: string; label: string }[];
+  handleAcademicCountryClick: (value: string) => void;
+  selectedSubjectToVerifys: string;
+  handleSubjectToVerifyClick: (value: string) => void;
+  togglePurposeOfAttechmentDropdown: () => void;
+  selectedPurposeOfAttechments: string;
+  isPurposeOfAttechmentDropdownOpen: boolean;
+  setIsPurposeOfAttechmentDropdownOpen: (value: boolean) => void;
+  PurposeOfAttachment: { value: string; label: string }[];
+  handlePurposeOfAttechmentClick: (value: string) => void;
+}
+
 export const subjectOptions = [
   { value: "Mathematics", label: "Mathematics" },
   { value: "Algebra", label: "Algebra" },
@@ -195,7 +357,6 @@ export const genderOptions = [
   { value: "other", label: "Other" },
 ];
 export const countryoptions = [
-  { value: "USA", label: "USA" },
   { value: "United States", label: "United States" },
   { value: "United Kingdom", label: "United Kingdom" },
   { value: "Ireland", label: "Ireland" },
@@ -203,7 +364,6 @@ export const countryoptions = [
   { value: "Malta", label: "Malta" },
   { value: "Belize", label: "Belize" },
   { value: "France", label: "France" },
-  { value: "Canada (especially Quebec)", label: "Canada (especially Quebec)" },
   { value: "Belgium", label: "Belgium" },
   { value: "Switzerland", label: "Switzerland" },
   { value: "Luxembourg", label: "Luxembourg" },
@@ -279,4 +439,1061 @@ export const timezoneoptions = [
   },
   { label: "Nuku'alofa, GMT +13:00", value: "Nuku'alofa, GMT +13:00" },
   { label: "Kiritimati, GMT +14:00", value: "Kiritimati, GMT +14:00" },
+];
+
+export const USACities = [
+  "New York",
+  "Los Angeles",
+  "Chicago",
+  "Houston",
+  "Phoenix",
+  "Philadelphia",
+  "San Antonio",
+  "San Diego",
+  "Dallas",
+  "San Jose",
+  "Austin",
+  "Jacksonville",
+  "Fort Worth",
+  "Columbus",
+  "Charlotte",
+  "Indianapolis",
+  "San Francisco",
+  "Seattle",
+  "Denver",
+  "Oklahoma City",
+  "Nashville",
+  "El Paso",
+  "Washington",
+  "Boston",
+  "Las Vegas",
+  "Portland",
+  "Detroit",
+  "Memphis",
+  "Louisville",
+  "Baltimore",
+  "Milwaukee",
+  "Albuquerque",
+  "Tucson",
+  "Fresno",
+  "Mesa",
+  "Sacramento",
+  "Atlanta",
+  "Kansas City",
+  "Colorado Springs",
+  "Omaha",
+  "Raleigh",
+  "Miami",
+  "Long Beach",
+  "Virginia Beach",
+  "Oakland",
+  "Minneapolis",
+  "Tulsa",
+  "Arlington",
+  "New Orleans",
+  "Wichita",
+  "Cleveland",
+  "Tampa",
+  "Bakersfield",
+  "Aurora",
+  "Honolulu",
+  "Anaheim",
+  "Santa Ana",
+  "Riverside",
+  "Corpus Christi",
+  "Lexington",
+  "Henderson",
+  "Stockton",
+  "Saint Paul",
+  "Cincinnati",
+  "St. Louis",
+  "Pittsburgh",
+  "Greensboro",
+  "Anchorage",
+  "Plano",
+  "Lincoln",
+  "Orlando",
+  "Irvine",
+  "Newark",
+  "Toledo",
+  "Durham",
+  "Chula Vista",
+  "Fort Wayne",
+  "Jersey City",
+  "St. Petersburg",
+  "Laredo",
+  "Madison",
+  "Chandler",
+  "Buffalo",
+  "Lubbock",
+  "Scottsdale",
+  "Reno",
+  "Glendale",
+  "Gilbert",
+  "Winston–Salem",
+  "North Las Vegas",
+  "Norfolk",
+  "Chesapeake",
+  "Garland",
+  "Irving",
+  "Hialeah",
+  "Fremont",
+  "Boise",
+  "Richmond",
+  "Baton Rouge",
+  "Spokane",
+  "Des Moines",
+  "Tacoma",
+  "San Bernardino",
+  "Modesto",
+  "Fontana",
+  "Santa Clarita",
+  "Birmingham",
+  "Oxnard",
+  "Fayetteville",
+  "Moreno Valley",
+  "Rochester",
+  "Glendale",
+  "Huntington Beach",
+  "Salt Lake City",
+  "Grand Rapids",
+  "Amarillo",
+  "Yonkers",
+  "Aurora",
+  "Montgomery",
+  "Akron",
+  "Little Rock",
+  "Huntsville",
+  "Augusta",
+  "Port St. Lucie",
+  "Grand Prairie",
+  "Columbus",
+  "Tallahassee",
+  "Overland Park",
+  "Tempe",
+  "McKinney",
+  "Mobile",
+  "Cape Coral",
+  "Shreveport",
+  "Frisco",
+  "Knoxville",
+  "Worcester",
+  "Brownsville",
+  "Vancouver",
+  "Fort Lauderdale",
+  "Sioux Falls",
+  "Ontario",
+  "Chattanooga",
+  "Providence",
+  "Newport News",
+  "Rancho Cucamonga",
+  "Santa Rosa",
+  "Oceanside",
+  "Salem",
+  "Elk Grove",
+  "Garden Grove",
+  "Pembroke Pines",
+  "Peoria",
+  "Eugene",
+  "Corona",
+  "Cary",
+  "Springfield",
+  "Fort Collins",
+  "Jackson",
+  "Alexandria",
+  "Hayward",
+  "Lancaster",
+  "Lakewood",
+  "Clarksville",
+  "Palmdale",
+  "Salinas",
+  "Springfield",
+  "Hollywood",
+  "Pasadena",
+  "Sunnyvale",
+  "Macon",
+  "Kansas City",
+  "Pomona",
+  "Escondido",
+  "Killeen",
+  "Naperville",
+  "Joliet",
+  "Bellevue",
+  "Rockford",
+  "Savannah",
+  "Paterson",
+  "Torrance",
+  "Bridgeport",
+  "McAllen",
+  "Mesquite",
+  "Syracuse",
+  "Midland",
+  "Pasadena",
+  "Murfreesboro",
+  "Miramar",
+  "Dayton",
+  "Fullerton",
+  "Olathe",
+  "Orange",
+  "Thornton",
+  "Roseville",
+  "Denton",
+  "Waco",
+  "Surprise",
+  "Carrollton",
+  "West Valley City",
+  "Charleston",
+  "Warren",
+  "Hampton",
+  "Gainesville",
+  "Visalia",
+  "Coral Springs",
+  "Columbia",
+  "Cedar Rapids",
+  "Sterling Heights",
+  "New Haven",
+  "Stamford",
+  "Concord",
+  "Kent",
+  "Santa Clara",
+  "Elizabeth",
+  "Round Rock",
+  "Thousand Oaks",
+  "Lafayette",
+  "Athens",
+  "Topeka",
+  "Simi Valley",
+  "Fargo",
+  "Norman",
+  "Columbia",
+  "Abilene",
+  "Wilmington",
+  "Hartford",
+  "Victorville",
+  "Pearland",
+  "Vallejo",
+  "Ann Arbor",
+  "Berkeley",
+  "Allentown",
+  "Richardson",
+  "Odessa",
+  "Arvada",
+  "Cambridge",
+  "Sugar Land",
+  "Beaumont",
+  "Lansing",
+  "Evansville",
+  "Rochester",
+  "Independence",
+  "Fairfield",
+  "Provo",
+  "Clearwater",
+  "College Station",
+  "West Jordan",
+  "Carlsbad",
+  "El Monte",
+  "Murrieta",
+  "Temecula",
+  "Springfield",
+  "Palm Bay",
+  "Costa Mesa",
+  "Westminster",
+  "North Charleston",
+  "Miami Gardens",
+  "Manchester",
+  "High Point",
+  "Downey",
+  "Clovis",
+  "Pompano Beach",
+  "Pueblo",
+  "Elgin",
+  "Lowell",
+  "Antioch",
+  "West Palm Beach",
+  "Peoria",
+  "Everett",
+  "Ventura",
+  "Centennial",
+  "Lakeland",
+  "Gresham",
+  "Richmond",
+  "Billings",
+  "Inglewood",
+  "Broken Arrow",
+  "Sandy Springs",
+  "Jurupa Valley",
+  "Hillsboro",
+  "Waterbury",
+  "Santa Maria",
+  "Boulder",
+  "Greeley",
+  "Daly City",
+  "Meridian",
+  "Lewisville",
+  "Davie",
+  "West Covina",
+  "South Bend",
+  "League City",
+  "Tyler",
+  "Norwalk",
+  "San Mateo",
+  "Green Bay",
+  "Wichita Falls",
+  "Sparks",
+  "Lakewood",
+  "Burbank",
+  "Rialto",
+  "Allen",
+  "El Cajon",
+  "Las Cruces",
+  "Renton",
+  "Davenport",
+  "South Gate",
+  "Vista",
+  "Woodbridge",
+  "San Angelo",
+  "Clinton",
+  "Edison",
+  "San Marcos",
+  "Hesperia",
+  "Mission",
+  "Vacaville",
+  "Brockton",
+  "Roswell",
+  "Beaverton",
+  "Quincy",
+  "Compton",
+  "Gulfport",
+  "Albany",
+  "Lee's Summit",
+  "Federal Way",
+  "New Bedford",
+  "Longmont",
+  "Plymouth",
+  "Edinburg",
+  "San Leandro",
+  "Chico",
+  "Nampa",
+  "Newton",
+  "Avondale",
+  "Reading",
+  "Trenton",
+  "Ogden",
+  "Champaign",
+  "Bloomington",
+  "Sioux City",
+  "Fall River",
+  "Kenosha",
+  "Deltona",
+  "Hawthorne",
+  "Carmel",
+  "Suffolk",
+  "Clifton",
+  "Citrus Heights",
+  "Livonia",
+  "New Braunfels",
+  "Greenville",
+  "Cicero",
+  "Fishers",
+  "Sugar Land",
+  "Bellingham",
+  "Lynn",
+  "Longview",
+  "Warwick",
+  "Edmond",
+  "San Ramon",
+  "Rio Rancho",
+  "Hoover",
+  "Boca Raton",
+  "Bloomington",
+  "Somerville",
+  "Lake Forest",
+  "Sandy",
+  "Dearborn",
+  "St. George",
+  "Nashua",
+  "Concord",
+  "Cedar Park",
+  "Danbury",
+  "Largo",
+  "Plantation",
+  "Brooklyn Park",
+  "Tamarac",
+  "Missouri City",
+  "Redwood City",
+  "Alhambra",
+  "Lake Charles",
+  "Plymouth",
+  "Bolingbrook",
+  "Rock Hill",
+  "Kirkland",
+  "Flower Mound",
+  "Flagstaff",
+  "Weston",
+  "Melbourne",
+  "North Port",
+  "Chino",
+  "Alameda",
+  "Portsmouth",
+  "St. Cloud",
+  "Baytown",
+  "Upland",
+  "Springdale",
+  "Racine",
+  "Apple Valley",
+  "Turlock",
+  "Gastonia",
+  "Southfield",
+  "Bristol",
+  "Delray Beach",
+  "Lawrence",
+  "Palo Alto",
+  "San Marcos",
+  "Yuma",
+  "Lynnwood",
+  "Redding",
+  "Spokane Valley",
+  "Lawton",
+  "San Clemente",
+  "Mission Viejo",
+  "Longview",
+  "Vacaville",
+  "Clovis",
+  "Lakewood",
+  "Hawthorne",
+  "Redlands",
+  "Chino Hills",
+  "Aliso Viejo",
+  "Newport Beach",
+  "Tustin",
+  "Camarillo",
+  "Lake Elsinore",
+  "Encinitas",
+  "La Habra",
+  "Monterey Park",
+  "Tulare",
+  "Cupertino",
+  "Gardena",
+  "National City",
+  "Rocklin",
+  "Petaluma",
+  "Huntington Park",
+  "San Rafael",
+  "La Mesa",
+  "Arcadia",
+  "Fountain Valley",
+  "Diamond Bar",
+  "Woodland",
+  "Santee",
+  "Lake Forest",
+  "Napa",
+  "Dublin",
+  "Laguna Niguel",
+  "San Ramon",
+  "Redondo Beach",
+  "Yorba Linda",
+];
+
+export const UKCities = [
+  "Aberdeen",
+  "Armagh",
+  "Bangor (Wales)",
+  "Bangor (Northern Ireland)",
+  "Bath",
+  "Belfast",
+  "Birmingham",
+  "Bradford",
+  "Brighton and Hove",
+  "Bristol",
+  "Cambridge",
+  "Canterbury",
+  "Cardiff",
+  "Carlisle",
+  "Chelmsford",
+  "Chester",
+  "Chichester",
+  "City of London",
+  "City of Westminster",
+  "Colchester",
+  "Coventry",
+  "Derby",
+  "Derry",
+  "Doncaster",
+  "Dundee",
+  "Dunfermline",
+  "Durham",
+  "Edinburgh",
+  "Ely",
+  "Exeter",
+  "Glasgow",
+  "Gloucester",
+  "Hereford",
+  "Inverness",
+  "Kingston upon Hull",
+  "Lancaster",
+  "Leeds",
+  "Leicester",
+  "Lichfield",
+  "Lincoln",
+  "Lisburn",
+  "Liverpool",
+  "London",
+  "Londonderry",
+  "Manchester",
+  "Milton Keynes",
+  "Newcastle upon Tyne",
+  "Newport",
+  "Newry",
+  "Norwich",
+  "Nottingham",
+  "Oxford",
+  "Perth",
+  "Peterborough",
+  "Plymouth",
+  "Portsmouth",
+  "Preston",
+  "Ripon",
+  "Rochester",
+  "Salford",
+  "Salisbury",
+  "Sheffield",
+  "Southampton",
+  "St Albans",
+  "St Asaph",
+  "St David's",
+  "Stirling",
+  "Stoke-on-Trent",
+  "Sunderland",
+  "Swansea",
+  "Truro",
+  "Wakefield",
+  "Wells",
+  "Westminster",
+  "Winchester",
+  "Wolverhampton",
+  "Worcester",
+  "Wrexham",
+  "York",
+];
+
+export const IrelandCities = [
+  // Republic of Ireland
+  "Dublin",
+  "Cork",
+  "Limerick",
+  "Galway",
+  "Waterford",
+  "Kilkenny",
+
+  // Northern Ireland
+  "Belfast",
+  "Derry",
+  "Lisburn",
+  "Newry",
+  "Armagh",
+  "Bangor",
+];
+
+export const CanadaCities = [
+  // Alberta
+  "Calgary",
+  "Edmonton",
+  "Red Deer",
+  "Lethbridge",
+  "Medicine Hat",
+  "Grande Prairie",
+
+  // British Columbia
+  "Vancouver",
+  "Victoria",
+  "Surrey",
+  "Burnaby",
+  "Kelowna",
+  "Kamloops",
+
+  // Manitoba
+  "Winnipeg",
+  "Brandon",
+  "Steinbach",
+
+  // New Brunswick
+  "Moncton",
+  "Saint John",
+  "Fredericton",
+  "Dieppe",
+  "Miramichi",
+
+  // Newfoundland and Labrador
+  "St. John's",
+  "Mount Pearl",
+  "Corner Brook",
+
+  // Nova Scotia
+  "Halifax",
+  "Sydney",
+  "Truro",
+
+  // Ontario
+  "Toronto",
+  "Ottawa",
+  "Mississauga",
+  "Brampton",
+  "Hamilton",
+  "London",
+  "Markham",
+  "Vaughan",
+  "Kitchener",
+  "Windsor",
+  "Richmond Hill",
+  "Oakville",
+  "Burlington",
+  "Greater Sudbury",
+  "Oshawa",
+  "Barrie",
+  "St. Catharines",
+  "Guelph",
+  "Cambridge",
+  "Whitby",
+  "Kingston",
+  "Ajax",
+  "Thunder Bay",
+  "Waterloo",
+  "Brantford",
+  "Pickering",
+  "Niagara Falls",
+  "Peterborough",
+
+  // Prince Edward Island
+  "Charlottetown",
+  "Summerside",
+
+  // Quebec
+  "Montreal",
+  "Quebec City",
+  "Laval",
+  "Gatineau",
+  "Longueuil",
+  "Sherbrooke",
+  "Saguenay",
+  "Trois-Rivières",
+  "Terrebonne",
+  "Saint-Jean-sur-Richelieu",
+
+  // Saskatchewan
+  "Saskatoon",
+  "Regina",
+  "Prince Albert",
+  "Moose Jaw",
+  "Yorkton",
+];
+
+export const MaltaCities = [
+  "Valletta",
+  "Birkirkara",
+  "Mosta",
+  "Qormi",
+  "Sliema",
+  "San Pawl il-Baħar",
+  "Zabbar",
+  "Fgura",
+  "Zejtun",
+  "Naxxar",
+  "Marsaskala",
+  "Hamrun",
+  "Birżebbuġa",
+  "Rabat",
+  "Mdina",
+  "Attard",
+  "Balzan",
+  "Lija",
+  "Gżira",
+  "Msida",
+  "Pietà",
+  "Floriana",
+  "Marsa",
+  "Luqa",
+  "Santa Venera",
+  "Kalkara",
+  "Mellieħa",
+  "Mġarr",
+  "Marsaxlokk",
+  "Senglea",
+  "Cospicua",
+  "Vittoriosa",
+  "St. Julian's",
+  "Swieqi",
+  "Pembroke",
+  "Ta' Xbiex",
+  "Qrendi",
+  "Żebbuġ",
+  "Siġġiewi",
+  "Żurrieq",
+  "Kirkop",
+  "Gudja",
+  "Għaxaq",
+  "Iklin",
+  "Paola",
+  "Xgħajra",
+  "Tarxien",
+  "Birgu",
+  "Isla",
+  "Birżebbuġa",
+  "Xewkija",
+  "Victoria",
+  "Nadur",
+  "Għajnsielem",
+  "Xagħra",
+  "Sannat",
+  "Munxar",
+  "Għarb",
+  "Għasri",
+  "Kerċem",
+  "San Lawrenz",
+];
+
+export const BelizeCities = [
+  // Cities
+  "Belize City",
+  "Belmopan",
+
+  // Towns
+  "San Ignacio",
+  "San Pedro",
+  "Orange Walk Town",
+  "Corozal Town",
+  "Dangriga",
+  "Benque Viejo del Carmen",
+  "Punta Gorda",
+
+  // Other Notable Settlements
+  "Ladyville",
+  "Santa Elena",
+  "Trial Farm",
+  "Independence",
+  "Placencia",
+  "Hopkins",
+  "Caye Caulker",
+  "Bullet Tree Falls",
+  "Shipyard",
+  "Guinea Grass",
+  "Bella Vista",
+];
+
+export const FranceCities = [
+  // Île-de-France
+  "Paris",
+
+  // Provence-Alpes-Côte d'Azur
+  "Marseille",
+  "Nice",
+  "Toulon",
+  "Avignon",
+  "Cannes",
+
+  // Auvergne-Rhône-Alpes
+  "Lyon",
+  "Saint-Étienne",
+  "Grenoble",
+  "Clermont-Ferrand",
+
+  // Occitanie
+  "Toulouse",
+  "Montpellier",
+  "Nîmes",
+  "Perpignan",
+
+  // Nouvelle-Aquitaine
+  "Bordeaux",
+  "Limoges",
+  "Poitiers",
+  "Pau",
+
+  // Grand Est
+  "Strasbourg",
+  "Reims",
+  "Metz",
+  "Mulhouse",
+  "Nancy",
+
+  // Hauts-de-France
+  "Lille",
+  "Amiens",
+  "Roubaix",
+  "Dunkerque",
+
+  // Pays de la Loire
+  "Nantes",
+  "Angers",
+  "Le Mans",
+  "Saint-Nazaire",
+
+  // Brittany (Bretagne)
+  "Rennes",
+  "Brest",
+  "Quimper",
+  "Lorient",
+
+  // Normandy (Normandie)
+  "Le Havre",
+  "Caen",
+  "Rouen",
+  "Cherbourg",
+
+  // Bourgogne-Franche-Comté
+  "Dijon",
+  "Besançon",
+  "Nevers",
+  "Chalon-sur-Saône",
+
+  // Centre-Val de Loire
+  "Orléans",
+  "Tours",
+  "Bourges",
+  "Chartres",
+
+  // Corsica (Corse)
+  "Ajaccio",
+  "Bastia",
+];
+
+export const BelgiumCities = [
+  "Brussels",
+  "Antwerp",
+  "Ghent",
+  "Charleroi",
+  "Liège",
+  "Bruges",
+  "Namur",
+  "Leuven",
+  "Mons",
+  "Mechelen",
+  "Aalst",
+  "La Louvière",
+  "Kortrijk",
+  "Hasselt",
+  "Ostend",
+  "Tournai",
+  "Genk",
+  "Seraing",
+  "Roeselare",
+  "Verviers",
+  "Sint-Niklaas",
+  "Louvain-la-Neuve",
+];
+
+export const SwitzerlandCities = [
+  "Zurich",
+  "Geneva",
+  "Basel",
+  "Lausanne",
+  "Bern",
+  "Winterthur",
+  "Lucerne",
+  "St. Gallen",
+  "Lugano",
+  "Biel/Bienne",
+  "Thun",
+  "Köniz",
+  "La Chaux-de-Fonds",
+  "Schaffhausen",
+  "Fribourg",
+  "Chur",
+  "Neuchâtel",
+  "Vernier",
+  "Sion",
+  "Uster",
+];
+
+export const LuxembourgCities = [
+  "Luxembourg City",
+  "Esch-sur-Alzette",
+  "Differdange",
+  "Dudelange",
+  "Ettelbruck",
+  "Diekirch",
+  "Wiltz",
+  "Grevenmacher",
+  "Remich",
+  "Clervaux",
+  "Vianden",
+  "Redange",
+  "Mondorf-les-Bains",
+];
+
+export const MonacoCities = [
+  "Monaco-Ville",
+  "Monte Carlo",
+  "La Condamine",
+  "Fontvieille",
+  "Moneghetti",
+  "Larvotto",
+  "Jardin Exotique",
+  "Saint Roman",
+];
+
+export const HaitiCities = [
+  "Port-au-Prince",
+  "Cap-Haïtien",
+  "Gonaïves",
+  "Les Cayes",
+  "Jacmel",
+  "Petionville",
+  "Saint-Marc",
+  "Miragoâne",
+  "Fort-Liberté",
+  "Jérémie",
+  "Hinche",
+  "Port-de-Paix",
+  "Cayes-Jacmel",
+  "Bonne Fin",
+  "Ouanaminthe",
+];
+
+export const GermanyCities = [
+  "Berlin",
+  "Hamburg",
+  "Munich",
+  "Cologne",
+  "Frankfurt",
+  "Stuttgart",
+  "Düsseldorf",
+  "Dortmund",
+  "Essen",
+  "Leipzig",
+  "Bremen",
+  "Dresden",
+  "Hanover",
+  "Nuremberg",
+  "Duisburg",
+  "Bochum",
+  "Wuppertal",
+  "Bielefeld",
+  "Bonn",
+  "Münster",
+  "Karlsruhe",
+  "Mannheim",
+  "Augsburg",
+  "Wiesbaden",
+  "Gelsenkirchen",
+  "Mönchengladbach",
+  "Braunschweig",
+  "Chemnitz",
+  "Kiel",
+  "Aachen",
+  "Halle (Saale)",
+  "Magdeburg",
+  "Freiburg im Breisgau",
+  "Krefeld",
+  "Lübeck",
+  "Oberhausen",
+  "Erfurt",
+  "Mainz",
+  "Rostock",
+  "Kassel",
+  "Hagen",
+  "Hamm",
+  "Saarbrücken",
+  "Mülheim an der Ruhr",
+  "Potsdam",
+  "Ludwigshafen am Rhein",
+  "Oldenburg",
+  "Leverkusen",
+  "Osnabrück",
+  "Solingen",
+  "Heidelberg",
+  "Herne",
+  "Neuss",
+  "Darmstadt",
+  "Paderborn",
+  "Regensburg",
+  "Ingolstadt",
+  "Würzburg",
+  "Fürth",
+  "Wolfsburg",
+  "Offenbach am Main",
+  "Ulmer",
+  "Heilbronn",
+  "Göttingen",
+  "Bottrop",
+  "Recklinghausen",
+  "Trier",
+  "Reutlingen",
+  "Bremerhaven",
+  "Koblenz",
+  "Bergisch Gladbach",
+  "Jena",
+  "Remscheid",
+  "Erlangen",
+  "Moers",
+  "Siegen",
+  "Hildesheim",
+  "Salzgitter",
+  "Cottbus",
+  "Kaiserslautern",
+  "Gütersloh",
+  "Witten",
+  "Zwickau",
+  "Schwerin",
+  "Gera",
+  "Düren",
+  "Esslingen am Neckar",
+  "Ratingen",
+  "Tübingen",
+  "Flensburg",
+  "Langenfeld",
+  "Villingen-Schwenningen",
+  "Konstanz",
+  "Wesel",
+  "Offenburg",
+  "Celle",
+  "Neumünster",
+  "Bayreuth",
+  "Lüneburg",
+  "Detmold",
+  "Ravensburg",
+  "Ludwigsburg",
+  "Worms",
+  "Gießen",
+  "Sindelfingen",
+  "Herten",
+  "Gaggenau",
+  "Backnang",
+  "Rosenheim",
+];
+
+export const AustriaCities = [
+  "Vienna",
+  "Graz",
+  "Linz",
+  "Salzburg",
+  "Innsbruck",
+  "Klagenfurt",
+  "Villach",
+  "Wels",
+  "St. Pölten",
+  "Dornbirn",
+  "Steyr",
+  "Feldkirch",
+  "Bregenz",
+  "Leoben",
+  "Krems an der Donau",
+  "Traun",
+  "Amstetten",
+  "Kapfenberg",
+  "Schwechat",
+  "Lustenau",
+];
+
+export const LiechtensteinCities = [
+  "Vaduz",
+  "Schaan",
+  "Balzers",
+  "Triesen",
+  "Eschen",
+  "Mauren",
+  "Planken",
+  "Ruggell",
+  "Gamprin",
+  "Schellenberg",
+  "Triesenberg",
 ];
