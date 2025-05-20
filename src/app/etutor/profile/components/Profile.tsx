@@ -234,9 +234,7 @@ function Profile() {
     if (newLanguage.trim() && languages.length < 4) {
       setLanguages([...languages, newLanguage.trim()]);
       setNewLanguage("");
-      // Don't hide the input - allow adding another language
       if (languages.length < 3) {
-        // Only keep input visible if we haven't reached 4 languages yet
         setShowNewInput(true);
       } else {
         setShowNewInput(false);
@@ -251,6 +249,10 @@ function Profile() {
 
   // update function-------------------------
   const handleSave = async () => {
+
+
+
+
     setIsEditing(true);
     try {
       const approvedSubjects = selectedSubjects.filter(
@@ -715,7 +717,7 @@ function Profile() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`flex items-center justify-center flex-nowrap  font-normal box-border sm:font-bold text-xs px-2  sm:text-lg  transition-all
+                className={`flex items-center justify-center flex-nowrap  font-normal box-border sm:font-bold text-xs px-2  sm:text-[20px] sm:leading-[1.75rem]  transition-all
             ${tab.id === "GENERAL" && "rounded-tl-3xl"}
             ${tab.id === "ACADEMICBACKGROUND" && "rounded-tr-3xl"}
             ${tab.id === activeTab

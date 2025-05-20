@@ -44,8 +44,9 @@ export default function ProfessionalExperience({
               </label>
               <input
                 type="text"
-                className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
+                className="mt-2 sm:mt-4 px-4 py-2.5 block placeholder:opacity-50 placeholder:text-white w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
                 value={currentJob}
+                placeholder="enter your current job"
                 onChange={(e) => {
                   setCurrentJob(e.target.value);
                 }}
@@ -59,7 +60,8 @@ export default function ProfessionalExperience({
               </label>
               <input
                 type="text"
-                className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
+                className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg placeholder:opacity-50 placeholder:text-white text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
+                placeholder="enter tutoring experience years"
                 value={tutoringExperience}
                 onChange={(e) => {
                   setTutoringExperience(e.target.value);
@@ -72,8 +74,9 @@ export default function ProfessionalExperience({
           <div>
             <div className="w-full mt-9">
               <textarea
-                className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-3xl  text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl placeholder:text-white"
+                className="mt-2 sm:mt-4 px-5 py-4 block w-full rounded-3xl scrollbar-none text-white bg-[#B4A5D7] placeholder:opacity-50 text-lg sm:text-xl md:text-xl placeholder:text-white"
                 value={moreAboutProfessionalExperience}
+                rows={5}
                 onChange={(e) => {
                   setMoreAboutProfessionalExperience(e.target.value);
                 }}
