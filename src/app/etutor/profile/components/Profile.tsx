@@ -1,30 +1,21 @@
-import { AlertTriangle, Check, ChevronDown, ChevronUp, Cross, Trash2, TriangleAlert, X, XCircle } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import infoiconfill from "../../../../../public/infoiconfill.svg";
-import addicon from "../../../../../public/addQualificationIcon.svg";
-import addicon2 from "../../../../../public/addicon2.svg";
-import bluefoldericon from "../../../../../public/blueFolderIconFilled.svg";
-import downloadicon from "../../../../../public/downloadIconDownARrow.svg";
-import Image from "next/image";
+
 import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
-import tooltip from '../../../../../public/alertnotification.svg'
-import alertsubject from '../../../../../public/alert_subject.svg'
-import infoicon from '../../../../../public/infoicon.svg'
-import videouploadPopup from '../../../../../public/videoupload_popup.svg'
 
 import {
   subjectOptions,
   PurposeOfAttachment,
-  subjectLevelOptions,
-  experienceoptions,
   genderOptions,
   countryoptions,
   timezoneoptions,
   Teacher,
 } from "./Data";
 import useSWR from "swr";
-
+import GeneralTab from "./GeneralTab";
+import ContactInformation from "./ContactInformation";
+import ProfessionalExperience from "./ProfessionalExperience";
+import AcademicBackground from "./AcademicBackground";
 
 function Profile() {
   const { toast } = useToast();
@@ -36,7 +27,9 @@ function Profile() {
     useState(false);
   const [isExperienceOpen, setIsExperienceOpen] = useState(false);
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>([]);
-  const [selectedSubjectsLEVEL, setSelectedSubjectsLEVEL] = useState<string[]>([]);
+  const [selectedSubjectsLEVEL, setSelectedSubjectsLEVEL] = useState<string[]>(
+    []
+  );
 
   const [selectedExperience, setSelectedExperience] = useState<string[]>([]);
   const [teacher, setTeacher] = useState<Teacher>();
@@ -70,7 +63,6 @@ function Profile() {
   const [major, setMajor] = useState("");
   const [graduation, setGraduation] = useState("");
   const [graduationSchool, setGraduationSchool] = useState("");
-  const [graduationCountry, setGraduationCountry] = useState("");
   const [highestDegree, setHighestDegree] = useState("");
   const [school, setSchool] = useState("");
 
@@ -81,8 +73,7 @@ function Profile() {
 
   // Miscellaneous Information
   const [currentJob, setCurrentJob] = useState("");
-  const [timeZone, setTimeZone] = useState("");
-  const [gender, setGender] = useState("");
+
   const [videoIntroduction, setVideoIntroduction] = useState("");
   const [aboutYou, setAboutYou] = useState("");
   const [yourEducation, setYourEducation] = useState("");
@@ -137,7 +128,6 @@ function Profile() {
     useState("");
   const [profilePicture, setprofilePicture] = useState("");
 
-
   const [files, setFiles] = useState<File[]>([]);
   const [uploadedUrls, setUploadedUrls] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -146,14 +136,13 @@ function Profile() {
   const [pictureuploadloading, setpictureuploadloading] = useState(false);
   const [image, setImage] = useState<File | null>(null); // State to hold the selected image
   const [isUploading, setIsUploading] = useState(false); // State to show the uploading status
-  
-  const [uploadedImage, setUploadedImage] = useState<string | null>(""); 
 
-const [unapprovedSubjects, setUnapprovedSubjects] = useState<string[]>([]);
-const [isCheckingApproval, setIsCheckingApproval] = useState(false);
-const [subjethover, setsubjethover] = useState("")
-const [onvideoiconhover, setonvideoiconhover] = useState(false)
+  const [uploadedImage, setUploadedImage] = useState<string | null>("");
 
+  const [unapprovedSubjects, setUnapprovedSubjects] = useState<string[]>([]);
+  const [isCheckingApproval, setIsCheckingApproval] = useState(false);
+  const [subjethover, setsubjethover] = useState("");
+  const [onvideoiconhover, setonvideoiconhover] = useState(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -166,8 +155,6 @@ const [onvideoiconhover, setonvideoiconhover] = useState(false)
     setIsSubmitting(true);
     setErrorMessage("");
     setUploadedUrls([]);
-
-
 
     const formData = new FormData();
     formData.append("userid", session?.user.id);
@@ -214,9 +201,6 @@ const [onvideoiconhover, setonvideoiconhover] = useState(false)
       setFiles([]);
     }
   };
-
-
- 
 
   const removeFile = (index: any) => {
     const updatedFiles = [...files];
@@ -269,9 +253,9 @@ const [onvideoiconhover, setonvideoiconhover] = useState(false)
   const handleSave = async () => {
     setIsEditing(true);
     try {
-       const approvedSubjects = selectedSubjects.filter(
-      subject => !unapprovedSubjects.includes(subject)
-    );
+      const approvedSubjects = selectedSubjects.filter(
+        (subject) => !unapprovedSubjects.includes(subject)
+      );
       const body = {
         acceptsTrialSession: acceptsTrialSession,
         contactInformation: {
@@ -330,8 +314,6 @@ const [onvideoiconhover, setonvideoiconhover] = useState(false)
           BIC: BIC,
         },
       };
-
-     
 
       const response = await fetch("/api/Teacher-Apis/Update-Teacher-Data", {
         method: "PUT",
@@ -452,7 +434,7 @@ const [onvideoiconhover, setonvideoiconhover] = useState(false)
       setLevel(teacher?.level || 0);
       setBadge(
         teacher?.badge ||
-          "https://cdn4.vectorstock.com/i/1000x1000/85/48/emblem-badge-ribbon-vector-14398548.jpg"
+        "https://cdn4.vectorstock.com/i/1000x1000/85/48/emblem-badge-ribbon-vector-14398548.jpg"
       );
       setEarnedThisMonth(teacher?.EarnedThisMonth || 0);
       setEarnedLastMonth(teacher?.EarnedLastMonth || 0);
@@ -483,74 +465,64 @@ const [onvideoiconhover, setonvideoiconhover] = useState(false)
     }
   };
 
-  // const handleSubjectClick = (subject: string) => {
-  //   // @ts-ignore
-  //   if (selectedSubjects.includes(subject)) {
-  //     setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
-  //   } else {
-  //     // @ts-ignore
-  //     setSelectedSubjects([...selectedSubjects, subject]);
-  //   }
-  // };
-const handleSubjectClick = async (subject: string) => {
-  // If already selected, just remove it
-  if (selectedSubjects.includes(subject)) {
-    setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
-    setUnapprovedSubjects(unapprovedSubjects.filter(item => item !== subject));
-    return;
-  }
-  
-  // If adding a new subject and we already have 2 or more subjects
-  if (selectedSubjects.length >= 2) {
-    setIsCheckingApproval(true);
-    try {
-      // Call the API to check if subject is approved
-      const response = await fetch('/api/check-subject-approval', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ subject }),
-      });
-      
-      const result = await response.json();
-      
-      // Add the subject to selected subjects regardless
-      setSelectedSubjects([...selectedSubjects, subject]);
-      
-      // If not approved, also add to unapproved list
-
-      if (!(response.status === 200)) {
-        setUnapprovedSubjects([...unapprovedSubjects, subject]);
-      }
-    } catch (error) {
-      console.error("Error checking subject approval:", error);
-      // In case of error, still add the subject but mark as unapproved
-      setSelectedSubjects([...selectedSubjects, subject]);
-      setUnapprovedSubjects([...unapprovedSubjects, subject]);
-    } finally {
-      setIsCheckingApproval(false);
+  const handleSubjectClick = async (subject: string) => {
+    // If already selected, just remove it
+    if (selectedSubjects.includes(subject)) {
+      setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
+      setUnapprovedSubjects(
+        unapprovedSubjects.filter((item) => item !== subject)
+      );
+      return;
     }
-  } else {
-    // If less than 2 subjects, no need to check approval
-    setSelectedSubjects([...selectedSubjects, subject]);
-  }
-};
 
-const isSubjectUnapproved = (subject: string) => {
-  return unapprovedSubjects.includes(subject);
-};
+    // If adding a new subject and we already have 2 or more subjects
+    if (selectedSubjects.length >= 2) {
+      setIsCheckingApproval(true);
+      try {
+        // Call the API to check if subject is approved
+        const response = await fetch("/api/check-subject-approval", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ subject }),
+        });
 
+        const result = await response.json();
 
-const removeSubject = (subject: string) => {
-  setSelectedSubjects(selectedSubjects.filter(item => item !== subject));
-  setUnapprovedSubjects(unapprovedSubjects.filter(item => item !== subject));
-};
+        // Add the subject to selected subjects regardless
+        setSelectedSubjects([...selectedSubjects, subject]);
 
+        // If not approved, also add to unapproved list
 
+        if (!(response.status === 200)) {
+          setUnapprovedSubjects([...unapprovedSubjects, subject]);
+        }
+      } catch (error) {
+        console.error("Error checking subject approval:", error);
+        // In case of error, still add the subject but mark as unapproved
+        setSelectedSubjects([...selectedSubjects, subject]);
+        setUnapprovedSubjects([...unapprovedSubjects, subject]);
+      } finally {
+        setIsCheckingApproval(false);
+      }
+    } else {
+      // If less than 2 subjects, no need to check approval
+      setSelectedSubjects([...selectedSubjects, subject]);
+    }
+  };
 
+  const isSubjectUnapproved = (subject: string) => {
+    return unapprovedSubjects.includes(subject);
+  };
 
-  
+  const removeSubject = (subject: string) => {
+    setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
+    setUnapprovedSubjects(
+      unapprovedSubjects.filter((item) => item !== subject)
+    );
+  };
+
   const handleSubjectLEVELClick = (subject: string) => {
     // @ts-ignore
     if (selectedSubjectsLEVEL.includes(subject)) {
@@ -573,11 +545,7 @@ const removeSubject = (subject: string) => {
       setSelectedExperience([...selectedExperience, subject]);
     }
   };
-  // const removeSubject = (subject: never) => {
-  //   if (isEditing === true) {
-  //     setSelectedSubjects(selectedSubjects.filter((item) => item !== subject));
-  //   }
-  // };
+
   const removeSubjectLEVEL = (subject: string) => {
     if (isEditing === true) {
       setSelectedSubjectsLEVEL(
@@ -655,8 +623,7 @@ const removeSubject = (subject: string) => {
     return "#EDE8FA"; // Active tab color
   };
 
-  
-    const fetcher = async (url: string) => {
+  const fetcher = async (url: string) => {
     const response = await fetch(url);
     if (!response.ok) {
       throw new Error("Teacher not found or internal server error");
@@ -679,7 +646,6 @@ const removeSubject = (subject: string) => {
       },
     }
   );
-
 
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
@@ -752,11 +718,10 @@ const removeSubject = (subject: string) => {
                 className={`flex items-center justify-center flex-nowrap  font-normal box-border sm:font-bold text-xs px-2  sm:text-lg  transition-all
             ${tab.id === "GENERAL" && "rounded-tl-3xl"}
             ${tab.id === "ACADEMICBACKGROUND" && "rounded-tr-3xl"}
-            ${
-              tab.id === activeTab
-                ? "bg-[#EDE8FA] text-[#685AAD] transition-all"
-                : `text-white transition-all`
-            }`}
+            ${tab.id === activeTab
+                    ? "bg-[#EDE8FA] text-[#685AAD] transition-all"
+                    : `text-white transition-all`
+                  }`}
                 style={{ backgroundColor: getTabColor(tab.id) }}
               >
                 {tab.label}
@@ -769,1334 +734,151 @@ const removeSubject = (subject: string) => {
         <div
           className={`px-5 sm:px-0 sm:pl-10 custom-xl:pl-20 sm:pr-10 custom-xl:pr-16 py-6 custom-xl:py-12  custom-2xl:rounded-tr-3xl  bg-[#EDE8FA] h-full rounded-b-3xl`}
         >
-          {activeTab === "GENERAL" && (
-            <div className=" overflow-x-hidden ">
-              {/* first name and image dive */}
-              <div className=" mt-1.5 flex custom-xl:items-center flex-col custom-xl:flex-row  gap-4 custom-xl:gap-11 ">
-                <div className="img h-[9rem] w-[9rem]  rounded-full flex items-center justify-center overflow-hidden">
-                  <img
-                    src={uploadedImage || profilePicture}
-                    alt=""
-                    className=""
-                  />
-                </div>
-                <div className="name flex flex-col items-start  ">
-                  <h1 className="uppercase text-3xl font-bold text-[#685AAD]">
-                    {firstName}
-                  </h1>
-                  <span className="text-xl  mb-5 text-[#685AAD]">
-                    eTutor since:
-                    {
-                      // @ts-ignore
-                      new Date(teacher?.user?.createdAt).toLocaleDateString() ||
-                        ""
-                    }
-                  </span>
-                  {image ? (
-                    <button
-                      className="w-full sm:w-auto py-1 px-9 mt-6 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors"
-                      onClick={() => {
-                        handleUpload();
-                      }}
-                    >
-                      {pictureuploadloading ? "wait..." : "upload"}
-                    </button>
-                  ) : (
-                    <button className="px-7 text-white rounded-md py-0.5 bg-[#FC7777] relative">
-                      Edit image
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                      />
-                    </button>
-                  )}
-                </div>
-              </div>
+          <GeneralTab
+            activeTab={activeTab}
+            uploadedImage={uploadedImage}
+            profilePicture={profilePicture}
+            image={image}
+            handleUpload={handleUpload}
+            pictureuploadloading={pictureuploadloading}
+            handleImageChange={handleImageChange}
+            firstName={firstName}
+            setFirstName={setFirstName}
+            lastName={lastName}
+            setLastName={setLastName}
+            teacher={teacher}
+            isEditing={isEditing}
+            day={day}
+            setDay={setDay}
+            month={month}
+            setMonth={setMonth}
+            year={year}
+            setYear={setYear}
+            selectedGender={selectedGender}
+            isGenderOpen={isGenderOpen}
+            toggleGenderDropdown={toggleGenderDropdown}
+            genderOptions={genderOptions}
+            handleGenderClick={handleGenderClick}
+            selectedSubjects={selectedSubjects}
+            isSubjectDropdownOpen={isSubjectDropdownOpen}
+            setIsSubjectDropdownOpen={setIsSubjectDropdownOpen}
+            toggleSubjectDropdown={toggleSubjectDropdown}
+            subjectOptions={subjectOptions}
+            handleSubjectClick={handleSubjectClick}
+            removeSubject={removeSubject}
+            isSubjectUnapproved={isSubjectUnapproved}
+            setYourEducation={setYourEducation}
+            yourEducation={yourEducation}
+            setAboutYou={setAboutYou}
+            aboutYou={aboutYou}
+            setVideoIntroduction={setVideoIntroduction}
+            videoIntroduction={videoIntroduction}
+            setsubjethover={setsubjethover}
+          />
 
-              {/* name last name div */}
-              <div className="flex mt-12 pt-0.5 w-full  justify-between flex-wrap gap-4">
-                <div className="sm:max-w-[17rem] w-full">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    First name <span className="text-[#FC7777]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                    value={firstName}
-                    onChange={(e) => {
-                      setFirstName(e.target.value);
-                    }}
-                    disabled={!isEditing}
-                  />
-                </div>
-                <div className="sm:max-w-[17rem] w-full">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    Last name <span className="text-[#FC7777]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                    value={lastName}
-                    onChange={(e) => {
-                      setLastName(e.target.value);
-                    }}
-                    disabled={!isEditing}
-                  />
-                </div>
-                <div className="sm:max-w-[17rem] w-full opacity-0 select-none">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    Last name <span className="text-[#FC7777]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                  />
-                </div>
-              </div>
+          <ContactInformation
+            activeTab={activeTab}
+            phone={phone}
+            email={email}
+            streetName={streetName}
+            setStreetName={setStreetName}
+            shippingAddress={shippingAddress}
+            setShippingAddress={setShippingAddress}
+            city={city}
+            setCity={setCity}
+            postcode={postcode}
+            setPostcode={setPostcode}
+            selectedCountry={selectedCountry}
+            isCountryOpen={isCountryOpen}
+            toggleCountryDropdown={toggleCountryDropdown}
+            countryoptions={countryoptions}
+            handleCountryClick={handleCountryClick}
+            selectedTimezone={selectedTimezone}
+            isTimezoneOpen={isTimezoneOpen}
+            toggleTimezoneDropdown={toggleTimezoneDropdown}
+            timezoneoptions={timezoneoptions}
+            handletimezoneClick={handletimezoneClick}
+            isEditing={isEditing}
+          />
 
-              {/* birthday div */}
+          <ProfessionalExperience
+            activeTab={activeTab}
+            isEditing={isEditing}
+            currentJob={currentJob}
+            setCurrentJob={setCurrentJob}
+            tutoringExperience={tutoringExperience}
+            setTutoringExperience={setTutoringExperience}
+            moreAboutProfessionalExperience={moreAboutProfessionalExperience}
+            setMoreAboutProfessionalExperience={
+              setMoreAboutProfessionalExperience
+            }
+            selectedSubjectsLEVEL={selectedSubjectsLEVEL}
+            setSelectedSubjectsLEVEL={setSelectedSubjectsLEVEL}
+            selectedExperience={selectedExperience}
+            setSelectedExperience={setSelectedExperience}
+            toggleSubjectLEVELDropdown={toggleSubjectLEVELDropdown}
+            toggleExperienceWithSpecialNeeds={toggleExperienceWithSpecialNeeds}
+            removeExperience={removeExperience}
+            handleExperienceClick={handleExperienceClick}
+            setIsCountryOpen={setIsCountryOpen}
+            isExperienceOpen={isExperienceOpen}
+            handleSubjectLEVELClick={handleSubjectLEVELClick}
+            isSubjectLEVELDropdownOpen={isSubjectLEVELDropdownOpen}
+            setIsSubjectLEVELDropdownOpen={setIsSubjectLEVELDropdownOpen}
+            removeSubjectLEVEL={removeSubjectLEVEL}
+          />
 
-              <div className="mt-16 pt-1   ">
-                <h1 className=" text-2xl font-bold text-[#685AAD]">
-                  When is your birthday?
-                </h1>
-                <div className="mt-6 flex justify-between   flex-wrap ">
-                  <div className="sm:max-w-[17rem] w-full">
-                    <label className="text-lg sm:text-xl font-semibold text-[#685AAD]">
-                      Day <span className="text-[#FC7777]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                      value={day}
-                      onChange={(e) => {
-                        const value = e.target.value;
-
-                        // Check if value is numeric and max two digits
-                        if (/^\d{0,2}$/.test(value)) {
-                          // Convert to number and check if it's 31 or less
-                          if (Number(value) <= 31) {
-                            setDay(value);
-                          }
-                        }
-                      }}
-                      disabled={!isEditing}
-                    />
-                  </div>
-                  <div className="sm:max-w-[17rem] w-full">
-                    <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                      Month <span className="text-[#FC7777]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                      value={month}
-                      onChange={(e) => {
-                        const value = e.target.value;
-
-                        // Allow only numeric values with a maximum of two digits
-                        if (/^\d{0,2}$/.test(value)) {
-                          // Check if the number is not greater than 12
-                          if (Number(value) <= 12) {
-                            setMonth(value);
-                          }
-                        }
-                      }}
-                      disabled={!isEditing}
-                    />
-                  </div>
-                  <div className="sm:max-w-[17rem] w-full">
-                    <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                      Year <span className="text-[#FC7777]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                      value={year}
-                      onChange={(e) => {
-                        const value = e.target.value;
-
-                        if (/^\d{0,4}$/.test(value)) {
-                          setYear(value);
-                        }
-                      }}
-                      disabled={!isEditing}
-                    />
-                  </div>
-                </div>
-
-                <div className="flex mt-11  justify-between items-start sm:max-w-[57.5rem] w-full gap-4 flex-wrap">
-                  {/* gender select */}
-
-                  <div className="w-full sm:max-w-[25.8rem] mt-4">
-                    <label className="block text-lg sm:text-xl font-semibold text-[#685AAD] ">
-                      Gender <span className="text-[#FC7777]">*</span>
-                    </label>
-                    <div className="relative  select-none mt-2">
-                      <div
-                        className={`w-full bg-[#B4A5D7] text-white font-normal  text-sm custom-lg:text-xl pr-8 pl-5 py-2 rounded-lg cursor-pointer flex justify-between items-center`}
-                        onClick={toggleGenderDropdown}
-                      >
-                        <span>{selectedGender || "select gender"}</span>
-
-                        {isGenderOpen ? (
-                          <ChevronUp size={22} className="text-white" />
-                        ) : (
-                          <ChevronDown size={22} className="text-white" />
-                        )}
-                      </div>
-                      {isGenderOpen && (
-                        <div className="absolute top-full left-0 right-0 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-2">
-                          {genderOptions.map((gender) => (
-                            <div
-                              key={gender.value}
-                              className="py-2 text-lg  border-b px-3 hover:cursor-pointer last:border-b-0  w-[80%] mx-auto"
-                              onClick={() => handleGenderClick(gender.value)}
-                            >
-                              {gender.label}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* subject select */}
-                  <div
-                    className={`w-full sm:max-w-[25.8rem] mt-4 ${
-                      selectedSubjects.length > 0 ? "mb-0" : "mb-10"
-                    } `}
-                  >
-                    <label className="block text-lg sm:text-xl font-semibold text-[#685AAD] ">
-                      Subjects you teach{" "}
-                      <span className="text-[#FC7777]">*</span>
-                    </label>
-
-                    <div className="relative  select-none mt-2 ">
-                      <div
-                        className="w-full bg-[#B4A5D7] text-white font-normal  text-sm custom-lg:text-xl pr-8 pl-5 py-1 rounded-lg cursor-pointer flex justify-between items-center"
-                        onClick={toggleSubjectDropdown}
-                      >
-                        <span className="my-1">
-                          {selectedSubjects.length > 0
-                            ? `${selectedSubjects.length} selected`
-                            : "select subject(s)"}
-                        </span>
-                        {isSubjectDropdownOpen ? (
-                          <ChevronUp size={22} className="text-white " />
-                        ) : (
-                          <ChevronDown size={22} className="text-white " />
-                        )}
-                      </div>
-
-                      {isSubjectDropdownOpen && (
-                        <div
-                          onMouseLeave={() => {
-                            setIsSubjectDropdownOpen(false);
-                          }}
-                          className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  z-50 "
-                        >
-                          <div
-                            id="style-2"
-                            className="max-h-[16.4rem] overflow-y-scroll  "
-                          >
-                            {subjectOptions.map((subject) => (
-                              <div
-                                key={subject.value}
-                                className=" py-2 cursor-pointer flex items-center"
-                                onClick={() =>
-                                  handleSubjectClick(subject.value)
-                                }
-                              >
-                                <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 sm:max-w-[15rem] truncate">
-                                  <div className="relative">
-                                    <input
-                                      type="checkbox"
-                                      checked={selectedSubjects.includes(
-                                        //@ts-ignore
-                                        subject.value
-                                      )}
-                                      onChange={() => {}}
-                                      className="absolute opacity-0 cursor-pointer"
-                                    />
-                                    <div
-                                      className={`h-5 w-5 rounded-sm border border-white hover:bg-[#a394d6] hover:border-[#a394d6] flex items-center justify-center ${
-                                        //@ts-ignore
-                                        selectedSubjects.includes(subject.value)
-                                          ? "bg-[#6c5baa] border-none p-0.5"
-                                          : ""
-                                      }`}
-                                    >
-                                      {selectedSubjects.includes(
-                                        //@ts-ignore
-                                        subject.value
-                                      ) && <Check className="text-white" />}
-                                    </div>
-                                  </div>
-                                  <span className="ml-2 text-xl text-white ">
-                                    {subject.label}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {selectedSubjects.length > 0 && (
-                      <div className="flex flex-wrap items-start justify-start px-4 gap-2 mt-5 sm:max-w-[26rem] mx-auto min-h-[5rem] relative z-10">
-                        {selectedSubjects.map((subject) => (
-                          <div 
-                            onMouseLeave={() => setsubjethover("")}
-                                                               
-
-                          key={subject} className="relative group ">
-                            <span
-                              className={`${
-                                isSubjectUnapproved(subject)
-                                  ? "bg-[#B4A5D7] text-white border-2 border-[#fc7777]"
-                                  : "bg-[#B4A5D7] text-white"
-                              } px-4 gap-2 flex items-center text-xl w-fit py-2 rounded-[6px] justify-between  text-[20px] !max-h-[41px] relative`}
-                            >
-                              {subject}
-
-                              {isSubjectUnapproved(subject) && (
-                                <span className={`opacity-0 ${subjethover === subject ? "opacity-100":""} transition-all duration-300 rounded-md text-orange-400 absolute -top-2 -left-1 bg-[#fc7777] h-6 w-6 flex items-center justify-center`}>
-                                  <Trash2
-                                    onClick={() => removeSubject(subject)}
-                                    className=" w-[70%] text-white hover:cursor-pointer"
-                                  />
-                                </span>
-                              )}
-                              {isSubjectUnapproved(subject) ? (
-                                <span className="text-[#fc7777] relative group">
-                                  {/* <AlertTriangle size={20} /> */}
-                                  <Image
-                                    onMouseEnter={() => setsubjethover(subject)}
-                                  
-                                    src={alertsubject}
-                                    alt=""
-                                  />
-
-                                  <Image
-                                    src={tooltip}
-                                    alt=""
-                                    className={`transition-all duration-300 origin-top-left  min-w-[354px] absolute -top-2 left-[14px]  ${
-                                      subjethover === subject
-                                        ? "opacity-100 scale-100"
-                                        : "opacity-0 scale-0"
-                                    }  z-[3333333]`}
-                                  />
-                                </span>
-                              ) : (
-                                <X
-                                  hanging={20}
-                                  width={20}
-                                  className="cursor-pointer "
-                                  onClick={() => removeSubject(subject)}
-                                />
-                              )}
-                            </span>
-                          </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="sm:max-w-[28.6rem] w-full mt-3">
-                  <label className=" text-lg sm:text-xl font-semibold text-[#685AAD] flex  items-center gap-2">
-                    Video introduction
-                    <span className="h-[16px] w-[16px] relative group">
-                      <Image
-                      onMouseEnter={() => setonvideoiconhover(true)}
-                      onMouseLeave={() => setonvideoiconhover(false)}
-                      src={infoicon} alt="" />
-                      <Image src={videouploadPopup} alt="" className={` hidden sm:block min-w-[267px] custom-xl:min-w-[467px] absolute top-1 left-4 origin-top-left transition-all duration-300 ${onvideoiconhover ? "opacity-100 scale-100 ":"opacity-0 scale-0 "} `} />
-
-                    </span>
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl placeholder:text-white"
-                    disabled={!isEditing}
-                    placeholder="Paste here the link to your video introduction."
-                    value={videoIntroduction}
-                    onChange={(e) => {
-                      setVideoIntroduction(e.target.value);
-                    }}
-                  />
-                </div>
-                <div className="w-full mt-16">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    About you (at least 250 characters)
-                    <span className="text-[#FC7777]">*</span>
-                  </label>
-                  <textarea
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-3xl scrollbar-none  text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl placeholder:text-white"
-                    disabled={!isEditing}
-                    rows={5}
-                    placeholder="Tell us something about who you are and what do you like: it will help us find the right matching for you."
-                    value={aboutYou}
-                    onChange={(e) => {
-                      setAboutYou(e.target.value);
-                    }}
-                  />
-                </div>
-
-                <div className="w-full bg-[#B4A5D7] py-2.5 rounded-lg mt-9 px-6 text-xl sm:max-w-[43rem] text-white flex items-center gap-5 ">
-                  <Image
-                    loading="lazy"
-                    src={infoiconfill}
-                    alt=""
-                    className="w-5 h-5"
-                  />
-                  <p>
-                    This section will be visible to parents on the student’s
-                    Dashboard
-                  </p>
-                </div>
-                <div className="w-full mt-16">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    Your Education (at least 250 characters)
-                    <span className="text-[#FC7777]">*</span>
-                  </label>
-                  <textarea
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-3xl  text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl placeholder:text-white"
-                    disabled={!isEditing}
-                    rows={5}
-                    placeholder="Tell us something about who you are and what do you like: it will help us find the right matching for you."
-                    value={yourEducation}
-                    onChange={(e) => {
-                      setYourEducation(e.target.value);
-                    }}
-                  />
-                </div>
-
-                <div className="w-full bg-[#B4A5D7] py-2.5 rounded-lg mt-9 px-6 text-xl sm:max-w-[43rem] text-white flex items-center gap-5 ">
-                  <Image
-                    loading="lazy"
-                    src={infoiconfill}
-                    alt=""
-                    className="w-5 h-5"
-                  />
-                  <p>
-                    This section will be visible to parents on the student’s
-                    Dashboard
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === "CONTACTINFORMATION" && (
-            <div className=" mt-8 sm:px-4">
-              <h1 className="text-4xl font-bold text-[#685AAD]">
-                Contact information
-              </h1>
-              <div className="mt-14 flex flex-wrap justify-between gap-8">
-                <div className="sm:max-w-[30.9rem] w-full">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    Phone number <span className="text-[#FC7777]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                    value={phone}
-                    disabled
-                  />
-                </div>
-                <div className="sm:max-w-[30.9rem] w-full">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    Email adress <span className="text-[#FC7777]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                    value={email}
-                    disabled
-                  />
-                </div>
-                <div className="sm:max-w-[30.9rem] w-full">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    Street name <span className="text-[#FC7777]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                    value={streetName}
-                    onChange={(e) => {
-                      setStreetName(e.target.value);
-                    }}
-                    disabled={!isEditing}
-                  />
-                </div>
-                <div className="sm:max-w-[30.9rem] w-full">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    Shipping address <span className="text-[#FC7777]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                    value={shippingAddress}
-                    onChange={(e) => {
-                      setShippingAddress(e.target.value);
-                    }}
-                    disabled={!isEditing}
-                  />
-                </div>
-                <div className="sm:max-w-[30.9rem] w-full">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    City <span className="text-[#FC7777]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                    value={city}
-                    onChange={(e) => {
-                      setCity(e.target.value);
-                    }}
-                    disabled={!isEditing}
-                  />
-                </div>
-                <div className="sm:max-w-[30.9rem] w-full">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    Post code <span className="text-[#FC7777]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                    value={postcode}
-                    onChange={(e) => {
-                      setPostcode(e.target.value);
-                    }}
-                    disabled={!isEditing}
-                  />
-                </div>
-
-                <div className="w-full sm:max-w-[30.9rem] mt-4">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD] ">
-                    Country <span className="text-[#FC7777]">*</span>
-                  </label>
-                  <div className="relative  select-none mt-2">
-                    <div
-                      className={`w-full bg-[#B4A5D7] text-white font-normal  text-sm custom-lg:text-xl pr-8 pl-5 py-4 rounded-lg cursor-pointer flex justify-between items-center`}
-                      onClick={toggleCountryDropdown}
-                    >
-                      <span>{selectedCountry || "select Country"}</span>
-
-                      {isCountryOpen ? (
-                        <ChevronUp size={22} className="text-white" />
-                      ) : (
-                        <ChevronDown size={22} className="text-white" />
-                      )}
-                    </div>
-                    {isCountryOpen && (
-                      <div className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3 ">
-                        <div
-                          id="style-2"
-                          className="max-h-[16.4rem] overflow-y-scroll  "
-                        >
-                          {countryoptions.map((country) => (
-                            <div
-                              key={country.value}
-                              className="py-2 cursor-pointer flex items-center"
-                              onClick={() => handleCountryClick(country.value)}
-                            >
-                              <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 sm:max-w-[22rem] truncate">
-                                <span className="ml-2 text-xl text-white ">
-                                  {country.label}
-                                </span>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-
-                <div className="w-full sm:max-w-[30.9rem] mt-4">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD] ">
-                    Timezone <span className="text-[#FC7777]">*</span>
-                  </label>
-                  <div className="relative  select-none mt-2">
-                    <div
-                      className={`w-full bg-[#B4A5D7] text-white font-normal  text-sm custom-lg:text-xl pr-8 pl-5 py-4 rounded-lg cursor-pointer flex justify-between items-center`}
-                      onClick={toggleTimezoneDropdown}
-                    >
-                      <span>{selectedTimezone || "select Country"}</span>
-
-                      {isTimezoneOpen ? (
-                        <ChevronUp size={22} className="text-white" />
-                      ) : (
-                        <ChevronDown size={22} className="text-white" />
-                      )}
-                    </div>
-                    {isTimezoneOpen && (
-                      <div className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  ">
-                        <div
-                          id="style-2"
-                          className="max-h-[16.4rem] overflow-y-scroll  "
-                        >
-                          {timezoneoptions.map((time) => (
-                            <div
-                              key={time.value}
-                              className=" py-2 cursor-pointer flex items-center"
-                              onClick={() => handletimezoneClick(time.value)}
-                            >
-                              <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 sm:max-w-[22rem] truncate">
-                                <span className="ml-2 text-xl text-white ">
-                                  {time.label}
-                                </span>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === "PROFESSIONALEXPERIENCE" && (
-            <div className=" mt-8 sm:px-4">
-              <h1 className="text-4xl font-bold text-[#685AAD]">
-                Professional experience
-              </h1>
-              <div className="mt-11  ">
-                <div className="flex flex-wrap justify-between gap-8">
-                  <div className="sm:max-w-[29rem] w-full">
-                    <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                      Current job <span className="text-[#FC7777]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                      value={currentJob}
-                      onChange={(e) => {
-                        setCurrentJob(e.target.value);
-                      }}
-                      disabled={!isEditing}
-                    />
-                  </div>
-                  <div className="sm:max-w-[29rem] w-full">
-                    <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                      Tutoring experience years{" "}
-                      <span className="text-[#FC7777]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                      value={tutoringExperience}
-                      onChange={(e) => {
-                        setTutoringExperience(e.target.value);
-                      }}
-                      disabled={!isEditing}
-                    />
-                  </div>
-                </div>
-
-                <div>
-                  <div className="w-full mt-9">
-                    <textarea
-                      className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-3xl  text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl placeholder:text-white"
-                      value={moreAboutProfessionalExperience}
-                      onChange={(e) => {
-                        setMoreAboutProfessionalExperience(e.target.value);
-                      }}
-                      disabled={!isEditing}
-                      placeholder="Tell us more about your professional experience."
-                    />
-                  </div>
-                </div>
-
-                <div className="flex justify-between flex-wrap gap-4">
-                  {/* select tutoring level */}
-
-                  <div className="w-full sm:max-w-[29.7rem] mt-32 pt-1">
-                    <label className="block text-lg sm:text-xl font-semibold text-[#685AAD] ">
-                      Subject levels you want to teach
-                    </label>
-
-                    <div className="relative  select-none mt-3 ">
-                      <div
-                        className="w-full bg-[#B4A5D7] text-white font-normal  text-sm custom-lg:text-xl pr-8 pl-5 py-2 rounded-lg cursor-pointer flex justify-between items-center"
-                        onClick={toggleSubjectLEVELDropdown}
-                      >
-                        <span className="my-1">
-                          {selectedSubjectsLEVEL.length > 0
-                            ? `${selectedSubjectsLEVEL.length} selected`
-                            : "select subject(s)"}
-                        </span>
-                        {isSubjectLEVELDropdownOpen ? (
-                          <ChevronUp size={22} className="text-white " />
-                        ) : (
-                          <ChevronDown size={22} className="text-white " />
-                        )}
-                      </div>
-
-                      {isSubjectLEVELDropdownOpen && (
-                        <div
-                          onMouseLeave={() => {
-                            setIsSubjectLEVELDropdownOpen(false);
-                          }}
-                          className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  "
-                        >
-                          <div
-                            id="style-2"
-                            className="max-h-[16.4rem] overflow-y-scroll  "
-                          >
-                            {subjectLevelOptions.map((subjectlevel) => (
-                              <div
-                                key={subjectlevel.value}
-                                className=" py-2 cursor-pointer flex items-center"
-                                onClick={() =>
-                                  handleSubjectLEVELClick(subjectlevel.value)
-                                }
-                              >
-                                <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 sm:max-w-[15rem] truncate">
-                                  <div className="relative">
-                                    <input
-                                      type="checkbox"
-                                      // @ts-ignore
-                                      checked={selectedSubjectsLEVEL.includes(
-                                        //@ts-ignore
-                                        subjectlevel.value
-                                      )}
-                                      onChange={() => {}}
-                                      className="absolute opacity-0 cursor-pointer"
-                                    />
-                                    <div
-                                      className={`h-5 w-5 rounded-sm border border-white hover:bg-[#a394d6] hover:border-[#a394d6] flex items-center justify-center ${
-                                        // @ts-ignore
-                                        selectedSubjectsLEVEL.includes(
-                                          subjectlevel.value
-                                        )
-                                          ? "bg-[#6c5baa] border-none p-0.5"
-                                          : ""
-                                      }`}
-                                    >
-                                      {selectedSubjectsLEVEL.includes(
-                                        //@ts-ignore
-                                        subjectlevel.value
-                                      ) && <Check className="text-white" />}
-                                    </div>
-                                  </div>
-                                  <span className="ml-2 text-xl text-white ">
-                                    {subjectlevel.label}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {selectedSubjectsLEVEL.length > 0 && (
-                      <div className="flex flex-wrap items-start justify-start  gap-2 mt-5      mx-auto min-h-[5rem]">
-                        {selectedSubjectsLEVEL.map((subjectlevel) => (
-                          <span
-                            key={subjectlevel}
-                            className="bg-[#B4A5D7] text-white px-4 gap-2 flex items-center  text-xl  w-fit py-2 rounded-lg justify-between"
-                          >
-                            {subjectlevel}
-                            <X
-                              hanging={20}
-                              width={20}
-                              className="  cursor-pointer"
-                              // @ts-ignore
-                              onClick={() => removeSubjectLEVEL(subjectlevel)}
-                            />
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Experience with special needs */}
-                  <div className="w-full sm:max-w-[29.7rem] mt-32 pt-1">
-                    <label className="block text-lg sm:text-xl font-semibold text-[#685AAD] ">
-                      Experience with special needs students (Optional)
-                    </label>
-
-                    <div className="relative  select-none mt-3 ">
-                      <div
-                        className="w-full bg-[#B4A5D7] text-white font-normal  text-sm custom-lg:text-xl pr-8 pl-5 py-2 rounded-lg cursor-pointer flex justify-between items-center"
-                        onClick={toggleExperienceWithSpecialNeeds}
-                      >
-                        <span className="my-1">
-                          {selectedExperience.length > 0
-                            ? `${selectedExperience.length} selected`
-                            : "select"}
-                        </span>
-                        {isExperienceOpen ? (
-                          <ChevronUp size={22} className="text-white " />
-                        ) : (
-                          <ChevronDown size={22} className="text-white " />
-                        )}
-                      </div>
-
-                      {isExperienceOpen && (
-                        <div
-                          onMouseLeave={() => {
-                            setIsCountryOpen(false);
-                          }}
-                          className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  "
-                        >
-                          <div
-                            id="style-2"
-                            className="max-h-[16.4rem] overflow-y-scroll  "
-                          >
-                            {experienceoptions.map((experience) => (
-                              <div
-                                key={experience.value}
-                                className=" py-2 cursor-pointer flex items-center"
-                                onClick={() =>
-                                  handleExperienceClick(experience.value)
-                                }
-                              >
-                                <div className=" border-b border-white  py-2 flex  gap-4  w-full px-4 sm:max-w-[15rem] truncate">
-                                  <div className="relative">
-                                    <input
-                                      type="checkbox"
-                                      // @ts-ignore
-                                      checked={selectedExperience.includes(
-                                        experience.value
-                                      )}
-                                      onChange={() => {}}
-                                      className="absolute opacity-0 cursor-pointer"
-                                    />
-                                    <div
-                                      className={`h-5 w-5 rounded-sm border border-white hover:bg-[#a394d6] hover:border-[#a394d6] flex items-center justify-center ${
-                                        // @ts-ignore
-                                        selectedExperience.includes(
-                                          experience.value
-                                        )
-                                          ? "bg-[#6c5baa] border-none p-0.5"
-                                          : ""
-                                      }`}
-                                    >
-                                      {selectedExperience.includes(
-                                        //@ts-ignore
-                                        experience.value
-                                      ) && <Check className="text-white" />}
-                                    </div>
-                                  </div>
-                                  <span className="ml-2 text-xl text-white ">
-                                    {experience.label}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {selectedExperience.length > 0 && (
-                      <div className="flex flex-wrap items-start justify-start  gap-2 mt-5      mx-auto min-h-[5rem]">
-                        {selectedExperience.map((experience: string) => (
-                          <span
-                            key={experience}
-                            className="bg-[#B4A5D7] text-white px-4 gap-2 flex items-center  text-xl  w-fit py-2 rounded-lg justify-between"
-                          >
-                            {experience}
-                            <X
-                              hanging={20}
-                              width={20}
-                              className="  cursor-pointer"
-                              onClick={() => removeExperience(experience)}
-                            />
-                          </span>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-          {activeTab === "ACADEMICBACKGROUND" && (
-            <div className=" mt-8 ">
-              <h1 className="text-4xl font-bold text-[#685AAD]">
-                Academic background
-              </h1>
-
-              <div className="mt-14 flex flex-wrap justify-between gap-8 sm:max-w-[61rem]  ">
-                <div className="sm:max-w-[29rem] w-full flex flex-col gap-10">
-                  <div className="w-full">
-                    <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                      Graduation school{" "}
-                      <span className="text-[#FC7777]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                      value={graduationSchool}
-                      onChange={(e) => {
-                        setGraduationSchool(e.target.value);
-                      }}
-                      disabled={!isEditing}
-                    />
-                  </div>
-                  <div className="">
-                    <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                      Highest degree <span className="text-[#FC7777]">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl"
-                      value={highestDegree}
-                      onChange={(e) => {
-                        setHighestDegree(e.target.value);
-                      }}
-                      disabled={!isEditing}
-                    />
-                  </div>
-                </div>
-
-                <div className="sm:max-w-[28rem] custom-2xl:sm:max-w-[22rem] w-full  flex flex-col gap-10 ">
-                  <div className="w-full">
-                    <label className="block text-lg sm:text-xl font-semibold text-[#685AAD] ">
-                      Country <span className="text-[#FC7777]">*</span>
-                    </label>
-                    <div className="relative  select-none mt-4">
-                      <div
-                        className={`w-full bg-[#B4A5D7] text-white font-normal  text-sm custom-lg:text-xl pr-8 pl-5 py-2.5 rounded-lg cursor-pointer flex justify-between items-center`}
-                        onClick={toggleAcedmicCountrydown}
-                      >
-                        <span>
-                          {selectedAcademicCountry || "select Country"}
-                        </span>
-
-                        {isAcademicCountryopen ? (
-                          <ChevronUp size={22} className="text-white" />
-                        ) : (
-                          <ChevronDown size={22} className="text-white" />
-                        )}
-                      </div>
-                      {isAcademicCountryopen && (
-                        <div className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  ">
-                          <div
-                            id="style-2"
-                            className="max-h-[16.4rem] overflow-y-scroll  "
-                          >
-                            {countryoptions.map((country) => (
-                              <div
-                                key={country.value}
-                                className="py-1 cursor-pointer flex items-center w-[70%]"
-                                onClick={() =>
-                                  handleAcademicCountryClick(country.value)
-                                }
-                              >
-                                <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 sm:max-w-[22rem] truncate">
-                                  <span className="ml-2 text-xl text-white ">
-                                    {country.label}
-                                  </span>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => {
-                      setIsPopupOpen(true);
-                    }}
-                  >
-                    <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                      Qualifications
-                    </label>
-                    <div className="flex items-center hover:cursor-pointer h-fit gap-4 mt-5">
-                      <Image loading="lazy" src={addicon} alt="" className="" />
-                      <span className="font-medium text-[#B4A5D7] text-lg ">
-                        Add Qualification
-                      </span>
-                    </div>
-                  </div>
-
-                  {isPopupOpen && (
-                    <div className="fixed inset-0 bg-[#F8F5FF] flex justify-center items-start py-[75px] z-50 min-h-screen overflow-auto ">
-                      <div className="bg-[#EDE8FA] w-full sm:max-w-[1605px] min-h-[932px] h-fit rounded-3xl px-6 sm:px-12 custom-xl:px-[116px] py-6 sm:py-12 custom-xl:py-[88px] space-y-6 relative">
-                        <h1 className="text-[#6B5BA9] text-4xl font-bold mb-8">
-                          Upload Your Qualification and Verification Documents
-                        </h1>
-
-                        <p className="text-[#6B5BA9] text-2xl leading-tight ">
-                          Providing your qualification and verification
-                          documents is crucial for expanding your tutoring
-                          capabilities. By uploading these files, you <br />{" "}
-                          enable us to validate your expertise and allow you to
-                          tutor in more than two subjects. Additionally,
-                          completing this process can help <br /> you level up
-                          your account instantly. Please note that the leveling
-                          up will be applied after our team reviews your account
-                          and documents. <br /> This verification is a step
-                          towards unlocking greater opportunities and
-                          recognition within our platform.
-                        </p>
-
-                        <div className="grid grid-cols-1 custom-xl:grid-cols-2 gap-0 pt-3 sm:max-w-[79rem]">
-                          {/* SubjectToVerify select */}
-                          <div className="w-full sm:max-w-[29.7rem] sm:mt-11">
-                            <label className="block text-lg sm:text-xl font-semibold text-[#685AAD] pb-1">
-                              Select the subject you wish to provide
-                              verification for
-                            </label>
-                            <div className="relative  select-none mt-1 sm:mt-5 ">
-                              <div
-                                className="w-full bg-[#B4A5D7] text-white font-normal  text-sm custom-lg:text-xl pr-8 pl-5 py-3.5 rounded-lg cursor-pointer flex justify-between items-center"
-                                onClick={toggleSubjectToVerifyDropdown}
-                              >
-                                <span className="my-1">
-                                  {selectedSubjectToVerifys.length > 0
-                                    ? `${selectedSubjectToVerifys}`
-                                    : "select Subject"}
-                                </span>
-                                {isSubjectToVerifyDropdownOpen ? (
-                                  <ChevronUp
-                                    size={22}
-                                    className="text-white "
-                                  />
-                                ) : (
-                                  <ChevronDown
-                                    size={22}
-                                    className="text-white "
-                                  />
-                                )}
-                              </div>
-
-                              {isSubjectToVerifyDropdownOpen && (
-                                <div
-                                  onMouseLeave={() => {
-                                    setIsSubjectToVerifyDropdownOpen(false);
-                                  }}
-                                  className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  "
-                                >
-                                  <div
-                                    id="style-2"
-                                    className="max-h-[16.4rem] overflow-y-scroll  "
-                                  >
-                                    {subjectOptions.map((SubjectToVerify) => (
-                                      <div
-                                        key={SubjectToVerify.value}
-                                        className=" py-2 cursor-pointer flex items-center"
-                                        onClick={() =>
-                                          handleSubjectToVerifyClick(
-                                            SubjectToVerify.value
-                                          )
-                                        }
-                                      >
-                                        <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 sm:max-w-[22rem] truncate">
-                                          <span className="ml-2 text-xl text-white ">
-                                            {SubjectToVerify.label}
-                                          </span>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-
-                          {/* purpose of attechment */}
-                          <div className="w-full sm:max-w-[29.7rem] mt-3 sm:mt-11">
-                            <label className="block text-lg sm:text-xl font-semibold text-[#685AAD] pb-1">
-                              Select the Purpose of Your Attachment
-                            </label>
-                            <div className="relative  select-none mt-1 sm:mt-5 ">
-                              <div
-                                className="w-full bg-[#B4A5D7] text-white font-normal  text-sm custom-lg:text-xl pr-8 pl-5 py-3.5 rounded-lg cursor-pointer flex justify-between items-center"
-                                onClick={togglePurposeOfAttechmentDropdown}
-                              >
-                                <span className="my-1">
-                                  {selectedPurposeOfAttechments.length > 0
-                                    ? `${selectedPurposeOfAttechments}`
-                                    : "select"}
-                                </span>
-                                {isPurposeOfAttechmentDropdownOpen ? (
-                                  <ChevronUp
-                                    size={22}
-                                    className="text-white "
-                                  />
-                                ) : (
-                                  <ChevronDown
-                                    size={22}
-                                    className="text-white "
-                                  />
-                                )}
-                              </div>
-
-                              {isPurposeOfAttechmentDropdownOpen && (
-                                <div
-                                  onMouseLeave={() => {
-                                    setIsPurposeOfAttechmentDropdownOpen(false);
-                                  }}
-                                  className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  "
-                                >
-                                  <div
-                                    id="style-2"
-                                    className="max-h-[16.4rem] overflow-y-scroll  "
-                                  >
-                                    {PurposeOfAttachment.map(
-                                      (PurposeOfAttechment) => (
-                                        <div
-                                          key={PurposeOfAttechment.value}
-                                          className=" py-2 cursor-pointer flex items-center"
-                                          onClick={() =>
-                                            handlePurposeOfAttechmentClick(
-                                              PurposeOfAttechment.value
-                                            )
-                                          }
-                                        >
-                                          <div className=" border-b border-white  py-2 flex  gap-4  w-full px-4 sm:max-w-[22rem] truncate">
-                                            <span className="ml-2 text-xl text-white ">
-                                              {PurposeOfAttechment.label}
-                                            </span>
-                                          </div>
-                                        </div>
-                                      )
-                                    )}
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-
-                        <div className="space-y-2 pt-3 sm:pt-16">
-                          <label className="block text-lg sm:text-lg font-semibold text-[#685AAD] mt-0.5 mb-6">
-                            Please name your file as
-                            [LastName_FirstName_Subject_DocumentType]
-                          </label>
-                          <div className="border bg-[#B4A5D7] w-full sm:max-w-[29.7rem] rounded-lg flex items-start  p-3.5 gap-4 flex-col">
-                            {files.map((file, index) => (
-                              <div
-                                key={index}
-                                className="relative group bg-white text-black w-full sm:max-w-[29.7rem] rounded-lg flex items-center justify-between px-10 py-3.5 mt-2"
-                              >
-                                <span
-                                  onClick={() => removeFile(index)}
-                                  className="absolute -top-2 -right-2 hidden group-hover:block hover:cursor-pointer"
-                                >
-                                  <XCircle
-                                    fill="white"
-                                    className="text-red-500 "
-                                  />
-                                </span>
-                                <span className=" font-medium flex gap-4 items-center">
-                                  <Image
-                                    loading="lazy"
-                                    src={bluefoldericon}
-                                    alt=""
-                                  />{" "}
-                                  {
-                                    //@ts-ignore
-                                    file.name
-                                  }
-                                </span>
-
-                                <Image
-                                  loading="lazy"
-                                  src={downloadicon}
-                                  alt=""
-                                />
-                              </div>
-                            ))}
-
-                            <div className="flex items-center gap-4 px-4">
-                              <label
-                                htmlFor="file-upload"
-                                className="cursor-pointer flex items-center gap-4"
-                              >
-                                <Image
-                                  loading="lazy"
-                                  src={addicon2}
-                                  alt=""
-                                  className="w-12"
-                                />
-                                <span className="text-white font-medium">
-                                  Attach Your File Here
-                                </span>
-                              </label>
-                              <input
-                                id="file-upload"
-                                type="file"
-                                multiple
-                                className="hidden"
-                                onChange={handleFileChange}
-                              />
-                            </div>
-                          </div>
-                        </div>
-
-                        {errorMessage && (
-                          <p className="text-red-500 mt-4">{errorMessage}</p>
-                        )}
-
-                        <div className=" custom-2xl:absolute bottom-8 custom-xl:bottom-10 right-9 space-x-2 sm:space-x-6  space-y-2 ">
-                          <button
-                            onClick={() => {
-                              setIsPopupOpen(false);
-                            }}
-                            className=" bg-[#FF7B7B] text-white px-10 sm:px-24 py-2.5 text-xs sm:text-xl rounded-md hover:bg-[#FF6B6B] transition-colors"
-                          >
-                            Cancel
-                          </button>
-                          {files.length > 0 && (
-                            <button
-                              onClick={(e) => {
-                                handleSubmit(e);
-                              }}
-                              className=" bg-[#9052FC] text-white  px-10 sm:px-24 py-2.5 text-xs sm:text-xl  rounded-md hover:bg-[#FF6B6B] transition-colors"
-                            >
-                              {isSubmitting
-                                ? "Uploading..."
-                                : "Submit Document for Verification"}
-                            </button>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div>
-                <div className="w-full mt-20">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    International experience (optional)
-                  </label>
-                  <textarea
-                    className="mt-2 sm:mt-4 px-4 py-2.5 block w-full rounded-xl  text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl placeholder:text-white"
-                    disabled={!isEditing}
-                    placeholder="Tell us something about who you are and what do you like: it will help us find the right matching for you."
-                    value={internationalExperience}
-                    onChange={(e) => {
-                      setInternationalExperience(e.target.value);
-                    }}
-                  />
-                </div>
-              </div>
-
-              <div className="sm:max-w-[29rem] w-full mt-16">
-                <div className="w-full space-y-4">
-                  <label className="block text-lg sm:text-xl font-semibold text-[#685AAD]">
-                    Languages you can tutor in{" "}
-                    <span className="text-[#FC7777]">*</span>
-                  </label>
-
-                  <div className="space-y-2">
-                    {/* Existing languages */}
-                    {languages.map((language, index) => (
-                      <div key={index} className="relative">
-                        <input
-                          type="text"
-                          value={language}
-                          className="px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl"
-                          disabled={!isEditing}
-                        />
-                        {isEditing && (
-                          <div
-                            className="absolute top-1/2 -translate-y-1/2 -right-10 cursor-pointer"
-                            onClick={() => handleDeleteLanguage(index)}
-                          >
-                            <svg
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M18 6L6 18M6 6L18 18"
-                                stroke="#B4A5D7"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-
-                    {/* New language input */}
-                    {showNewInput && (
-                      <div className="relative">
-                        <input
-                          type="text"
-                          value={newLanguage}
-                          onChange={(e) => setNewLanguage(e.target.value)}
-                          placeholder="enter language name"
-                          className="px-4 py-2.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl placeholder:text-white"
-                          onKeyPress={(e) => {
-                            if (e.key === "Enter") {
-                              if (newLanguage != "") {
-                                handleSubmitLanguage();
-                              }
-                            }
-                          }}
-                          autoFocus
-                        />
-                        {/* Cross button outside input box */}
-                        {isEditing && (
-                          <div
-                            className="absolute top-1/2 -translate-y-1/2 -right-10 cursor-pointer"
-                            onClick={handleSubmitLanguage}
-                          >
-                            <svg
-                              width="24"
-                              height="24"
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                d="M18 6L6 18M6 6L18 18"
-                                stroke="#B4A5D7"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                              />
-                            </svg>
-                          </div>
-                        )}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Add button - always visible when isEditing is true */}
-                  {isEditing && (
-                    <div className="mt-6">
-                      <Image
-                        loading="lazy"
-                        onClick={() => {
-                          handleSubmitLanguage();
-                          handleAddLanguage();
-                        }}
-                        src={addicon}
-                        alt=""
-                        className="mt-6 w-14 h-14 cursor-pointer"
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          )}
+          <AcademicBackground
+            activeTab={activeTab}
+            errorMessage={errorMessage}
+            isEditing={isEditing}
+            isSubmitting={isSubmitting}
+            graduationSchool={graduationSchool}
+            setGraduationSchool={setGraduationSchool}
+            highestDegree={highestDegree}
+            setHighestDegree={setHighestDegree}
+            internationalExperience={internationalExperience}
+            setInternationalExperience={setInternationalExperience}
+            languages={languages}
+            setLanguages={setLanguages}
+            showNewInput={showNewInput}
+            newLanguage={newLanguage}
+            setNewLanguage={setNewLanguage}
+            handleSubmitLanguage={handleSubmitLanguage}
+            handleDeleteLanguage={handleDeleteLanguage}
+            handleAddLanguage={handleAddLanguage}
+            handleSubmit={handleSubmit}
+            handleFileChange={handleFileChange}
+            removeFile={removeFile}
+            files={files}
+            setFiles={setFiles}
+            setIsPopupOpen={setIsPopupOpen}
+            isPopupOpen={isPopupOpen}
+            setIsSubjectToVerifyDropdownOpen={setIsSubjectToVerifyDropdownOpen}
+            isSubjectToVerifyDropdownOpen={isSubjectToVerifyDropdownOpen}
+            toggleSubjectToVerifyDropdown={toggleSubjectToVerifyDropdown}
+            subjectOptions={countryoptions}
+            toggleAcedmicCountrydown={toggleAcedmicCountrydown}
+            selectedAcademicCountry={selectedAcademicCountry}
+            isAcademicCountryopen={isAcademicCountryopen}
+            handleAcademicCountryClick={handleAcademicCountryClick}
+            selectedSubjectToVerifys={selectedSubjectToVerifys}
+            handleSubjectToVerifyClick={handleSubjectToVerifyClick}
+            togglePurposeOfAttechmentDropdown={
+              togglePurposeOfAttechmentDropdown
+            }
+            selectedPurposeOfAttechments={selectedPurposeOfAttechments}
+            isPurposeOfAttechmentDropdownOpen={
+              isPurposeOfAttechmentDropdownOpen
+            }
+            setIsPurposeOfAttechmentDropdownOpen={
+              setIsPurposeOfAttechmentDropdownOpen
+            }
+            PurposeOfAttachment={PurposeOfAttachment}
+            handlePurposeOfAttechmentClick={handlePurposeOfAttechmentClick}
+            setIsSubmitting={false}
+            countryoptions={[]}
+          />
 
           <div className="w-full flex items-center justify-center mt-20">
             {isEditing ? (
