@@ -1116,8 +1116,8 @@ const SessionsDashboard = () => {
                   isProfileOpen ? "border border-[#685aad7a]" : "border-0"
                 }`}
               >
-                <div className="w-6 custom-2xl:w-7 h-6 custom-2xl:h-7  rounded-full overflow-hidden">
-                  <img src={profilepicture || teacher?.user?.profilePicture} alt="" className="object-cover" />
+                <div className="w-6 custom-2xl:w-7 h-6 custom-2xl:h-7  rounded-full overflow-hidden flex items-center">
+                  <img src={profilepicture || teacher?.user?.profilePicture} alt="" className="object-cover object-center" />
                 </div>
                 {/* <div className="flex items-center  w-full  gap-2 custom-2xl:gap-4">
   

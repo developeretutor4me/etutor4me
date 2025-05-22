@@ -1,302 +1,164 @@
 "use client";
-import { ChevronDown, ChevronUp, Search } from "lucide-react";
-import React, { useState } from "react";
-import Foldericon from "../../../../../public/folder icon with profile badge.svg";
-const TaxCountryOptions = [
-  { value: "Mathematics", label: "Mathematics" },
-  { value: "Algebra", label: "Algebra" },
-  { value: "Geometry", label: "Geometry" },
-  { value: "Calculus", label: "Calculus" },
-  { value: "Trigonometry", label: "Trigonometry" },
-  { value: "Statistics", label: "Statistics" },
-  { value: "Science", label: "Science" },
-  { value: "Biology", label: "Biology" },
-  { value: "Chemistry", label: "Chemistry" },
-  { value: "Physics", label: "Physics" },
-  { value: "Environmental Science", label: "Environmental Science" },
-  { value: "Earth Science", label: "Earth Science" },
-  { value: "English Language Arts", label: "English Language Arts" },
-  { value: "Grammar", label: "Grammar" },
-  { value: "Literature", label: "Literature" },
-  { value: "Writing", label: "Writing" },
-  { value: "Reading Comprehension", label: "Reading Comprehension" },
-  { value: "Social Studies", label: "Social Studies" },
-  {
-    value: "History (World, U.S., Ancient)",
-    label: "History (World, U.S., Ancient)",
-  },
-  { value: "Geography", label: "Geography" },
-  { value: "Economics", label: "Economics" },
-  { value: "Political Science", label: "Political Science" },
-  { value: "Foreign Languages", label: "Foreign Languages" },
-  { value: "Spanish", label: "Spanish" },
-  { value: "French", label: "French" },
-  { value: "German", label: "German" },
-  { value: "Chinese (Mandarin)", label: "Chinese (Mandarin)" },
-  { value: "Japanese", label: "Japanese" },
-  { value: "Arabic", label: "Arabic" },
-  { value: "Russian", label: "Russian" },
-  {
-    value: "Specialized & Advanced TaxCountrys",
-    label: "Specialized & Advanced TaxCountrys",
-  },
-  { value: "Advanced Mathematics", label: "Advanced Mathematics" },
-  { value: "Differential Equations", label: "Differential Equations" },
-  { value: "Linear Algebra", label: "Linear Algebra" },
-  { value: "Discrete Math", label: "Discrete Math" },
-  {
-    value: "Computer Science & Technology",
-    label: "Computer Science & Technology",
-  },
-  {
-    value: "Programming (Python, Java, C++)",
-    label: "Programming (Python, Java, C++)",
-  },
-  { value: "Web Development", label: "Web Development" },
-  { value: "Data Science", label: "Data Science" },
-  { value: "Cybersecurity", label: "Cybersecurity" },
-  { value: "AI and Machine Learning", label: "AI and Machine Learning" },
-  { value: "Business & Economics", label: "Business & Economics" },
-  { value: "Accounting", label: "Accounting" },
-  { value: "Marketing", label: "Marketing" },
-  { value: "Finance", label: "Finance" },
-  { value: "Entrepreneurship", label: "Entrepreneurship" },
-  {
-    value: "Microeconomics/Macroeconomics",
-    label: "Microeconomics/Macroeconomics",
-  },
+import { Search } from "lucide-react";
+import React, { useMemo, useState } from "react";
+import FileItemTemp from "./FIleItemTemp";
+import DropDown from "./DropDown";
+import { useQualificationTutorDoc } from "@/app/admin/hooks/useQualificationTutorDoc";
+import { TutorDocument, TutorFile } from "./Data";
+import notavailable from "../../../../../public/tutordocsnotavailable.svg";
+import Image from "next/image";
+interface SortOption {
+  value: string;
+  label: string;
+}
+const SortOptions: SortOption[] = [
+  { value: "name-asc", label: "Name (A-Z)" },
+  { value: "name-desc", label: "Name (Z-A)" },
+  { value: "size-largest", label: "Size (Largest)" },
+  { value: "size-smallest", label: "Size (Smallest)" },
 ];
 
 function MyFiles() {
-  const [isTaxCountryDropdownOpen, setIsTaxCountryDropdownOpen] =
-    useState(false);
-  const [isExpanded, setisExpanded] = useState(false);
-  const [selectedTaxCountrys, setSelectedTaxCountrys] = useState("");
+  const { isLoading, docs, error, mutate } = useQualificationTutorDoc();
+  const [selectedOption, setSelectedOption] = useState("");
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const toggleTaxCountryDropdown = () => {
-    setIsTaxCountryDropdownOpen(!isTaxCountryDropdownOpen);
+  const handleSortOptionSelect = (option: string) => {
+    setSelectedOption(option);
   };
 
-  const handleTaxCountryClick = (TaxCountry: string) => {
-    setSelectedTaxCountrys(TaxCountry);
-    setIsTaxCountryDropdownOpen(false);
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
   };
+
+  // Filtered and sorted data using useMemo for performance
+  const filteredAndSortedFiles = useMemo(() => {
+    if (!docs || docs.length === 0) return [];
+
+    const allFiles = docs.flatMap((doc: TutorDocument) =>
+      doc.files.map((file: TutorFile) => ({ file, doc }))
+    );
+
+    let filtered = allFiles;
+
+    // Apply search filter
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase().trim();
+      filtered = allFiles.filter(
+        ({ file }: { file: TutorFile }) =>
+          typeof file?.fileName === "string" &&
+          file.fileName.toLowerCase().includes(query)
+      );
+    }
+
+    // Apply sorting
+    if (selectedOption) {
+      filtered.sort(
+        (
+          { file: a }: { file: TutorFile },
+          { file: b }: { file: TutorFile }
+        ) => {
+          switch (selectedOption) {
+            case "name-asc":
+              return a.fileName.localeCompare(b.fileName);
+            case "name-desc":
+              return b.fileName.localeCompare(a.fileName);
+            case "size-largest":
+              return (Number(b.fileSize) || 0) - (Number(a.fileSize) || 0);
+            case "size-smallest":
+              return (Number(a.fileSize) || 0) - (Number(b.fileSize) || 0);
+            default:
+              return 0;
+          }
+        }
+      );
+    }
+
+    return filtered;
+  }, [docs, searchQuery, selectedOption]);
+
   return (
-    <div className="mt-9 px-1 h-full ">
-      <div className="bg-[#EDE8FA] rounded-3xl py-7 custom-2xl:py-8 px-6 custom-2xl:px-7 h-full ">
+    <div className="mt-10 px-1 h-full ">
+      <div className="bg-[#EDE8FA] rounded-3xl  py-7 custom-2xl:py-7 px-3 sm:px-6 custom-2xl:px-[27px] h-fit ">
         {/* top header  */}
-        <div className="flex justify-between items-center">
-          <h1 className="text-xl sm:text-2xl custom-2xl:text-4xl text-[#685AAD] font-bold pl-9 ">
+        <div className="flex justify-between custom-xl:items-center flex-wrap gap-2 ">
+          <h1 className="text-xl sm:text-2xl custom-2xl:text-[39.46px] custom-2xl:leading-[2.25rem] text-[#685AAD] font-bold pl-2 sm:pl-9 ">
             My Files
           </h1>
 
-          <div className="flex w-fit gap-14 pt-1 pr-6 items-center ">
-            <div className="min-w-[26.7rem]">
-              <div className="relative  select-none  w-full">
-                <div
-                  className="w-full bg-[#B4A5D7] text-white font-normal  text-sm custom-lg:text-xl pr-8 pl-5 py-2.5 rounded-lg cursor-pointer flex justify-between items-center"
-                  onClick={toggleTaxCountryDropdown}
-                >
-                  <span className="my-1">
-                    {selectedTaxCountrys.length > 0
-                      ? `${selectedTaxCountrys}`
-                      : "sort by"}
-                  </span>
-                  {isTaxCountryDropdownOpen ? (
-                    <ChevronUp size={22} className="text-white " />
-                  ) : (
-                    <ChevronDown size={22} className="text-white " />
-                  )}
-                </div>
+          <div className="flex w-fit gap-2 sm:gap-4 flex-col custom-xl:flex-row custom-2xl:gap-10 pt-0.5 sm:pr-6 custom-xl:items-center ">
+            <DropDown
+              options={SortOptions}
+              selected={selectedOption}
+              onSelect={handleSortOptionSelect}
+              placeholder="Sort by"
+            />
 
-                {isTaxCountryDropdownOpen && (
-                  <div
-                    onMouseLeave={() => {
-                      setIsTaxCountryDropdownOpen(false);
-                    }}
-                    className="absolute top-full left-0 right-0 px-8 mt-2 bg-[#B4A5D7] text-white rounded-lg overflow-hidden z-10 w-[97%] mx-auto py-3  "
-                  >
-                    <div
-                      id="style-2"
-                      className="max-h-[16.4rem] overflow-y-scroll  "
-                    >
-                      {TaxCountryOptions.map((TaxCountry) => (
-                        <div
-                          key={TaxCountry.value}
-                          className=" py-2 cursor-pointer flex items-center"
-                          onClick={() =>
-                            handleTaxCountryClick(TaxCountry.value)
-                          }
-                        >
-                          <div className=" border-b border-white py-2 flex  gap-4  w-full px-4 max-w-[80%] truncate">
-                            <span className="ml-2 text-xl text-white ">
-                              {TaxCountry.label}
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="min-w-[26.7rem] relative">
+            <div className="2xl:min-w-[23.7rem] relative">
               <input
                 type="text"
-                className="px-4 py-3.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-xl placeholder:text-white"
+                className="px-4 py-[7px] custom-2xl:py-3.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-sm custom-lg:text-xl placeholder:text-white"
                 placeholder="Search by name"
+                onChange={handleSearchChange}
               />
-              <Search className="text-white absolute top-1/2 right-6 transform -translate-y-1/2 " />
+              <Search className="text-white absolute top-1/2 right-6 transform -translate-y-1/2 w-4 custom-lg:w-6 " />
             </div>
           </div>
         </div>
 
-
-
-
-
-
-
-
-        <div className="bg-[#B4A5D7] mt-7 rounded-3xl max-h-[389px] h-full px-9 py-7 ">
-          <div className=" w-full space-y-6">
+        <div className="bg-[#B4A5D7] mt-7 rounded-xl sm:rounded-3xl custom-2xl:rounded-[30.92px] h-[495px] px-3 sm:px-7 custom-2xl:pl-[38px] custom-2xl:pr-[34px] py-5 sm:py-7 ">
+          <div className=" w-full custom-2xl:space-y-6 h-full">
             {/* Header Row */}
-            <div className="hidden custom-2xl:grid custom-2xl:grid-cols-5 mb-7 text-sm custom-lg text-base:sm:text-xl custom-2xl:pl-32  w-[100%]  text-white">
-              <div className="px-4  ">File Name</div>
-              <div className="px-4  ">Size</div>
-              <div className="px-4  ">Type</div>
-              <div className="px-4  ">Date Added</div>
-              <div className="px-4  ">Status</div>
+            <div className="hidden custom-2xl:grid custom-2xl:grid-cols-5  mb-2 text-sm custom-lg  sm:text-[19.16px] sm:leading-[1.75rem] font-medium custom-2xl:pl-[130px]  w-[78%] gap-9   text-white">
+              <div className="pl-4 ">File Name</div>
+              <div className=" text-end  ">Size</div>
+              <div className="text-end pr-6   ">Type</div>
+              <div className="text-end ">Date Added</div>
+              <div className="text-end  ">Status</div>
             </div>
-
-            {/* Session Card */}
-
-            {/* <div
-              className={`w-full  bg-[#7565A4] rounded-lg custom-2xl:pl-9   ${
-                isExpanded
-                  ? "h-auto custom-2xl:h-fit transition-all duration-1000 ease-out"
-                  : "h-auto custom-2xl:h-20 transition-all duration-300 ease-out"
-              } overflow-hidden cursor-pointer`}
-                onMouseEnter={() =>
-                  setisExpanded(true)
-                }
-                onMouseLeave={() => setisExpanded(false)}
+            <div
+              id="style-2"
+              className="h-[100%] custom-2xl:h-[85%] overflow-y-auto first:space-y-0  space-y-2 sm:space-y-4 pr-3 sm:pr-7 custom-2xl:pr-[34px]"
             >
-              <div className="flex flex-col  custom-2xl:flex-row custom-2xl:items-start h-full">
-                
-                <div className="flex-1 p-4 flex flex-col custom-2xl:flex-row items-start custom-2xl:items-center">
-                  <div className="grid grid-cols-2 custom-2xl:grid-cols-4 gap-4 w-full">
-
-                    <div className="flex flex-col custom-2xl:block transition-all duration-300 ease-in-out custom-2xl:pt-2">
-                      <span className="text-white/60 text-sm custom-2xl:hidden mb-1 text-white">
-                        Subject and level
-                      </span>
-                      <span className="text-white text-base custom-2xl text-base:sm:text-xl  font-medium">
-                        hello
-                      </span>
-                      <div
-                        className={`text-white ${
-                          isExpanded
-                            ? "opacity-100 block transition-all duration-300 ease-in-out"
-                            : "opacity-0 hidden transition-all duration-300 ease-in-out"
-                        }`}
-                      >
-                        PAYg session
-                      </div>
-
-                        <div
-                            className={`text-white mt-4 ${
-                            isExpanded
-                                ? "opacity-100 block transition-all duration-300 ease-in-out"
-                                : "opacity-0 hidden transition-all duration-300 ease-in-out"
-                            }`}
-                        >
-                           
-                            <p className="">hello</p>
-                        </div>
-                    </div>
-
-                  
-                    <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                      <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
-                        eTutor
-                      </span>
-                      <span className="text-white text-base custom-2xl text-base:sm:text-xl ">
-                        hello
-                      </span>
-                      <div
-                        className={` ${
-                          isExpanded
-                            ? "opacity-100 block transition-all duration-300 ease-in-out"
-                            : "opacity-0 hidden transition-all duration-300 ease-in-out "
-                        }`}
-                      ></div>
-                    </div>
-
-                    
-                    <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                      <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
-                        Duration
-                      </span>
-                      <span className="text-white text-base custom-2xl text-base:sm:text-xl"></span>
-                    </div>
-
-                  
-                    <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                      <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
-                        Date and Time
-                      </span>
-                      <span className="text-white text-base custom-2xl text-base:sm:text-xl">
-                        hello
-                      </span>
-                      <div
-                        className={`text-base sm:text-xl text-white ${
-                          isExpanded
-                            ? "opacity-100 block transition-all duration-300 ease-in-out"
-                            : "opacity-0 hidden transition-all duration-300 ease-in-out"
-                        }`}
-                      >
-                        helloo
-                      </div>
-                    </div>
-
-
+              {isLoading || error || docs.length === 0 ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <Image src={notavailable} alt="" />
+                </div>
+              ) : filteredAndSortedFiles.length === 0 ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <div className="text-center text-gray-500">
+                    <p>No files found matching your search criteria</p>
                   </div>
                 </div>
-
-           
-                <div
-                  className={`flex flex-col custom-2xl:flex-row gap-2  custom-2xl:gap-4  h-full  ${
-                    isExpanded ? "py-6 px-4 h-auto custom-2xl:h-28" : "p-4"
-                  } custom-2xl:pl-0 `}
-                >
-                  <button className="w-full  custom-2xl:h-full custom-2xl:w-auto bg-[#655693] text-white px-8 py-2 rounded-md text-sm custom-2xl text-base:sm:text-xl hover:bg-[#5c4c8b] transition-colors">
-                    Edit Session
-                  </button>
-                
-                </div>
-              </div>
-            </div> */}
+              ) : (
+                filteredAndSortedFiles.map(
+                  ({ file, doc }: { file: TutorFile; doc: TutorDocument }) => (
+                    <div key={file._id}>
+                      <FileItemTemp file={file} doc={doc} />
+                    </div>
+                  )
+                )
+              )}
+            </div>
           </div>
         </div>
 
-
-
-        <div className=" mt-10 ">
-          <h1 className="text-xl sm:text-2xl custom-2xl:text-4xl text-[#685AAD] font-bold pl-9 ">
-            Quick Access
-          </h1>
-          <div className="bg-[#B4A5D7] mt-9 rounded-3xl max-h-[262px] h-full">
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
-<div>&nbsp;</div>
+        <div className="bg-[#B4A5D7] mt-7 rounded-xl sm:rounded-3xl custom-2xl:rounded-[30.92px] h-[495px] px-3 sm:px-7 custom-2xl:pl-[38px] custom-2xl:pr-[34px] py-5 sm:py-7 ">
+          <div className=" w-full custom-2xl:space-y-6 h-full">
+            <div
+              id="style-2"
+              className="h-[100%]  overflow-y-auto first:space-y-0 flex flex-col gap-4  space-y-2 sm:space-y-4 pr-3 sm:pr-7 custom-2xl:pr-[34px]"
+            >
+              {isLoading
+                ? "Loading"
+                : docs?.flatMap((doc: TutorDocument) =>
+                    doc.files.map((file: TutorFile) => (
+                      <div key={file._id}>
+                        <FileItemTemp file={file} doc={doc} />
+                      </div>
+                    ))
+                  )}
+            </div>
           </div>
         </div>
       </div>
@@ -304,18 +166,18 @@ function MyFiles() {
       <style jsx>{`
         #style-2::-webkit-scrollbar-track {
           border-radius: 10px;
-          background-color: #c9bbef;
+          background-color: #d0c7e8;
         }
 
         #style-2::-webkit-scrollbar {
-          width: 5px;
+          width: 8px;
           background-color: transparent;
         }
 
         #style-2::-webkit-scrollbar-thumb {
           border-radius: 10px;
 
-          background-color: white;
+          background-color: #ede8fa;
         }
       `}</style>
     </div>

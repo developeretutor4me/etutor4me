@@ -30,6 +30,12 @@ const TutorDocumentSchema = new Schema(
           type: String,
           required: true,
         },
+        fileType: {
+          type: String,
+        },
+        fileSize: {
+          type: String,
+        },
       },
     ],
     status: {

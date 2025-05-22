@@ -18,6 +18,6 @@ export const useQualification = () => {
     docs: data?.data,
     isLoading,
     error,
-    mutate, // Can be used to manually revalidate the data
+    mutate, 
   };
 };

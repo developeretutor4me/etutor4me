@@ -231,6 +231,27 @@ export interface AcademicBackgroundprops {
   handlePurposeOfAttechmentClick: (value: string) => void;
 }
 
+export interface TutorFile {
+  fileType: string;
+  fileSize: string;
+  _id: string;
+  fileName: string;
+  fileUrl: string;
+}
+
+export interface TutorDocument {
+  _id: string;
+  user: string; // Assuming it's populated as ObjectId in string format
+  teacher: string; // Same here
+  subject: string;
+  purpose: string;
+  files: TutorFile[];
+  status: "Pending" | "Approved" | "Declined";
+  adminRemarks: string;
+  createdAt: string; // ISO string from server
+  updatedAt: string;
+}
+
 export const subjectOptions = [
   { value: "Mathematics", label: "Mathematics" },
   { value: "Algebra", label: "Algebra" },

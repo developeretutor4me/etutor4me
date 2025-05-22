@@ -374,12 +374,15 @@ const UserProfile = ({teacher,profilePicture}:UserProfileprops) => {
         {/* left side bar */}
         <div className="bg-[#B4A5D7] font-roboto max-w-[20rem] custom-2xl:max-w-[26.4rem] w-full  rounded-3xl  min-h-screen  px-5 custom-2xl:px-10 ">
         <div className="m-auto w-full  flex flex-col items-center  mt-20">
+          <div className="rounded-full w-[5rem] h-[5rem] custom-2xl:w-[11.4rem] custom-2xl:h-[11.4rem]  overflow-hidden flex items-center">
+
             <img
               src={  uploadedImage || teacher?.user?.profilePicture}
               alt="Profile"
              
-              className="rounded-full w-[5rem] h-[5rem] custom-2xl:w-[11.4rem] custom-2xl:h-[11.4rem]  "
+              className=" object-cover object-center "
             />
+          </div>
 
             <p className="relative text-sm sm:text-lg custom-2xl:text-xl font-roboto text-[#534988] font-bold mt-2 cursor-pointer">
               <input

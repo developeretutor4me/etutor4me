@@ -1,30 +1,10 @@
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
 import React, { useState } from "react";
-const TaxCountryOptions = [
-  { value: "USA", label: "USA" },
-  { value: "United States", label: "United States" },
-  { value: "United Kingdom", label: "United Kingdom" },
-  { value: "Ireland", label: "Ireland" },
-  { value: "Canada", label: "Canada" },
-  { value: "Malta", label: "Malta" },
-  { value: "Belize", label: "Belize" },
-  { value: "France", label: "France" },
-  { value: "Canada (especially Quebec)", label: "Canada (especially Quebec)" },
-  { value: "Belgium", label: "Belgium" },
-  { value: "Switzerland", label: "Switzerland" },
-  { value: "Luxembourg", label: "Luxembourg" },
-  { value: "Monaco", label: "Monaco" },
-  { value: "Haiti", label: "Haiti" },
-  { value: "Germany", label: "Germany" },
-  { value: "Austria", label: "Austria" },
-  { value: "Liechtenstein", label: "Liechtenstein" },
-];
+import { countryoptions } from "./Data";
+const TaxCountryOptions = countryoptions;
 function TaxInfo() {
-  const [isTaxCountryDropdownOpen, setIsTaxCountryDropdownOpen] =
-    useState(false);
-
+  const [isTaxCountryDropdownOpen, setIsTaxCountryDropdownOpen] =useState(false);
   const [selectedTaxCountrys, setSelectedTaxCountrys] = useState("");
-
   const toggleTaxCountryDropdown = () => {
     setIsTaxCountryDropdownOpen(!isTaxCountryDropdownOpen);
   };
@@ -89,8 +69,6 @@ function TaxInfo() {
             )}
           </div>
         </div>
-
-        
       </div>
       <div className="bg-[#EDE8FA] mt-16 rounded-3xl py-14 px-12">
         <h1 className="text-xl sm:text-2xl custom-2xl:text-4xl text-[#685AAD] font-bold">
