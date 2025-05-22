@@ -136,9 +136,7 @@ function Profile() {
   const [pictureuploadloading, setpictureuploadloading] = useState(false);
   const [image, setImage] = useState<File | null>(null); // State to hold the selected image
   const [isUploading, setIsUploading] = useState(false); // State to show the uploading status
-
   const [uploadedImage, setUploadedImage] = useState<string | null>("");
-
   const [unapprovedSubjects, setUnapprovedSubjects] = useState<string[]>([]);
   const [isCheckingApproval, setIsCheckingApproval] = useState(false);
   const [subjethover, setsubjethover] = useState("");
@@ -249,10 +247,6 @@ function Profile() {
 
   // update function-------------------------
   const handleSave = async () => {
-
-
-
-
     setIsEditing(true);
     try {
       const approvedSubjects = selectedSubjects.filter(
@@ -436,7 +430,7 @@ function Profile() {
       setLevel(teacher?.level || 0);
       setBadge(
         teacher?.badge ||
-        "https://cdn4.vectorstock.com/i/1000x1000/85/48/emblem-badge-ribbon-vector-14398548.jpg"
+          "https://cdn4.vectorstock.com/i/1000x1000/85/48/emblem-badge-ribbon-vector-14398548.jpg"
       );
       setEarnedThisMonth(teacher?.EarnedThisMonth || 0);
       setEarnedLastMonth(teacher?.EarnedLastMonth || 0);
@@ -720,10 +714,11 @@ function Profile() {
                 className={`flex items-center justify-center flex-nowrap  font-normal box-border sm:font-bold text-xs px-2  sm:text-[20px] sm:leading-[1.75rem]  transition-all
             ${tab.id === "GENERAL" && "rounded-tl-3xl"}
             ${tab.id === "ACADEMICBACKGROUND" && "rounded-tr-3xl"}
-            ${tab.id === activeTab
-                    ? "bg-[#EDE8FA] text-[#685AAD] transition-all"
-                    : `text-white transition-all`
-                  }`}
+            ${
+              tab.id === activeTab
+                ? "bg-[#EDE8FA] text-[#685AAD] transition-all"
+                : `text-white transition-all`
+            }`}
                 style={{ backgroundColor: getTabColor(tab.id) }}
               >
                 {tab.label}

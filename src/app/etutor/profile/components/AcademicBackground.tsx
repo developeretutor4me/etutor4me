@@ -1,6 +1,6 @@
 import { ChevronDown, ChevronUp, XCircle } from "lucide-react";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import addicon from "../../../../../public/addQualificationIcon.svg";
 import addicon2 from "../../../../../public/addicon2.svg";
 import downloadicon from "../../../../../public/downloadIconDownARrow.svg";
@@ -331,6 +331,15 @@ const AcademicBackground: React.FC<AcademicBackgroundprops> = ({
                         <input
                           id="file-upload"
                           type="file"
+                          accept="
+                            application/pdf,
+                            application/msword,
+                            application/vnd.openxmlformats-officedocument.wordprocessingml.document,
+                            text/plain,
+                            image/jpeg,
+                            image/png,
+                            image/gif
+                          "
                           multiple
                           className="hidden"
                           onChange={handleFileChange}
@@ -410,11 +419,9 @@ const AcademicBackground: React.FC<AcademicBackgroundprops> = ({
                       className="absolute top-1/2 -translate-y-1/2 -right-10 cursor-pointer"
                       onClick={() => {
                         if (languages.length > 1) {
-
-                          handleDeleteLanguage(index)
+                          handleDeleteLanguage(index);
                         }
-                      }
-                      }
+                      }}
                     >
                       <svg
                         width="24"

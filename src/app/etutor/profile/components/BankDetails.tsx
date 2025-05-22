@@ -8,59 +8,37 @@ function BankDetails() {
           Payout information{" "}
         </h1>
 
-
-
         <div className="mt-6 sm:mt-12 custom-2xl:mt-[75px] px-4 sm:px-16 custom-2xl:px-32 py-5 sm:py-10 custom-2xl:py-20 bg-[#B4A5D7] rounded-3xl space-y-16">
-
-
-
           <div className="flex items-center  justify-between flex-wrap">
             <label className=" text-lg sm:text-3xl font-medium  text-white flex items-center">
-            Account holder <span className="text-[#FC7777]"> *</span>
+              Account holder <span className="text-[#FC7777]"> *</span>
             </label>
             <input
               type="text"
-              className="px-8 py-2 custom-2xl:py-[18px] block  rounded-lg text-[#685aada1] placeholder:text-[#685aada1] bg-[#EDE8FA] text-lg  custom-2xl:text-2xl  max-w-[41.7rem] w-full " 
+              className="px-8 py-2 custom-2xl:py-[18px] block  rounded-lg text-[#685aada1] placeholder:text-[#685aada1] bg-[#EDE8FA] text-lg  custom-2xl:text-2xl  max-w-[41.7rem] w-full "
               placeholder="enter full name "
             />
-
-
           </div>
           <div className="flex items-center  justify-between flex-wrap">
             <label className=" text-lg sm:text-3xl font-medium  text-white flex items-center">
-            IBAN  <span className="text-[#FC7777]"> *</span>
+              IBAN <span className="text-[#FC7777]"> *</span>
             </label>
             <input
               type="text"
-              className="px-8 py-2 custom-2xl:py-[18px] block  rounded-lg text-[#685aada1] placeholder:text-[#685aada1] bg-[#EDE8FA] text-lg  custom-2xl:text-2xl  max-w-[41.7rem] w-full " 
+              className="px-8 py-2 custom-2xl:py-[18px] block  rounded-lg text-[#685aada1] placeholder:text-[#685aada1] bg-[#EDE8FA] text-lg  custom-2xl:text-2xl  max-w-[41.7rem] w-full "
               placeholder="enter IBAN"
             />
-
-
           </div>
           <div className="flex items-center  justify-between flex-wrap">
             <label className=" text-lg sm:text-3xl font-medium  text-white flex items-center">
-            BIC/SWIFT  <span className="text-[#FC7777]"> *</span>
+              BIC/SWIFT <span className="text-[#FC7777]"> *</span>
             </label>
             <input
               type="text"
-              className="px-8 py-2 custom-2xl:py-[18px] block  rounded-lg text-[#685aada1] placeholder:text-[#685aada1] bg-[#EDE8FA] text-lg  custom-2xl:text-2xl  max-w-[41.7rem] w-full " 
+              className="px-8 py-2 custom-2xl:py-[18px] block  rounded-lg text-[#685aada1] placeholder:text-[#685aada1] bg-[#EDE8FA] text-lg  custom-2xl:text-2xl  max-w-[41.7rem] w-full "
               placeholder="enter BIC/SWIFT "
             />
-
-
           </div>
-
-
-
-
-
-
-
-
-
-
-
         </div>
       </div>
     </div>
