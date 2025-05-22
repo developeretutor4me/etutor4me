@@ -85,28 +85,85 @@ import {
 import Activity from "./components/Activity";
 import { useEtokies } from "../admin/hooks/useEtokies";
 interface Student {
-  profile: {
-    firstName: String;
-  };
-  email: string;
-  contactInformation: {
+  user: IUser;
+  levelOfStudy: string;
+  grade: string;
+  subjects: string[];
+  personalInformation: {
     country: string;
-    phone: string;
-    address: string;
+    city: string;
+    streetName: string;
+    zipcode: string;
+    institution: string;
+    age: number;
   };
+  additionalInformation: string;
+  availability: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+}
+
+interface IUser {
+  _id: string;
+  email: string;
+  password: string;
+  role: string;
+  isAdmin: boolean;
+  verified: boolean;
+  verification_token?: string;
+  referralCode: string;
+  etokis: number;
+  referredBy?: string;
+  profilePicture?: string;
+  trialSessions: any;
+  hasCompletedFirstSession: boolean;
+  stripeSubscriptionId: string;
+  planType: any;
+  tutorLevel: string;
+  durationMonths: string;
+  sessionsPerMonth: number;
+  subscriptionDateStart: string;
+  subscriptionDateEnd: string;
+  stripeMonthlyPrice: number;
+  TrialSessionLeft: number;
+  subscriptionIsActive: boolean;
 }
 
 interface Teacher {
-  name: string;
-  email: string;
+  level: number;
+  user: IUser;
   contactInformation: {
-    firstName: string;
     country: string;
-    phone: string;
-    address: string;
+    firstName: string;
+    lastName: string;
+    zipCode: string;
+    email: string;
   };
+  education: {
+    college: string;
+    degree: string;
+    major: string;
+    graduation: Date;
+    school?: string;
+  };
+  experience: {
+    hasExperience: boolean;
+    tutoringLevel: string[];
+    subjectsTutored: string[];
+    languages: string[];
+    instructionTypes: string[];
+    availableHours: string;
+    startDate: Date;
+    generalAvailability: {
+      day: string;
+      time: string;
+    }[];
+    hasTeachingExperience: boolean;
+    is18OrAbove: boolean;
+  };
+  isApproved: boolean;
 }
-
 interface BookingRequest {
   studentdetails: any;
   startLink: string;
@@ -122,6 +179,32 @@ interface BookingRequest {
   status: string;
 }
 
+interface Level {
+  level: number;
+  etokisRequired: number;
+}
+
+const LEVELS: readonly Level[] = [
+  { level: 1, etokisRequired: 0 },
+  { level: 2, etokisRequired: 150 },
+  { level: 3, etokisRequired: 300 },
+  { level: 4, etokisRequired: 800 },
+  { level: 5, etokisRequired: 1200 },
+  { level: 6, etokisRequired: 1700 },
+  { level: 7, etokisRequired: 2400 },
+  { level: 8, etokisRequired: 3500 },
+  { level: 9, etokisRequired: 4500 },
+  { level: 10, etokisRequired: 5500 },
+] as const;
+
+interface ProgressResult {
+  currentLevel: number;
+  nextLevel: number | null;
+  progressPercentage: number;
+  etokisToNextLevel: number;
+  isMaxLevel: boolean;
+}
+
 export default function Home() {
   const { etokies, isLoadingetokies, erroretokies } = useEtokies();
   const [activeSidebarItem, setActiveSidebarItem] = useState("Dashboard");
@@ -133,7 +216,7 @@ export default function Home() {
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const router = useRouter();
   const { data: session, update } = useSession(); // Get the session data
-  const [teacher, setTeacher] = useState(null); // State to store teacher data
+  const [teacher, setTeacher] = useState<Teacher>();
   const [loading, setLoading] = useState<boolean>(true); // Loading state
   const [error, setError] = useState<string | null>(null); // Error state
   const targetRef = useRef<HTMLDivElement>(null); // Reference to your component
@@ -152,6 +235,78 @@ export default function Home() {
   const [sessionData, setRequests] = useState<BookingRequest[]>([]);
   const [level, setlevel] = useState("");
 
+  const getCurrentLevel = (etokis: number): Level => {
+    if (etokis < 0) {
+      throw new Error(`ETokis cannot be negative: received ${etokis}`);
+    }
+
+    const levelsCount = LEVELS.length;
+    for (let i = levelsCount - 1; i >= 0; i--) {
+      if (etokis >= LEVELS[i].etokisRequired) {
+        return LEVELS[i];
+      }
+    }
+
+    return LEVELS[0];
+  };
+
+  const getNextLevel = (currentLevel: Level): Level | null => {
+    const currentIndex = LEVELS.findIndex(
+      (l) => l.level === currentLevel.level
+    );
+    return currentIndex >= 0 && currentIndex < LEVELS.length - 1
+      ? LEVELS[currentIndex + 1]
+      : null;
+  };
+
+  const calculateProgressPercentage = (
+    etokis: number,
+    currentLevel: Level,
+    nextLevel: Level | null
+  ): number => {
+    if (!nextLevel) return 100;
+
+    const earned = etokis - currentLevel.etokisRequired;
+    const required = nextLevel.etokisRequired - currentLevel.etokisRequired;
+    const percentage = (earned / required) * 100;
+
+    return Number(Math.min(Math.max(percentage, 0), 100).toFixed(2));
+  };
+
+  const useEtokisProgress = (etokis: number): ProgressResult => {
+    return useMemo(() => {
+      try {
+        const currentLevel = getCurrentLevel(etokis);
+        const nextLevel = getNextLevel(currentLevel);
+        const progressPercentage = calculateProgressPercentage(
+          etokis,
+          currentLevel,
+          nextLevel
+        );
+        const etokisToNextLevel = nextLevel
+          ? nextLevel.etokisRequired - etokis
+          : 0;
+
+        return {
+          currentLevel: currentLevel.level,
+          nextLevel: nextLevel?.level ?? null,
+          progressPercentage,
+          etokisToNextLevel,
+          isMaxLevel: !nextLevel,
+        };
+      } catch (error) {
+        throw new Error(
+          `Failed to calculate progress: ${
+            error instanceof Error ? error.message : "Unknown error"
+          }`
+        );
+      }
+    }, [etokis]);
+  };
+
+  const progressPercent = useEtokisProgress(Number(teacher?.user?.etokis));
+
+  console.log(teacher);
   // fetching incoming requests
   useEffect(() => {
     const fetchRequests = async () => {
@@ -244,17 +399,18 @@ export default function Home() {
   // Update states based on SWR data
   useEffect(() => {
     setLoading(isLoading);
+    setTeacher(teacherData);
     if (error) {
       //@ts-ignore
       setError(error.message);
     }
-  }, [isLoading, error, session]);
+  }, [isLoading, error, session, teacherData]);
 
   useEffect(() => {
     //@ts-ignore
     setETokis(teacher?.user?.etokis);
     //@ts-ignore
-    setlevel(teacher?.level);
+    setlevel(progressPercent.currentLevel);
     //@ts-ignore
     setearnedThisMonthEtokis(teacher?.EarnedThisMonth);
     //@ts-ignore
@@ -512,7 +668,14 @@ export default function Home() {
                   </p>
                   <div className="w-full bg-white h-2 rounded-full mt-2">
                     <div
-                      className={`w-[20%] h-full bg-[#9252FF] rounded-full`}
+                      className={`w-[${Number(
+                        progressPercent.progressPercentage
+                      )}%] h-full bg-[#9252FF] rounded-full`}
+                      style={{
+                        width: `${
+                          Number(progressPercent.progressPercentage) || 0
+                        }%`,
+                      }}
                     ></div>
                   </div>
                 </div>
@@ -1190,7 +1353,11 @@ export default function Home() {
                 <div className=" flex gap-2 items-center justify-center">
                   <div className="w-6 custom-2xl:min-w-7 h-6 custom-2xl:min-h-7  rounded-full overflow-hidden flex items-center">
                     <img
-                      src={profilepicture || teacher?.user?.profilePicture}
+                      src={
+                        profilepicture ||
+                        // @ts-ignore
+                        teacher?.user?.profilePicture
+                      }
                       alt=""
                       className="object-cover object-center"
                     />
