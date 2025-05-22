@@ -11,6 +11,65 @@ interface IFileItemTemp {
 function FileItemTemp({ file, doc }: IFileItemTemp) {
   const [isExpanded, setisExpanded] = useState(false);
 
+  const downloadFromS3 = async (
+    s3Url: string,
+    customFileName?: string
+  ): Promise<void> => {
+    try {
+      const response = await fetch(s3Url, {
+        method: "GET",
+        headers: { "Cache-Control": "no-cache" },
+      });
+
+      if (!response.ok) {
+        throw new Error(`Download failed: ${response.status}`);
+      }
+
+      const blob = await response.blob();
+      const downloadUrl = URL.createObjectURL(blob);
+
+      const fileName =
+        customFileName ||
+        decodeURIComponent(s3Url.split("/").pop() || "download");
+
+      const link = document.createElement("a");
+      link.href = downloadUrl;
+      link.download = fileName;
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      URL.revokeObjectURL(downloadUrl);
+    } catch (error) {
+      console.error("S3 download failed:", error);
+
+      // Fallback: Force download using window.open with blob
+      try {
+        const response = await fetch(s3Url);
+        const blob = await response.blob();
+        const fileName =
+          customFileName ||
+          decodeURIComponent(s3Url.split("/").pop() || "download");
+
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.style.display = "none";
+        a.href = url;
+        a.download = fileName;
+
+        document.body.appendChild(a);
+        a.click();
+
+        setTimeout(() => {
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        }, 100);
+      } catch (fallbackError) {
+        throw new Error("Download failed: CORS policy or network issue");
+      }
+    }
+  };
   const getReadableFileType = (mimeType: string): string => {
     const mimeMap: Record<string, string> = {
       "application/pdf": "PDF",
@@ -273,7 +332,12 @@ function FileItemTemp({ file, doc }: IFileItemTemp) {
         </div>
 
         <div className="hidden custom-2xl:flex flex-col custom-2xl:flex-row gap-2 custom-2xl:gap-4 h-full max-w-full custom-2xl:max-w-[9.3rem] w-full items-center justify-end p-4 custom-2xl:pr-10">
-          <button className="">
+          <button
+            onClick={() => {
+              downloadFromS3(file.fileUrl, file.fileName);
+            }}
+            className=""
+          >
             <Image src={downloadicon} alt="" />
           </button>
         </div>
