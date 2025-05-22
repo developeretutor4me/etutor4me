@@ -122,7 +122,7 @@ interface BookingRequest {
   status: string;
 }
 
-const SessionsDashboard = () => {
+export default function Home() {
   const { etokies, isLoadingetokies, erroretokies } = useEtokies();
   const [activeSidebarItem, setActiveSidebarItem] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -132,7 +132,7 @@ const SessionsDashboard = () => {
   const [hoveredDate, setHoveredDate] = useState<number | null>(null);
   const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const router = useRouter();
-  const { data: session,update } = useSession(); // Get the session data
+  const { data: session, update } = useSession(); // Get the session data
   const [teacher, setTeacher] = useState(null); // State to store teacher data
   const [loading, setLoading] = useState<boolean>(true); // Loading state
   const [error, setError] = useState<string | null>(null); // Error state
@@ -151,9 +151,6 @@ const SessionsDashboard = () => {
   const [popup, setpopup] = useState(null);
   const [sessionData, setRequests] = useState<BookingRequest[]>([]);
   const [level, setlevel] = useState("");
-  
-
-
 
   // fetching incoming requests
   useEffect(() => {
@@ -177,7 +174,6 @@ const SessionsDashboard = () => {
 
         const data = await response.json();
         setRequests(data.bookingRequests);
-      
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -188,8 +184,6 @@ const SessionsDashboard = () => {
     fetchRequests();
   }, [session]);
 
-
-
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
   const weeks = eachWeekOfInterval(
@@ -198,9 +192,7 @@ const SessionsDashboard = () => {
   );
   // Filter sessions based on states
   const filteredSessions = useMemo(() => {
-    
-      return sessionData;
-   
+    return sessionData;
   }, [sessionData]);
 
   // Generate calendar days
@@ -216,10 +208,10 @@ const SessionsDashboard = () => {
     return [...preDays.slice(0, -1), ...days];
   }, [currentDate, view]);
 
-  const getSessionForDate = (date:any) => {
-    return filteredSessions.filter((session:any) => !session.meetingCompleted).find((session) =>
-      isSameDay(new Date(session.date), date)
-    );
+  const getSessionForDate = (date: any) => {
+    return filteredSessions
+      .filter((session: any) => !session.meetingCompleted)
+      .find((session) => isSameDay(new Date(session.date), date));
   };
 
   const userID = session?.user.id;
@@ -300,7 +292,9 @@ const SessionsDashboard = () => {
     {
       name: "Session overview",
       icon:
-        activeSidebarItem === "Session overview" ? sessionactive : sessioninactive,
+        activeSidebarItem === "Session overview"
+          ? sessionactive
+          : sessioninactive,
     },
     {
       name: "My Students",
@@ -323,7 +317,13 @@ const SessionsDashboard = () => {
       name: "Refer your Friends",
       icon: activeSidebarItem === "Refer your Friends" ? refer : referinactive,
     },
-    { name: "Activity",  icon: activeSidebarItem === "Activity" ? ActivityLightPurple : ActivityDarkBlue, },
+    {
+      name: "Activity",
+      icon:
+        activeSidebarItem === "Activity"
+          ? ActivityLightPurple
+          : ActivityDarkBlue,
+    },
     {
       name: "Settings",
       icon: activeSidebarItem === "Settings" ? setting : settinginactive,
@@ -359,29 +359,22 @@ const SessionsDashboard = () => {
     return () => mediaQuery.removeEventListener("change", handleMediaChange);
   }, []);
 
-
-
   const handleImpersonate = async () => {
-   
     await update({
-      user:{
-        email: 'admin@gmail.com',
-        role: 'admin',
-        id: 'admin',
+      user: {
+        email: "admin@gmail.com",
+        role: "admin",
+        id: "admin",
         isAdmin: true,
-        isParent:false
-      }
-    })
-    localStorage.removeItem('ContactSupport')
-    localStorage.removeItem('history')
+        isParent: false,
+      },
+    });
+    localStorage.removeItem("ContactSupport");
+    localStorage.removeItem("history");
     setTimeout(() => {
-     router.push("/admin")
+      router.push("/admin");
     }, 3000);
-   
   };
-
-
-
 
   const renderContent = () => {
     switch (activeSidebarItem) {
@@ -406,7 +399,12 @@ const SessionsDashboard = () => {
                     {eTokis}
                   </div>
                   <div className=" flex items-center justify-center">
-                    <Image  loading="lazy"  src={etokiicon} alt="" className="w-9 h-9" />
+                    <Image
+                      loading="lazy"
+                      src={etokiicon}
+                      alt=""
+                      className="w-9 h-9"
+                    />
                   </div>
                 </div>
 
@@ -417,7 +415,8 @@ const SessionsDashboard = () => {
                     }}
                     className="flex-1 bg-[#685AAD] text-white py-[3px] px-10  rounded-lg text-xs flex items-center justify-center gap-1 hover:cursor-pointer"
                   >
-                    <Image  loading="lazy" 
+                    <Image
+                      loading="lazy"
                       src={EPlusIcon}
                       alt=""
                       className="w-5 h-5 hover:cursor-pointer"
@@ -433,10 +432,30 @@ const SessionsDashboard = () => {
                 <div className=" flex justify-between items-center bg-purple-300 rounded-2xl px-4 pl-6 py-[10px] bg-[#ffffff84]">
                   <div className="text-3xl font-bold text-[#685AAD] truncate max-w-[12rem]">
                     {/* {earnedThisMonthEtokis} */}
-                    {erroretokies?"0":(isLoadingetokies? "loading...":(etokies?.filter((etokie:any) => new Date(etokie.createdAt).getMonth() === new Date().getMonth() && new Date(etokie.createdAt).getFullYear() === new Date().getFullYear()).reduce((sum:any, etokie:any) => sum + etokie.amount, 0)))}
+                    {erroretokies
+                      ? "0"
+                      : isLoadingetokies
+                      ? "loading..."
+                      : etokies
+                          ?.filter(
+                            (etokie: any) =>
+                              new Date(etokie.createdAt).getMonth() ===
+                                new Date().getMonth() &&
+                              new Date(etokie.createdAt).getFullYear() ===
+                                new Date().getFullYear()
+                          )
+                          .reduce(
+                            (sum: any, etokie: any) => sum + etokie.amount,
+                            0
+                          )}
                   </div>
                   <div className=" flex items-center justify-center">
-                    <Image  loading="lazy"  src={earningsinactive} alt="" className="w-6 h-6" />
+                    <Image
+                      loading="lazy"
+                      src={earningsinactive}
+                      alt=""
+                      className="w-6 h-6"
+                    />
                   </div>
                 </div>
 
@@ -453,7 +472,8 @@ const SessionsDashboard = () => {
                 } bg-[#EDE8FA]`}
               >
                 <div className="level h-[103px]">
-                  <Image  loading="lazy" 
+                  <Image
+                    loading="lazy"
                     src={
                       level == "1"
                         ? level1
@@ -513,7 +533,12 @@ const SessionsDashboard = () => {
                 <div className=" bg-[#EDE8FA] text-[#685AAD] rounded-2xl px-6 py-5 col-span-3 row-span-5 ">
                   <div className="flex  justify-between items-center">
                     <h1 className="font-bold text-xl">THIS WEEK’S SCHEDULE</h1>
-                    <Image  loading="lazy"  src={lightcalender} alt="" className="w-6 h-6" />
+                    <Image
+                      loading="lazy"
+                      src={lightcalender}
+                      alt=""
+                      className="w-6 h-6"
+                    />
                   </div>
 
                   <div className="flex flex-col gap-6 mt-4 overflow-y-auto scrollbar-none h-[95%]">
@@ -538,22 +563,24 @@ const SessionsDashboard = () => {
                               >
                                 <div className="pl-2">
                                   <h1 className="font-bold text-white text-lg">
-                                  {request.subjects || ""}
+                                    {request.subjects || ""}
                                   </h1>
                                   <p className=" text-white text-lg ">
-                                  {request?.studentdetails?.firstName ||
-                                          "Your Student"}
+                                    {request?.studentdetails?.firstName ||
+                                      "Your Student"}
                                   </p>
                                 </div>
                                 <div className="flex flex-col gap-1">
                                   <button className="text-white bg-[#685AAD] rounded-md px-2 py-1 text-sm">
                                     Edit Session
                                   </button>
-                                  <a href={request?.startLink || "#"} target="_blank">
-
-                                  <button className="text-white bg-[#8653FF] rounded-md px-2 py-1 text-sm">
-                                    Meeting Link
-                                  </button>
+                                  <a
+                                    href={request?.startLink || "#"}
+                                    target="_blank"
+                                  >
+                                    <button className="text-white bg-[#8653FF] rounded-md px-2 py-1 text-sm">
+                                      Meeting Link
+                                    </button>
                                   </a>
                                 </div>
                               </div>
@@ -576,7 +603,8 @@ const SessionsDashboard = () => {
                         })}{" "}
                         {currentDate.getFullYear()}
                       </h1>
-                      <Image  loading="lazy" 
+                      <Image
+                        loading="lazy"
                         onClick={() => {
                           setActiveSidebarItem("");
                         }}
@@ -675,7 +703,12 @@ const SessionsDashboard = () => {
                     <h1 className="font-bold text-xl uppercase">
                       completed sessions
                     </h1>
-                    <Image  loading="lazy"  src={sessionicongray} alt="" className="w-5 h-5" />
+                    <Image
+                      loading="lazy"
+                      src={sessionicongray}
+                      alt=""
+                      className="w-5 h-5"
+                    />
                   </div>
 
                   <div className="mt-8">
@@ -701,26 +734,30 @@ const SessionsDashboard = () => {
                                 <div className="flex flex-col  ">
                                   <h3 className="text-[#8653FF] text-lg">
                                     {
-                                    //@ts-ignore
-                                    request?.studentdetails?.firstName}
+                                      //@ts-ignore
+                                      request?.studentdetails?.firstName
+                                    }
                                   </h3>
                                   <div className="flex justify-between gap-4 ">
                                     <span className="text-base">DATE</span>
                                     <span className="text-base">
-                                    <span className="text-sm">{`${new Date(
-                                request.date
-                              )
-                                .toLocaleDateString("en-GB")
-                                .replace(/\//g, "-")
-                                .slice(0, 10)}`}</span>
+                                      <span className="text-sm">{`${new Date(
+                                        request.date
+                                      )
+                                        .toLocaleDateString("en-GB")
+                                        .replace(/\//g, "-")
+                                        .slice(0, 10)}`}</span>
                                     </span>
                                   </div>
                                 </div>
 
                                 <div>
                                   <button
-                                  onClick={()=>{setActiveSidebarItem("Session overview")}}
-                                  className="bg-[#8653FF] text-white px-6 py-1.5 rounded-md text-sm">
+                                    onClick={() => {
+                                      setActiveSidebarItem("Session overview");
+                                    }}
+                                    className="bg-[#8653FF] text-white px-6 py-1.5 rounded-md text-sm"
+                                  >
                                     View
                                   </button>
                                 </div>
@@ -740,7 +777,12 @@ const SessionsDashboard = () => {
                     <h1 className="font-bold text-xl uppercase">
                       Prefer your friends
                     </h1>
-                    <Image  loading="lazy"  src={refergray} alt="" className="w-5 h-5" />
+                    <Image
+                      loading="lazy"
+                      src={refergray}
+                      alt=""
+                      className="w-5 h-5"
+                    />
                   </div>
 
                   <div>
@@ -758,7 +800,12 @@ const SessionsDashboard = () => {
                 <div className=" bg-[#EDE8FA] text-[#685AAD] rounded-2xl p-4 col-span-3 custom-2xl:col-span-2  text-xl flex flex-col justify-between  ">
                   <div className="flex  justify-between items-center">
                     <h1 className="font-bold text-xl uppercase">24H SUPPORT</h1>
-                    <Image  loading="lazy"  src={chaticon} alt="" className="w-5 h-5" />
+                    <Image
+                      loading="lazy"
+                      src={chaticon}
+                      alt=""
+                      className="w-5 h-5"
+                    />
                   </div>
 
                   <div className=" ">
@@ -799,7 +846,12 @@ const SessionsDashboard = () => {
                 <div className=" bg-[#EDE8FA] text-[#685AAD] rounded-2xl p-4 col-span-3 custom-2xl:col-span-2 row-span-1  text-xl scrollbar-none">
                   <div className="flex  justify-between items-center">
                     <h1 className="font-bold text-xl">CHAT</h1>
-                    <Image  loading="lazy"  src={chat} alt="" className="w-4 h-4" />
+                    <Image
+                      loading="lazy"
+                      src={chat}
+                      alt=""
+                      className="w-4 h-4"
+                    />
                   </div>
 
                   <div className="overflow-y-auto  h-[92%] scrollbar-none">
@@ -880,14 +932,15 @@ const SessionsDashboard = () => {
             <Calender
               setActiveFindEtutor={function (item: string): void {
                 throw new Error("Function not implemented.");
-              } }
+              }}
               setActiveMYEtutor={function (item: string): void {
                 throw new Error("Function not implemented.");
-              } }
+              }}
               setTutor={undefined}
               showchat={undefined}
-              tutortomessage={undefined} 
-              data={sessionData}            />
+              tutortomessage={undefined}
+              data={sessionData}
+            />
           </>
         );
       case "Find eTutor":
@@ -905,9 +958,13 @@ const SessionsDashboard = () => {
       case "Activity":
         return (
           session?.user?.isAdmin && (
-           <Activity teacher={teacher} etokiesprop={undefined} sessionData={sessionData}/>
+            <Activity
+              teacher={teacher}
+              etokiesprop={undefined}
+              sessionData={sessionData}
+            />
           )
-        )
+        );
       case "Settings":
         return <Setting teacher={teacher} profilePicture={setProfilepicture} />;
       case "Useful links":
@@ -917,9 +974,7 @@ const SessionsDashboard = () => {
     }
   };
 
-
-  if(session?.user?.role === "teacher"){
-
+  if (session?.user?.role === "teacher") {
     return (
       <div className="flex min-h-screen bg-white relative z-0 max-w-[1920px] w-full mx-auto">
         {/* Sidebar */}
@@ -930,11 +985,19 @@ const SessionsDashboard = () => {
         >
           <div className="flex items-center mb-[23.5%] pb-2 pl-7">
             {session.user.isAdmin === true ? (
-
-              <Image  loading="lazy"  src={adminlogo} alt="" className="w-52 sm:w-[17rem]" />
-            ):(
-              
-              <Image  loading="lazy"  src={logo} alt="" className="w-52 sm:w-[17rem]" />
+              <Image
+                loading="lazy"
+                src={adminlogo}
+                alt=""
+                className="w-52 sm:w-[17rem]"
+              />
+            ) : (
+              <Image
+                loading="lazy"
+                src={logo}
+                alt=""
+                className="w-52 sm:w-[17rem]"
+              />
             )}
           </div>
           <nav className="flex-grow flex flex-col">
@@ -942,9 +1005,12 @@ const SessionsDashboard = () => {
               {sidebarItems
                 .filter(
                   (item) => !["Settings", "Useful links"].includes(item.name)
-                ).filter((item)=>(
-                  session.user.isAdmin ? item:!["Activity"].includes(item.name)
-                ))
+                )
+                .filter((item) =>
+                  session.user.isAdmin
+                    ? item
+                    : !["Activity"].includes(item.name)
+                )
                 .map((item) => (
                   <li key={item.name}>
                     <button
@@ -961,7 +1027,8 @@ const SessionsDashboard = () => {
                           : "hover:bg-darkpurple hover:bg-transparent transition-all"
                       }`}
                     >
-                      <Image  loading="lazy" 
+                      <Image
+                        loading="lazy"
                         src={item.icon}
                         className="w-5 sm:w-6 h-5 sm:h-6 mr-7"
                         alt=""
@@ -999,7 +1066,8 @@ const SessionsDashboard = () => {
                           : "hover:bg-darkpurple hover:bg-transparent"
                       }`}
                     >
-                      <Image  loading="lazy" 
+                      <Image
+                        loading="lazy"
                         src={item.icon}
                         className="w-5 sm:w-6 h-5 sm:h-6 mr-7"
                         alt=""
@@ -1019,7 +1087,7 @@ const SessionsDashboard = () => {
             </ul>
           </nav>
         </aside>
-  
+
         {/* Main content */}
         <main className="flex-1 px-9 py-4 overflow-auto  bg-transparent">
           <header
@@ -1034,7 +1102,7 @@ const SessionsDashboard = () => {
               >
                 <Menu size={24} />
               </button>
-  
+
               {activeSidebarItem === "Dashboard" ? (
                 <></>
               ) : (
@@ -1050,7 +1118,7 @@ const SessionsDashboard = () => {
                     className="mr-2 cursor-pointer text-[#685AAD]"
                     size={24}
                   />
-  
+
                   <h1 className="text-[#685AAD] text-xs sm:text-sm custom-lg:text-xl hidden sm:block">
                     Back
                   </h1>
@@ -1062,30 +1130,33 @@ const SessionsDashboard = () => {
                 </h1>
               )}
             </div>
-  
+
             <div
               ref={targetRef}
               className="flex items-center space-x-4 relative -right-4 select-none "
             >
               {/* <Bell size={24} className="cursor-pointer text-darkBlue" /> */}
               <div className="flex gap-4 custom-2xl:gap-6 mr-2">
-                <Image  loading="lazy" 
+                <Image
+                  loading="lazy"
                   src={dark}
                   alt=""
                   className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
                 />
-                <Image  loading="lazy" 
+                <Image
+                  loading="lazy"
                   src={translate}
                   alt=""
                   className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
                 />
-                <Image  loading="lazy" 
+                <Image
+                  loading="lazy"
                   src={bell}
                   alt=""
                   className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
                 />
               </div>
-  
+
               {/* -------profile complete------- */}
               {/* {activeSidebarItem === "Dashboard" && (
                 <div className=" absolute mb-28 custom-xl:mb-8 hidden sm:block right-4   top-[3.7rem] max-w-[20.5rem]  custom-xl:max-w-[21.5rem]  ">
@@ -1109,23 +1180,27 @@ const SessionsDashboard = () => {
                   </div>
                 </div>
               )} */}
-  
+
               <div
                 onClick={toggleProfile}
                 className={`flex bg-[#EDE8FA] hover:cursor-pointer  px-2 py-1 justify-between w-[9rem] custom-2xl:w-[12.5rem]   h-10 custom-2xl:h-11 items-center rounded-md ${
                   isProfileOpen ? "border border-[#685aad7a]" : "border-0"
                 }`}
               >
-                <div className="w-6 custom-2xl:w-7 h-6 custom-2xl:h-7  rounded-full overflow-hidden flex items-center">
-                  <img src={profilepicture || teacher?.user?.profilePicture} alt="" className="object-cover object-center" />
+                <div className=" flex gap-2 items-center justify-center">
+                  <div className="w-6 custom-2xl:min-w-7 h-6 custom-2xl:min-h-7  rounded-full overflow-hidden flex items-center">
+                    <img
+                      src={profilepicture || teacher?.user?.profilePicture}
+                      alt=""
+                      className="object-cover object-center"
+                    />
+                  </div>
+
+                  <span className="text-sm custom-2xl:text-base font-bold text-[#685AAD]">
+                    {firstname}
+                  </span>
                 </div>
-                {/* <div className="flex items-center  w-full  gap-2 custom-2xl:gap-4">
-  
-                </div> */}
-                <span className="text-sm custom-2xl:text-base font-bold text-[#685AAD]">
-                  {firstname}
-                </span>
-  
+
                 {isProfileOpen ? (
                   <ChevronUp
                     size={18}
@@ -1138,7 +1213,7 @@ const SessionsDashboard = () => {
                   />
                 )}
               </div>
-  
+
               {isProfileOpen && (
                 <div className="absolute right-0 mt-2 hover:cursor-pointer  bg-[#EDE8FA] font-bold rounded-md shadow-lg py-1 z-10 top-full w-[9rem] custom-2xl:w-[12.5rem] px-4 border border-[#685aad7a]">
                   <Link
@@ -1171,14 +1246,9 @@ const SessionsDashboard = () => {
         </main>
       </div>
     );
+  } else if (session?.user?.role === "parent") {
+    router.push("/parent");
+  } else if (session?.user?.role === "student") {
+    router.push("/studentdashboard");
   }
-  else if(session?.user?.role === "parent"){
-      router.push('/parent')
-  }else if(session?.user?.role === "student"){
-      router.push('/studentdashboard')
-  }
-
-
-};
-
-export default SessionsDashboard;
+}
