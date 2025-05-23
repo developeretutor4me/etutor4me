@@ -1,56 +1,65 @@
 "use client";
+
+// React + Next.js Core
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { ChevronDown, ChevronUp, ChevronLeft, Menu } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
-import Dashboard from "./components/Dashboard";
-import logo from "../../../public/etutorlogo.svg";
-import adminlogo from "../../../public/etutuorAdminLogo.svg";
 import Image from "next/image";
-import Home1 from "../../../public/homeicon.svg";
-import sessionactive from "../../../public/sessionicon.svg";
-import calender from "../../../public/calander.svg";
-import eicon from "../../../public/eicon.svg";
-import find from "../../../public/findEtutor.svg";
-import membership from "../../../public/earnings.svg";
-import contact from "../../../public/contactandsupporticon.svg";
-import refer from "../../../public/refericon.svg";
-import activity from "../../../public/activityicon.svg";
-import setting from "../../../public/settingicon.svg";
-import link from "../../../public/linkicons.svg";
-import Session from "./components/Session";
-import etokiicon from "../../../public/etokiIcon.svg";
-import EPlusIcon from "../../../public/Plus circle.svg";
-import redeemIcon from "../../../public/redeem.svg";
-import bell from "../../../public/bellicon.svg";
-import translate from "../../../public/translateicon.svg";
-import dark from "../../../public/darkicon.svg";
-import lightcalender from "../../../public/lightcalendar.svg";
-import sessionicongray from "../../../public/compltedsessionsicon gray.svg";
-import chat from "../../../public/chat.svg";
-import bellgray from "../../../public/bellicongrat.svg";
-import chaticon from "../../../public/chaticon.svg";
-import refergray from "../../../public/grayrefer.svg";
-import rightarrow from "../../../public/arrowwww.svg";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+
+// Authentication
+import { signOut, useSession } from "next-auth/react";
+
+// Date Utilities
+import {
+  eachDayOfInterval,
+  eachWeekOfInterval,
+  endOfMonth,
+  format,
+  isSameDay,
+  isSameMonth,
+  startOfMonth,
+  startOfWeek,
+} from "date-fns";
+
+// Icons - Lucide
+import { ChevronDown, ChevronLeft, ChevronUp, Menu } from "lucide-react";
+
+// Custom Hooks
+import { useEtokies } from "../admin/hooks/useEtokies";
+import { useTeacherData } from "../admin/hooks/useTeacherData";
+import { useEtokisProgress } from "@/app/admin/hooks/useEtokisProgress";
+
+// Types
+import { BookingRequest, SIDEBAR_ITEMS } from "./profile/components/Data";
+
+// UI Components
+import Activity from "./components/Activity";
 import Calender from "./components/Calender";
-import MyEtutor from "./components/MyEtutor";
-import FindEtutor from "./components/FindEtutor";
 import ContactSupport from "./components/ContactSupport";
+import Earnings from "./components/Earnings";
+import FindEtutor from "./components/FindEtutor";
+import MyEtutor from "./components/MyEtutor";
 import ReferYourFriends from "./components/ReferYourFriends";
+import Session from "./components/Session";
 import Setting from "./components/Settings";
 import UsefulLinks from "./components/UsefulLinks";
 
-import homeinactive from "../../../public/home inactive.svg";
-import sessioninactive from "../../../public/sessionoverview inactive.svg";
-import einactive from "../../../public/e inactive.svg";
-import calanderinactive from "../../../public/calander inactive.svg";
+// Assets - Logos
+import adminlogo from "../../../public/etutuorAdminLogo.svg";
+import logo from "../../../public/etutorlogo.svg";
+import bell from "../../../public/bellicon.svg";
+import chaticon from "../../../public/chaticon.svg";
+import chat from "../../../public/chat.svg";
+import dark from "../../../public/darkicon.svg";
+import etokiicon from "../../../public/etokiIcon.svg";
+import EPlusIcon from "../../../public/Plus circle.svg";
 import earningsinactive from "../../../public/earnings inactive.svg";
-import supportinactive from "../../../public/support inactive.svg";
-import referinactive from "../../../public/refer inactive.svg";
-import settinginactive from "../../../public/settings inactive.svg";
-import linksinactive from "../../../public/links inactive.svg";
-import ActivityDarkBlue from "../../../public/ActivityDarkBlue.svg";
-import ActivityLightPurple from "../../../public/lighPUrple.svg";
-import levellogo from "../../../public/level5 logo.svg";
+import lightcalender from "../../../public/lightcalendar.svg";
+import refergray from "../../../public/grayrefer.svg";
+import sessionicongray from "../../../public/compltedsessionsicon gray.svg";
+import translate from "../../../public/translateicon.svg";
+
+// Assets - Levels
 import level1 from "../../../public/level-1.svg";
 import level2 from "../../../public/level-2.svg";
 import level3 from "../../../public/level-3.svg";
@@ -61,149 +70,7 @@ import level7 from "../../../public/level-7.svg";
 import level8 from "../../../public/level-8.svg";
 import level9 from "../../../public/level-9.svg";
 import level10 from "../../../public/level-10.svg";
-import useSWR from "swr";
-import Link from "next/link";
-import Earnings from "./components/Earnings";
-import { useRouter } from "next/navigation";
-import {
-  format,
-  startOfWeek,
-  addDays,
-  startOfMonth,
-  endOfMonth,
-  eachDayOfInterval,
-  addMonths,
-  subMonths,
-  addWeeks,
-  subWeeks,
-  isSameDay,
-  endOfWeek,
-  eachWeekOfInterval,
-  isSameMonth,
-  isToday,
-} from "date-fns";
-import Activity from "./components/Activity";
-import { useEtokies } from "../admin/hooks/useEtokies";
-interface Student {
-  user: IUser;
-  levelOfStudy: string;
-  grade: string;
-  subjects: string[];
-  personalInformation: {
-    country: string;
-    city: string;
-    streetName: string;
-    zipcode: string;
-    institution: string;
-    age: number;
-  };
-  additionalInformation: string;
-  availability: string;
-  firstName: string;
-  lastName: string;
-  phoneNumber: string;
-}
-
-interface IUser {
-  _id: string;
-  email: string;
-  password: string;
-  role: string;
-  isAdmin: boolean;
-  verified: boolean;
-  verification_token?: string;
-  referralCode: string;
-  etokis: number;
-  referredBy?: string;
-  profilePicture?: string;
-  trialSessions: any;
-  hasCompletedFirstSession: boolean;
-  stripeSubscriptionId: string;
-  planType: any;
-  tutorLevel: string;
-  durationMonths: string;
-  sessionsPerMonth: number;
-  subscriptionDateStart: string;
-  subscriptionDateEnd: string;
-  stripeMonthlyPrice: number;
-  TrialSessionLeft: number;
-  subscriptionIsActive: boolean;
-}
-
-interface Teacher {
-  level: number;
-  user: IUser;
-  contactInformation: {
-    country: string;
-    firstName: string;
-    lastName: string;
-    zipCode: string;
-    email: string;
-  };
-  education: {
-    college: string;
-    degree: string;
-    major: string;
-    graduation: Date;
-    school?: string;
-  };
-  experience: {
-    hasExperience: boolean;
-    tutoringLevel: string[];
-    subjectsTutored: string[];
-    languages: string[];
-    instructionTypes: string[];
-    availableHours: string;
-    startDate: Date;
-    generalAvailability: {
-      day: string;
-      time: string;
-    }[];
-    hasTeachingExperience: boolean;
-    is18OrAbove: boolean;
-  };
-  isApproved: boolean;
-}
-interface BookingRequest {
-  studentdetails: any;
-  startLink: string;
-  meetingCompleted: boolean;
-  joinLink: string | undefined;
-  _id: string;
-  student: Student;
-  teacher: Teacher;
-  subjects: string[];
-  level: string;
-  date: string;
-  time: string;
-  status: string;
-}
-
-interface Level {
-  level: number;
-  etokisRequired: number;
-}
-
-const LEVELS: readonly Level[] = [
-  { level: 1, etokisRequired: 0 },
-  { level: 2, etokisRequired: 150 },
-  { level: 3, etokisRequired: 300 },
-  { level: 4, etokisRequired: 800 },
-  { level: 5, etokisRequired: 1200 },
-  { level: 6, etokisRequired: 1700 },
-  { level: 7, etokisRequired: 2400 },
-  { level: 8, etokisRequired: 3500 },
-  { level: 9, etokisRequired: 4500 },
-  { level: 10, etokisRequired: 5500 },
-] as const;
-
-interface ProgressResult {
-  currentLevel: number;
-  nextLevel: number | null;
-  progressPercentage: number;
-  etokisToNextLevel: number;
-  isMaxLevel: boolean;
-}
+import { useIncomingRequests } from "../admin/hooks/useIncomingRequests";
 
 export default function Home() {
   const { etokies, isLoadingetokies, erroretokies } = useEtokies();
@@ -212,132 +79,24 @@ export default function Home() {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [previousSidebarItem, setPreviousSidebarItem] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
-  const [hoveredDate, setHoveredDate] = useState<number | null>(null);
-  const [popupPosition, setPopupPosition] = useState({ x: 0, y: 0 });
   const router = useRouter();
-  const { data: session, update } = useSession(); // Get the session data
-  const [teacher, setTeacher] = useState<Teacher>();
-  const [loading, setLoading] = useState<boolean>(true); // Loading state
-  const [error, setError] = useState<string | null>(null); // Error state
-  const targetRef = useRef<HTMLDivElement>(null); // Reference to your component
+  const { data: session, update } = useSession();
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const targetRef = useRef<HTMLDivElement>(null);
   const [eTokis, setETokis] = useState(0);
-  const [earnedThisMonthEtokis, setearnedThisMonthEtokis] = useState(0);
+  const [earnedThisMonthEtokis, setEarnedThisMonthEtokis] = useState(0);
   const [firstname, setFirstname] = useState("");
   const [profilepicture, setProfilepicture] = useState("");
-  const [tutorlevelleft, settutorlevelleft] = useState(0);
-  const [completeprofilestatus, setCompleteprofilestatus] = useState(0);
-  const [confirmedState, setConfirmedState] = useState(false);
-  const [unconfirmedState, setUnconfirmedState] = useState(false);
-  const [canceledState, setCanceledState] = useState(false);
-  const [redeem, setredeem] = useState(false);
+  const [tutorlevelleft, setTutorLevelLeft] = useState(0);
+  const [completeprofilestatus, setCompleteProfileStatus] = useState(0);
   const [view, setView] = useState("month"); // 'month' or 'week'
-  const [popup, setpopup] = useState(null);
-  const [sessionData, setRequests] = useState<BookingRequest[]>([]);
-  const [level, setlevel] = useState("");
-
-  const getCurrentLevel = (etokis: number): Level => {
-    if (etokis < 0) {
-      throw new Error(`ETokis cannot be negative: received ${etokis}`);
-    }
-
-    const levelsCount = LEVELS.length;
-    for (let i = levelsCount - 1; i >= 0; i--) {
-      if (etokis >= LEVELS[i].etokisRequired) {
-        return LEVELS[i];
-      }
-    }
-
-    return LEVELS[0];
-  };
-
-  const getNextLevel = (currentLevel: Level): Level | null => {
-    const currentIndex = LEVELS.findIndex(
-      (l) => l.level === currentLevel.level
-    );
-    return currentIndex >= 0 && currentIndex < LEVELS.length - 1
-      ? LEVELS[currentIndex + 1]
-      : null;
-  };
-
-  const calculateProgressPercentage = (
-    etokis: number,
-    currentLevel: Level,
-    nextLevel: Level | null
-  ): number => {
-    if (!nextLevel) return 100;
-
-    const earned = etokis - currentLevel.etokisRequired;
-    const required = nextLevel.etokisRequired - currentLevel.etokisRequired;
-    const percentage = (earned / required) * 100;
-
-    return Number(Math.min(Math.max(percentage, 0), 100).toFixed(2));
-  };
-
-  const useEtokisProgress = (etokis: number): ProgressResult => {
-    return useMemo(() => {
-      try {
-        const currentLevel = getCurrentLevel(etokis);
-        const nextLevel = getNextLevel(currentLevel);
-        const progressPercentage = calculateProgressPercentage(
-          etokis,
-          currentLevel,
-          nextLevel
-        );
-        const etokisToNextLevel = nextLevel
-          ? nextLevel.etokisRequired - etokis
-          : 0;
-
-        return {
-          currentLevel: currentLevel.level,
-          nextLevel: nextLevel?.level ?? null,
-          progressPercentage,
-          etokisToNextLevel,
-          isMaxLevel: !nextLevel,
-        };
-      } catch (error) {
-        throw new Error(
-          `Failed to calculate progress: ${
-            error instanceof Error ? error.message : "Unknown error"
-          }`
-        );
-      }
-    }, [etokis]);
-  };
-
+  const [popup, setPopup] = useState<Date | null>(null);
+  const [level, setLevel] = useState(0);
+  const { teacher, isLoading, teachererror } = useTeacherData();
   const progressPercent = useEtokisProgress(Number(teacher?.user?.etokis));
-
-  console.log(teacher);
-  // fetching incoming requests
-  useEffect(() => {
-    const fetchRequests = async () => {
-      if (!session) return;
-
-      try {
-        const response = await fetch(
-          "/api/get-incoming-requests-from-student",
-          {
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch requests");
-        }
-
-        const data = await response.json();
-        setRequests(data.bookingRequests);
-      } catch (err: any) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchRequests();
-  }, [session]);
+  const [isLargeScreen, setIsLargeScreen] = useState(false);
+  const { sessionData, reqloading, reqerr } = useIncomingRequests(session);
 
   const monthStart = startOfMonth(currentDate);
   const monthEnd = endOfMonth(currentDate);
@@ -363,67 +122,27 @@ export default function Home() {
     return [...preDays.slice(0, -1), ...days];
   }, [currentDate, view]);
 
-  const getSessionForDate = (date: any) => {
+  const getSessionForDate = (date: Date): BookingRequest | undefined => {
     return filteredSessions
-      .filter((session: any) => !session.meetingCompleted)
+      .filter((session: BookingRequest) => !session.meetingCompleted)
       .find((session) => isSameDay(new Date(session.date), date));
   };
 
-  const userID = session?.user.id;
-
-  // fetching the user data----------------------------
-  const fetcher = async (url: string) => {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error("Teacher not found or internal server error");
-    }
-    return response.json();
-  };
-
-  // Use SWR hook
-  const { data: teacherData, isLoading } = useSWR(
-    "/api/Teacher-Apis/teacher-data",
-    fetcher,
-    {
-      revalidateOnFocus: true,
-      revalidateOnReconnect: true,
-      onSuccess: (data) => {
-        setTeacher(data);
-      },
-      onError: (err) => {
-        setError(err.message);
-      },
-    }
-  );
-
-  // Update states based on SWR data
   useEffect(() => {
-    setLoading(isLoading);
-    setTeacher(teacherData);
-    if (error) {
-      //@ts-ignore
-      setError(error.message);
-    }
-  }, [isLoading, error, session, teacherData]);
+    setETokis(teacher?.user?.etokis ?? 0);
 
-  useEffect(() => {
-    //@ts-ignore
-    setETokis(teacher?.user?.etokis);
-    //@ts-ignore
-    setlevel(progressPercent.currentLevel);
-    //@ts-ignore
-    setearnedThisMonthEtokis(teacher?.EarnedThisMonth);
-    //@ts-ignore
-    setFirstname(teacher?.contactInformation?.firstName);
-    //@ts-ignore
-    setProfilepicture(teacher?.user?.profilePicture);
-    settutorlevelleft(80);
-    setCompleteprofilestatus(90);
-  }, [session, teacher]);
+    setLevel(progressPercent.currentLevel);
+    // @ts-ignore
+    setEarnedThisMonthEtokis(teacher?.EarnedThisMonth ?? 0);
+
+    setFirstname(teacher?.contactInformation?.firstName ?? "");
+    setProfilepicture(teacher?.user?.profilePicture ?? "");
+    setTutorLevelLeft(80);
+    setCompleteProfileStatus(90);
+  }, [session, teacher, progressPercent.currentLevel]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      // If the click is outside the component (targetRef), close the dropdown/modal/etc.
       if (
         targetRef.current &&
         !targetRef.current.contains(event.target as Node)
@@ -434,61 +153,15 @@ export default function Home() {
 
     document.addEventListener("click", handleClickOutside);
 
-    // Cleanup the event listener on component unmount
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
-  const sidebarItems = [
-    {
-      name: "Dashboard",
-      icon: activeSidebarItem === "Dashboard" ? Home1 : homeinactive,
-    },
-    {
-      name: "Session overview",
-      icon:
-        activeSidebarItem === "Session overview"
-          ? sessionactive
-          : sessioninactive,
-    },
-    {
-      name: "My Students",
-      icon: activeSidebarItem === "My Students" ? eicon : einactive,
-    },
-    {
-      name: "Calendar",
-      icon: activeSidebarItem === "Calendar" ? calender : calanderinactive,
-    },
-
-    {
-      name: "Earnings",
-      icon: activeSidebarItem === "Earnings" ? membership : earningsinactive,
-    },
-    {
-      name: "Support",
-      icon: activeSidebarItem === "Support" ? contact : supportinactive,
-    },
-    {
-      name: "Refer your Friends",
-      icon: activeSidebarItem === "Refer your Friends" ? refer : referinactive,
-    },
-    {
-      name: "Activity",
-      icon:
-        activeSidebarItem === "Activity"
-          ? ActivityLightPurple
-          : ActivityDarkBlue,
-    },
-    {
-      name: "Settings",
-      icon: activeSidebarItem === "Settings" ? setting : settinginactive,
-    },
-    {
-      name: "Useful links",
-      icon: activeSidebarItem === "Useful links" ? link : linksinactive,
-    },
-  ];
+  const sidebarItems = SIDEBAR_ITEMS.map((item) => ({
+    ...item,
+    icon: activeSidebarItem === item.name ? item.activeIcon : item.inactiveIcon,
+  }));
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -497,7 +170,6 @@ export default function Home() {
   const toggleProfile = () => {
     setIsProfileOpen(!isProfileOpen);
   };
-  const [isLargeScreen, setIsLargeScreen] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(min-width: 1849px)");
@@ -631,25 +303,25 @@ export default function Home() {
                   <Image
                     loading="lazy"
                     src={
-                      level == "1"
+                      level == 1
                         ? level1
-                        : level == "2"
+                        : level == 2
                         ? level2
-                        : level == "3"
+                        : level == 3
                         ? level3
-                        : level == "4"
+                        : level == 4
                         ? level4
-                        : level == "5"
+                        : level == 5
                         ? level5
-                        : level == "6"
+                        : level == 6
                         ? level6
-                        : level == "7"
+                        : level == 7
                         ? level7
-                        : level == "8"
+                        : level == 8
                         ? level8
-                        : level == "9"
+                        : level == 9
                         ? level9
-                        : level == "10"
+                        : level == 10
                         ? level10
                         : level1
                     }
@@ -660,7 +332,7 @@ export default function Home() {
                 <div className="content flex flex-col w-full">
                   <p className="text-[#685AAD]  text-lg font-bold"> eTokis</p>
                   <p className="text-[#685AAD]  text-lg font-medium ">
-                    {level == "10" ? (
+                    {level == 10 ? (
                       <span>All Level Completed!</span>
                     ) : (
                       <span>Left for level {level + 1}</span>
@@ -798,11 +470,10 @@ export default function Home() {
                           return (
                             <div
                               onMouseEnter={() => {
-                                // @ts-ignore
-                                setpopup(day);
+                                setPopup(day);
                               }}
                               onMouseLeave={() => {
-                                setpopup(null);
+                                setPopup(null);
                               }}
                               key={index}
                               className={`flex items-center justify-center rounded-full  relative   custom-xl:rounded-full  text-center  mx-auto  ${
@@ -896,10 +567,7 @@ export default function Home() {
                               >
                                 <div className="flex flex-col  ">
                                   <h3 className="text-[#8653FF] text-lg">
-                                    {
-                                      //@ts-ignore
-                                      request?.studentdetails?.firstName
-                                    }
+                                    {request?.studentdetails?.firstName}
                                   </h3>
                                   <div className="flex justify-between gap-4 ">
                                     <span className="text-base">DATE</span>

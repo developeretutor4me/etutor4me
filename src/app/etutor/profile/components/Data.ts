@@ -1,73 +1,54 @@
-export interface Teacher {
-  user: string; // ObjectId reference to the User model
-  acceptsTrialSession?: boolean;
-  contactInformation: {
-    country?: string;
-    countryOfresident?: string;
-    firstName: string;
-    lastName?: string;
-    zipCode?: string;
-    phone?: string;
-    streetname?: string;
-    shippingAddress?: string;
-    city?: string;
-    postcode?: string;
-    email: string;
-  };
-  education: {
-    college: string;
-    degree: string;
-    major: string;
-    graduation?: any;
-    graduationSchool?: string;
-    graduationCountry?: string;
-    highestDegree?: string;
-    school?: string;
-  };
-  DOB: {
-    day?: string;
-    month?: string;
-    year?: string;
-  };
-  currentJob?: string;
-  timeZone?: string;
-  gender?: string;
-  VideoIntroduction?: string;
-  aboutyou?: string;
-  YourEducation?: string;
-  experience: {
-    experienceWithSpecialNeedsStudent?: string[];
-    tutoringExperience?: string;
-    internationalExperience?: string;
-    moreaboutProfessionalExperience?: string;
-    hasExperience: boolean;
-    tutoringLevel: string[];
-    subjectsTutored: string[];
-    languages: string[];
-    instructionTypes: string[];
-    availableHours: string;
-    startDate: any;
-    generalAvailability: any;
-    hasTeachingExperience: boolean;
-    is18OrAbove: boolean;
-  };
-  bankDetails?: {
-    accountholder?: string;
-    IBAN?: string;
-    BIC?: string;
-  };
-  currentMonthRegularSession?: number;
-  currentMonthGroupSession?: number;
-  TotalGroupSession?: number;
-  TotalRegularSession?: number;
-  totalbooking?: number;
-  level?: number;
-  badge?: string;
-  EarnedThisMonth?: number;
-  EarnedLastMonth?: number;
-  TotalEarning?: number;
-  isApproved?: boolean;
+import ActivityDarkBlue from "../../../../../public/ActivityDarkBlue.svg";
+import ActivityLightPurple from "../../../../../public/lighPUrple.svg";
+import calanderinactive from "../../../../../public/calander inactive.svg";
+import calender from "../../../../../public/calander.svg";
+import contact from "../../../../../public/contactandsupporticon.svg";
+import eicon from "../../../../../public/eicon.svg";
+import einactive from "../../../../../public/e inactive.svg";
+import earningsinactive from "../../../../../public/earnings inactive.svg";
+import homeinactive from "../../../../../public/home inactive.svg";
+import Home1 from "../../../../../public/homeicon.svg";
+import link from "../../../../../public/linkicons.svg";
+import linksinactive from "../../../../../public/links inactive.svg";
+import membership from "../../../../../public/earnings.svg";
+import refer from "../../../../../public/refericon.svg";
+import referinactive from "../../../../../public/refer inactive.svg";
+import sessionactive from "../../../../../public/sessionicon.svg";
+import sessioninactive from "../../../../../public/sessionoverview inactive.svg";
+import setting from "../../../../../public/settingicon.svg";
+import settinginactive from "../../../../../public/settings inactive.svg";
+import supportinactive from "../../../../../public/support inactive.svg";
+
+export interface SidebarItem {
+  name: string;
+  activeIcon: string;
+  inactiveIcon: string;
 }
+
+export const SIDEBAR_ITEMS: SidebarItem[] = [
+  { name: "Dashboard", activeIcon: Home1, inactiveIcon: homeinactive },
+  {
+    name: "Session overview",
+    activeIcon: sessionactive,
+    inactiveIcon: sessioninactive,
+  },
+  { name: "My Students", activeIcon: eicon, inactiveIcon: einactive },
+  { name: "Calendar", activeIcon: calender, inactiveIcon: calanderinactive },
+  { name: "Earnings", activeIcon: membership, inactiveIcon: earningsinactive },
+  { name: "Support", activeIcon: contact, inactiveIcon: supportinactive },
+  {
+    name: "Refer your Friends",
+    activeIcon: refer,
+    inactiveIcon: referinactive,
+  },
+  {
+    name: "Activity",
+    activeIcon: ActivityLightPurple,
+    inactiveIcon: ActivityDarkBlue,
+  },
+  { name: "Settings", activeIcon: setting, inactiveIcon: settinginactive },
+  { name: "Useful links", activeIcon: link, inactiveIcon: linksinactive },
+];
 
 export interface GenderOption {
   value: string;
@@ -250,6 +231,130 @@ export interface TutorDocument {
   adminRemarks: string;
   createdAt: string; // ISO string from server
   updatedAt: string;
+}
+
+export interface Student {
+  user: IUser;
+  levelOfStudy: string;
+  grade: string;
+  subjects: string[];
+  personalInformation: {
+    country: string;
+    city: string;
+    streetName: string;
+    zipcode: string;
+    institution: string;
+    age: number;
+  };
+  additionalInformation: string;
+  availability: string;
+  firstName: string;
+  lastName: string;
+  phoneNumber: string;
+}
+
+export interface IUser {
+  _id: string;
+  email: string;
+  password: string;
+  role: string;
+  isAdmin: boolean;
+  verified: boolean;
+  verification_token?: string;
+  referralCode: string;
+  etokis: number;
+  referredBy?: string;
+  profilePicture?: string;
+  trialSessions: any;
+  hasCompletedFirstSession: boolean;
+  stripeSubscriptionId: string;
+  planType: any;
+  tutorLevel: string;
+  durationMonths: string;
+  sessionsPerMonth: number;
+  subscriptionDateStart: string;
+  subscriptionDateEnd: string;
+  stripeMonthlyPrice: number;
+  TrialSessionLeft: number;
+  subscriptionIsActive: boolean;
+}
+
+export interface Teacher {
+  level: number;
+  user: IUser;
+  contactInformation: {
+    country: string;
+    firstName: string;
+    lastName: string;
+    zipCode: string;
+    email: string;
+  };
+  education: {
+    college: string;
+    degree: string;
+    major: string;
+    graduation: Date;
+    school?: string;
+  };
+  experience: {
+    hasExperience: boolean;
+    tutoringLevel: string[];
+    subjectsTutored: string[];
+    languages: string[];
+    instructionTypes: string[];
+    availableHours: string;
+    startDate: Date;
+    generalAvailability: {
+      day: string;
+      time: string;
+    }[];
+    EarnedThisMonth: number;
+    EarnedLastMonth: number;
+    hasTeachingExperience: boolean;
+
+    is18OrAbove: boolean;
+  };
+  isApproved: boolean;
+}
+export interface BookingRequest {
+  studentdetails: any;
+  startLink: string;
+  meetingCompleted: boolean;
+  joinLink: string | undefined;
+  _id: string;
+  student: Student;
+  teacher: Teacher;
+  subjects: string[];
+  level: string;
+  date: string;
+  time: string;
+  status: string;
+}
+
+export interface Level {
+  level: number;
+  etokisRequired: number;
+}
+
+export const LEVELS: readonly Level[] = [
+  { level: 1, etokisRequired: 0 },
+  { level: 2, etokisRequired: 150 },
+  { level: 3, etokisRequired: 300 },
+  { level: 4, etokisRequired: 800 },
+  { level: 5, etokisRequired: 1200 },
+  { level: 6, etokisRequired: 1700 },
+  { level: 7, etokisRequired: 2400 },
+  { level: 8, etokisRequired: 3500 },
+  { level: 9, etokisRequired: 4500 },
+  { level: 10, etokisRequired: 5500 },
+] as const;
+
+export interface ProgressResult {
+  currentLevel: number;
+  nextLevel: number | null;
+  progressPercentage: number;
+  etokisToNextLevel: number;
+  isMaxLevel: boolean;
 }
 
 export const subjectOptions = [
