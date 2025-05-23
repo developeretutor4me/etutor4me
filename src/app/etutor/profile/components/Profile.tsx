@@ -93,7 +93,7 @@ function Profile() {
   const [instructionTypes, setInstructionTypes] = useState([""]);
   const [availableHours, setAvailableHours] = useState("");
   const [startDate, setStartDate] = useState("");
-  const [generalAvailability, setGeneralAvailability] = useState([""]);
+  const [generalAvailability, setGeneralAvailability] = useState<{ day: string; time: string; }[]>([]);
   const [hasTeachingExperience, setHasTeachingExperience] = useState(false);
   const [is18OrAbove, setIs18OrAbove] = useState(false);
   const [accountHolder, setAccountHolder] = useState("");
@@ -370,7 +370,7 @@ function Profile() {
       setCollege(teacher?.education?.college || "");
       setDegree(teacher?.education?.degree || "");
       setMajor(teacher?.education?.major || "");
-      setGraduation(teacher?.education?.graduation || "");
+      setGraduation(teacher?.education?.graduation?.toISOString() || "");
       setGraduationSchool(teacher?.education?.graduationSchool || "");
       setselectedAcademicCountry(teacher?.education?.graduationCountry || "");
       setHighestDegree(teacher?.education?.highestDegree || "");
@@ -409,7 +409,7 @@ function Profile() {
       setLanguages(teacher?.experience?.languages || [""]);
       setInstructionTypes(teacher?.experience?.instructionTypes || []);
       setAvailableHours(teacher?.experience?.availableHours || "");
-      setStartDate(teacher?.experience?.startDate || "");
+      setStartDate(teacher?.experience?.startDate.toString() || "");
       setGeneralAvailability(teacher?.experience?.generalAvailability || "");
       setHasTeachingExperience(
         teacher?.experience?.hasTeachingExperience || false

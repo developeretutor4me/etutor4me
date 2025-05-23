@@ -282,12 +282,38 @@ export interface IUser {
 export interface Teacher {
   level: number;
   user: IUser;
+  currentJob: string;
+  timeZone: string;
+  gender: string;
+  VideoIntroduction: string;
+  aboutyou: string;
+  YourEducation: string;
+  currentMonthRegularSession:number;
+  currentMonthGroupSession:number;
+  TotalGroupSession:number;
+  TotalRegularSession:number;
+  EarnedThisMonth:number;
+  EarnedLastMonth:number;
+  TotalEarning:number;
+  totalbooking:number;
+  badge:string;
+  bankDetails: {
+    accountholder: string;
+    IBAN: string;
+    BIC: string;
+  };
   contactInformation: {
     country: string;
     firstName: string;
     lastName: string;
     zipCode: string;
     email: string;
+    phone: string;
+    countryOfresident: string;
+    streetname: string;
+    shippingAddress: string;
+    city: string;
+    postcode: string;
   };
   education: {
     college: string;
@@ -295,6 +321,14 @@ export interface Teacher {
     major: string;
     graduation: Date;
     school?: string;
+    graduationSchool?: string;
+    graduationCountry?: string;
+    highestDegree?: string;
+  };
+  DOB: {
+    day: string;
+    month: string;
+    year: string;
   };
   experience: {
     hasExperience: boolean;
@@ -303,6 +337,9 @@ export interface Teacher {
     languages: string[];
     instructionTypes: string[];
     availableHours: string;
+    tutoringExperience: string;
+    internationalExperience: string;
+    moreaboutProfessionalExperience: string;
     startDate: Date;
     generalAvailability: {
       day: string;

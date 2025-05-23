@@ -1,0 +1,56 @@
+/* components/DashboardGrid.module.css */
+.gridContainer {
+    width: 100%;
+    height: 878px;
+    display: grid;
+    grid-template-columns: 553px 497.7px 359px;
+    grid-template-rows: 513.4px 128.19px 187.13px;
+    gap: 20px;
+    /* 20px gap between boxes */
+    grid-template-areas:
+        "schedule calendar completed"
+        "schedule refer support"
+        "schedule trial chat";
+}
+
+.todaysSchedule {
+    grid-area: schedule;
+    background-color: #ede8fa;
+
+}
+
+.calendar {
+    grid-area: calendar;
+    background-color: #ede8fa;
+
+}
+
+.completedSessions {
+    grid-area: completed;
+    background-color: #ede8fa;
+
+}
+
+.referFriends {
+    grid-area: refer;
+    background-color: #ede8fa;
+
+}
+
+.support {
+    grid-area: support;
+    background-color: #ede8fa;
+
+}
+
+.trialSession {
+    grid-area: trial;
+    background-color: #ede8fa;
+
+}
+
+.chatBox {
+    grid-area: chat;
+    background-color: #ede8fa;
+
+}
