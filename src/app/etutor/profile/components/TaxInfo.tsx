@@ -1,17 +1,51 @@
 import { Check, ChevronDown, ChevronUp } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { countryoptions } from "./Data";
+import axios from "axios";
 const TaxCountryOptions = countryoptions;
 function TaxInfo() {
-  const [isTaxCountryDropdownOpen, setIsTaxCountryDropdownOpen] =useState(false);
+  const [isTaxCountryDropdownOpen, setIsTaxCountryDropdownOpen] =
+    useState(false);
   const [selectedTaxCountrys, setSelectedTaxCountrys] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   const toggleTaxCountryDropdown = () => {
     setIsTaxCountryDropdownOpen(!isTaxCountryDropdownOpen);
   };
 
-  const handleTaxCountryClick = (TaxCountry: string) => {
+  useEffect(() => {
+    setLoading(true);
+    axios
+      .get("/api/tax-country")
+      .then((res) => {
+        setSelectedTaxCountrys(res.data.taxCountry || "");
+      })
+      .catch(() => {
+        setError("Failed to load tax country");
+      })
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleTaxCountryClick = async (TaxCountry: string) => {
     setSelectedTaxCountrys(TaxCountry);
     setIsTaxCountryDropdownOpen(false);
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await axios.post("/api/tax-country", {
+        taxCountry: TaxCountry,
+      });
+
+      console.log("Tax country updated:", response.data.taxCountry);
+    } catch (err: any) {
+      setError(err.response?.data?.error || "Failed to update tax country");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
