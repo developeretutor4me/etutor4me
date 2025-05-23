@@ -29,6 +29,7 @@ export interface ITeacher extends Document {
       day: string;
       time: string;
     }[];
+    EarnedThisMonth:number;
     hasTeachingExperience: boolean;
     is18OrAbove: boolean;
   };
