@@ -29,8 +29,9 @@ export interface ITeacher extends Document {
       day: string;
       time: string;
     }[];
-    EarnedThisMonth:number;
+    EarnedThisMonth: number;
     hasTeachingExperience: boolean;
+    taxCountry: string;
     is18OrAbove: boolean;
   };
   isApproved: boolean;
@@ -106,6 +107,9 @@ const TeacherSchema: Schema = new Schema(
       type: String,
       default:
         "https://cdn4.vectorstock.com/i/1000x1000/85/48/emblem-badge-ribbon-vector-14398548.jpg",
+    },
+    taxCountry: {
+      type: String,
     },
     EarnedThisMonth: { type: Number, default: 0 },
     EarnedLastMonth: { type: Number, default: 0 },
