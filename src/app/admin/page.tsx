@@ -130,7 +130,7 @@ const SessionsDashboard = () => {
       icon: activeSidebarItem === "Dashboard" ? Home1 : homeinactive,
     },
     {
-      name: "Transaction",
+      name: "Transactions",
       icon:
         activeSidebarItem === "Transaction"
           ? transactionActive
@@ -187,8 +187,8 @@ const SessionsDashboard = () => {
   const renderContent = () => {
     switch (activeSidebarItem) {
       case "Dashboard":
-        return null;
-      case "Transaction":
+        return <Dashboard />;
+      case "Transactions":
         return <Transaction />;
       case "Pricing":
         return <Pricing plandata={PlanData} />;
@@ -309,6 +309,8 @@ const SessionsDashboard = () => {
           className={`flex-1 px-4 max-h-screen overflow-auto ${
             activeSidebarItem === "Support"
               ? "custom-lg:px-[25px]"
+              : activeSidebarItem === "Dashboard"
+              ? "custom-lg:px-[24px]"
               : "custom-lg:px-[42px]"
           }  py-4 overflow-auto  bg-transparent`}
         >

@@ -11,7 +11,7 @@ import {
   timezoneoptions,
   Teacher,
 } from "./Data";
-import useSWR from "swr";
+import useSWR from "swr"; 
 import GeneralTab from "./GeneralTab";
 import ContactInformation from "./ContactInformation";
 import ProfessionalExperience from "./ProfessionalExperience";
@@ -61,7 +61,7 @@ function Profile() {
   const [college, setCollege] = useState("");
   const [degree, setDegree] = useState("");
   const [major, setMajor] = useState("");
-    const [graduation, setGraduation] = useState<Date | undefined>(undefined);
+  const [graduation, setGraduation] = useState<Date | undefined>(undefined);
 
   const [graduationSchool, setGraduationSchool] = useState("");
   const [highestDegree, setHighestDegree] = useState("");
@@ -371,7 +371,7 @@ function Profile() {
       setCollege(teacher?.education?.college || "");
       setDegree(teacher?.education?.degree || "");
       setMajor(teacher?.education?.major || "");
-           setGraduation(teacher?.education?.graduation ? new Date(teacher.education.graduation) : undefined);
+      setGraduation(teacher?.education?.graduation ? new Date(teacher.education.graduation) : undefined);
 
       setGraduationSchool(teacher?.education?.graduationSchool || "");
       setselectedAcademicCountry(teacher?.education?.graduationCountry || "");

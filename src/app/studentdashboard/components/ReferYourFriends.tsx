@@ -37,8 +37,8 @@ const ReferralComponent = () => {
       : "bg-[#EDE8FA] text-[#685AAD]";
   };
   return (
-    <div className="flex flex-col gap-9">
-      <div className="bg-[#F2EEFF] rounded-3xl py-6 px-14 ">
+   <div className="flex flex-col gap-5 sm:gap-9">
+      <div className="bg-[#F2EEFF] rounded-2xl sm:rounded-3xl py-3 sm:py-6 px-6 sm:px-14 ">
         <h2 className="text-[#685AAD]   text-lg custom-lg:text-xl custom-2xl:text-3xl font-bold mb-2">
           GET MORE eTokis
         </h2>
@@ -52,13 +52,12 @@ const ReferralComponent = () => {
       </div>
 
       <div
-        className={`rounded-3xl ${
-          subActiveTab === "student" ? "bg-[#A296CC]" : "bg-[#EDE8FA]"
-        }`}
+        className={`rounded-3xl ${subActiveTab === "student" ? "bg-[#A296CC]" : "bg-[#EDE8FA]"
+          }`}
       >
         <div className="flex mb-2 sm:mb-4">
           <button
-            className={`py-3 custom-2xl:py-7 w-[31%] rounded-tl-3xl text-lg custom-lg:text-xl custom-2xl:text-3xl font-bold ${subGetButtonStyles(
+            className={`py-3 custom-2xl:py-7 w-full sm:w-[31%] rounded-tl-3xl text-lg custom-lg:text-xl custom-2xl:text-3xl font-bold ${subGetButtonStyles(
               subActiveTab === "student"
             )}`}
             onClick={subToggleTab}
@@ -66,7 +65,7 @@ const ReferralComponent = () => {
             {subActiveTab === "student" ? "Refer Student" : "Refer eTutor"}
           </button>
           <button
-            className={`py-3 custom-2xl:py-7 w-full flex  pl-12 rounded-bl-3xl rounded-tr-3xl text-lg custom-lg:text-xl custom-2xl:text-3xl font-bold ${subGetButtonStyles(
+            className={`py-3 custom-2xl:py-7 w-full justify-center sm:justify-start flex pl-4 sm:pl-12 rounded-bl-3xl rounded-tr-3xl text-lg custom-lg:text-xl custom-2xl:text-3xl font-bold ${subGetButtonStyles(
               subActiveTab === "tutor"
             )}`}
             onClick={subToggleTab}
@@ -75,32 +74,31 @@ const ReferralComponent = () => {
           </button>
         </div>
 
-        <div className="px-10 custom-2xl:px-20 mt-5 custom-2xl:mt-10 mb-10 custom-2xl:mb-20">
+        <div className="px-4 sm:px-10 custom-2xl:px-20 mt-5 custom-2xl:mt-10 mb-10 custom-2xl:mb-20">
           <p
             className={`text-sm sm:text-lg custom-2xl:text-2xl font-medium mb-2   ${subGetButtonStyles(
               subActiveTab === "student"
             )}`}
           >
-            {`Copy and share the link to refer ${
-              subActiveTab === "student" ? "a Student" : "an eTutor"
-            }`}
+            {`Copy and share the link to refer ${subActiveTab === "student" ? "a Student" : "an eTutor"
+              }`}
           </p>
-          <div className="mt-5 custom-2xl:mt-10 py-2 sm:py-3 pl-5 sm:pl-10 custom-2xl:pl-20 pr-2 custom-2xl:pr-4 max-w-[58rem] flex bg-[#685AAD] rounded-3xl overflow-hidden">
+          <div className="mt-5 custom-2xl:mt-10 py-2 sm:py-3 pl-5 sm:pl-10 custom-2xl:pl-20 pr-2 custom-2xl:pr-4 max-w-[58rem] flex bg-[#685AAD] rounded-xl sm:rounded-3xl justify-between overflow-hidden">
             <input
               type="text"
-              value={link} 
+              value={link}
               readOnly
-              className="flex-grow bg-[#685AAD] py-2 outline-none"
+              className="flex-grow bg-[#685AAD] py-2 outline-none max-w-[200px] sm:max-w-full truncate"
             />
-            <button 
-             onClick={() => {
-              navigator.clipboard.writeText(link);
-              setCopy("Copied!")
-              setTimeout(() => {
-                setCopy("Copy")
-              }, 2000);
-            }}
-            className="bg-[#8653FF] text-white px-4 sm:px-8 custom-2xl:px-16 rounded-xl py-2 sm:py-3 custom-2xl:py-5 text-sm sm:text-lg font-medium">
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(link);
+                setCopy("Copied!")
+                setTimeout(() => {
+                  setCopy("Copy")
+                }, 2000);
+              }}
+              className="bg-[#8653FF] text-white px-4 sm:px-8 custom-2xl:px-16 rounded-xl py-2 sm:py-3 custom-2xl:py-5 text-sm sm:text-lg font-medium">
               {Copy}
             </button>
           </div>

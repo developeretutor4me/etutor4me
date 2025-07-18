@@ -6,7 +6,11 @@ import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import { FpjsProvider } from "@fingerprintjs/fingerprintjs-pro-react";
 import { AppProps } from "next/app";
 import { SpeedInsights } from "@vercel/speed-insights/next"
-const roboto = Roboto_Condensed({ subsets: ["latin"] });
+const roboto = Roboto_Condensed({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-roboto-condensed", 
+});
 import { AuthProvider } from "./AuthProvider";
 export const metadata: Metadata = {
   title: "eTutor4me",
@@ -35,7 +39,7 @@ export default function RootLayout({
 
             {children}
             <Toaster />
-            <SpeedInsights/>
+            <SpeedInsights />
           </FpjsProvider>
         </AuthProvider>
         {/* <Footer /> */}

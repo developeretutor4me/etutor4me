@@ -1,418 +1,416 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
-import Image from "next/image";
-import ChatComponent from "./ChatComponent"; // Make sure to create this file
-import tier from "../../../../public/tier.svg";
-import messageicon from "../../../../public/messageicon.svg";
-import folder from "../../../../public/foldericon.svg";
-import profile from "../../../../public/profileicon.svg";
-import sample from "../../../../public/assets/heroimg.png";
-import level1 from "../../../../public/level-1.svg";
-import level2 from "../../../../public/level-2.svg";
-import level3 from "../../../../public/level-3.svg";
-import level4 from "../../../../public/level-4.svg";
-import level5 from "../../../../public/level-5.svg";
-import level6 from "../../../../public/level-6.svg";
-import level7 from "../../../../public/level-7.svg";
-import level8 from "../../../../public/level-8.svg";
-import level9 from "../../../../public/level-9.svg";
-import level10 from "../../../../public/level-10.svg";
-import { Send, MessageSquare, Folder, User, PaperclipIcon } from "lucide-react";
-import chaticon from "../../../../public/chaticon (2).svg";
-import sendicon from "../../../../public/sendicon.svg";
-import purplechaticon from "../../../../public/purplechaticon.svg";
-import foldericonpurple from "../../../../public/foldericonpurple.svg";
-import profileicon from "../../../../public/profile icon purple.svg";
-import sampleimg from "../../../../public/assets/heroimg.png";
-import plusicon from "../../../../public/plusicon.svg";
-import pdficon from "../../../../public/pdf icon.svg";
+
+import { io } from "socket.io-client";
+import RecievedMessages from "./RecievedMessages";
+import ChatComp from "./ChatComp";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import { useSession } from "next-auth/react";
-import { io } from 'socket.io-client';
-import { useToast } from "@/hooks/use-toast"
+import { useToast } from '@/hooks/use-toast';
 
+interface Tutor {
+  _id: string;
+  user: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+}
 
-const TutorListItem = ({
-  tutor,
-  isActive,
-  onClick,
-  onChatClick,
-  onFolderClick,
-  onProfileClick,
-  
-}: any) => (
-  <div
-    className={` hidden sm:flex flex-row justify-between items-center py-2 sm:py-3 custom-2xl:py-6  pl-2 sm:pl-3 custom-2xl:pl-5 pr-4 custom-2xl:pr-9 cursor-pointer   rounded-lg md:rounded-xl  bg-[#A296CC]  `}
-  >
-    <div className="flex items-center" onClick={onClick}>
-      <div className="rounded-full mr-4 w-4 sm:w-7 h-4 sm:h-7  custom-2xl:h-[60px] custom-2xl:w-[60px] overflow-hidden">
+interface ChatMessage {
+  senderId: string;
+  recipientId: string;
+  content: string | null;
+  fileUrl: string | null;
+  fileType: string | null;
+  fileName: string | null;
+  timestamp: string;
+  conversationId?: string;
+}
 
-      <img
-        src={tutor.user.profilePicture}
-        alt={tutor.contactInformation.firstName}
-        className="h-full w-full object-cover"
-      />
-      </div>
-      <div className="flex-grow">
-        <p
-          className={`font-semibold text-base custom-2xl:text-2xl hidden md:block  truncate  ${
-            isActive ? "text-white" : "text-white"
-          }`}
-        >
-          {tutor.contactInformation.firstName}
-        </p>
-      </div>
-    </div>
+interface ReceivedMessage {
+  _id: string;
+  senderId: string;
+  recipientId: string;
+  content: string;
+  timestamp: string;
+  sender: {
+    _id: string;
+    name: string;
+    email: string;
+  };
+}
 
-    {/* icons */}
-    <div className="flex  justify-between items-end   custom-2xl:mt-0 w-full max-w-[2.9rem] sm:max-w-[4rem] custom-2xl:max-w-[6.8rem]  ">
-      <button onClick={onChatClick} className=" rounded-full ">
-        <Image  loading="lazy" 
-          src={purplechaticon}
-          alt=""
-          className=" w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-7 custom-2xl:h-7"
-        />
-      </button>
-      <button onClick={onFolderClick} className="  rounded-full">
-        <Image  loading="lazy" 
-          src={foldericonpurple}
-          alt=""
-          className=" w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-7 custom-2xl:h-7"
-        />
-      </button>
-      <button onClick={onProfileClick} className=" rounded-full">
-        <Image  loading="lazy" 
-          src={profileicon}
-          alt=""
-          className=" w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-7 custom-2xl:h-7"
-        />
-      </button>
-    </div>
-  </div>
-);
-
-const ChatMessage = ({ message, isUser }: any) => {
-  // Check if message exists and has content and timestamp
-  if (!message || !message.content ) return null;
-
-  return (
-    <div
-      className={`flex ${
-        isUser ? "justify-end" : "justify-start"
-      } mb-2 custom-2xl:mb-4`}
-    >
-      <div
-        className={`max-w-[70%] rounded-lg custom-2xl:rounded-2xl px-2 py-1 custom-2xl:p-3 ${
-          isUser ? "bg-[#685AAD] text-white" : "bg-white text-[#473171]"
-        }`}
-      >
-        <p className="text-sm sm:text-base custom-2xl:text-xl font-medium break-words transition-all">
-          {message.content}
-        </p>
-        <span
-          className={`text-xs custom-2xl:text-base opacity-70 custom-2xl:mt-1 block ${
-            isUser ? "text-white float-right" : "text-[#9B85C8]"
-          }`}
-        >
-          {new Date(message.timestamp).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-        </span>
-      </div>
-    </div>
-  );
-};
-
-const FileMessage = ({ message, isUser }: any) => {
-  // Check if the file exists and has content
- 
-  if (!message) return null;
-  return (
-    <div
-    onClick={()=>{
-      const link = document.createElement('a');
-      link.href = message.fileUrl;
-      link.target = '_blank'; // Open in a new tab
-      link.download = message.fileUrl.split('/').pop(); // Download the file with its original name
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link); 
-      // window.open(message.fileUrl, '_blank');
-    }}
-      className={`bg-[#8170B1] max-w-[34rem] flex items-center p-6 rounded-xl my-3 hover:cursor-pointer ${
-        isUser ? 'ml-auto' : 'mr-auto' // Conditional alignment based on isUser
-      }`}
-    >
-      <Image  loading="lazy"  src={pdficon} alt="PDF Icon" className="w-12 h-12" />
-      <div className="ml-3 flex items-center justify-between w-full">
-        <span className="max-w-[10rem] text-2xl overflow-hidden text-nowrap font-medium">
-        {message.fileName.slice(0, 4) + '...' + message.fileName.slice(-4)}
-
-        </span>
-        <span className="text-xs text-gray-300">
-        {new Date(message.timestamp).toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          })}
-         
-        </span>
-      </div>
-    </div>
-  );
-};
-
-const FileItem = ({ file, onDownload }: any) => (
-  <div className="flex items-center justify-between bg-[#8a7db7] rounded-xl p-3 mb-2">
-    <div className="flex items-center">
-      <PaperclipIcon size={20} color="white" className="mr-2" />
-      <span className="text-white">{file.name}</span>
-    </div>
-    <button onClick={() => onDownload(file)} className="text-white underline">
-      Download
-    </button>
-  </div>
-);
-
-interface MyEtutorprops {
+interface MyEtutorProps {
   tutorimp: any;
   showchatvalue: boolean;
   setActiveFindEtutor: (item: string) => void;
   setTutor: any;
-  socket:any;
-  showTerminateEngament:any
+  socket: any;
+  showTerminateEngament: any;
 }
 
-function MyEtutor({
+interface ApiResponse<T> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  message?: string;
+}
+
+interface FileUploadResponse {
+  success: boolean;
+  fileUrl?: string;
+  error?: string;
+}
+
+interface MessageResponse {
+  conversationId: string;
+  messages: ChatMessage[];
+  message?: string;
+}
+
+const SOCKET_EVENTS = {
+  JOIN: "join",
+  LEAVE: "leave",
+  CHAT_MESSAGE: "chatMessage",
+  NOTIFICATION: "notification",
+} as const;
+
+const API_ENDPOINTS = {
+  MESSAGE: "/api/message",
+  UPLOAD_FILE: "/api/message/uploadtos3",
+  RECIPIENT_MESSAGES: "/api/recipient/messages",
+  CONVERSATION: "/api/message/conversation",
+} as const;
+
+const ERROR_MESSAGES = {
+  FILE_SELECT_REQUIRED: "Please select a file first",
+  FILE_UPLOAD_FAILED: "File upload failed",
+  FETCH_SENDERS_FAILED: "Failed to fetch senders",
+  FETCH_MESSAGES_FAILED: "Error fetching messages",
+  SEND_MESSAGE_FAILED: "Error sending message",
+  SEND_FILE_FAILED: "Error sending file",
+} as const;
+
+const MyEtutor: React.FC<MyEtutorProps> = ({
   tutorimp,
   showchatvalue,
   setActiveFindEtutor,
   setTutor,
   socket,
-  showTerminateEngament
-}: MyEtutorprops) {
+  showTerminateEngament,
+}) => {
   const { toast } = useToast();
   const { data: session } = useSession();
-  const [showChat, setShowChat] = useState(false || showchatvalue);
-  const [isLoading, setIsLoading] = useState(false);
-  const [activeTutor, setActiveTutor] = useState(0);
-  const [activeView, setActiveView] = useState("chat");
-  const [tutors, setTutors] = useState();
+  const [showChat, setShowChat] = useState<boolean>(showchatvalue);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [activeTutor, setActiveTutor] = useState<number>(0);
+  const [activeView, setActiveView] = useState<string>("chat");
   const [conversationId, setConversationId] = useState<string | null>(null);
-  const [userId, setUserId] = useState(null);
-  const fileInputRef = useRef(null);
-  const [messages, setMessages] = useState([]); // State to hold messages
-  const [newMessage, setNewMessage] = useState(""); // State for the input message
-  const messagesEndRef = useRef(null); // Reference to scroll to the bottom
-  const [recievedmessages, setRecievedmessages] = useState([]);
-  const [tutor, settutor] = useState(tutorimp);
-  const [selectedFile, setselectedFile] = useState(null)
-  const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState('');
+  const [userId, setUserId] = useState<string | null>(null);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [newMessage, setNewMessage] = useState<string>("");
+  const [receivedMessages, setReceivedMessages] = useState<ReceivedMessage[]>([]);
+  const [tutor, setTutorState] = useState<Tutor>(tutorimp);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [file, setFile] = useState<File | null>(null);
+  const [fileName, setFileName] = useState<string>("");
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const userID = useMemo(() => session?.user?.id, [session]);
+  const scrollToBottom = useCallback(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, []);
 
-  useEffect(() => {
-    if (socket && userId) {
-      // Join the socket room based on userId (either student or teacher)
-      socket.emit('join', userId);
-  
-      // Listen for incoming chat messages
-      socket.on('chatMessage', (msg: { content: any; senderId: any; }) => {
-        setMessages((prevMessages:any) => {
-          // Avoid adding duplicate messages based on content and senderId
-          if (!prevMessages.some((message:any) => message.content === msg.content && message.senderId === msg.senderId)) {
-            return [...prevMessages, msg];
-          }
+  const isDuplicateMessage = useCallback(
+    (newMsg: ChatMessage, existingMessages: ChatMessage[]): boolean => {
+      return existingMessages.some(
+        (msg) =>
+          msg.content === newMsg.content &&
+          msg.senderId === newMsg.senderId &&
+          msg.timestamp === newMsg.timestamp
+      );
+    },
+    []
+  );
+
+  const handleSocketMessage = useCallback(
+    (msg: ChatMessage) => {
+      setMessages((prevMessages) => {
+        if (isDuplicateMessage(msg, prevMessages)) {
           return prevMessages;
-        });
-      });
-
-      socket.on('notification', (notification: { senderId: any; content: any; }) => {
-        if (notification.senderId !== userId) {
-        
-          toast({
-            title: "New Message",
-
-            description: notification.content,
-            variant: "default",
-          });
         }
+        return [...prevMessages, msg];
       });
+    },
+    [isDuplicateMessage]
+  );
 
-
-    }
-  
-    return () => {
-      if (socket && userId) {
-        // Leave the socket room when the component unmounts
-        socket.emit('leave', userId);
-  
-        // Cleanup the listener to avoid memory leaks and duplicate listeners
-        socket.off('chatMessage');
-        socket.off('notification');
+  const handleSocketNotification = useCallback(
+    (notification: { senderId: string; content: string }) => {
+      if (notification.senderId !== userId) {
+        toast({
+          title: "New Message",
+          description: notification.content,
+          variant: "default",
+        });
       }
-    };
-  }, [socket, userId]);  // Run this effect when `socket` or `userId` changes
-    
-  
- 
+    },
+    [userId, toast]
+  );
 
-  const sendMessage = async (e:any) => {
- 
-    e.preventDefault(); // Prevent default form submission behavior
-    if (newMessage.trim()) {
-      const chatMessage = {
-        senderId: userId,
-        recipientId: tutor.user._id, // Tutor ID
-        content: newMessage,
-        fileUrl: null,
-          fileType: null,
-          fileName: null,
-        timestamp: new Date().toISOString(),
-   
+  const initializeSocket = useCallback(() => {
+    if (!socket || !userId) return;
 
-      };
+    socket.emit(SOCKET_EVENTS.JOIN, userId);
+    socket.on(SOCKET_EVENTS.CHAT_MESSAGE, handleSocketMessage);
+    socket.on(SOCKET_EVENTS.NOTIFICATION, handleSocketNotification);
+  }, [socket, userId, handleSocketMessage, handleSocketNotification]);
 
-      // Emit message to the server
-      socket.emit('chatMessage', chatMessage);
+  const cleanupSocket = useCallback(() => {
+    if (!socket || !userId) return;
 
-      // Update UI optimistically
-      // @ts-ignore
-      setMessages((prev) => [...prev, chatMessage]);
+    socket.emit(SOCKET_EVENTS.LEAVE, userId);
+    socket.off(SOCKET_EVENTS.CHAT_MESSAGE);
+    socket.off(SOCKET_EVENTS.NOTIFICATION);
+  }, [socket, userId]);
 
-      setNewMessage(''); 
-       await savingmessages(null,null,null)
-    }
+  const createChatMessage = useCallback(
+    (
+      content: string | null = null,
+      fileUrl: string | null = null,
+      fileType: string | null = null,
+      fileName: string | null = null
+    ): ChatMessage => ({
+      senderId: userId!,
+      recipientId: tutor?.user?._id || "",
+      content,
+      fileUrl,
+      fileType,
+      fileName,
+      timestamp: new Date().toISOString(),
+    }),
+    [userId, tutor?.user?._id]
+  );
 
-  };
+  const saveMessage = useCallback(
+    async (
+      content: string,
+      fileUrl: string | null = null,
+      fileType: string | null = null,
+      fileName: string | null = null
+    ): Promise<void> => {
+      if (!userID || !tutor?.user?._id) {
+        console.error("Missing userID or tutor information");
+        return;
+      }
 
+      try {
+        const response = await fetch(API_ENDPOINTS.MESSAGE, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            senderId: userID,
+            recipientId: tutor.user._id,
+            content,
+            fileUrl,
+            fileType,
+            fileName,
+          }),
+        });
 
-  const sendFile = async () => {
-    setIsLoading(true)
-    await session
-    if (!file)  {
-      
-      toast({
-        title: "",
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
 
-        description: "please select a file first",
-        variant: "default",
-      })
-      return
-    }; 
-  
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('senderId', session?.user.id);
-    formData.append('recipientId', tutor.user._id);
-  
-    try {
-      // Call API to upload the file
-      const response = await fetch('/api/message/uploadtos3', {
-        method: 'POST',
+        const savedMessage = await response.json();
+        const newConversationId = savedMessage.conversationId;
+
+        if (newConversationId && !conversationId) {
+          setConversationId(newConversationId);
+        }
+
+        scrollToBottom();
+      } catch (error) {
+        console.error(ERROR_MESSAGES.SEND_MESSAGE_FAILED, error);
+        toast({
+          title: "Error",
+          description: ERROR_MESSAGES.SEND_MESSAGE_FAILED,
+          variant: "destructive",
+        });
+      }
+    },
+    [userID, tutor?.user?._id, conversationId, scrollToBottom, toast]
+  );
+
+  const sendMessage = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+
+      if (!newMessage.trim() || !userId) return;
+
+      const chatMessage = createChatMessage(newMessage);
+
+      try {
+        socket.emit(SOCKET_EVENTS.CHAT_MESSAGE, chatMessage);
+        setMessages((prev) => [...prev, chatMessage]);
+        setNewMessage("");
+        await saveMessage(newMessage);
+      } catch (error) {
+        console.error(ERROR_MESSAGES.SEND_MESSAGE_FAILED, error);
+        toast({
+          title: "Error",
+          description: ERROR_MESSAGES.SEND_MESSAGE_FAILED,
+          variant: "destructive",
+        });
+      }
+    },
+    [newMessage, userId, createChatMessage, socket, saveMessage, toast]
+  );
+
+  const uploadFile = useCallback(
+    async (fileToUpload: File): Promise<FileUploadResponse> => {
+      if (!userID || !tutor?.user?._id) {
+        throw new Error("Missing userID or tutor information");
+      }
+
+      const formData = new FormData();
+      formData.append("file", fileToUpload);
+      formData.append("senderId", userID);
+      formData.append("recipientId", tutor.user._id);
+
+      const response = await fetch(API_ENDPOINTS.UPLOAD_FILE, {
+        method: "POST",
         body: formData,
       });
-      const result = await response.json();
-  
 
-      if (result.success) {
-      } else {
-        console.error('File upload failed:', result.error);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
+      return response.json();
+    },
+    [userID, tutor?.user?._id]
+  );
 
-      if (result.success) {
-        const chatMessage = {
-          senderId: userId,
-          recipientId: tutor.user._id, 
-          content: null,
-          timestamp: new Date().toISOString(),
-          fileUrl: result.fileUrl, 
-          // @ts-ignore
-          fileType: file.type,
-          // @ts-ignore
-          fileName: file.name,
-       
-        };
-  
-        await savingmessages(chatMessage.fileUrl,chatMessage.fileType,chatMessage.fileName)
-        // Emit the message to the server
-        socket.emit('chatMessage', chatMessage);
-        setFile(null)
-        setFileName("")
-        setselectedFile(null)
-        // Optimistically update the UI
-        // @ts-ignore
-        setMessages((prev) => [...prev, chatMessage]);
-        setIsLoading(false)
-      } else {
-        setIsLoading(false)
-        console.error('File upload failed:', result.error);
-      }
-    } catch (error) {
-      setIsLoading(false)
-      console.error('Error sending file:', error);
+  const sendFile = useCallback(async () => {
+    if (!file) {
+      toast({
+        title: "Error",
+        description: ERROR_MESSAGES.FILE_SELECT_REQUIRED,
+        variant: "destructive",
+      });
+      return;
     }
-  };
-  
-  
 
-
-  async function savingmessages(fileUrl: any,fileType: any,fileName: any) {
-  
-    // if (!newMessage.trim() || !fileUrl) return; // Prevent sending empty messages
+    setIsLoading(true);
 
     try {
-      const response = await fetch("/api/message", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          senderId: userID, // Replace with actual sender ID
-          recipientId: tutor.user._id, // Replace with actual recipient ID (e.g., tutor ID)
-          content: newMessage,
-          fileUrl:fileUrl,
-          fileType:fileType,
-          fileName:fileName,
-        }),
-      });
+      const uploadResult = await uploadFile(file);
 
-      const savedMessage = await response.json();
+      if (!uploadResult.success) {
+        throw new Error(
+          uploadResult.error || ERROR_MESSAGES.FILE_UPLOAD_FAILED
+        );
+      }
 
-      
+      const chatMessage = createChatMessage(
+        null,
+        uploadResult.fileUrl!,
+        file.type,
+        file.name
+      );
 
-      // After sending the message, set the conversationId
-      const newConversationId = savedMessage.conversationId; // Get conversationId from the response
+      await saveMessage(
+        "",
+        chatMessage.fileUrl,
+        chatMessage.fileType,
+        chatMessage.fileName
+      );
+      socket.emit(SOCKET_EVENTS.CHAT_MESSAGE, chatMessage);
 
-      // If there was no conversationId previously, set it now
-      setConversationId(newConversationId);
-
-      // Update message list with the new message and conversationId
-      // @ts-ignore
-      // setMessages((prevMessages) => [
-      //   ...prevMessages,
-      //   { ...savedMessage, conversationId: newConversationId }, // Include conversationId
-      // ]);
-
-      setNewMessage(""); // Clear the message input field
-      scrollToBottom(); // Scroll to the bottom of the chat
+      setMessages((prev) => [...prev, chatMessage]);
+      setFile(null);
+      setFileName("");
+      setSelectedFile(null);
     } catch (error) {
-      console.error("Error sending message:", error);
+      console.error(ERROR_MESSAGES.SEND_FILE_FAILED, error);
+      toast({
+        title: "Error",
+        description: ERROR_MESSAGES.SEND_FILE_FAILED,
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
-  }
+  }, [file, uploadFile, createChatMessage, saveMessage, socket, toast]);
 
+  const fetchSenders = useCallback(async () => {
+    if (!userID) return;
 
+    try {
+      const response = await fetch(
+        `${API_ENDPOINTS.RECIPIENT_MESSAGES}?recipientId=${userID}`
+      );
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
+      const senders = await response.json();
+      setReceivedMessages(senders);
+    } catch (error) {
+      console.error(ERROR_MESSAGES.FETCH_SENDERS_FAILED, error);
+      toast({
+        title: "Error",
+        description: ERROR_MESSAGES.FETCH_SENDERS_FAILED,
+        variant: "destructive",
+      });
+    }
+  }, [userID, toast]);
 
+  const fetchMessages = useCallback(async () => {
+    if (!userID || !tutor?.user?._id) return;
 
+    try {
+      const response = await fetch(
+        `${API_ENDPOINTS.CONVERSATION}?userId=${userID}&recipientId=${tutor.user._id}`
+      );
 
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
+      const data: MessageResponse = await response.json();
 
+      const isNoConversation =
+        data.message === "No conversation found between these users" ||
+        data.message === "No messages found for this conversation";
 
+      if (isNoConversation) {
+        setMessages([]);
+      } else {
+        setMessages(data.messages);
 
+        if (data.messages.length > 0 && !conversationId) {
+          setConversationId(data.messages[0].conversationId || null);
+        }
+      }
+    } catch (error) {
+      console.error(ERROR_MESSAGES.FETCH_MESSAGES_FAILED, error);
+      toast({
+        title: "Error",
+        description: ERROR_MESSAGES.FETCH_MESSAGES_FAILED,
+        variant: "destructive",
+      });
+    }
+  }, [userID, tutor?.user?._id, conversationId, toast]);
 
-
-
-
-  const userID = session?.user.id;
   useEffect(() => {
     if (session?.user?.id) {
       setUserId(session.user.id);
@@ -420,444 +418,100 @@ function MyEtutor({
   }, [session, showChat]);
 
   useEffect(() => {
+    initializeSocket();
+    return cleanupSocket;
+  }, [initializeSocket, cleanupSocket]);
+
+  useEffect(() => {
     if (userId) {
       fetchSenders();
     }
-  }, [userId, showChat]);
-
-  async function fetchSenders() {
-    try {
-      // setIsLoading(true);
-      const response = await fetch(
-        `/api/recipient/messages?recipientId=${userID}`
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch senders");
-      }
-      const senders = await response.json();
-      setRecievedmessages(senders);
-  
-    } catch (error) {
-      console.error("Error fetching senders:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }
-
-
-
+  }, [userId, showChat, fetchSenders]);
 
   useEffect(() => {
     fetchSenders();
-  }, [showChat, session]);
-
-
-
+  }, [showChat, session, fetchSenders]);
 
   useEffect(() => {
-    async function fetchMessages() {
-      try {
-        const response = await fetch(
-          `/api/message/conversation?userId=${session?.user?.id}&recipientId=${tutor.user._id}`,
-          {
-            method: "GET",
-          }
-        );
-        const data = await response.json();
-        if (
-          data.message === "No conversation found between these users" ||
-          data.message === "No messages found for this conversation"
-        ) {
-          setMessages([]);
-        } else {
-          setMessages(data.messages); // Store messages in state
-        }
-
-        // Set the conversationId if it's not already set
-        if (data.length > 0 && !conversationId) {
-          setConversationId(data[0].conversationId); // Set the conversationId from the first message (or any message)
-        }
-      } catch (error) {
-        console.error("Error fetching messages:", error);
-      }
-    }
-
     fetchMessages();
-  }, [conversationId,tutor]);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-  
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // Scroll to the latest message
-  const scrollToBottom = () => {
-    // @ts-ignore
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, [conversationId, tutor, fetchMessages]);
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, showChat]);
+  }, [messages, showChat, scrollToBottom]);
 
-  useEffect(() => {
-    // @ts-ignore
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [tutors, showChat]);
+  const chatProps = useMemo(
+    () => ({
+      recievedmessages: receivedMessages,
+      activeTutor,
+      settutor: setTutorState,
+      setTutor,
+      setShowChat,
+      setActiveView,
+      setActiveFindEtutor,
+      activeView,
+      tutor,
+      messages,
+      messagesEndRef,
+      sendMessage,
+      newMessage,
+      setNewMessage,
+      userId,
+      file,
+      setselectedFile: setSelectedFile,
+      setFile,
+      setFileName,
+      isLoading,
+      sendFile,
+      selectedFile,
+      fileName,
+    }),
+    [
+      receivedMessages,
+      activeTutor,
+      setTutor,
+      setActiveFindEtutor,
+      activeView,
+      tutor,
+      messages,
+      sendMessage,
+      newMessage,
+      userId,
+      file,
+      isLoading,
+      sendFile,
+      selectedFile,
+      fileName,
+    ]
+  );
 
- 
   if (showChat) {
-    return (
-      <div className="bg-[#EDE8FA] w-full h-screen rounded-3xl p-6  mt-11 text-white">
-        <div className="flex h-full  gap-3 custom-2xl:gap-4 overflow-hidden     ">
-          {/* Sidebar */}
-          <div className="hidden sm:block w-[30.2%]  bg-[#EDE8FA]  border-red-700 h-full  overflow-hidden">
-            <h2 className="text-xl custom-2xl:text-4xl font-bold text-[#685AAD] px-4 py-4 ml-6">
-              My eTutors
-            </h2>
-
-            <div className=" hidden pt-6  overflow-y-auto scrollbar-thin sm:flex flex-col gap-3 custom-2xl:gap-6  scrollbar-track-transparent scrollbar-thumb-[#685aad40]  scrollbar-thumb-rounded-3xl h-[90%]  ">
-              {recievedmessages.length > 0 &&
-                recievedmessages.map((message: any, index) => (
-                  <TutorListItem
-                    key={index}
-                    // @ts-ignore
-                    tutor={message?.details}
-                    isActive={activeTutor === message}
-                    // @ts-ignore
-                    onClick={() => {
-                      settutor(message?.details);
-                      setShowChat(true);
-                    }}
-                    onChatClick={() => {
-                      setActiveView("chat");
-                      settutor(message?.details);
-                    }}
-                    onFolderClick={() => {
-                      setActiveView("folder");
-                      settutor(message?.details);
-                    }}
-                    onProfileClick={() => {
-                      setActiveFindEtutor("Find eTutor");
-                      // @ts-ignore
-                      setTutor(message?.details);
-                    }} // Placeholder for profile functionality
-                  />
-                ))}
-            </div>
-          </div>
-
-          {/* Chat Area */}
-          <div className="flex-grow flex flex-col rounded-3xl  bg-[#A296CC]  h-full    max-w-full  relative">
-            {/* Chat Header */}
-            <div className="bg-[#A296CC] py-3 custom-2xl:py-5  px-4 flex rounded-t-3xl  pl-6 custom-2xl:pl-10   ">
-              <Image  loading="lazy" 
-                src={chaticon}
-                alt=""
-                className=" mr-3 custom-2xl:mr-5 w-5 custom-2xl:w-8 h-5 custom-2xl:h-8 mt-1"
-              />
-              <h2 className="text-xl custom-2xl:text-3xl font-bold text-white">
-                {tutor?.contactInformation?.firstName}
-              </h2>
-            </div>
-
-            {activeView === "chat" && (
-              <>
-                {/* Messages */}
-                <div className="flex-grow p-1 custom-2xl:p-3 bg-[#A296CC] border-t border-[#8b55ff51]   mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
-                  {Array.isArray(messages) && messages.length > 0
-                    ? messages.map((msg, index) => (
-                        <>
-                          <ChatMessage
-                            key={index}
-                            message={msg}
-                            // @ts-ignore
-                            isUser={msg.senderId === userId}
-                          />
-                        </>
-                      ))
-                    : ""}
-
-                  <div ref={messagesEndRef} />
-                </div>
-
-                {/* Message Input */}
-                <form
-                  onSubmit={sendMessage}
-                  className="py-2 sm:py-4 px-2 sm:px-10 bg-[#A296CC]  flex items-center justify-center  rounded-b-3xl"
-                >
-                  <div className="flex items-center bg-[#8a7db7] rounded-full  relative w-full">
-                    <input
-                      type="text"
-                      value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
-                      placeholder="send a message"
-                      className="flex-grow py-1 sm:py-2 custom-2xl:py-4 pl-8 custom-2xl:pl-16 pr-8 custom-2xl:pr-16  bg-transparent text-white placeholder-[#b0a9d2] text-sm sm:text-base custom-2xl:text-xl focus:outline-none"
-                    />
-                    <button type="submit" className="">
-                      <Image  loading="lazy" 
-                        src={sendicon}
-                        alt="Send Icon"
-                        className="h-4  custom-2xl:h-6 w-4  custom-2xl:w-6 absolute right-9 top-1/2 transform -translate-y-1/2"
-                      />
-                    </button>
-                  </div>
-                </form>
-              </>
-            )}
-
-            {activeView === "folder" && (
-              <>
-                <div className="flex-grow p-1 custom-2xl:p-3 bg-[#A296CC] border-t border-[#8b55ff51]   mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
-                  {Array.isArray(messages) &&
-                    messages.length > 0 &&
-                    messages.map(
-                      (msg: any, index) =>
-                        msg.fileUrl != null && (
-                          <FileMessage
-                            key={index}
-                            message={msg}
-                            isUser={msg.senderId === userId} // Check if the message was sent by the user
-                          />
-                        )
-                    )}
-
-                  <div ref={messagesEndRef} />
-                </div>
-
-                <div className="py-2 sm:py-4 px-2 sm:px-10 bg-[#A296CC]  flex items-center justify-end  rounded-b-3xl relative">
-                  {file ? (
-                    <div className="flex flex-col items-end  gap-2">
-                     {selectedFile && (
-                      <div className="mt-2 flex items-center gap-4">
-                        <p className="text-sm text-white">{fileName.slice(0, 8) + '...' + fileName.slice(-4)}</p>
-                        <button
-                          className="text-sm text-[#af0000] hover:text-red-700"
-                          onClick={() => {
-                            setselectedFile(null);
-                            setFile(null);
-                            setFileName("");
-                          }}
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    )}
-                      <button onClick={sendFile} className="w-full sm:w-auto py-1 px-9 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors">
-                        {isLoading ? "wait..." : "send"}
-                      </button>
-                      
-                    </div>
-                  ) : (
-                    <label className="text-white py-2 px-4 rounded-full flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="file"
-                      className="hidden"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        if (e.target.files && e.target.files[0]) {
-                          const file:any = e.target.files[0];
-                          setselectedFile(file);
-                          setFile(file);
-                          setFileName(file.name);
-                        }
-                      }}
-                    />
-                    <span className="text-xl text-[#DBD8EF] font-medium">Add attachment</span>
-                    <Image  loading="lazy"  src={plusicon} alt="Add" className="w-8 h-8" />
-                  </label>
-                  )}
-                    
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-      </div>
-    );
+    return <ChatComp {...chatProps} />;
   }
 
   return (
-    <div className="bg-[#EDE8FA] w-full h-full rounded-3xl px-5 custom-xl:px-9 py-5 custom-xl:py-9  mt-[59px] text-white">
-      <h1 className="text-xl custom-xl:text-4xl font-bold  text-[#685AAD] px-7 mb-4 sm:mb-6 custom-xl:mb-10">
+    <div className="bg-[#EDE8FA] w-full h-full rounded-[30px] px-5 custom-xl:px-9 py-5 custom-xl:py-9  mt-[53px] text-white">
+      <h1 className="text-xl custom-xl:text-[39.07px] custom-xl:leading-[2.5rem] font-bold  text-[#685AAD] px-7 mb-4 sm:mb-6 custom-xl:mb-11">
         My eTutors
       </h1>
 
-      <div className="flex flex-col gap-2 sm:gap-4 custom-lg:gap-10">
-        {recievedmessages.length > 0 &&
-          recievedmessages.map((message:any, index) => (
-            <div
-              key={index}
-              className="flex  justify-between items-center  custom-xl:items-center  py-4 custom-xl:py-9 rounded-2xl bg-[#A296CC] pl-6 sm:px-11 pr-6  custom-xl:flex-row custom-xl:gap-0 gap-4"
-            >
-              {/* name and tier box */}
-              <div className="flex  justify-start  w-fit custom-xl:w-fit  custom-xl:flex-row gap-2 custom-xl:gap-6 h-fit items-center  ">
-                <div className="w-8 sm:h-16 custom-xl:h-[132px] h-8 sm:w-16 custom-xl:w-[132px] rounded-full bg-white relative ">
-                  <div className="overflow-hidden  rounded-full h-full w-full flex items-center justify-center">
-                    <img
-                      src={message?.details?.user?.profilePicture || ""}
-                      alt=""
-                      className="h-full w-full object-cover"
-                    />
-                  </div>
-                  <div className="tier w-5 sm:w-8 custom-xl:w-14 h-5 sm:h-8 custom-xl:h-14 absolute -bottom-1 -left-2">
-                    <Image  loading="lazy" 
-                    src={
-                      message?.details?.level == "1"
-                        ? level1
-                        : message?.details?.level == "2"
-                        ? level2
-                        : message?.details?.level == "3"
-                        ? level3
-                        : message?.details?.level == "4"
-                        ? level4
-                        : message?.details?.level == "5"
-                        ? level5
-                        : message?.details?.level == "6"
-                        ? level6
-                        : message?.details?.level == "7"
-                        ? level7
-                        : message?.details?.level == "8"
-                        ? level8
-                        : message?.details?.level == "9"
-                        ? level9
-                        : message?.details?.level == "10"
-                        ? level10
-                        : level1
-                    }
-                      alt=""
-                      className="w-full h-full"
-                    />
-                  </div>
-                </div>
-
-                <div className=" h-full flex flex-col items-center justify-center gap-6 max-w-48 truncate">
-                  <h1 className="font-bold text-sm sm:text-lg custom-xl:text-2xl  w-full text-center custom-xl:text-start ">
-                    {message?.details?.contactInformation?.firstName}
-                  </h1>
-
-                  <div className="w-full  text-center hidden custom-xl:block custom-xl:text-start">
-                    <p className="text-xl">Availability:</p>
-                    <span className="text-[#473171] text-lg truncate ">
-                      {/* {message?.details?.experience?.availableHours} */}
-                      { Object.entries(message?.details?.experience?.generalAvailability).map(([day, times]) => (
-                        
-          <div key={day} className="flex">
-            <h3>{day} :</h3>  <p>{
-            
-            // @ts-ignore
-            times.join(', ')}</p>
-          </div>
-        ))}
-                    </span>
-                  </div>
-                </div>
-              </div>
-              {/* subject and info box */}
-              <div className="custom-xl:max-w-52  w-full  h-fit custom-2xl:flex flex-col items-center custom-xl:items-start hidden ">
-                <span className="text-md">Subjects:</span>
-                <p className="  text-[#473171] text-md text-center custom-xl:text-start">
-                  {message?.details?.experience?.subjectsTutored.join(",")}
-                </p>
-              </div>
-
-              {/* study and experience box */}
-              <div className=" flex-col gap-2  custom-xl:max-w-52 w-full custom-xl:items-start  hidden custom-2xl:flex">
-                <div className="flex flex-col items-center custom-xl:items-start">
-                  <span className="text-md text-white">Study</span>
-                  <p className="text-md text-[#473171]">
-                    {message?.details?.education.degree}
-                  </p>
-                </div>
-
-                <div className="flex flex-col items-center custom-xl:items-start">
-                  <span className="text-md text-white">
-                    Teaching Experience
-                  </span>
-                  <p className="text-md text-[#473171]">
-                    {message?.details?.experience?.tutoringExperience || "Not Available"}
-                  </p>
-                </div>
-              </div>
-
-              {/* accept deny box */}
-
-              <div className="flex flex-col items-end custom-2xl:items-start  w-full custom-xl:w-fit custom-xl:py-2">
-                <div className=" h-full flex flex-col gap-6 w-fit custom-lg:w-fit">
-                  <div className=" flex  h-fit w-full justify-between items-center custom-xl:items-start  gap-4 custom-xl:gap-14">
-                    <Image  loading="lazy" 
-                      src={messageicon}
-                      alt=""
-                      className="w-3 sm:w-6 custom-xl:w-8 hover:cursor-pointer"
-                      onClick={() => {
-                        setShowChat(true);
-                        settutor(message?.details);
-                      }}
-                    />
-                    <Image  loading="lazy" 
-                      src={folder}
-                      alt=""
-                      className="w-3 sm:w-6 custom-xl:w-8 hover:cursor-pointer"
-                      onClick={() => {
-                        setShowChat(true);
-                        setActiveView("folder")
-                        settutor(message?.details);
-                      }}
-                    />
-                    <Image  loading="lazy" 
-                      onClick={() => {
-                        setActiveFindEtutor("Find eTutor");
-                        showTerminateEngament(true)
-                        setTutor(message?.details);
-                      }}
-                      src={profile}
-                      alt=""
-                      className="w-3 sm:w-6 custom-xl:w-6 hover:cursor-pointer"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
+      <div className="flex flex-col gap-2 sm:gap-4 custom-lg:gap-10 ">
+        {receivedMessages.length > 0 &&
+          receivedMessages.map((message, index) => (
+            <RecievedMessages
+              key={message._id || index}
+              message={message}
+              setTutor={setTutor}
+              setShowChat={setShowChat}
+              settutor={setTutorState}
+              setActiveView={setActiveView}
+              setActiveFindEtutor={setActiveFindEtutor}
+              showTerminateEngament={showTerminateEngament}
+            />
           ))}
       </div>
     </div>
   );
-}
+};
 
 export default MyEtutor;

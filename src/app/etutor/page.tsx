@@ -10,16 +10,6 @@ import { useRouter } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 
 // Date Utilities
-import {
-  eachDayOfInterval,
-  eachWeekOfInterval,
-  endOfMonth,
-  format,
-  isSameDay,
-  isSameMonth,
-  startOfMonth,
-  startOfWeek,
-} from "date-fns";
 
 // Icons - Lucide
 import { ChevronDown, ChevronLeft, ChevronUp, Menu } from "lucide-react";
@@ -48,15 +38,10 @@ import UsefulLinks from "./components/UsefulLinks";
 import adminlogo from "../../../public/etutuorAdminLogo.svg";
 import logo from "../../../public/etutorlogo.svg";
 import bell from "../../../public/bellicon.svg";
-import chaticon from "../../../public/chaticon.svg";
-import chat from "../../../public/chat.svg";
 import dark from "../../../public/darkicon.svg";
 import etokiicon from "../../../public/etokiIcon.svg";
 import EPlusIcon from "../../../public/Plus circle.svg";
 import earningsinactive from "../../../public/earnings inactive.svg";
-import lightcalender from "../../../public/lightcalendar.svg";
-import refergray from "../../../public/grayrefer.svg";
-import sessionicongray from "../../../public/compltedsessionsicon gray.svg";
 import translate from "../../../public/translateicon.svg";
 
 // Assets - Levels
@@ -70,19 +55,36 @@ import level7 from "../../../public/level-7.svg";
 import level8 from "../../../public/level-8.svg";
 import level9 from "../../../public/level-9.svg";
 import level10 from "../../../public/level-10.svg";
-import { useIncomingRequests } from "../admin/hooks/useIncomingRequests";
 
+import { useIncomingRequests } from "../admin/hooks/useIncomingRequests";
+import DashboardGrid from "./DashboardGrid";
+import useSWR from "swr";
+
+
+interface Message {
+  id: string;
+  content: string;
+  senderId: string;
+  timestamp: string;
+  details: {
+    user: { _id: string };
+    contactInformation: { firstName: string };
+  };
+  lastMessage?: {
+    content: string;
+    senderId: string;
+    timestamp: string;
+  };
+}
 export default function Home() {
   const { etokies, isLoadingetokies, erroretokies } = useEtokies();
   const [activeSidebarItem, setActiveSidebarItem] = useState("Dashboard");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const [previousSidebarItem, setPreviousSidebarItem] = useState("");
-  const [currentDate, setCurrentDate] = useState(new Date());
   const router = useRouter();
   const { data: session, update } = useSession();
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
   const targetRef = useRef<HTMLDivElement>(null);
   const [eTokis, setETokis] = useState(0);
   const [earnedThisMonthEtokis, setEarnedThisMonthEtokis] = useState(0);
@@ -90,43 +92,73 @@ export default function Home() {
   const [profilepicture, setProfilepicture] = useState("");
   const [tutorlevelleft, setTutorLevelLeft] = useState(0);
   const [completeprofilestatus, setCompleteProfileStatus] = useState(0);
-  const [view, setView] = useState("month"); // 'month' or 'week'
-  const [popup, setPopup] = useState<Date | null>(null);
   const [level, setLevel] = useState(0);
-  const { teacher, isLoading, teachererror } = useTeacherData();
+  const { teacher } = useTeacherData();
   const progressPercent = useEtokisProgress(Number(teacher?.user?.etokis));
   const [isLargeScreen, setIsLargeScreen] = useState(false);
   const { sessionData, reqloading, reqerr } = useIncomingRequests(session);
 
-  const monthStart = startOfMonth(currentDate);
-  const monthEnd = endOfMonth(currentDate);
-  const weeks = eachWeekOfInterval(
-    { start: monthStart, end: monthEnd },
-    { weekStartsOn: 1 } // Monday as week start
-  );
-  // Filter sessions based on states
-  const filteredSessions = useMemo(() => {
-    return sessionData;
-  }, [sessionData]);
+  const [recievedmessages, setRecievedmessages] = useState<Message[]>([]);
 
-  // Generate calendar days
-  const calendarDays = useMemo(() => {
-    const start = startOfMonth(currentDate);
-    const end = endOfMonth(currentDate);
-    const days = eachDayOfInterval({ start, end });
 
-    // Add previous month days to start from Sunday
-    const firstDay = startOfWeek(start);
-    const preDays = eachDayOfInterval({ start: firstDay, end: start });
 
-    return [...preDays.slice(0, -1), ...days];
-  }, [currentDate, view]);
-
-  const getSessionForDate = (date: Date): BookingRequest | undefined => {
-    return filteredSessions
-      .filter((session: BookingRequest) => !session.meetingCompleted)
-      .find((session) => isSameDay(new Date(session.date), date));
+  const fetcher = async (url: string) => {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Failed to fetch data");
+    }
+    return response.json();
   };
+  const {
+    data: senderMessages,
+    error,
+    isLoading,
+  } = useSWR(
+    session?.user?.id
+      ? `/api/recipient/messages?recipientId=${session.user.id}`
+      : null,
+    fetcher,
+    {
+      revalidateOnFocus: true,
+      revalidateOnReconnect: true,
+      refreshInterval: 0,
+      onError: (error) => {
+        console.error("Error fetching senders:", error);
+      },
+    }
+  );
+
+
+  useEffect(() => {
+    const enrichMessagesWithLastMessage = async () => {
+      if (!senderMessages || !Array.isArray(senderMessages)) return;
+
+      const enriched = await Promise.all(
+        senderMessages.map(async (msg: any) => {
+          const recipientId = msg?.details?.user?._id;
+
+          if (!recipientId) return msg;
+
+          try {
+            const res = await fetch(`/api/message/conversation?userId=${session?.user?.id}&recipientId=${recipientId}&limit=1`);
+            const data = await res.json();
+
+            return {
+              ...msg,
+              lastMessage: data?.messages?.[0] || null,
+            };
+          } catch (err) {
+            console.error(`Failed to fetch last message for ${recipientId}`, err);
+            return { ...msg, lastMessage: null };
+          }
+        })
+      );
+
+      setRecievedmessages(enriched);
+    };
+
+    enrichMessagesWithLastMessage();
+  }, [senderMessages]);
 
   useEffect(() => {
     setETokis(teacher?.user?.etokis ?? 0);
@@ -209,537 +241,15 @@ export default function Home() {
       // ---------------------------DashBoard--------------------------------------------------------------
       case "Dashboard":
         return (
-          <div className="  min-h-screen    ">
-            {/* <Dashboard /> */}
-
-            {/* top left box TOKIs */}
-            <div
-              className={`custom-2xl:w-full max-w-[66rem] ${
-                isLargeScreen ? "flex-row gap-11" : "flex-col gap-4"
-              } flex  items-start    absolute top-14 custom-lg:top-0 mt-4  `}
-            >
-              {/* 1 */}
-              <div
-                className={` flex flex-col space-y-2 pb-3 pt-4 px-4  bg-purple-100  rounded-3xl w-[100%] custom-2xl:w-[18rem] bg-[#EDE8FA]`}
-              >
-                <div className=" flex justify-between items-center bg-purple-300 rounded-2xl px-4 pl-6 pr-6 py-[10px] bg-[#ffffff84]">
-                  <div className="text-3xl font-bold text-[#685AAD] truncate">
-                    {eTokis}
-                  </div>
-                  <div className=" flex items-center justify-center">
-                    <Image
-                      loading="lazy"
-                      src={etokiicon}
-                      alt=""
-                      className="w-9 h-9"
-                    />
-                  </div>
-                </div>
-
-                <div className=" mx-auto">
-                  <button
-                    onClick={() => {
-                      setActiveSidebarItem("Refer your Friends");
-                    }}
-                    className="flex-1 bg-[#685AAD] text-white py-[3px] px-10  rounded-lg text-xs flex items-center justify-center gap-1 hover:cursor-pointer"
-                  >
-                    <Image
-                      loading="lazy"
-                      src={EPlusIcon}
-                      alt=""
-                      className="w-5 h-5 hover:cursor-pointer"
-                    />{" "}
-                    etokis
-                  </button>
-                </div>
-              </div>
-              {/* 2 */}
-              <div
-                className={` flex flex-col space-y-2 pb-2 pt-4 px-4  bg-purple-100  rounded-3xl w-[100%] custom-2xl:w-[18rem] bg-[#EDE8FA]`}
-              >
-                <div className=" flex justify-between items-center bg-purple-300 rounded-2xl px-4 pl-6 py-[10px] bg-[#ffffff84]">
-                  <div className="text-3xl font-bold text-[#685AAD] truncate max-w-[12rem]">
-                    {/* {earnedThisMonthEtokis} */}
-                    {erroretokies
-                      ? "0"
-                      : isLoadingetokies
-                      ? "loading..."
-                      : etokies
-                          ?.filter(
-                            (etokie: any) =>
-                              new Date(etokie.createdAt).getMonth() ===
-                                new Date().getMonth() &&
-                              new Date(etokie.createdAt).getFullYear() ===
-                                new Date().getFullYear()
-                          )
-                          .reduce(
-                            (sum: any, etokie: any) => sum + etokie.amount,
-                            0
-                          )}
-                  </div>
-                  <div className=" flex items-center justify-center">
-                    <Image
-                      loading="lazy"
-                      src={earningsinactive}
-                      alt=""
-                      className="w-6 h-6"
-                    />
-                  </div>
-                </div>
-
-                <div className=" mx-auto">
-                  <p className="text-[#685AAD] text-lg font-medium">
-                    Earned This month
-                  </p>
-                </div>
-              </div>
-              {/* 3 */}
-              <div
-                className={`flex  gap-5 items-center pb-1 pt-3 px-6  bg-purple-100  rounded-3xl w-full ${
-                  isLargeScreen ? "max-w-[23rem]" : "max-w-[18rem]"
-                } bg-[#EDE8FA]`}
-              >
-                <div className="level h-[103px]">
-                  <Image
-                    loading="lazy"
-                    src={
-                      level == 1
-                        ? level1
-                        : level == 2
-                        ? level2
-                        : level == 3
-                        ? level3
-                        : level == 4
-                        ? level4
-                        : level == 5
-                        ? level5
-                        : level == 6
-                        ? level6
-                        : level == 7
-                        ? level7
-                        : level == 8
-                        ? level8
-                        : level == 9
-                        ? level9
-                        : level == 10
-                        ? level10
-                        : level1
-                    }
-                    alt=""
-                    className=" h-full "
-                  />
-                </div>
-                <div className="content flex flex-col w-full">
-                  <p className="text-[#685AAD]  text-lg font-bold"> eTokis</p>
-                  <p className="text-[#685AAD]  text-lg font-medium ">
-                    {level == 10 ? (
-                      <span>All Level Completed!</span>
-                    ) : (
-                      <span>Left for level {level + 1}</span>
-                    )}
-                  </p>
-                  <div className="w-full bg-white h-2 rounded-full mt-2">
-                    <div
-                      className={`w-[${Number(
-                        progressPercent.progressPercentage
-                      )}%] h-full bg-[#9252FF] rounded-full`}
-                      style={{
-                        width: `${
-                          Number(progressPercent.progressPercentage) || 0
-                        }%`,
-                      }}
-                    ></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div
-              className={`block   ${
-                isLargeScreen ? "mb-16" : "mb-[390px] custom-lg:mb-[300px]"
-              } `}
-            >
-              &nbsp;
-            </div>
-
-            <div className="">
-              <div className="grid gap-5 grid-cols-1 custom-2xl:grid-cols-8 custom-2xl:grid-rows-5 h-screen ">
-                {/* -------------schedule------- */}
-                <div className=" bg-[#EDE8FA] text-[#685AAD] rounded-2xl px-6 py-5 col-span-3 row-span-5 ">
-                  <div className="flex  justify-between items-center">
-                    <h1 className="font-bold text-xl">THIS WEEK’S SCHEDULE</h1>
-                    <Image
-                      loading="lazy"
-                      src={lightcalender}
-                      alt=""
-                      className="w-6 h-6"
-                    />
-                  </div>
-
-                  <div className="flex flex-col gap-6 mt-4 overflow-y-auto scrollbar-none h-[95%]">
-                    {sessionData.length > 0 &&
-                    sessionData.filter(
-                      (request) =>
-                        request.status === "accepted" &&
-                        request.meetingCompleted === false
-                    ).length !== 0 ? (
-                      <>
-                        {sessionData
-                          .filter(
-                            (request) =>
-                              request.status === "accepted" &&
-                              request.meetingCompleted === false
-                          )
-                          .map((request) => {
-                            return (
-                              <div
-                                key={request._id}
-                                className="bg-[#A296CC] rounded-lg px-6 py-2 flex justify-between "
-                              >
-                                <div className="pl-2">
-                                  <h1 className="font-bold text-white text-lg">
-                                    {request.subjects || ""}
-                                  </h1>
-                                  <p className=" text-white text-lg ">
-                                    {request?.studentdetails?.firstName ||
-                                      "Your Student"}
-                                  </p>
-                                </div>
-                                <div className="flex flex-col gap-1">
-                                  <button className="text-white bg-[#685AAD] rounded-md px-2 py-1 text-sm">
-                                    Edit Session
-                                  </button>
-                                  <a
-                                    href={request?.startLink || "#"}
-                                    target="_blank"
-                                  >
-                                    <button className="text-white bg-[#8653FF] rounded-md px-2 py-1 text-sm">
-                                      Meeting Link
-                                    </button>
-                                  </a>
-                                </div>
-                              </div>
-                            );
-                          })}
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </div>
-
-                {/* ------------calendar----------- */}
-                <div className=" overflow-y-auto scrollbar-none px-6 py-6 bg-[#EDE8FA] text-[#685AAD] rounded-2xl  col-span-3 row-span-3">
-                  <div className=" h-full">
-                    <div className="flex  justify-between items-center px-6">
-                      <h1 className="font-bold text-xl custom-2xl:text-3xl ">
-                        {currentDate.toLocaleString("default", {
-                          month: "short",
-                        })}{" "}
-                        {currentDate.getFullYear()}
-                      </h1>
-                      <Image
-                        loading="lazy"
-                        onClick={() => {
-                          setActiveSidebarItem("");
-                        }}
-                        src={lightcalender}
-                        alt=""
-                        className="w-6 h-6 "
-                      />
-                    </div>
-
-                    <div className="calendar bg-[#EDE8FA] w-full rounded-xl custom-2xl:rounded-3xl  py-4 custom-2xl:py-7 ">
-                      <div className="grid grid-cols-7 gap-1 sm:gap-3 custom-2xl:gap-5  text-center place-content-center px-3">
-                        {/* Week day headers */}
-                        {view === "month" &&
-                          ["S", "M", "T", "W", "T", "F", "S"].map((day) => (
-                            <span
-                              key={day}
-                              className="text-center text-[#6F697D]  flex items-center justify-center     text-sm sm:text-xl custom-2xl:text-2xl   "
-                            >
-                              {day}
-                            </span>
-                          ))}
-
-                        {/* Calendar days */}
-
-                        {calendarDays.map((day, index) => {
-                          const session2 = getSessionForDate(day);
-                          const isCurrentMonth = isSameMonth(day, currentDate);
-                          return (
-                            <div
-                              onMouseEnter={() => {
-                                setPopup(day);
-                              }}
-                              onMouseLeave={() => {
-                                setPopup(null);
-                              }}
-                              key={index}
-                              className={`flex items-center justify-center rounded-full  relative   custom-xl:rounded-full  text-center  mx-auto  ${
-                                session2 && session2.status === "accepted"
-                                  ? "bg-[#8558f9] text-white"
-                                  : session2?.status === "pending"
-                                  ? "bg-[#4ddfea] text-white"
-                                  : session2?.status === "rejected"
-                                  ? "bg-[#ff9580] text-white"
-                                  : "bg-transparent"
-                              }  ${
-                                isCurrentMonth
-                                  ? "text-[#685BAB]"
-                                  : "text-[#6F697D]"
-                              }  `}
-                            >
-                              <span
-                                className={`text-sm sm:text-xl custom-2xl:text-2xl flex items-center justify-center  text-center  h-8 sm:h-[52px] w-8 sm:w-[52px]  `}
-                              >
-                                {format(day, "d")}
-                              </span>
-
-                              {session2 && (
-                                <>
-                                  {popup === day && (
-                                    <div
-                                      className={`${
-                                        session2.status === "accepted"
-                                          ? "bg-[#8558f9]"
-                                          : session2.status === "pending"
-                                          ? "bg-[#4ddfea]"
-                                          : "bg-[#ff9580]"
-                                      } text-white p-4  min-h-28 w-36  py-2 flex  items-start absolute  top-14  custom-2xl:top-14   left-1/2 transform -translate-x-1/2  z-50 rounded-3xl transition-all duration-300 `}
-                                    >
-                                      <div className="space-y-1 w-full">
-                                        <div className="text-2xl font-semibold border-b border-white">
-                                          Session
-                                        </div>
-                                        <div className="text-xl">
-                                          {session2.subjects}
-                                        </div>
-                                        <div className="text-lg">
-                                          {session2.time}
-                                        </div>
-                                      </div>
-                                    </div>
-                                  )}
-                                </>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                {/* ---------completed session------------ */}
-
-                <div className=" bg-[#EDE8FA] text-[#685AAD] rounded-2xl p-4 col-span-3 custom-2xl:col-span-2 row-span-3 w-full">
-                  <div className="flex  justify-between items-center">
-                    <h1 className="font-bold text-xl uppercase">
-                      completed sessions
-                    </h1>
-                    <Image
-                      loading="lazy"
-                      src={sessionicongray}
-                      alt=""
-                      className="w-5 h-5"
-                    />
-                  </div>
-
-                  <div className="mt-8">
-                    {sessionData.length > 0 &&
-                    sessionData.filter(
-                      (request) =>
-                        request.status === "accepted" &&
-                        request.meetingCompleted === true
-                    ).length !== 0 ? (
-                      <>
-                        {sessionData
-                          .filter(
-                            (request) =>
-                              request.status === "accepted" &&
-                              request.meetingCompleted === true
-                          )
-                          .map((request) => {
-                            return (
-                              <div
-                                key={request._id}
-                                className="flex justify-between items-center border-b-2 border-[#8b55ff39] py-3"
-                              >
-                                <div className="flex flex-col  ">
-                                  <h3 className="text-[#8653FF] text-lg">
-                                    {request?.studentdetails?.firstName}
-                                  </h3>
-                                  <div className="flex justify-between gap-4 ">
-                                    <span className="text-base">DATE</span>
-                                    <span className="text-base">
-                                      <span className="text-sm">{`${new Date(
-                                        request.date
-                                      )
-                                        .toLocaleDateString("en-GB")
-                                        .replace(/\//g, "-")
-                                        .slice(0, 10)}`}</span>
-                                    </span>
-                                  </div>
-                                </div>
-
-                                <div>
-                                  <button
-                                    onClick={() => {
-                                      setActiveSidebarItem("Session overview");
-                                    }}
-                                    className="bg-[#8653FF] text-white px-6 py-1.5 rounded-md text-sm"
-                                  >
-                                    View
-                                  </button>
-                                </div>
-                              </div>
-                            );
-                          })}
-                      </>
-                    ) : (
-                      ""
-                    )}
-                  </div>
-                </div>
-
-                {/* ---------refer friends--------- */}
-                <div className=" bg-[#EDE8FA] text-[#685AAD] rounded-2xl p-4  text-xl col-span-3 ">
-                  <div className="flex  justify-between items-center">
-                    <h1 className="font-bold text-xl uppercase">
-                      Prefer your friends
-                    </h1>
-                    <Image
-                      loading="lazy"
-                      src={refergray}
-                      alt=""
-                      className="w-5 h-5"
-                    />
-                  </div>
-
-                  <div>
-                    <p className="text-sm text-[#8653FF] font-bold">
-                      Refer your friends, get eTokis to spend on courses and
-                      more
-                    </p>
-                    <p className="text-sm text-[#685AAD] font-normal">
-                      Get 10 eTokis for each student and 5 eTokis for each tutor
-                      you successfully refer.
-                    </p>
-                  </div>
-                </div>
-                {/* --------24hr support----------- */}
-                <div className=" bg-[#EDE8FA] text-[#685AAD] rounded-2xl p-4 col-span-3 custom-2xl:col-span-2  text-xl flex flex-col justify-between  ">
-                  <div className="flex  justify-between items-center">
-                    <h1 className="font-bold text-xl uppercase">24H SUPPORT</h1>
-                    <Image
-                      loading="lazy"
-                      src={chaticon}
-                      alt=""
-                      className="w-5 h-5"
-                    />
-                  </div>
-
-                  <div className=" ">
-                    <div className="flex flex-col">
-                      <span className="text-[#685AAD] text-sm">Need help?</span>
-                      <span className="text-[#685AAD] text-sm">
-                        Contact us.
-                      </span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* -----Notifications----------- */}
-
-                <div className=" bg-[#EDE8FA] text-[#685AAD] rounded-2xl p-4  text-xl col-span-3 ">
-                  <div className="flex  flex-col">
-                    <h1 className="font-bold text-xl uppercase">
-                      Trial Session
-                    </h1>
-                    <p className="text-base font-medium text-[#A096C8]">
-                      You have a new trial session request
-                    </p>
-                    {/* <Image  loading="lazy"  src={bellgray} alt="" className="w-4 h-4" /> */}
-                  </div>
-                  <div className="w-full flex justify-between">
-                    <p className="name font-medium">Name</p>
-                    <div className="btns flex gap-3">
-                      <button className="bg-[#7565A4] px-5 py-1 rounded-full text-white text-lg">
-                        Deny
-                      </button>
-                      <button className="bg-[#8358F7] px-5 py-1 rounded-full text-white text-lg">
-                        Accept
-                      </button>
-                    </div>
-                  </div>
-                </div>
-                {/* ------chat--------- */}
-                <div className=" bg-[#EDE8FA] text-[#685AAD] rounded-2xl p-4 col-span-3 custom-2xl:col-span-2 row-span-1  text-xl scrollbar-none">
-                  <div className="flex  justify-between items-center">
-                    <h1 className="font-bold text-xl">CHAT</h1>
-                    <Image
-                      loading="lazy"
-                      src={chat}
-                      alt=""
-                      className="w-4 h-4"
-                    />
-                  </div>
-
-                  <div className="overflow-y-auto  h-[92%] scrollbar-none">
-                    <div className="border-b-2 border-[#8b55ff39] py-2 ">
-                      <h1 className="text-sm text-[#685AAD]">MR.Name</h1>
-                      <p className="text-xs text-[#685AAD]">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elittetur adipisicing elittetur{" "}
-                      </p>
-                    </div>
-                    <div className="border-b-2 border-[#8b55ff39] py-2 ">
-                      <h1 className="text-sm text-[#685AAD]">MR.Name</h1>
-                      <p className="text-xs text-[#685AAD]">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elittetur adipisicing elittetur{" "}
-                      </p>
-                    </div>
-                    <div className="border-b-2 border-[#8b55ff39] py-2 ">
-                      <h1 className="text-sm text-[#685AAD]">MR.Name</h1>
-                      <p className="text-xs text-[#685AAD]">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elittetur adipisicing elittetur{" "}
-                      </p>
-                    </div>
-                    <div className="border-b-2 border-[#8b55ff39] py-2 ">
-                      <h1 className="text-sm text-[#685AAD]">MR.Name</h1>
-                      <p className="text-xs text-[#685AAD]">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elittetur adipisicing elittetur{" "}
-                      </p>
-                    </div>
-                    <div className="border-b-2 border-[#8b55ff39] py-2 ">
-                      <h1 className="text-sm text-[#685AAD]">MR.Name</h1>
-                      <p className="text-xs text-[#685AAD]">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elittetur adipisicing elittetur{" "}
-                      </p>
-                    </div>
-                    <div className="border-b-2 border-[#8b55ff39] py-2 ">
-                      <h1 className="text-sm text-[#685AAD]">MR.Name</h1>
-                      <p className="text-xs text-[#685AAD]">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elittetur adipisicing elittetur{" "}
-                      </p>
-                    </div>
-                    <div className="border-b-2 border-[#8b55ff39] py-2 ">
-                      <h1 className="text-sm text-[#685AAD]">MR.Name</h1>
-                      <p className="text-xs text-[#685AAD]">
-                        Lorem ipsum, dolor sit amet consectetur adipisicing
-                        elittetur adipisicing elittetur{" "}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <DashboardGrid
+            recievedmessages={recievedmessages}
+            sessionData={sessionData}
+            setActiveSidebarItem={setActiveSidebarItem}
+            isLargeScreen={isLargeScreen}
+            eTokis={eTokis}
+            level={level}
+            progressPercent={progressPercent}
+          />
         );
 
       // ---------------------------My session--------------------------------------------------------------
@@ -807,12 +317,11 @@ export default function Home() {
 
   if (session?.user?.role === "teacher") {
     return (
-      <div className="flex min-h-screen bg-white relative z-0 max-w-[1920px] w-full mx-auto">
+      <main className="flex h-screen">
         {/* Sidebar */}
         <aside
-          className={` ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } custom-lg:translate-x-0 fixed custom-lg:static inset-y-0 left-0 z-50 max-w-[20rem] sm:max-w-[25rem] w-full  min-h-screen  rounded-tr-3xl rounded-br-3xl bg-[#E6E4F2] text-white flex flex-col transition-transform duration-300 ease-in-out pl-5 pr-9 pt-8 custom-2xl:pt-11 pb-4`}
+          className={` ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+            } custom-lg:translate-x-0 fixed custom-lg:static inset-y-0 left-0 z-50 max-w-[20rem] sm:max-w-[25rem] w-full  h-screen overflow-y-auto scrollbar-none rounded-tr-3xl rounded-br-3xl bg-[#E6E4F2] text-white flex flex-col transition-transform duration-300 ease-in-out pl-5 pr-9 pt-8 custom-2xl:pt-11 pb-4`}
         >
           <div className="flex items-center mb-[23.5%] pb-2 pl-7">
             {session.user.isAdmin === true ? (
@@ -852,11 +361,10 @@ export default function Home() {
                           setIsSidebarOpen(false);
                         }
                       }}
-                      className={`flex    hover:shadow-[0px_0px_5px_1px_rgba(255,255,255,0.3)] hover:transition-all duration-1000  items-center w-full px-6 custom-2xl:px-9 py-3 sm:py-[18px] rounded-[22px]  transition-all  ${
-                        activeSidebarItem === item.name
-                          ? "bg-white  transition-all"
-                          : "hover:bg-darkpurple hover:bg-transparent transition-all"
-                      }`}
+                      className={`flex    hover:shadow-[0px_0px_5px_1px_rgba(255,255,255,0.3)] hover:transition-all duration-1000  items-center w-full px-6 custom-2xl:px-9 py-3 sm:py-[18px] rounded-[22px]  transition-all  ${activeSidebarItem === item.name
+                        ? "bg-white  transition-all"
+                        : "hover:bg-darkpurple hover:bg-transparent transition-all"
+                        }`}
                     >
                       <Image
                         loading="lazy"
@@ -865,11 +373,10 @@ export default function Home() {
                         alt=""
                       />
                       <p
-                        className={`text-[#cac7d8] text-xl font-medium ${
-                          activeSidebarItem === item.name
-                            ? "text-customBlue"
-                            : "text-darkpurple"
-                        }`}
+                        className={`text-[#cac7d8] text-xl font-medium ${activeSidebarItem === item.name
+                          ? "text-customBlue"
+                          : "text-darkpurple"
+                          }`}
                       >
                         {item.name}
                       </p>
@@ -891,11 +398,10 @@ export default function Home() {
                           setIsSidebarOpen(false);
                         }
                       }}
-                      className={`flex   hover:shadow-[0px_0px_5px_1px_rgba(255,255,255,0.3)] hover:transition-all duration-1000  items-center w-full px-6 custom-2xl:px-9 py-3 sm:py-[18px] rounded-[22px]  transition-all  ${
-                        activeSidebarItem === item.name
-                          ? "bg-white text-customBlue"
-                          : "hover:bg-darkpurple hover:bg-transparent"
-                      }`}
+                      className={`flex   hover:shadow-[0px_0px_5px_1px_rgba(255,255,255,0.3)] hover:transition-all duration-1000  items-center w-full px-6 custom-2xl:px-9 py-3 sm:py-[18px] rounded-[22px]  transition-all  ${activeSidebarItem === item.name
+                        ? "bg-white text-customBlue"
+                        : "hover:bg-darkpurple hover:bg-transparent"
+                        }`}
                     >
                       <Image
                         loading="lazy"
@@ -904,11 +410,10 @@ export default function Home() {
                         alt=""
                       />
                       <p
-                        className={`text-[#cac7d8] text-xl font-medium ${
-                          activeSidebarItem === item.name
-                            ? "text-customBlue"
-                            : "text-darkpurple"
-                        }`}
+                        className={`text-[#cac7d8] text-xl font-medium ${activeSidebarItem === item.name
+                          ? "text-customBlue"
+                          : "text-darkpurple"
+                          }`}
                       >
                         {item.name}
                       </p>
@@ -919,77 +424,222 @@ export default function Home() {
           </nav>
         </aside>
 
-        {/* Main content */}
-        <main className="flex-1 px-9 py-4 overflow-auto  bg-transparent">
-          <header
-            className={`flex justify-between items-center  ${
-              activeSidebarItem === "Session overview" ? "mb-2" : "mb-8"
-            }`}
-          >
-            <div className="flex items-center">
-              <button
-                onClick={toggleSidebar}
-                className="custom-lg:hidden mr-4 text-darkBlue"
-              >
-                <Menu size={24} />
-              </button>
-
-              {activeSidebarItem === "Dashboard" ? (
-                <></>
-              ) : (
-                <div
-                  onClick={() => {
-                    if (previousSidebarItem) {
-                      setActiveSidebarItem(previousSidebarItem); // Navigate back to previous item
-                    }
-                  }}
-                  className="flex cursor-pointer  items-center"
-                >
-                  <ChevronLeft
-                    className="mr-2 cursor-pointer text-[#685AAD]"
-                    size={24}
-                  />
-
-                  <h1 className="text-[#685AAD] text-xs sm:text-sm custom-lg:text-xl hidden sm:block">
-                    Back
-                  </h1>
-                </div>
-              )}
-              {activeSidebarItem === "My Sessions" && (
-                <h1 className="text-[#685AAD]  text-sm sm:text-md custom-lg:text-5xl  font-extrabold ml-0 sm:ml-6 absolute top-16 left-16 sm:static">
-                  My&nbsp;Sessions
-                </h1>
-              )}
-            </div>
-
-            <div
-              ref={targetRef}
-              className="flex items-center space-x-4 relative -right-4 select-none "
+        <div className="flex min-h-screen bg-white relative z-0 max-w-[1920px] w-full mx-auto overflow-y-auto">
+          {/* Main content */}
+          <main className="flex-1 px-2 custom-lg:px-7 py-4 overflow-auto  bg-transparent">
+            <header
+              className={`flex justify-between items-start px-4 sm:px-0  ${activeSidebarItem === "Session overview" ? "mb-2" : "mb-8"
+                }`}
             >
-              {/* <Bell size={24} className="cursor-pointer text-darkBlue" /> */}
-              <div className="flex gap-4 custom-2xl:gap-6 mr-2">
-                <Image
-                  loading="lazy"
-                  src={dark}
-                  alt=""
-                  className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
-                />
-                <Image
-                  loading="lazy"
-                  src={translate}
-                  alt=""
-                  className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
-                />
-                <Image
-                  loading="lazy"
-                  src={bell}
-                  alt=""
-                  className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
-                />
+              <div className="flex items-start">
+                <button
+                  onClick={toggleSidebar}
+                  className="custom-lg:hidden mr-4 text-darkBlue"
+                >
+                  <Menu size={24} />
+                </button>
+
+                {activeSidebarItem === "Dashboard" ? (
+                  <>
+                    <div
+                      className={`custom-2xl:w-full max-w-[66rem] mb-4  mt-12 sm:mt-0 hidden  ${isLargeScreen ? "flex-row gap-11" : "flex-col gap-4"
+                        } sm:flex  items-start       `}
+                    >
+                      {/* 1 */}
+                      <div
+                        className={` flex flex-col space-y-2 pb-3 pt-4 px-4  bg-purple-100  rounded-3xl w-[100%] custom-2xl:w-[18rem] bg-[#EDE8FA]`}
+                      >
+                        <div className=" flex justify-between items-center bg-purple-300 rounded-2xl px-4 pl-6 pr-6 py-[10px] bg-[#ffffff84]">
+                          <div className="text-3xl font-bold text-[#685AAD] truncate">
+                            {eTokis}
+                          </div>
+                          <div className=" flex items-center justify-center">
+                            <Image
+                              loading="lazy"
+                              src={etokiicon}
+                              alt=""
+                              className="w-9 h-9"
+                            />
+                          </div>
+                        </div>
+
+                        <div className=" mx-auto">
+                          <button
+                            onClick={() => {
+                              setActiveSidebarItem("Refer your Friends");
+                            }}
+                            className="flex-1 bg-[#685AAD] text-white py-[3px] px-10  rounded-lg text-xs flex items-center justify-center gap-1 hover:cursor-pointer"
+                          >
+                            <Image
+                              loading="lazy"
+                              src={EPlusIcon}
+                              alt=""
+                              className="w-5 h-5 hover:cursor-pointer"
+                            />{" "}
+                            etokis
+                          </button>
+                        </div>
+                      </div>
+                      {/* 2 */}
+                      <div
+                        className={` flex flex-col space-y-2 pb-2 pt-4 px-4  bg-purple-100  rounded-3xl w-[100%] custom-2xl:w-[18rem] bg-[#EDE8FA]`}
+                      >
+                        <div className=" flex justify-between items-center bg-purple-300 rounded-2xl px-4 pl-6 py-[10px] bg-[#ffffff84]">
+                          <div className="text-3xl font-bold text-[#685AAD] truncate max-w-[12rem]">
+                            {/* {earnedThisMonthEtokis} */}
+                            {erroretokies
+                              ? "0"
+                              : isLoadingetokies
+                                ? "loading..."
+                                : etokies
+                                  ?.filter(
+                                    (etokie: any) =>
+                                      new Date(etokie.createdAt).getMonth() ===
+                                      new Date().getMonth() &&
+                                      new Date(
+                                        etokie.createdAt
+                                      ).getFullYear() ===
+                                      new Date().getFullYear()
+                                  )
+                                  .reduce(
+                                    (sum: any, etokie: any) =>
+                                      sum + etokie.amount,
+                                    0
+                                  )}
+                          </div>
+                          <div className=" flex items-center justify-center">
+                            <Image
+                              loading="lazy"
+                              src={earningsinactive}
+                              alt=""
+                              className="w-6 h-6"
+                            />
+                          </div>
+                        </div>
+
+                        <div className=" mx-auto">
+                          <p className="text-[#685AAD] text-lg font-medium">
+                            Earned This month
+                          </p>
+                        </div>
+                      </div>
+                      {/* 3 */}
+                      <div
+                        className={`flex  gap-5 items-center pb-1 pt-3 px-6  bg-purple-100  rounded-3xl w-full ${isLargeScreen ? "max-w-[23rem]" : "max-w-[18rem]"
+                          } bg-[#EDE8FA]`}
+                      >
+                        <div className="level h-[103px]">
+                          <Image
+                            loading="lazy"
+                            src={
+                              level == 1
+                                ? level1
+                                : level == 2
+                                  ? level2
+                                  : level == 3
+                                    ? level3
+                                    : level == 4
+                                      ? level4
+                                      : level == 5
+                                        ? level5
+                                        : level == 6
+                                          ? level6
+                                          : level == 7
+                                            ? level7
+                                            : level == 8
+                                              ? level8
+                                              : level == 9
+                                                ? level9
+                                                : level == 10
+                                                  ? level10
+                                                  : level1
+                            }
+                            alt=""
+                            className=" h-full "
+                          />
+                        </div>
+                        <div className="content flex flex-col w-full">
+                          <p className="text-[#685AAD]  text-lg font-bold">
+                            {" "}
+                            eTokis
+                          </p>
+                          <p className="text-[#685AAD]  text-lg font-medium ">
+                            {level == 10 ? (
+                              <span>All Level Completed!</span>
+                            ) : (
+                              <span>Left for level {level + 1}</span>
+                            )}
+                          </p>
+                          <div className="w-full bg-white h-2 rounded-full mt-2">
+                            <div
+                              className={`w-[${Number(
+                                progressPercent.progressPercentage
+                              )}%] h-full bg-[#9252FF] rounded-full`}
+                              style={{
+                                width: `${Number(progressPercent.progressPercentage) ||
+                                  0
+                                  }%`,
+                              }}
+                            ></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div
+                    onClick={() => {
+                      if (previousSidebarItem) {
+                        setActiveSidebarItem(previousSidebarItem); // Navigate back to previous item
+                      }
+                    }}
+                    className="flex cursor-pointer  items-center"
+                  >
+                    <ChevronLeft
+                      className="mr-2 cursor-pointer text-[#685AAD]"
+                      size={24}
+                    />
+
+                    <h1 className="text-[#685AAD] text-xs sm:text-sm custom-lg:text-xl hidden sm:block">
+                      Back
+                    </h1>
+                  </div>
+                )}
+                {activeSidebarItem === "My Sessions" && (
+                  <h1 className="text-[#685AAD]  text-sm sm:text-md custom-lg:text-5xl  font-extrabold ml-0 sm:ml-6 absolute top-16 left-16 sm:static">
+                    My&nbsp;Sessions
+                  </h1>
+                )}
               </div>
 
-              {/* -------profile complete------- */}
-              {/* {activeSidebarItem === "Dashboard" && (
+              <div
+                ref={targetRef}
+                className="flex items-center space-x-4 relative -right-4 select-none "
+              >
+                {/* <Bell size={24} className="cursor-pointer text-darkBlue" /> */}
+                <div className="flex gap-4 custom-2xl:gap-6 mr-2">
+                  <Image
+                    loading="lazy"
+                    src={dark}
+                    alt=""
+                    className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
+                  />
+                  <Image
+                    loading="lazy"
+                    src={translate}
+                    alt=""
+                    className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
+                  />
+                  <Image
+                    loading="lazy"
+                    src={bell}
+                    alt=""
+                    className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
+                  />
+                </div>
+
+                {/* -------profile complete------- */}
+                {/* {activeSidebarItem === "Dashboard" && (
                 <div className=" absolute mb-28 custom-xl:mb-8 hidden sm:block right-4   top-[3.7rem] max-w-[20.5rem]  custom-xl:max-w-[21.5rem]  ">
                   <div className="flex  items-center  ">
                     <div>
@@ -1012,74 +662,74 @@ export default function Home() {
                 </div>
               )} */}
 
-              <div
-                onClick={toggleProfile}
-                className={`flex bg-[#EDE8FA] hover:cursor-pointer  px-2 py-1 justify-between w-[9rem] custom-2xl:w-[12.5rem]   h-10 custom-2xl:h-11 items-center rounded-md ${
-                  isProfileOpen ? "border border-[#685aad7a]" : "border-0"
-                }`}
-              >
-                <div className=" flex gap-2 items-center justify-center">
-                  <div className="w-6 custom-2xl:min-w-7 h-6 custom-2xl:min-h-7  rounded-full overflow-hidden flex items-center">
-                    <img
-                      src={
-                        profilepicture ||
-                        // @ts-ignore
-                        teacher?.user?.profilePicture
-                      }
-                      alt=""
-                      className="object-cover object-center"
-                    />
+                <div
+                  onClick={toggleProfile}
+                  className={`flex bg-[#EDE8FA] hover:cursor-pointer  px-2 py-1 justify-between w-[9rem] custom-2xl:w-[12.5rem]   h-10 custom-2xl:h-11 items-center rounded-md ${isProfileOpen ? "border border-[#685aad7a]" : "border-0"
+                    }`}
+                >
+                  <div className=" flex gap-2 items-center justify-center">
+                    <div className="w-6 custom-2xl:min-w-7 h-6 custom-2xl:min-h-7  rounded-full overflow-hidden flex items-center">
+                      <img
+                        src={
+                          profilepicture ||
+                          // @ts-ignore
+                          teacher?.user?.profilePicture
+                        }
+                        alt=""
+                        className="object-cover object-center"
+                      />
+                    </div>
+
+                    <span className="text-sm custom-2xl:text-base font-bold text-[#685AAD]">
+                      {firstname}
+                    </span>
                   </div>
 
-                  <span className="text-sm custom-2xl:text-base font-bold text-[#685AAD]">
-                    {firstname}
-                  </span>
+                  {isProfileOpen ? (
+                    <ChevronUp
+                      size={18}
+                      className="cursor-pointer  text-[#685AAD] "
+                    />
+                  ) : (
+                    <ChevronDown
+                      size={18}
+                      className="cursor-pointer  text-[#685AAD] "
+                    />
+                  )}
                 </div>
 
-                {isProfileOpen ? (
-                  <ChevronUp
-                    size={18}
-                    className="cursor-pointer  text-[#685AAD] "
-                  />
-                ) : (
-                  <ChevronDown
-                    size={18}
-                    className="cursor-pointer  text-[#685AAD] "
-                  />
-                )}
-              </div>
-
-              {isProfileOpen && (
-                <div className="absolute right-0 mt-2 hover:cursor-pointer  bg-[#EDE8FA] font-bold rounded-md shadow-lg py-1 z-10 top-full w-[9rem] custom-2xl:w-[12.5rem] px-4 border border-[#685aad7a]">
-                  <Link
-                    href="/etutor/profile"
-                    className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
-                  >
-                    Profile
-                  </Link>
-                  {session?.user?.isAdmin === true && (
-                    <span
-                      onClick={() => {
-                        handleImpersonate();
-                      }}
+                {isProfileOpen && (
+                  <div className="absolute right-0 mt-2 hover:cursor-pointer  bg-[#EDE8FA] font-bold rounded-md shadow-lg py-1 z-10 top-full w-[9rem] custom-2xl:w-[12.5rem] px-4 border border-[#685aad7a]">
+                    <Link
+                      href="/etutor/profile"
                       className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
                     >
-                      Back to Admin
-                    </span>
-                  )}
-                  <a
-                    onClick={() => signOut({ callbackUrl: "/" })}
-                    className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD] "
-                  >
-                    Logout
-                  </a>
-                </div>
-              )}
-            </div>
-          </header>
-          {renderContent()}
-        </main>
-      </div>
+                      Profile
+                    </Link>
+                    {session?.user?.isAdmin === true && (
+                      <span
+                        onClick={() => {
+                          handleImpersonate();
+                        }}
+                        className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
+                      >
+                        Back to Admin
+                      </span>
+                    )}
+                    <a
+                      onClick={() => signOut({ callbackUrl: "/" })}
+                      className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD] "
+                    >
+                      Logout
+                    </a>
+                  </div>
+                )}
+              </div>
+            </header>
+            {renderContent()}
+          </main>
+        </div>
+      </main>
     );
   } else if (session?.user?.role === "parent") {
     router.push("/parent");
