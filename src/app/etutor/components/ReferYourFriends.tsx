@@ -33,7 +33,7 @@ const ReferralComponent = () => {
 
   const subGetButtonStyles = (subIsActive: boolean) => {
     return subIsActive
-      ? "bg-[#A296CC] text-white"
+      ? "bg-[#B4A5D7] text-white"
       : "bg-[#EDE8FA] text-[#685AAD]";
   };
   return (
@@ -53,7 +53,7 @@ const ReferralComponent = () => {
 
       <div
         className={`rounded-3xl ${
-          subActiveTab === "student" ? "bg-[#A296CC]" : "bg-[#EDE8FA]"
+          subActiveTab === "student" ? "bg-[#B4A5D7]" : "bg-[#EDE8FA]"
         }`}
       >
         <div className="flex mb-2 sm:mb-4">
@@ -111,7 +111,7 @@ const ReferralComponent = () => {
         <h3 className="text-[#5D3FB1] pl-7 custom-2xl:pl-14 mt-4 custom-2xl:mt-7 mb-4 custom-2xl:mb-8 text-lg custom-lg:text-xl custom-2xl:text-3xl font-bold ">
           How to get your free eTokis
         </h3>
-        <div className=" py-3 sm:py-6 custom-2xl:py-12 px-8 custom-2xl:px-16 grid grid-cols-3 gap-4 bg-[#A296CC] rounded-3xl">
+        <div className=" py-3 sm:py-6 custom-2xl:py-12 px-8 custom-2xl:px-16 grid grid-cols-3 gap-4 bg-[#B4A5D7] rounded-3xl">
           <div>
             <h4 className="text-[#685AAD]  text-sm sm:text-lg custom-2xl:text-2xl font-bold mb-1">
               Share your link

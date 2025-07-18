@@ -5,7 +5,7 @@ import editicon from "../../../../public/edit icon.svg";
 import alert from "../../../../public/alert.svg";
 // import { PhoneInput } from "./phone-input";
 import { useSession } from "next-auth/react";
-import { ChevronDown, Edit2 } from "lucide-react";
+import { ChevronDown, Edit2, Menu } from "lucide-react";
 import Germany from "../../../../public/Flag_of_Germany.svg.webp";
 import UnitedKingdom from "../../../../public/Flag_of_the_United_Kingdom_(1-2).svg.webp";
 import UnitedStates from "../../../../public/america.png";
@@ -65,10 +65,10 @@ const countryCodes: CountryCode[] = [
   { code: "+225", flag: IvoryCoas, name: "Ivory Coast" },
 ];
 
-interface userprofileprops{
-  Uploadedprofilepicture:any
+interface userprofileprops {
+  Uploadedprofilepicture: any
 }
-const UserProfile= ({Uploadedprofilepicture}:userprofileprops) => {
+const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<"personal" | "account">("personal");
   const [subactive, setsubactive] = useState("");
@@ -107,47 +107,47 @@ const UserProfile= ({Uploadedprofilepicture}:userprofileprops) => {
   const [ishovered, setIshovered] = useState(null)
   // student impersonation code:
   const [acceptedRequests, setAcceptedRequests] = useState([]);
-  const { data: session, status ,update} = useSession();
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [pictureuploadloading, setpictureuploadloading] = useState(false)  
+  const { data: session, status, update } = useSession();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [pictureuploadloading, setpictureuploadloading] = useState(false)
 
 
 
 
- 
+
   useEffect(() => {
     const fetchStudents = async () => {
-        if (!session?.user?.id) return;
-  
-        try {
-          const userId = session.user.id; 
-          const response = await axios.get('/api/parent-Student-Relationship/parent-side-api/fetchAcceptedRequests', {
-            params: { parentUserId: userId  }, // Send userId to the backend
-          });
-          setAcceptedRequests(response.data.requests);
-         
-        } catch (error) {
-          console.error('Error fetching students:', error);
-        } finally {
-          setLoading(false);
-        }
-      };
+      if (!session?.user?.id) return;
+
+      try {
+        const userId = session.user.id;
+        const response = await axios.get('/api/parent-Student-Relationship/parent-side-api/fetchAcceptedRequests', {
+          params: { parentUserId: userId }, // Send userId to the backend
+        });
+        setAcceptedRequests(response.data.requests);
+
+      } catch (error) {
+        console.error('Error fetching students:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
     fetchStudents();
   }, [session]);
 
-  const handleImpersonate = async (studentUserId: string, StudentEmail:string) => {
-   
+  const handleImpersonate = async (studentUserId: string, StudentEmail: string) => {
+
     await update({
-      user:{
-        email:StudentEmail,
-        role:"student",
-        id:studentUserId,
-        isParent:true,
-        isAdmin:false
+      user: {
+        email: StudentEmail,
+        role: "student",
+        id: studentUserId,
+        isParent: true,
+        isAdmin: false
       }
     })
     setTimeout(() => {
-        router.push('/studentdashboard')
+      router.push('/studentdashboard')
     }, 3000);
   };
 
@@ -174,7 +174,7 @@ const UserProfile= ({Uploadedprofilepicture}:userprofileprops) => {
         },
         body: JSON.stringify({ phoneNumber: completephonenumber }),
       });
-  
+
       const result = await response.json();
       if (response.ok) {
       } else {
@@ -193,7 +193,7 @@ const UserProfile= ({Uploadedprofilepicture}:userprofileprops) => {
   };
 
 
-  
+
 
   const handleCancel = () => {
     setIsEditing(false);
@@ -208,19 +208,19 @@ const UserProfile= ({Uploadedprofilepicture}:userprofileprops) => {
       },
       body: JSON.stringify({ userId }),
     });
-  
+
     if (!response.ok) {
       console.error("Failed to fetch parent data");
       throw new Error("Failed to fetch parent data");
     }
-  
+
     const data = await response.json();
     return data.parentData;
   };
-  
+
   // Use SWR hook
   // @ts-ignore
-  const { data: parentDataSWR, err:any } = useSWR(
+  const { data: parentDataSWR, err: any } = useSWR(
     session?.user.id ? ["/api/parentapis/fetch-parent-data", session.user.id] : null,
     ([url, userId]) => fetcher(url, userId),
     {
@@ -234,7 +234,7 @@ const UserProfile= ({Uploadedprofilepicture}:userprofileprops) => {
       }
     }
   );
-  
+
   // Update all the states when parentDataSWR changes
   useEffect(() => {
     try {
@@ -271,7 +271,7 @@ const UserProfile= ({Uploadedprofilepicture}:userprofileprops) => {
 
     const data = await response.json();
     if (response.ok) {
-     
+
 
       toast({
         title: "Email updated successfully",
@@ -284,7 +284,7 @@ const UserProfile= ({Uploadedprofilepicture}:userprofileprops) => {
       setNewEmail("");
       setPassword("");
     } else {
-     
+
       toast({
         title: "",
         description: `${data.message}`,
@@ -301,7 +301,7 @@ const UserProfile= ({Uploadedprofilepicture}:userprofileprops) => {
   };
   const handleSaveClick = () => setIsEditing(false);
 
-  const hanldeupdatepassword = async (e:any) => {
+  const hanldeupdatepassword = async (e: any) => {
     e.preventDefault();
     setLoading(true)
     setError("");
@@ -359,7 +359,7 @@ const UserProfile= ({Uploadedprofilepicture}:userprofileprops) => {
   };
 
 
-const toggleSidebar = () => {
+  const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
 
@@ -371,12 +371,12 @@ const toggleSidebar = () => {
 
   const [image, setImage] = useState<File | null>(null); // State to hold the selected image
   const [isUploading, setIsUploading] = useState(false); // State to show the uploading status
-  
-  const [uploadedImage, setUploadedImage] = useState<string | null>(""); 
+
+  const [uploadedImage, setUploadedImage] = useState<string | null>("");
 
   // Handle the image selection
   const handleImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-     const file = e.target.files ? e.target.files[0] : null;
+    const file = e.target.files ? e.target.files[0] : null;
     if (file) {
       setImage(file);
       setError(""); // Reset any previous error
@@ -384,7 +384,7 @@ const toggleSidebar = () => {
   };
 
   // Handle image upload
-  
+
   const handleUpload = async () => {
     setpictureuploadloading(true)
     if (!image) {
@@ -443,61 +443,65 @@ const toggleSidebar = () => {
 
 
   return (
-    <div className="min-h-screen rounded-3xl relative  bg-[#EDE8FA] text-white mt-16">
+    <div className="min-h-screen  overflow-hidden rounded-3xl relative  bg-[#EDE8FA] text-white mt-16">
       <div className="px-5 custom-2xl:px-10 py-5 custom-2xl:py-10 flex gap-2 sm:gap-8 custom-2xl:gap-16 ">
         {/* left side bar */}
 
-        <div className="bg-[#A296CC] font-roboto max-w-[20rem] custom-2xl:max-w-[26.4rem] w-full  rounded-3xl  min-h-screen  px-5 custom-2xl:px-10 ">
-          
-          <div className="m-auto w-full  flex flex-col items-center  mt-20">
-            <div className="rounded-full w-[5rem] h-[5rem] custom-2xl:w-[11.4rem] custom-2xl:h-[11.4rem]   overflow-hidden flex items-center justify-center">
+        <div
+          className={` ${isSidebarOpen ? "-translate-x-96 custom-2xl:translate-x-0" : ""
+            } bg-[#A296CC]  absolute transform transition-all duration-500 z-50 custom-2xl:static font-roboto max-w-[20rem] custom-2xl:max-w-[26.4rem] w-full  rounded-3xl  min-h-screen  px-5 custom-2xl:px-10 `}
+        >
 
-            <img
-              src={  uploadedImage ||  parentData?.user?.profilePicture}
-              alt="Profile"
-               loading="eager"
-             
-              className="h-full w-full object-cover"
-            />
+          <div className="m-auto w-full  flex flex-col items-center  mt-20">
+            <div
+              className="rounded-full w-[5rem] h-[5rem] custom-2xl:w-[11.4rem] custom-2xl:h-[11.4rem]   overflow-hidden flex items-center justify-center"
+            >
+
+              <img
+                src={uploadedImage || parentData?.user?.profilePicture}
+                alt="Profile"
+                loading="eager"
+
+                className="h-full w-full object-cover"
+              />
             </div>
 
             <p className="!hover:cursor-pointer relative text-sm sm:text-lg custom-2xl:text-xl font-roboto text-[#534988] font-bold mt-2 ">
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleImageChange} 
+                onChange={handleImageChange}
                 className="absolute inset-0 w-full h-full opacity-0  !hover:cursor-pointer"
               />
               <span className="hover:cursor-pointer">
 
-              Upload photo
+                Upload photo
               </span>
-             
+
 
 
             </p>
-              {image && (
-                <button
+            {image && (
+              <button
                 className="w-full sm:w-auto py-1 px-9 mt-6 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors"
-                onClick={()=>{
+                onClick={() => {
                   handleUpload()
                 }}
-                >
-                  {pictureuploadloading ? "wait...":"upload"} 
-                  
-                  </button>
-              )}
-            
-              
+              >
+                {pictureuploadloading ? "wait..." : "upload"}
+
+              </button>
+            )}
+
+
           </div>
 
           <div className="space-y-2 mt-[137px] ">
             <button
-              className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all flex  ${
-                activeTab === "personal"
+              className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all flex  ${activeTab === "personal"
                   ? "bg-white text-[#685AAD]"
                   : " text-[#685AAD]"
-              }`}
+                }`}
               onClick={() => {
                 setActiveTab("personal");
                 setsubactive("");
@@ -505,65 +509,64 @@ const toggleSidebar = () => {
             >
               Personal information
             </button>
-            
+
             <button
-              className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all flex ${
-                activeTab === "account"
+              className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all flex ${activeTab === "account"
                   ? "bg-white text-[#685AAD]"
                   : "text-[#685AAD]"
-              }`}
+                }`}
               onClick={() => setActiveTab("account")}
             >
               Account settings
             </button>
 
 
-                <div className="">
+            <div className="">
 
-                {acceptedRequests.length>0 && acceptedRequests.map((request:any) => (
-           
-            <button
-              key={request.requestId}
-              className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all duration-1000 flex text-[#685AAD] truncate `}
-              onClick={() => handleImpersonate(request.studentUserId,request.StudentEmail)}
-              onMouseEnter={() => setIshovered(request.requestId)}
-              onMouseLeave={() => setIshovered(null)}
-            >
-              {/* {ishovered === request.requestId ? "Visit Profile" :request.studentName } */}
-              <span
-            className={`transition-opacity duration-300 ${
-              ishovered === request.requestId ? "opacity-0" : "opacity-100"
-            }`}
-          >
-            {request.studentName}
-          </span>
-          <span
-            className={`absolute transition-opacity duration-300 ${
-              ishovered === request.requestId ? "opacity-100" : "opacity-0"
-            }`}
-          >
-            Visit Profile
-          </span>
-              
-              
-             
-            </button>
-          ))}
-                </div>
-           
+              {acceptedRequests.length > 0 && acceptedRequests.map((request: any) => (
+
+                <button
+                  key={request.requestId}
+                  className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all duration-1000 flex text-[#685AAD] truncate `}
+                  onClick={() => handleImpersonate(request.studentUserId, request.StudentEmail)}
+                  onMouseEnter={() => setIshovered(request.requestId)}
+                  onMouseLeave={() => setIshovered(null)}
+                >
+                  {/* {ishovered === request.requestId ? "Visit Profile" :request.studentName } */}
+                  <span
+                    className={`transition-opacity duration-300 ${ishovered === request.requestId ? "opacity-0" : "opacity-100"
+                      }`}
+                  >
+                    {request.studentName}
+                  </span>
+                  <span
+                    className={`absolute transition-opacity duration-300 ${ishovered === request.requestId ? "opacity-100" : "opacity-0"
+                      }`}
+                  >
+                    Visit Profile
+                  </span>
+
+
+
+                </button>
+              ))}
+            </div>
+
 
 
             <Link href="/parent/addStudent">
-            <button className="w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all flex  items-center  gap-1 custom-2xl:gap-3 text-[#685AAD]">
-              <Image  loading="lazy"  src={plusicon} alt="" className="w-4 custom-2xl:w-8" />
-              add&nbsp;a child
-            </button>
+              <button className="w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all flex  items-center  gap-1 custom-2xl:gap-3 text-[#685AAD]">
+                <Image loading="lazy" src={plusicon} alt="" className="w-4 custom-2xl:w-8" />
+                add&nbsp;a child
+              </button>
             </Link>
           </div>
         </div>
 
         {/* right side content */}
-        <div className="w-full font-roboto ">
+        <div className="w-full font-roboto relative ">
+                    <Menu className="text-black  absolute right-0 custom-2xl:hidden block" onClick={toggleSidebar} />
+
           {activeTab === "personal" && (
             <div className="space-y-4 mt-8 sm:mt-12 md:mt-16 px-4 sm:px-6 md:px-8">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-roboto text-[#685AAD] font-bold ml-4 sm:ml-8 md:ml-14">
@@ -631,14 +634,14 @@ const toggleSidebar = () => {
           {activeTab === "account" && subactive === "" && (
             <div className="space-y-4 mt-10">
               <div className="flex flex-col gap-8">
-                <div className=" custom-2xl:max-w-[55%] w-full mb-2.5">
+                <div className=" custom-2xl:max-w-[55%] w-full   mb-2.5">
                   <div className="max-w-xl ">
                     <div className="flex justify-between items-center px-12 mb-3.5">
                       <label className="text-lg sm:text-xl font-semibold   text-[#685AAD]  ">
                         Phone Number
                       </label>
                       {!isEditing ? (
-                        <Image  loading="lazy" 
+                        <Image loading="lazy"
                           src={editicon}
                           alt=""
                           className="w-12 cursor-pointer"
@@ -663,22 +666,22 @@ const toggleSidebar = () => {
                     </div>
 
                     {!isEditing ? (
-                      <div className="bg-purple-100 rounded-full py-5 px-10  text-[#685AAD] bg-[#DBCAFF]">
+                      <div className="bg-purple-100 rounded-full py-[9px] sm:py-[14px] custom-2xl:py-5 px-10  text-[#685AAD] bg-[#DBCAFF]">
                         <p className="text-[#685AAD] bg-[#DBCAFF] text-lg truncate">
-                         {fetchedPhonenumber} 
+                          {fetchedPhonenumber}
                         </p>
                       </div>
                     ) : (
-                      <div className=" text-[#685AAD] bg-[#DBCAFF] rounded-full">
+                      <div className=" text-[#685AAD] bg-[#DBCAFF] rounded-full  ">
                         <div className="relative">
-                          <div className="bg-purple-100 rounded-full py-[18px] px-10 flex items-center ">
+                          <div className="bg-purple-100 rounded-full py-[7px] sm:py-[12px] custom-2xl:py-[18px] px-10 flex items-center ">
                             <button
                               onClick={() => setShowDropdown(!showDropdown)}
                               className="flex items-center  pr-3 min-w-fit"
                             >
                               <div className="flex items-center gap-4  ">
                                 <span className="">
-                                  <Image  loading="lazy" 
+                                  <Image loading="lazy"
                                     src={selectedCountry.flag}
                                     alt=""
                                     className="w-8 h-8 rounded-full"
@@ -688,7 +691,7 @@ const toggleSidebar = () => {
                                   {selectedCountry.code}
                                 </span>
                               </div>
-                              
+
                               <ChevronDown className="ml-5 w-5 h-5 text-[#685aad5e] font-bold" />
                             </button>
                             <input
@@ -712,7 +715,7 @@ const toggleSidebar = () => {
                                   className="flex items-center space-x-3 w-full p-3 hover:bg-purple-50 transition-colors border-b border-[#0000004b] last:border-b-0  "
                                 >
                                   <span className="rounded-full relative  flex items-center justify-center">
-                                    <Image  loading="lazy" 
+                                    <Image loading="lazy"
                                       src={country.flag}
                                       alt=""
                                       className="w-6 h-6 rounded-full"
@@ -736,7 +739,7 @@ const toggleSidebar = () => {
                     <label className="text-lg sm:text-xl font-semibold   text-[#685AAD]  ">
                       Email Address
                     </label>
-                    <Image  loading="lazy" 
+                    <Image loading="lazy"
                       src={editicon}
                       alt=""
                       className="w-12 cursor-pointer"
@@ -773,7 +776,7 @@ const toggleSidebar = () => {
                   {success && <p className="text-green-500">{success}</p>}
                   {error && (
                     <div className="flex items-center gap-3 text-xs text-[#FF9580]">
-                      <Image  loading="lazy"  src={alert} alt="" className="h-7 w-7" />
+                      <Image loading="lazy" src={alert} alt="" className="h-7 w-7" />
                       {error && <p className="">{error} </p>}
                       {/* <p>The password you entered is incorrect. Please enter the correct password, or click here to receive an email to reset it </p> */}
                     </div>
@@ -816,7 +819,7 @@ const toggleSidebar = () => {
                   onClick={hanldeupdatepassword}
                   className="bg-[#8653FF]  rounded-full text-sm sm:text-lg custom-2xl:text-2xl font-medium  px-3 sm:px-5 custom-2xl:px-10  py-1 sm:py-2 custom-2xl:py-3"
                 >
-                  {loading ? "Please wait..." : "save changes"} 
+                  {loading ? "Please wait..." : "save changes"}
                 </button>
               </div>
             </div>
@@ -860,7 +863,7 @@ const toggleSidebar = () => {
                   onClick={handleSubmit}
                   className="bg-[#8653FF]  rounded-full text-sm sm:text-lg custom-2xl:text-3xl font-medium  px-3 sm:px-5 custom-2xl:px-10  py-1 sm:py-2 custom-2xl:py-3"
                 >
-                  {loading ? "Please wait..." : "save changes"} 
+                  {loading ? "Please wait..." : "save changes"}
                 </button>
               </div>
             </div>

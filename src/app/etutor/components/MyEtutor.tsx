@@ -5,7 +5,7 @@ import ChatComponent from "./ChatComponent"; // Make sure to create this file
 import tier from "../../../../public/tier.svg";
 import messageicon from "../../../../public/chatChaticonLightPurple.svg";
 import folder from "../../../../public/chatfoldericonLightpurple.svg";
-import profile from "../../../../public/profileicon.svg";
+import profile from "../../../../public/etutorprofile.svg";
 import sample from "../../../../public/assets/heroimg.png";
 
 import {
@@ -19,18 +19,19 @@ import {
 } from "lucide-react";
 import chaticon from "../../../../public/chaticon (2).svg";
 import sendicon from "../../../../public/sendicon.svg";
-import purplechaticon from "../../../../public/purplechaticon.svg";
-import foldericonpurple from "../../../../public/foldericonpurple.svg";
-import profileicon from "../../../../public/profile icon purple.svg";
+import purplechaticon from "../../../../public/messagelight.svg";
+import foldericonpurple from "../../../../public/folderlight.svg";
+import profileicon from "../../../../public/profilelight.svg";
 import sampleimg from "../../../../public/assets/heroimg.png";
 import plusicon from "../../../../public/plusicon.svg";
 import pdficon from "../../../../public/pdf icon.svg";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
-import { io } from 'socket.io-client';
-import { useToast } from "@/hooks/use-toast"
+import { io } from "socket.io-client";
+import { useToast } from "@/hooks/use-toast";
+import { getRelativeTime } from "./getRelativeTime";
 
-const SOCKET_URL = 'http://localhost:5000'; // Backend URL
+const SOCKET_URL = "http://localhost:5000"; // Backend URL
 const socket = io(SOCKET_URL, {
   withCredentials: true,
 });
@@ -44,109 +45,113 @@ const TutorListItem = ({
   onProfileClick,
 }: any) => (
   <div
-    className={`hidden sm:flex flex-row justify-between items-center py-2 sm:py-3 custom-2xl:py-6  pl-2 sm:pl-3 custom-2xl:pl-5 pr-4 custom-2xl:pr-9 cursor-pointer   rounded-lg md:rounded-xl  bg-[#A296CC]  `}
+    className={`hidden sm:flex flex-row justify-between items-center py-2 sm:py-3 custom-2xl:py-6  pl-2 sm:pl-3  custom-2xl:pl-5 pr-4 custom-2xl:pr-8 cursor-pointer   rounded-lg md:rounded-2xl  bg-[#B4A5D7] max-h-[100.2px]  `}
   >
     <div className="flex items-center" onClick={onClick}>
       <img
         src={tutor.user.profilePicture}
         alt={tutor.firstName}
-       
-        className="rounded-full mr-4 w-4 sm:w-7 h-4 sm:h-7  custom-2xl:h-[60px] custom-2xl:w-[60px]"
+        className="rounded-full mr-2 hidden custom-xl:block custom-xl:mr-4 w-4 sm:w-7 h-4 sm:h-7  custom-2xl:h-[60px] custom-2xl:w-[60px]"
       />
       <div className="flex-grow">
         <p
-          className={`font-semibold text-base custom-2xl:text-2xl hidden md:block  truncate ${
-            isActive ? "text-white" : "text-white"
-          }`}
+          className={`font-semibold text-base  custom-2xl:text-[21.38px] custom-2xl:leading-[2rem]   truncate  max-w-[7.5rem]  ${isActive ? "text-white" : "text-white"
+            }`}
         >
-          {tutor.firstName}
+          {tutor.firstName?.slice(0, 7)}
         </p>
       </div>
     </div>
 
     {/* icons */}
-    <div className="flex  justify-between items-end   custom-2xl:mt-0 w-full max-w-[2.9rem] sm:max-w-[4rem] custom-2xl:max-w-[6.8rem]   ">
+    <div className="flex  justify-between items-end   custom-2xl:mt-0 w-full max-w-[2.9rem] sm:max-w-[4rem] custom-2xl:max-w-[6.33rem]   ">
       <button onClick={onChatClick} className=" rounded-full ">
-        <Image  loading="lazy"  src={purplechaticon} alt="" className="w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-7 custom-2xl:h-7" />
+        <Image
+          loading="lazy"
+          src={purplechaticon}
+          alt=""
+          className="w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-[26px] custom-2xl:h-[26px]"
+        />
       </button>
       <button onClick={onFolderClick} className="  rounded-full">
-        <Image  loading="lazy" 
+        <Image
+          loading="lazy"
           src={foldericonpurple}
           alt=""
-          className=" w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-7 custom-2xl:h-7"
+          className=" w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-[26px] custom-2xl:h-[26px]"
         />
       </button>
       <button onClick={onProfileClick} className=" rounded-full">
-        <Image  loading="lazy"  src={profileicon} alt="" className="w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-7 custom-2xl:h-7" />
+        <Image
+          loading="lazy"
+          src={profileicon}
+          alt=""
+          className="w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-[26px] custom-2xl:h-[26px]"
+        />
       </button>
     </div>
   </div>
 );
 
-const ChatMessage = ({ message, isUser }:any) => {
-
+const ChatMessage = ({ message, isUser }: any) => {
   // Check if message exists and has content and timestamp
-  if (!message || !message.content ) return null;
+  if (!message || !message.content) return null;
 
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-4`}>
       <div
-        className={`max-w-[70%] rounded-2xl p-3 ${
-          isUser ? "bg-[#685AAD] text-white" : "bg-white text-[#473171]"
-        }`}
+        className={` w-full rounded-lg custom-2xl:rounded-2xl p-2 custom-2xl:p-[18px] ${isUser ? "bg-[#8170B1] text-white max-w-[70%] custom-2xl:max-w-[586.11px]" : "bg-white text-[#473171] max-w-[70%] custom-2xl:max-w-[512.24px]"
+          }`}
       >
-        <p className="text-sm sm:text-md custom-xl:text-xl font-medium break-words">
-          {message.content} 
+        <p className="text-sm sm:text-md custom-2xl:text-[25.27px] custom-xl:leading-[1.75rem] font-medium break-words  custom-2xl:mb-3">
+          {message.content}
         </p>
         <span
-          className={`text-xs sm:text-sm custom-xl:text-md opacity-70 mt-1 block ${
-            isUser ? "text-white float-right" : "text-[#9B85C8]"
-          }`}
+          className={`text-xs sm:text-sm custom-2xl:text-[20.41px] custom-xl:leading-[1.5rem] opacity-70 custom-2xl:mt-1 block ${isUser ? "text-white float-right" : "text-[#9B85C8]"
+            }`}
         >
           {message.timestamp
-    ? new Date(message.timestamp).toLocaleTimeString([], {
-        hour: "2-digit",
-        minute: "2-digit",
-      })
-    : "Timestamp not available"}
+            ? getRelativeTime(message.timestamp)
+            : "Timestamp not available"}
         </span>
       </div>
     </div>
   );
 };
 const FileMessage = ({ message, isUser }: any) => {
-
   // Check if the file exists and has content
- 
+
   if (!message) return null;
   return (
     <div
-    onClick={()=>{
-      const link = document.createElement('a');
-      link.href = message.fileUrl;
-      link.target = '_blank'; // Open in a new tab
-      link.download = message.fileUrl.split('/').pop(); // Download the file with its original name
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link); 
-      // window.open(message.fileUrl, '_blank');
-    }}
-      className={`bg-[#8170B1] max-w-[34rem] flex items-center p-6 rounded-xl my-3 hover:cursor-pointer ${
-        isUser ? 'ml-auto' : 'mr-auto' // Conditional alignment based on isUser
-      }`}
+      onClick={() => {
+        const link = document.createElement("a");
+        link.href = message.fileUrl;
+        link.target = "_blank"; // Open in a new tab
+        link.download = message.fileUrl.split("/").pop(); // Download the file with its original name
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        // window.open(message.fileUrl, '_blank');
+      }}
+      className={`bg-[#8170B1] max-w-[34rem] flex items-center p-6 rounded-xl my-3 hover:cursor-pointer ${isUser ? "ml-auto" : "mr-auto" // Conditional alignment based on isUser
+        }`}
     >
-      <Image  loading="lazy"  src={pdficon} alt="PDF Icon" className="w-12 h-12" />
+      <Image
+        loading="lazy"
+        src={pdficon}
+        alt="PDF Icon"
+        className="w-12 h-12"
+      />
       <div className="ml-3 flex items-center justify-between w-full">
         <span className="max-w-[10rem] text-2xl overflow-hidden text-nowrap font-medium">
-        {message.fileName.slice(0, 4) + '...' + message.fileName.slice(-4)}
-
+          {message.fileName.slice(0, 4) + "..." + message.fileName.slice(-4)}
         </span>
         <span className="text-xs text-gray-300">
-        {new Date(message.timestamp).toLocaleTimeString([], {
+          {new Date(message.timestamp).toLocaleTimeString([], {
             hour: "2-digit",
             minute: "2-digit",
           })}
-         
         </span>
       </div>
     </div>
@@ -188,45 +193,45 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
   //@ts-ignore
   const [showmessages, setshowmessages] = useState([] || tutor);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [selectedFile, setselectedFile] = useState(null)
+  const [selectedFile, setselectedFile] = useState(null);
   const [file, setFile] = useState(null);
-  const [fileName, setFileName] = useState('');
+  const [fileName, setFileName] = useState("");
   const { toast } = useToast();
   useEffect(() => {
     if (socket && userId) {
       // Join the socket room based on userId (either student or teacher)
-      socket.emit('join', userId);
-  
-      // Listen for incoming chat messages
-      socket.on('chatMessage', (msg) => {
+      socket.emit("join", userId);
 
-        
-        setMessages((prevMessages:any) => {
+      // Listen for incoming chat messages
+      socket.on("chatMessage", (msg) => {
+        setMessages((prevMessages: any) => {
           // Avoid adding duplicate messages based on content and senderId
-          if (!prevMessages.some((message:any) => message.content === msg.content && message.senderId === msg.senderId)) {
+          if (
+            !prevMessages.some(
+              (message: any) =>
+                message.content === msg.content &&
+                message.senderId === msg.senderId
+            )
+          ) {
             return [...prevMessages, msg];
           }
           return prevMessages;
         });
       });
     }
-  
+
     return () => {
       if (socket && userId) {
         // Leave the socket room when the component unmounts
-        socket.emit('leave', userId);
-  
+        socket.emit("leave", userId);
+
         // Cleanup the listener to avoid memory leaks and duplicate listeners
-        socket.off('chatMessage');
+        socket.off("chatMessage");
       }
     };
-  }, [socket, userId]);  // Run this effect when `socket` or `userId` changes
+  }, [socket, userId]); // Run this effect when `socket` or `userId` changes
 
-  
-
- 
-  const sendMessage = async (e:any) => {
-   
+  const sendMessage = async (e: any) => {
     e.preventDefault(); // Prevent default form submission behavior
     if (newMessage.trim()) {
       const chatMessage = {
@@ -237,142 +242,124 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
         fileUrl: null,
         fileType: null,
         fileName: null,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       };
 
       // Emit message to the server
-      socket.emit('chatMessage', chatMessage);
+      socket.emit("chatMessage", chatMessage);
 
       // Update UI optimistically
       // @ts-ignore
       setMessages((prev) => [...prev, chatMessage]);
 
-      setNewMessage(''); // Clear input field
-      await savingmessages(null,null,null)
+      setNewMessage(""); // Clear input field
+      await savingmessages(null, null, null);
     }
   };
 
+  async function savingmessages(fileUrl: any, fileType: any, fileName: any) {
+    // if (!newMessage.trim() || !fileUrl) return; // Prevent sending empty messages
 
+    try {
+      const response = await fetch("/api/message", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          senderId: userId,
+          //@ts-ignore
+          recipientId: showmessages.user._id,
+          content: newMessage,
+          fileUrl: fileUrl,
+          fileType: fileType,
+          fileName: fileName,
+        }),
+      });
 
+      const savedMessage = await response.json();
 
+      // After sending the message, set the conversationId
+      const newConversationId = savedMessage.conversationId; // Get conversationId from the response
 
+      // If there was no conversationId previously, set it now
+      setConversationId(newConversationId);
 
+      setNewMessage(""); // Clear the message input field
+      scrollToBottom(); // Scroll to the bottom of the chat
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
+  }
 
-    async function savingmessages(fileUrl: any,fileType: any,fileName: any) {
-  
-      // if (!newMessage.trim() || !fileUrl) return; // Prevent sending empty messages
-  
-      try {
-        const response = await fetch("/api/message", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            senderId: userId, 
-            //@ts-ignore
-            recipientId: showmessages.user._id, 
-            content: newMessage,
-            fileUrl:fileUrl,
-            fileType:fileType,
-            fileName:fileName,
-          }),
-        });
-  
-        const savedMessage = await response.json();
-  
-        
-  
-        // After sending the message, set the conversationId
-        const newConversationId = savedMessage.conversationId; // Get conversationId from the response
-  
-        // If there was no conversationId previously, set it now
-        setConversationId(newConversationId);
-  
-       
-  
-        setNewMessage(""); // Clear the message input field
-        scrollToBottom(); // Scroll to the bottom of the chat
-      } catch (error) {
-        console.error("Error sending message:", error);
-      }
+  const sendFile = async () => {
+    setIsLoading(true);
+    await session;
+    if (!file) {
+      toast({
+        title: "",
+
+        description: "please select a file first",
+        variant: "default",
+      });
+      return;
     }
 
-    const sendFile = async () => {
-      setIsLoading(true)
-      await session
-      if (!file)  {
-        
-        toast({
-          title: "",
-  
-          description: "please select a file first",
-          variant: "default",
-        })
-        return
-      }; 
-    
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('senderId', session?.user.id);
-      // @ts-ignore
-      formData.append('recipientId', showmessages?.user?._id);
-    
-      try {
-        // Call API to upload the file
-        const response = await fetch('/api/message/uploadtos3', {
-          method: 'POST',
-          body: formData,
-        });
-        const result = await response.json();
-    
-  
-        if (result.success) {
-       
-        } else {
-          console.error('File upload failed:', result.error);
-        }
-  
-  
-        if (result.success) {
-          const chatMessage = {
-            senderId: userId, 
-            //@ts-ignore
-            recipientId: showmessages.user._id, 
-            content: null,
-            timestamp: new Date().toISOString(),
-            fileUrl: result.fileUrl, 
-            // @ts-ignore
-            fileType: file.type,
-            // @ts-ignore
-            fileName: file.name,
-         
-          };
-    
-          await savingmessages(chatMessage.fileUrl,chatMessage.fileType,chatMessage.fileName)
-          // Emit the message to the server
-          socket.emit('chatMessage', chatMessage);
-          setFile(null)
-          setFileName("")
-          setselectedFile(null)
-          // Optimistically update the UI
-          // @ts-ignore
-          setMessages((prev) => [...prev, chatMessage]);
-          setIsLoading(false)
-        } else {
-          setIsLoading(false)
-          console.error('File upload failed:', result.error);
-        }
-      } catch (error) {
-        setIsLoading(false)
-        console.error('Error sending file:', error);
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("senderId", session?.user.id);
+    // @ts-ignore
+    formData.append("recipientId", showmessages?.user?._id);
+
+    try {
+      // Call API to upload the file
+      const response = await fetch("/api/message/uploadtos3", {
+        method: "POST",
+        body: formData,
+      });
+      const result = await response.json();
+
+      if (result.success) {
+      } else {
+        console.error("File upload failed:", result.error);
       }
-    };
-    
 
+      if (result.success) {
+        const chatMessage = {
+          senderId: userId,
+          //@ts-ignore
+          recipientId: showmessages.user._id,
+          content: null,
+          timestamp: new Date().toISOString(),
+          fileUrl: result.fileUrl,
+          // @ts-ignore
+          fileType: file.type,
+          // @ts-ignore
+          fileName: file.name,
+        };
 
+        await savingmessages(
+          chatMessage.fileUrl,
+          chatMessage.fileType,
+          chatMessage.fileName
+        );
+        // Emit the message to the server
+        socket.emit("chatMessage", chatMessage);
+        setFile(null);
+        setFileName("");
+        setselectedFile(null);
+        // Optimistically update the UI
+        // @ts-ignore
+        setMessages((prev) => [...prev, chatMessage]);
+        setIsLoading(false);
+      } else {
+        setIsLoading(false);
+        console.error("File upload failed:", result.error);
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.error("Error sending file:", error);
+    }
+  };
 
-
-
- 
   useEffect(() => {
     if (session?.user?.id) {
       setUserId(session.user.id);
@@ -396,7 +383,6 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
       }
       const senders = await response.json();
       setRecievedmessages(senders);
-      
     } catch (error) {
       console.error("Error fetching senders:", error);
     } finally {
@@ -428,8 +414,8 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
   // Use SWR hook
   const { data: messageData } = useSWR(
     session
-    //@ts-ignore
-      ? `/api/message/conversation?userId=${userId}&recipientId=${showmessages.user?._id}`
+      ? //@ts-ignore
+      `/api/message/conversation?userId=${userId}&recipientId=${showmessages.user?._id}`
       : null,
     fetcher,
     {
@@ -452,14 +438,6 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
 
   // Function to handle sending a new message
 
-
-
-
-  
-
-
-
-
   // Scroll to the latest message
   const scrollToBottom = () => {
     //@ts-ignore
@@ -477,15 +455,15 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
 
   if (showChat) {
     return (
-      <div className="bg-[#EDE8FA] w-full h-screen rounded-3xl p-6  mt-11 text-white">
-        <div className="flex h-full  gap-3 custom-2xl:gap-4 overflow-hidden     ">
+      <div className="bg-[#EDE8FA] w-full h-full max-h-[947px] rounded-3xl py-4 sm:py-8 pl-4 sm:pl-2 pr-4 custom-xl:px-8   mt-12 text-white">
+        <div className="flex h-full  gap-3 custom-2xl:gap-10 overflow-hidden     ">
           {/* Sidebar */}
-          <div className="hidden sm:block w-[30.2%]  bg-[#EDE8FA]  border-red-700 h-full  overflow-hidden">
-            <h2 className="text-xl custom-2xl:text-4xl font-bold text-[#685AAD] px-4 py-4 ml-6">
+          <div className="hidden sm:block w-[29.1%]  bg-[#EDE8FA]   h-full  overflow-hidden">
+            <h2 className="text-xl custom-2xl:text-[39.07px] custom-2xl:leading-[2.25rem] font-bold text-[#685AAD] px-4 py-1 ml-4">
               My Students
             </h2>
 
-            <div className=" hidden pt-6  overflow-y-auto scrollbar-thin sm:flex flex-col gap-3 custom-2xl:gap-6  scrollbar-track-transparent scrollbar-thumb-[#685aad40]  scrollbar-thumb-rounded-3xl h-[90%]  ">
+            <div className=" hidden pt-6 custom-xl:pt-[53px] px-2 overflow-y-auto scrollbar-thin sm:flex flex-col gap-3 custom-2xl:gap-4  scrollbar-track-transparent scrollbar-thumb-[#685aad40]  scrollbar-thumb-rounded-3xl h-[90%]  ">
               {recievedmessages.length > 0 &&
                 recievedmessages.map((message: any, index) => (
                   <TutorListItem
@@ -501,17 +479,18 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                       setActiveView("folder");
                       setshowmessages(message.details);
                     }}
-                    onProfileClick={() => {}} // Placeholder for profile functionality
+                    onProfileClick={() => { }} // Placeholder for profile functionality
                   />
                 ))}
             </div>
           </div>
 
           {/* Chat Area */}
-          <div className="flex-grow flex flex-col rounded-3xl  bg-[#A296CC]  h-full    max-w-full">
+          <div className="flex-grow flex flex-col rounded-3xl  bg-[#B4A5D7]  h-full    max-w-full">
             {/* Chat Header */}
-            <div className="bg-[#A296CC] py-3 custom-2xl:py-5  px-4 flex rounded-t-3xl  pl-6 custom-2xl:pl-10   ">
-              <Image  loading="lazy" 
+            <div className="bg-[#B4A5D7] py-3 custom-2xl:py-5  px-4 flex rounded-t-3xl  pl-6 custom-2xl:pl-10   ">
+              <Image
+                loading="lazy"
                 src={chaticon}
                 //@ts-ignore
                 alt={showmessages?.firstName}
@@ -528,18 +507,18 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
             {activeView === "chat" && (
               <>
                 {/* Messages */}
-                <div className="flex-grow p-1 custom-2xl:p-3 bg-[#A296CC] border-t border-[#8b55ff51] mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
+                <div className="flex-grow p-1 custom-2xl:px-3 custom-2xl:py-6 bg-[#B4A5D7] border-t border-[#8b55ff51] mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
                   {Array.isArray(messages) && messages.length > 0
                     ? messages.map((msg, index) => (
-                        <>
-                          <ChatMessage
-                            key={index}
-                            message={msg}
-                            // @ts-ignore
-                            isUser={msg.senderId === userId}
-                          />
-                        </>
-                      ))
+                      <>
+                        <ChatMessage
+                          key={index}
+                          message={msg}
+                          // @ts-ignore
+                          isUser={msg.senderId === userId}
+                        />
+                      </>
+                    ))
                     : ""}
 
                   <div ref={messagesEndRef} />
@@ -548,18 +527,19 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                 {/* Message Input */}
                 <form
                   onSubmit={sendMessage}
-                  className="py-2 sm:py-4 px-2 sm:px-10 bg-[#A296CC]  flex items-center justify-center  rounded-b-3xl"
+                  className="py-2 sm:py-7  px-2 sm:px-10 bg-[#B4A5D7]  flex items-center justify-center  rounded-b-3xl"
                 >
-                  <div className="flex items-center bg-[#8a7db7] rounded-full  relative w-full">
+                  <div className="flex items-center bg-[#9787be] rounded-full  relative w-full ">
                     <input
                       type="text"
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
                       placeholder="send a message"
-                      className="flex-grow py-1 sm:py-2 custom-2xl:py-4 pl-8 custom-2xl:pl-16 pr-8 custom-2xl:pr-16  bg-transparent text-white placeholder-[#b0a9d2] text-sm sm:text-base custom-2xl:text-xl focus:outline-none"
+                      className="flex-grow py-1 sm:py-2 custom-2xl:py-4 pl-8 custom-2xl:pl-16 pr-8 custom-2xl:pr-16  bg-transparent text-white placeholder-[#b0a9d2] text-sm sm:text-base custom-2xl:text-[25.27px] custom-2xl:leading-[1.75rem] focus:outline-none"
                     />
                     <button type="submit" className="">
-                      <Image  loading="lazy" 
+                      <Image
+                        loading="lazy"
                         src={sendicon}
                         alt="Send Icon"
                         className="h-4  custom-2xl:h-6 w-4  custom-2xl:w-6 absolute right-9 top-1/2 transform -translate-y-1/2"
@@ -570,9 +550,9 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
               </>
             )}
 
-{activeView === "folder" && (
+            {activeView === "folder" && (
               <>
-                <div className="flex-grow p-1 custom-2xl:p-3 bg-[#A296CC] border-t border-[#8b55ff51]   mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
+                <div className="flex-grow p-1 custom-2xl:p-3 bg-[#B4A5D7] border-t border-[#8b55ff51]   mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
                   {Array.isArray(messages) &&
                     messages.length > 0 &&
                     messages.map(
@@ -589,48 +569,58 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                   <div ref={messagesEndRef} />
                 </div>
 
-                <div className="py-2 sm:py-4 px-2 sm:px-10 bg-[#A296CC]  flex items-center justify-end  rounded-b-3xl relative">
+                <div className="py-2 sm:py-4 px-2 sm:px-10 bg-[#B4A5D7]  flex items-center justify-end  rounded-b-3xl relative">
                   {file ? (
                     <div className="flex flex-col items-end  gap-2">
-                     {selectedFile && (
-                      <div className="mt-2 flex items-center gap-4">
-                        <p className="text-sm text-white">{fileName.slice(0, 8) + '...' + fileName.slice(-4)}</p>
-                        <button
-                          className="text-sm text-[#af0000] hover:text-red-700"
-                          onClick={() => {
-                            setselectedFile(null);
-                            setFile(null);
-                            setFileName("");
-                          }}
-                        >
-                          Remove
-                        </button>
-                      </div>
-                    )}
-                      <button onClick={sendFile} className="w-full sm:w-auto py-1 px-9 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors">
+                      {selectedFile && (
+                        <div className="mt-2 flex items-center gap-4">
+                          <p className="text-sm text-white">
+                            {fileName.slice(0, 8) + "..." + fileName.slice(-4)}
+                          </p>
+                          <button
+                            className="text-sm text-[#af0000] hover:text-red-700"
+                            onClick={() => {
+                              setselectedFile(null);
+                              setFile(null);
+                              setFileName("");
+                            }}
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      )}
+                      <button
+                        onClick={sendFile}
+                        className="w-full sm:w-auto py-1 px-9 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors"
+                      >
                         {isLoading ? "wait..." : "send"}
                       </button>
-                      
                     </div>
                   ) : (
                     <label className="text-white py-2 px-4 rounded-full flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="file"
-                      className="hidden"
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                        if (e.target.files && e.target.files[0]) {
-                          const file:any = e.target.files[0];
-                          setselectedFile(file);
-                          setFile(file);
-                          setFileName(file.name);
-                        }
-                      }}
-                    />
-                    <span className="text-xl text-[#DBD8EF] font-medium">Add attachment</span>
-                    <Image  loading="lazy"  src={plusicon} alt="Add" className="w-8 h-8" />
-                  </label>
+                      <input
+                        type="file"
+                        className="hidden"
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                          if (e.target.files && e.target.files[0]) {
+                            const file: any = e.target.files[0];
+                            setselectedFile(file);
+                            setFile(file);
+                            setFileName(file.name);
+                          }
+                        }}
+                      />
+                      <span className="text-2xl text-[#DBD8EF] font-medium">
+                        Add attachment
+                      </span>
+                      <Image
+                        loading="lazy"
+                        src={plusicon}
+                        alt="Add"
+                        className="w-[34px] h-[34px]"
+                      />
+                    </label>
                   )}
-                    
                 </div>
               </>
             )}
@@ -641,208 +631,117 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
   }
 
   return (
-    <div className="bg-[#EDE8FA] w-full h-full rounded-3xl px-5 custom-xl:px-9 py-5 custom-xl:py-9  mt-[52px] text-white">
-      <h1 className="text-xl custom-xl:text-4xl font-bold  text-[#685AAD] px-7 mb-4 sm:mb-6 custom-xl:mb-11">
+    <div className="bg-[#EDE8FA] w-full h-[90%] rounded-3xl px-5 custom-xl:px-10 py-5 custom-xl:py-11  mt-[52px] text-white">
+      <h1 className="text-xl custom-xl:text-[43.41px] leading-none font-bold  text-[#685AAD] px-7 mb-4 sm:mb-6 custom-xl:mb-14">
         My Students
       </h1>
 
-      <div className="flex flex-col gap-2 sm:gap-4 custom-lg:gap-10">
+      <div className="flex flex-col gap-2 sm:gap-4 custom-lg:gap-4">
         {recievedmessages.length > 0 &&
           recievedmessages.map((message, index) => (
             <div
               key={index}
-              className="bg-[#B4A5D7] rounded-2xl px-4 sm:px-8 custom-2xl:px-12 pt-4 sm:pt-6 custom-2xl:pt-9 pb-4 sm:pb-6 custom-2xl:pb-9 transition-all duration-300"
+              className="bg-[#B4A5D7] rounded-2xl custom-lg:rounded-[28px]   px-2 sm:px-8 custom-2xl:px-[50px] pt-2 sm:py-4  pb-2  custom-2xl:py-[32px] transition-all duration-300 "
             >
-              <div className="flex flex-col space-y-0">
-                {/* Top section */}
-                <div className="grid grid-cols-1 sm:grid-cols-12 gap-4 sm:gap-6">
-                  {/* Left Section (Profile, Name, Courses, Subjects) */}
-                  <div className="col-span-full sm:col-span-7 flex flex-col sm:flex-row gap-4 sm:gap-8">
-                    {/* Profile Image */}
-                    <div className="w-16 h-16 sm:min-w-16 sm:min-h-16 custom-2xl:min-w-[132px] custom-2xl:min-h-[132px] rounded-full  relative overflow-hidden mx-auto sm:mx-0">
-                      <img
-                        src={
-                          //@ts-ignore
-                          message?.details?.user?.profilePicture ||
-                          "/api/placeholder/64/64"
-                        }
-                        alt="Profile"
-                        className="w-full h-full"
-                      />
-                    </div>
-
-                    {/* Name and Courses */}
-                    <div className="flex-grow text-center sm:text-left">
-                      <h2 className="font-bold text-base sm:text-lg custom-2xl:text-2xl mb-2">
-                        {
+              <div className="flex justify-between items-center gap-4 sm:gap-6  w-full pr-8 sm:pr-12">
+                <div className="  flex flex-row sm:justify-start items-center w-full gap-3 sm:gap-6 custom-2xl:gap-[45px] ">
+                  {/* Profile Image */}
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 sm:min-w-16 sm:min-h-16 custom-2xl:min-w-[136.58px] custom-2xl:min-h-[136.58px] rounded-full relative overflow-hidden flex-shrink-0">
+                    <img
+                      src={
                         //@ts-ignore
-                        message?.details?.firstName || ""}
-                      </h2>
-                      <div className="text-white">
-                        <p className="mb-1 text-base sm:text-lg custom-2xl:text-xl">
-                          Courses:
-                        </p>
-                        <p className="text-[#473171] text-base sm:text-lg">
-                          {
-                          //@ts-ignore
-                          message.details?.availability || ""}
-                        </p>
-                      </div>
-                    </div>
+                        message?.details?.user?.profilePicture ||
+                        "/api/placeholder/64/64"
+                      }
+                      alt="Profile"
+                      className="w-full h-full"
+                    />
+                  </div>
 
-                    {/* Subjects */}
-                    <div className="flex-grow text-center sm:text-left">
-                      <h3 className="text-white text-base sm:text-lg custom-2xl:text-xl mb-2">
+                  {/* Name and Courses */}
+                  <div className="flex flex-col custom-2xl:gap-3  justify-center  text-left   max-w-[10rem] custom-2xl:max-w-[15rem] w-full">
+                    <h2 className="font-bold text-base sm:text-lg custom-2xl:text-[37.6px] custom-2xl:leading-none ">
+                      {
+                        //@ts-ignore
+                        message?.details?.firstName || ""
+                      }
+                    </h2>
+
+                    <p className=" hidden sm:block mb-1 text-base sm:text-lg custom-2xl:text-[23.87px] leading-[1.75rem] font-medium">
+                      #2002627
+                    </p>
+                    <p className="hidden sm:block text-white text-base sm:text-lg custom-2xl:text-[23.87px] leading-[1.75rem] font-medium">
+                      00 yo
+                    </p>
+                  </div>
+
+                  {/* Subjects */}
+                  <div className="hidden sm:flex flex-col items-start justify-center custom-2xl:gap-4 w-full max-w-[8rem] custom-2xl:max-w-[13.2rem] ">
+                    <div className="flex flex-col custom-2xl:gap-y-1 items-start sm:text-left ">
+                      <span className="text-white text-base sm:text-lg custom-2xl:text-[24.89px] custom-2xl:leading-[1.75rem]  font-medium">
+                        Grade:
+                      </span>
+                      <p className=" text-[#473171] text-base custom-2xl:text-[22.53px] sm:leading-[1.75rem]">
+                        10th grade
+                      </p>
+                    </div>
+                    <div className="flex flex-col custom-2xl:gap-y-1 items-start sm:text-left ">
+                      <h3 className="text-white text-base sm:text-lg custom-2xl:text-[24.89px] custom-2xl:leading-[1.75rem]  font-medium">
+                        Sessions&nbsp;booked:
+                      </h3>
+                      <p className=" text-[#473171] text-base custom-2xl:text-[22.53px] sm:leading-[1.75rem]">
+                        3 sessions
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="text-center sm:text-left  hidden custom-xl:block">
+                    <div className="mb-4">
+                      <h3 className="text-white text-base sm:text-lg custom-2xl:text-[28.53px] custom-2xl:leading-none font-medium custom-2xl:mb-2">
                         Subjects:
                       </h3>
-                      <ul className="space-y-1 text-[#473171] text-base sm:text-lg">
-                      {
-                      //@ts-ignore
-                      message?.details?.subjectChildNeeds?.slice(0, 3).map((subject, index) => (
-  <li key={index}>{subject}</li>
-))}
-                       
+                      <ul className="text-[#473171] text-base custom-2xl:text-[21.31px] sm:leading-[1.75rem]  custom-2xl:space-y-0.5">
+                        <li className="font-medium">Mathematics</li>
+                        <li>English</li>
+                        <li>Chemistry</li>
                       </ul>
                     </div>
                   </div>
 
-                  {/* Right Section (Grade, School, Icons) */}
-                  <div className="col-span-full sm:col-span-5 flex flex-col sm:flex-row justify-between mt-4 sm:mt-0">
-                    {/* Grade & School */}
-                    <div className="text-center sm:text-left">
-                      <div className="mb-4">
-                        <h3 className="text-white text-base sm:text-lg custom-2xl:text-xl mb-1">
-                          Grade
-                        </h3>
-                        <p className="text-[#473171] text-base sm:text-lg">
-                          {
-                          //@ts-ignore
-                          message.details?.grade || ""}
-                        </p>
-                      </div>
-                      <div>
-                        <h3 className="text-white text-base sm:text-lg custom-2xl:text-xl mb-1">
-                          School
-                        </h3>
-                        <p className="text-[#473171] text-base sm:text-lg">
-                          {
-                          //@ts-ignore
-                          message.details?.Institution || ""}
-                        </p>
-                      </div>
-                    </div>
 
-                    {/* Icons */}
-                    <div className="flex sm:flex-col justify-center gap-4 sm:gap-6 mt-4 sm:mt-0">
-                      <div className="flex gap-8 sm:gap-12">
-                        <Image  loading="lazy" 
-                          src={messageicon}
-                          alt=""
-                          className="w-6 sm:w-6 custom-2xl:w-8 hover:cursor-pointer"
-                          onClick={() => {
-                            setShowChat(true);
-                            //@ts-ignore
-                            setshowmessages(message.details);
-                          }}
-                        />
-                        <Image  loading="lazy" 
-                          src={folder}
-                          alt=""
-                          className="w-6 sm:w-6 custom-2xl:w-8 hover:cursor-pointer"
-                          onClick={() => {
-                            setShowChat(true);
-                            setActiveView("folder")
-                            //@ts-ignore
-                            setshowmessages(message.details);
-                          }}
-                        />
-                      </div>
-
-                      <button
-                        onClick={() => setIsExpanded(!isExpanded)}
-                        className={`flex items-center justify-center gap-2 text-[#8653FF] hover:text-[#8653FF] transition-colors text-base sm:text-lg custom-2xl:text-xl ${
-                          isExpanded &&
-                          "text-transparent hover:text-transparent transition-none"
-                        }`}
-                      >
-                        {isExpanded ? (
-                          <>
-                            Less info
-                            <ChevronUp className="w-4 h-4" />
-                          </>
-                        ) : (
-                          <>
-                            More info
-                            <ChevronDown className="w-4 h-4" />
-                          </>
-                        )}
-                      </button>
-                    </div>
-                  </div>
                 </div>
 
-                {/* Expanded Content */}
-                {isExpanded && (
-                  <div className="pt-6 border-t border-white/20 mt-4">
-                    <div className="grid grid-cols-1 sm:grid-cols-12 gap-6">
-                      {/* Additional Information - Left Side */}
-                      <div className="col-span-full sm:col-span-7">
-                        <h3 className="text-white mb-4 text-center sm:text-left">
-                          Additional Information:
-                        </h3>
-                        <p className="text-[#473171] leading-relaxed text-base sm:text-lg">
-                        {
-                        //@ts-ignore
-                        message.details?.additionalInformation || ""}
-                        </p>
-                      </div>
-
-                      {/* Right Side Information */}
-                      <div className="col-span-full sm:col-span-5 space-y-4 text-center sm:text-left">
-                        <div>
-                          <h3 className="text-white/90 mb-1 text-base sm:text-lg">
-                            Signup date
-                          </h3>
-                          <p className="text-[#473171] text-base sm:text-lg">
-                            {
-                            //@ts-ignore
-                            message.details?.user?.createdAt ? new Intl.DateTimeFormat('en-GB', { day: '2-digit', month: '2-digit', year: '2-digit' }).format(new Date(message.details.user.createdAt)) : 'Date not available' || ""}
-                          </p>
-                        </div>
-                        <div>
-                          <h3 className="text-white/90 mb-1 text-base sm:text-lg">
-                            Free trials left
-                          </h3>
-                          <p className="text-[#473171] text-base sm:text-lg">
-                            1/2 free trial
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Toggle Button */}
-                {isExpanded && (
-                  <div className="flex justify-center sm:justify-end p-0 mt-6 mb-6 sm:mb-12">
-                    <button
-                      onClick={() => setIsExpanded(!isExpanded)}
-                      className="flex items-center gap-2 text-[#8653FF] hover:text-[#8653FF] transition-colors text-base sm:text-lg custom-2xl:text-xl"
-                    >
-                      {isExpanded ? (
-                        <>
-                          Less info
-                          <ChevronUp className="w-4 h-4" />
-                        </>
-                      ) : (
-                        <>
-                          More info
-                          <ChevronDown className="w-4 h-4" />
-                        </>
-                      )}
-                    </button>
-                  </div>
-                )}
+                <div className="flex gap-3 sm:gap-6 custom-xl:gap-14">
+                  <Image
+                    loading="lazy"
+                    src={messageicon}
+                    alt=""
+                    className="w-5 sm:w-6 custom-2xl:w-[38.92px] hover:cursor-pointer"
+                    onClick={() => {
+                      setShowChat(true);
+                      //@ts-ignore
+                      setshowmessages(message.details);
+                    }}
+                  />
+                  <Image
+                    loading="lazy"
+                    src={folder}
+                    alt=""
+                    className="w-5 sm:w-6 custom-2xl:w-[38.81px] hover:cursor-pointer"
+                    onClick={() => {
+                      setShowChat(true);
+                      setActiveView("folder");
+                      //@ts-ignore
+                      setshowmessages(message.details);
+                    }}
+                  />
+                  <Image
+                    loading="lazy"
+                    src={profile}
+                    alt=""
+                    className="w-5 sm:w-6 custom-2xl:w-[38.81px] hover:cursor-pointer"
+                  />
+                </div>
               </div>
             </div>
           ))}

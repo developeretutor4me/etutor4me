@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import downarrow from "../../public/assets/icons/downarrow.svg";
+import downarrow from "../../public/downarrowhome.svg";
 import uparrow from "../../public/assets/icons/uparrow.svg";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,28 +9,30 @@ interface FAQItem {
   question: string;
   answer: string;
   display?: string;
+  isOpen?: boolean;
+  onClick?: () => void;
 }
 
 interface FAQsProps {
   faqData?: FAQItem[]; // Array of FAQ items
   display?: string;
+  isOpen?: boolean;
 }
 
-const FAQ: React.FC<FAQItem> = ({ question, answer }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const FAQ: React.FC<FAQItem> = ({ question, answer, isOpen = false, onClick }) => {
 
   return (
     <div className="border-b last:border-b-0 border-[#B5B1D1] ">
       <div className="py-12 xl:py-8 lg:py-6 mb:py-4 ">
         <div
           className="flex  items-center gap-x-8 cursor-pointer"
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={onClick}
         >
           {isOpen ? (
             <Image
               loading="lazy"
-              className="w-[28px]  mb:h-3 mb:w-3"
-              src={uparrow}
+              className="w-[28px] translate rotate-180 mb:h-3 mb:w-3"
+              src={downarrow}
               alt="Up Arrow"
             />
           ) : (
@@ -60,6 +62,8 @@ const FAQs: React.FC<{
   display: string;
   morequestion: string;
 }> = ({ faqData, display, morequestion }) => {
+    const [openIndex, setOpenIndex] = useState<number | null>(null);
+
   // Check if faqData is valid
   if (!faqData || !Array.isArray(faqData)) {
     return <div>No FAQs available</div>;
@@ -71,7 +75,16 @@ const FAQs: React.FC<{
     >
       <div className="w-1/2  mb:w-[60%]">
         {faqData.map((faq, index) => (
-          <FAQ key={index} question={faq.question} answer={faq.answer} />
+          <FAQ
+            key={index}
+            question={faq.question}
+            answer={faq.answer}
+            isOpen={openIndex === index}
+            onClick={() =>
+              setOpenIndex(openIndex === index ? null : index)
+            }
+
+          />
         ))}
       </div>
 
@@ -83,8 +96,8 @@ const FAQs: React.FC<{
           Frequently Asked Questions
         </h2>
         <Link
-          href=""
-          className={` ${morequestion} text-customBlue text-xl underline font-bold mt-3.5 lg:text-base mr-6`}
+          href="/Faqs"
+          className={` ${morequestion} text-customBlue text-[22.91px] leading-[1.75rem] underline font-bold mt-3.5 lg:text-base mr-6`}
         >
           More questions?
         </Link>

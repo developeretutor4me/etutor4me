@@ -10,13 +10,13 @@ const HowToStart = () => {
   return (
     <div className="px-[70px] pt-[90px] mb:px-0  lg:px-0 mb:pt-8 lg:pt-16 xl:pt-16">
       <Headings heading="How to get started ?" className={""} />
-      <div className="flex  mt-1  lg:gap-4 gap-16 py-20 mb:py-12 mb:flex-col">
-        <div className="w-[50.4%] flex flex-col gap-20 mb:w-full mb:gap-10 ">
+      <div className="flex  mt-4  lg:gap-4 gap-16 py-20 mb:py-12 mb:flex-col">
+        <div className="w-[50.4%] flex flex-col gap-[102px] mb:w-full mb:gap-10 ">
           <div className="flex w-full  items-center gap-[8.4%] mb:gap-6">
             <div className="w-[78.52px] h-[78.52px] lg:w-[75px] lg:h-[75px] mb:w-16 mb:h-16 bg-cardbg rounded-xl relative ">
               <Image
                 loading="lazy"
-                className="absolute left-[28px] bottom-[-2px] mb:bottom-[-10px] w-[58px] mb:h-12 mb:w-12"
+                className="absolute left-[28px] bottom-[-2px] mb:bottom-[-2px] w-[58px] mb:h-12 mb:w-12"
                 src={icon1}
                 alt={""}
               />
@@ -34,7 +34,7 @@ const HowToStart = () => {
             <div className="w-[78.52px] h-[78.52px] lg:w-[75px] lg:h-[75px] mb:w-16 mb:h-16 bg-cardbg rounded-xl relative ">
               <Image
                 loading="lazy"
-                className="absolute left-[28px] bottom-[-2px] mb:bottom-[-10px] w-[58px] mb:h-12 mb:w-12"
+                className="absolute left-[17px] bottom-[-12px] mb:bottom-[-2px] w-[78.84px] mb:h-12 mb:w-12"
                 src={icon2}
                 alt={""}
               />
@@ -53,7 +53,7 @@ const HowToStart = () => {
             <div className="max-w-[78.52px] w-full h-[78.52px] lg:w-[75px] lg:h-[75px] mb:w-16 mb:h-16 bg-cardbg rounded-xl relative ">
               <Image
                 loading="lazy"
-                className="absolute left-[28px] bottom-[-2px] mb:bottom-[-10px] w-[58px] mb:h-12 mb:w-12"
+                className="absolute left-[18px] bottom-[-2px] mb:bottom-[-2px] w-[73.33px] mb:h-12 mb:w-12"
                 src={icon3}
                 alt={""}
               />
@@ -70,12 +70,12 @@ const HowToStart = () => {
         </div>
 
 
-        <div className="w-[44%] flex flex-col gap-20  mb:w-full mb:gap-10">
-          <div className="flex w-full  items-center gap-[8.4%] mb:gap-6">
+        <div className="w-[44%] flex flex-col gap-[70px]  mb:w-full mb:gap-10">
+          <div className="flex w-full  items-start gap-[8.4%] mb:gap-6">
             <div className="w-[78.52px] h-[78.52px] lg:w-[75px] lg:h-[75px] mb:w-16 mb:h-16 bg-cardbg rounded-xl relative ">
               <Image
                 loading="lazy"
-                className="absolute left-[28px] bottom-[-2px] mb:bottom-[-10px] w-[58px] mb:h-12 mb:w-12"
+                className="absolute left-[28px] bottom-[-12px] mb:bottom-[-2px] w-[58px] mb:h-12 mb:w-12"
                 src={icon4}
                 alt={""}
               />
@@ -90,11 +90,11 @@ const HowToStart = () => {
               </p>
             </div>
           </div>
-          <div className="flex w-full  items-center gap-[8.4%] mb:gap-6">
+          <div className="flex w-full  items-start gap-[8.4%] mb:gap-6">
             <div className="max-w-[78.52px] w-full h-[78.52px] lg:w-[75px] lg:h-[75px] mb:w-16 mb:h-16 bg-cardbg rounded-xl relative ">
               <Image
                 loading="lazy"
-                className="absolute left-[28px] bottom-[-2px] mb:bottom-[-10px] w-[58px] mb:h-12 mb:w-12"
+                className="absolute left-[18px] bottom-[-6px] mb:bottom-[-2px] w-[66.64px] mb:h-12 mb:w-12"
                 src={icon5}
                 alt={""}
               />

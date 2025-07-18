@@ -39,7 +39,6 @@ function TaxInfo() {
         taxCountry: TaxCountry,
       });
 
-      console.log("Tax country updated:", response.data.taxCountry);
     } catch (err: any) {
       setError(err.response?.data?.error || "Failed to update tax country");
       console.error(err);

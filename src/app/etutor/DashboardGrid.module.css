@@ -6,7 +6,6 @@
     grid-template-columns: 553px 497.7px 359px;
     grid-template-rows: 513.4px 128.19px 187.13px;
     gap: 20px;
-    /* 20px gap between boxes */
     grid-template-areas:
         "schedule calendar completed"
         "schedule refer support"
@@ -16,41 +15,117 @@
 .todaysSchedule {
     grid-area: schedule;
     background-color: #ede8fa;
-
 }
 
 .calendar {
     grid-area: calendar;
     background-color: #ede8fa;
-
 }
 
 .completedSessions {
     grid-area: completed;
     background-color: #ede8fa;
-
 }
 
 .referFriends {
     grid-area: refer;
     background-color: #ede8fa;
-
 }
 
 .support {
     grid-area: support;
     background-color: #ede8fa;
-
 }
 
 .trialSession {
     grid-area: trial;
     background-color: #ede8fa;
-
 }
 
 .chatBox {
     grid-area: chat;
     background-color: #ede8fa;
+}
 
+/* Start responsive breakpoints at 1894px */
+@media (max-width: 1894px) {
+    .gridContainer {
+        height: auto;
+        min-height: 900px;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 350px 350px 120px 240px;
+        gap: 15px;
+        grid-template-areas:
+            "schedule calendar"
+            "schedule completed"
+            "refer support"
+            "trial chat";
+    }
+}
+
+
+
+@media (max-width: 1338px) {
+    .gridContainer {
+        height: auto;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 600px 500px 350px 170px 170px;
+        gap: 15px;
+        grid-template-areas:
+            "schedule schedule"
+            "calendar calendar"
+            "completed completed"
+            "refer support"
+            "trial chat";
+    }
+}
+
+@media (max-width: 1100px) {
+    .gridContainer {
+        height: auto;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 600px 500px 350px 170px 170px 170px;
+        gap: 15px;
+        grid-template-areas:
+            "schedule schedule"
+            "calendar calendar"
+            "completed completed"
+            "refer refer"
+            "support support"
+            "trial chat";
+    }
+}
+
+@media (max-width: 778px) {
+    .gridContainer {
+        height: auto;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 600px 500px 350px 170px 170px 270px 170px;
+        gap: 15px;
+        grid-template-areas:
+            "schedule schedule"
+            "calendar calendar"
+            "completed completed"
+            "refer refer"
+            "support support"
+            "chat chat"
+            "trial trial"
+    }
+}
+
+@media (max-width: 639px) {
+    .gridContainer {
+        height: auto;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 600px 380px 350px 170px 170px 270px 170px;
+        gap: 15px;
+        grid-template-areas:
+            "schedule schedule"
+            "calendar calendar"
+            "completed completed"
+            "refer refer"
+            "support support"
+            "chat chat"
+            "trial trial"
+    }
 }

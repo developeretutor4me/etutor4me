@@ -61,7 +61,7 @@ function Profile() {
   const [college, setCollege] = useState("");
   const [degree, setDegree] = useState("");
   const [major, setMajor] = useState("");
-  const [graduation, setGraduation] = useState("");
+  const [graduation, setGraduation] = useState<Date | undefined>(undefined);
   const [graduationSchool, setGraduationSchool] = useState("");
   const [highestDegree, setHighestDegree] = useState("");
   const [school, setSchool] = useState("");
@@ -370,7 +370,7 @@ function Profile() {
       setCollege(teacher?.education?.college || "");
       setDegree(teacher?.education?.degree || "");
       setMajor(teacher?.education?.major || "");
-      setGraduation(teacher?.education?.graduation?.toISOString() || "");
+      setGraduation(teacher?.education?.graduation ? new Date(teacher.education.graduation) : undefined);
       setGraduationSchool(teacher?.education?.graduationSchool || "");
       setselectedAcademicCountry(teacher?.education?.graduationCountry || "");
       setHighestDegree(teacher?.education?.highestDegree || "");

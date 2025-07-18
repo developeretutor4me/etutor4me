@@ -28,7 +28,6 @@
 //     await connectMongoDB();
 
 
-//     console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nwebhook is running....")
 //     switch (event.type) {
 //       case "checkout.session.completed":
 //         const session: any = event.data.object;
@@ -145,7 +144,6 @@ export async function POST(req: NextRequest) {
   try {
     await connectMongoDB();
 
-    console.log("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nwebhook is running....")
     switch (event.type) {
       case "checkout.session.completed":
         const session: any = event.data.object;
@@ -278,7 +276,6 @@ export async function POST(req: NextRequest) {
 
       // Handle other events if necessary
       default:
-        console.log(`Unhandled event type: ${event.type}`);
     }
 
     return NextResponse.json({ received: true });

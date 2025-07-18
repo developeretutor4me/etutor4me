@@ -486,7 +486,7 @@ function MyEtutor({
 
   if (showChat) {
     return (
-      <div className="bg-[#EDE8FA] w-full h-screen rounded-3xl p-6  mt-11 text-white">
+      <div className="bg-[#EDE8FA] w-full max-h-[947px] h-full rounded-3xl p-6  mt-11 text-white">
         <div className="flex h-full  gap-3 custom-2xl:gap-4 overflow-hidden     ">
           {/* Sidebar */}
           <div className="hidden sm:block w-[30.2%]  bg-[#EDE8FA]  border-red-700 h-full  overflow-hidden">

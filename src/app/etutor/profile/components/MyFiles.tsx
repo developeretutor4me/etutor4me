@@ -143,7 +143,10 @@ function MyFiles() {
           </div>
         </div>
 
-        <div className="bg-[#B4A5D7] mt-7 rounded-xl sm:rounded-3xl custom-2xl:rounded-[30.92px] h-[495px] px-3 sm:px-7 custom-2xl:pl-[38px] custom-2xl:pr-[34px] py-5 sm:py-7 ">
+        <h1 className="text-xl py-6 custom-2xl:py-[52px] sm:text-2xl custom-2xl:text-[39.46px] custom-2xl:leading-[1rem] text-[#685AAD] font-bold pl-2 sm:pl-9 ">
+          Quick Access
+        </h1>
+        <div className="bg-[#B4A5D7]  rounded-xl sm:rounded-3xl custom-2xl:rounded-[30.92px] h-[495px] px-3 sm:px-7 custom-2xl:pl-[38px] custom-2xl:pr-[34px] py-5 sm:py-7 ">
           <div className=" w-full custom-2xl:space-y-6 h-full">
             <div
               id="style-2"

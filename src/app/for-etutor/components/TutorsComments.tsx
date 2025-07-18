@@ -62,7 +62,7 @@ tutoring with my other commitments.`,
     },
     {
       id: 4,
-      title: "July 22, 2024",
+      title: "john D.",
       date: " Oct 16 2023",
       img: img2,
       paragraph: `Reaching Level 10 with eTutor4Me has been 

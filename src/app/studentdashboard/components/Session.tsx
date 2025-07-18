@@ -1367,7 +1367,7 @@ const SessionDashboard = ({
                               }}
                               className="w-full sm:w-auto py-2 px-14 text-base rounded-full bg-[#8358F7] hover:bg-opacity-90 transition-colors"
                             >
-                              Send request
+                              Send&nbsp;request
                             </button>
 
                             <div className="hidden sm:flex justify-center gap-10 w-full">

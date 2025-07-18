@@ -18,18 +18,18 @@ const FAQSection = ({ onNeedMoreHelp, onChatHistory }:any) => {
   };
 
   return (
-    <div className=" w-full h-fit flex flex-col custom-2xl:flex-row">
+    <div className=" w-full  h-fit flex flex-col custom-2xl:flex-row">
         <div className='  w-full h-full'>
-      <h2 className="text-lg sm:text-2xl custom-2xl:text-4xl font-bold text-[#685AAD] mb-0">Frequently Asked Questions</h2>
-      <ul className="mt-4 px-2 custom-2xl:px-8 ">
+      <h2 className="text-lg sm:text-2xl custom-2xl:text-[45px] custom-2xl:leading-[2.25rem] font-bold text-[#685AAD] mb-0">Frequently Asked Questions</h2>
+      <ul className="mt-3 sm:mt-6 custom-2xl:mt-12 pt-1 px-2 custom-2xl:px-8 ">
         {faqs.map((faq, index) => (
-          <li key={index} className="py-4 custom-2xl:py-8 text-sm sm:text-lg custom-2xl:text-2xl border-b text-[#534988]  border-[#ada7cfc4] last:border-b-0  ">
+          <li key={index} className="py-4 custom-2xl:py-10 text-sm sm:text-lg custom-2xl:text-[28.15px] custom-2xl:leading-[2rem] border-b text-[#534988]  border-[#ada7cfc4] last:border-b-0  ">
             <button
               onClick={() => toggleFAQ(index)}
-              className="w-full text-left py-3  flex   gap-7 items-center cursor-pointer text-[#534988] hover:bg-[#EDE8FA] transition-colors"
+              className="w-full text-left py-3  flex   gap-10 items-center cursor-pointer text-[#534988] hover:bg-[#EDE8FA] transition-colors"
             >
               
-              <Image  loading="lazy"  src={downarrow} alt="" className={ ` h-3 custom-2xl:h-5   w-3 custom-2xl:w-5 text-black font-thin transition-transform ${openIndex === index ? 'transform rotate-180' : ''}`} />
+              <Image  loading="lazy"  src={downarrow} alt="" className={ ` h-3 custom-2xl:h-7   w-3 custom-2xl:w-7 text-black font-thin transition-transform ${openIndex === index ? 'transform rotate-180' : ''}`} />
               <span>{faq.question}</span>
             </button>
             {openIndex === index && (

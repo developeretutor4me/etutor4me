@@ -1,12 +1,6 @@
 import React, { ReactNode, useEffect, useState } from "react";
-import tier from "../../../../public/tier.svg";
-import message from "../../../../public/messageicon.svg";
-import folder from "../../../../public/foldericon.svg";
-import profile from "../../../../public/profileicon.svg";
-import sample from "../../../../public/assets/heroimg.png";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
-import { time } from "console";
 import axios from "axios";
 import noschedual from "../../../../public/noschedualsessions.svg";
 import chaticon from "../../../../public/chaticonwhite.svg";
@@ -14,7 +8,6 @@ import infoicon from "../../../../public/infoicon.svg";
 
 import foldericon from "../../../../public/folder icon white.svg";
 import profilewhite from "../../../../public/profile icon white.svg";
-import completed from "../../../../public/completedsession.svg";
 import { ChevronDown, ChevronUp } from "lucide-react";
 import searchicon from "../../../../public/search icon.svg";
 import { useToast } from "@/hooks/use-toast";
@@ -215,7 +208,7 @@ const SessionDashboard = ({
   useEffect(() => {
     let result = [...requests];
 
-  
+
     // Apply search filter
     if (searchQuery) {
       result = filterData(result, searchQuery);
@@ -245,12 +238,12 @@ const SessionDashboard = ({
 
   // search methods for parent and student together
   const filterCombinedData = (
-    students: Student[], 
-    parents: Parent[], 
+    students: Student[],
+    parents: Parent[],
     query: string
   ) => {
     const searchString = query.toLowerCase();
-  
+
     // Filter students
     const filteredStudents = students.filter((student) => {
       return (
@@ -262,21 +255,21 @@ const SessionDashboard = ({
         student.subjects.some((subject) => subject.toLowerCase().includes(searchString))
       );
     });
-  
+
     // Filter parents
     const filteredParents = parents.filter((parent) => {
       return (
         `${parent.firstName} ${parent.lastName}`.toLowerCase().includes(searchString)
-        
+
       );
     });
-  
+
     return {
       filteredStudents,
       filteredParents
     };
   };
-  
+
   // Sort function for combined data
   const sortCombinedData = (
     students: Student[],
@@ -314,7 +307,7 @@ const SessionDashboard = ({
         }
       });
     };
-  
+
     return {
       //@ts-ignore
       sortedStudents: sortArrays(students as User[], sortKey) as Student[],
@@ -327,16 +320,16 @@ const SessionDashboard = ({
   useEffect(() => {
     // First filter the data
     const filteredResults = filterCombinedData(students, parents, searchQuery);
-    
+
     // Then sort the filtered results
-    const sortedResults = selectedSort 
+    const sortedResults = selectedSort
       ? sortCombinedData(
-          filteredResults.filteredStudents,
-          filteredResults.filteredParents,
-          selectedSort
-        )
+        filteredResults.filteredStudents,
+        filteredResults.filteredParents,
+        selectedSort
+      )
       : filteredResults;
-//@ts-ignore
+    //@ts-ignore
     setFilteredData(sortedResults);
   }, [searchQuery, selectedSort, students, parents]);
 
@@ -349,11 +342,11 @@ const SessionDashboard = ({
         if (!response.ok) throw new Error("Failed to fetch users");
 
         const data = await response.json();
-        
+
         setStudents(data.students);
         setParents(data.parents);
         setrequestsofteachers(data.requests);
-        
+
 
         setLoading(false);
       } catch (error) {
@@ -387,7 +380,7 @@ const SessionDashboard = ({
 
         const data = await response.json();
         setRequests(data.bookingRequests);
-    
+
       } catch (err: any) {
         setError(err.message);
       } finally {
@@ -412,8 +405,8 @@ const SessionDashboard = ({
     if (response.ok) {
       setFilteredRequests((prevRequests) =>
         prevRequests.filter((request) => request?._id !== recipientId)
-    );
-    setapply("")
+      );
+      setapply("")
     } else {
       console.error(data.message);
     }
@@ -445,11 +438,11 @@ const SessionDashboard = ({
   };
 
   const updateBookingStatus = async (bookingId: string, newStatus: string) => {
-    if(newStatus === "rejected"){
+    if (newStatus === "rejected") {
 
       setWait(bookingId)
     }
-    if(newStatus === "accepted"){
+    if (newStatus === "accepted") {
 
       setaccept(bookingId)
     }
@@ -457,7 +450,7 @@ const SessionDashboard = ({
       const createZoomMeeting = async () => {
         try {
           const response = await axios.post("/api/zoomapi");
-       
+
 
           if (response.data.success) {
             const { start_url, join_url } = response.data.meeting;
@@ -486,7 +479,7 @@ const SessionDashboard = ({
 
       try {
         const meetingResult = await createZoomMeeting();
-       
+
 
         // Update booking with meeting data
         const updateResponse = await axios.post("/api/update-booking-status", {
@@ -511,16 +504,16 @@ const SessionDashboard = ({
         console.error("Error in updateBookingStatus:", error);
         setError(error.message || "An unknown error occurred");
         setLoading(false);
-      
+
         toast({
-          title:`Error: ${error.message || "Failed to update booking"}`,
+          title: `Error: ${error.message || "Failed to update booking"}`,
           description: "",
           variant: "destructive",
         });
-      }finally{
+      } finally {
         setWait("")
         setaccept("")
-        
+
       }
     }
   };
@@ -538,21 +531,18 @@ const SessionDashboard = ({
               key={tab.id}
               onClick={() => setActiveTab(tab.id)}
               className={`flex items-center justify-center flex-nowrap  font-normal box-border sm:font-bold text-xs px-2  sm:text-lg  transition-all
-            ${
-              tab.id === activeTab
-                ? "bg-[#EDE8FA] text-[#685AAD] transition-all"
-                : `text-white transition-all`
-            }
-            ${
-              tab.id === "individual"
-                ? "rounded-tl-3xl transition-all"
-                : "transition-all"
-            }
-            ${
-              tab.id === "trial"
-                ? "rounded-tr-3xl custom-2xl:rounded-none transition-all"
-                : "transition-all"
-            }
+            ${tab.id === activeTab
+                  ? "bg-[#EDE8FA] text-[#685AAD] transition-all"
+                  : `text-white transition-all`
+                }
+            ${tab.id === "individual"
+                  ? "rounded-tl-3xl transition-all"
+                  : "transition-all"
+                }
+            ${tab.id === "trial"
+                  ? "rounded-tr-3xl custom-2xl:rounded-none transition-all"
+                  : "transition-all"
+                }
               
           `}
               style={{ backgroundColor: getTabColor(tab.id) }}
@@ -568,7 +558,7 @@ const SessionDashboard = ({
           ) : (
             <div className="text-transparent bg-transparent font-bold text-xs px-2 transition-all  w-[80%]   md:text-sm custom-2xl:text-2xl h-full  rounded-md sm:rounded-xl mb-1 uppercase   flex items-center justify-center ">
               Sessions&nbsp;left:
-             
+
             </div>
           )}
         </div>
@@ -579,21 +569,19 @@ const SessionDashboard = ({
           <div className="bg-[#655693] ml-2 sm:ml-10  py-3 px-3 text-sm rounded-xl w-fit flex  ">
             <button
               onClick={() => setActiveSubTab("upcoming")}
-              className={`flex-1 py-3 sm:py-6 px-7 sm:px-[51px]  text-center rounded-xl transition-all duration-300 ${
-                activeSubTab === "upcoming"
-                  ? "bg-[#8653FF] text-white transition-all"
-                  : "text-[#d8b4fe] transition-all"
-              }`}
+              className={`flex-1 py-3 sm:py-6 px-7 sm:px-[51px]  text-center rounded-xl transition-all duration-300 ${activeSubTab === "upcoming"
+                ? "bg-[#8653FF] text-white transition-all"
+                : "text-[#d8b4fe] transition-all"
+                }`}
             >
               Application
             </button>
             <button
               onClick={() => setActiveSubTab("completed")}
-              className={`flex-1 py-3 sm:py-6 px-[20px] sm:px-[46px] text-center rounded-xl transition-all duration-300 ${
-                activeSubTab === "completed"
-                  ? "bg-[#8653FF] text-white"
-                  : "text-[#d8b4fe]"
-              }`}
+              className={`flex-1 py-3 sm:py-6 px-[20px] sm:px-[46px] text-center rounded-xl transition-all duration-300 ${activeSubTab === "completed"
+                ? "bg-[#8653FF] text-white"
+                : "text-[#d8b4fe]"
+                }`}
             >
               Requests
             </button>
@@ -602,21 +590,19 @@ const SessionDashboard = ({
           <div className="bg-[#655693]  ml-2 sm:ml-10 py-3 px-3 text-sm rounded-xl w-fit flex  ">
             <button
               onClick={() => setActiveSubTab("upcoming")}
-              className={`flex-1 py-3 sm:py-6 px-6 sm:px-12 text-center rounded-xl transition-all duration-300 ${
-                activeSubTab === "upcoming"
-                  ? "bg-[#8653FF] text-white"
-                  : "text-[#d8b4fe]"
-              }`}
+              className={`flex-1 py-3 sm:py-6 px-6 sm:px-12 text-center rounded-xl transition-all duration-300 ${activeSubTab === "upcoming"
+                ? "bg-[#8653FF] text-white"
+                : "text-[#d8b4fe]"
+                }`}
             >
               Upcoming
             </button>
             <button
               onClick={() => setActiveSubTab("completed")}
-              className={`flex-1 py-3 sm:py-6 px-6 sm:px-12 text-center rounded-xl transition-all duration-300 ${
-                activeSubTab === "completed"
-                  ? "bg-[#8653FF] text-white"
-                  : "text-[#d8b4fe]"
-              }`}
+              className={`flex-1 py-3 sm:py-6 px-6 sm:px-12 text-center rounded-xl transition-all duration-300 ${activeSubTab === "completed"
+                ? "bg-[#8653FF] text-white"
+                : "text-[#d8b4fe]"
+                }`}
             >
               Completed
             </button>
@@ -625,9 +611,8 @@ const SessionDashboard = ({
       </div>
 
       <div
-        className={`${
-          activeTab === "trial" ? "" : "bg-[#B4A5D7]"
-        }  py-2 px-2 custom-xl:px-5 custom-xl:py-8 rounded-3xl mt-7 sm:mt-[37px] h-full  overflow-auto`}
+        className={`${activeTab === "trial" ? "bg-[#ede8fa]" : "bg-[#B4A5D7]"
+          }  py-2 px-2 custom-xl:px-5 custom-xl:py-8 rounded-3xl mt-7 sm:mt-[37px] h-full  overflow-auto scrollbar-none `}
       >
         {/* --------------individual session-----------------   */}
         {activeTab === "individual" && (
@@ -645,7 +630,7 @@ const SessionDashboard = ({
 
                   {/* Session Card */}
 
-                  {requests.length>0 && requests.filter(
+                  {requests.length > 0 && requests.filter(
                     (request) =>
                       request?.status === "accepted" &&
                       request?.meetingCompleted === false
@@ -662,11 +647,10 @@ const SessionDashboard = ({
                           return (
                             <div
                               key={request?._id}
-                              className={`w-full  bg-[#7565A4] rounded-lg custom-2xl:pl-9   ${
-                                isExpanded
-                                  ? "h-auto custom-2xl:h-fit transition-all duration-1000 ease-out"
-                                  : "h-auto custom-2xl:h-20 transition-all duration-300 ease-out"
-                              } overflow-hidden cursor-pointer`}
+                              className={`w-full  bg-[#7565A4] rounded-lg custom-2xl:pl-9   ${isExpanded
+                                ? "h-auto custom-2xl:h-fit transition-all duration-1000 ease-out"
+                                : "h-auto custom-2xl:h-20 transition-all duration-300 ease-out"
+                                } overflow-hidden cursor-pointer`}
                               onMouseEnter={() =>
                                 //@ts-ignore
                                 setexpandedRequestId(request?._id)
@@ -686,21 +670,19 @@ const SessionDashboard = ({
                                         {request?.subjects || ""}
                                       </span>
                                       <div
-                                        className={`text-white ${
-                                          isExpanded
-                                            ? "opacity-100 block transition-all duration-300 ease-in-out"
-                                            : "opacity-0 hidden transition-all duration-300 ease-in-out"
-                                        }`}
+                                        className={`text-white ${isExpanded
+                                          ? "opacity-100 block transition-all duration-300 ease-in-out"
+                                          : "opacity-0 hidden transition-all duration-300 ease-in-out"
+                                          }`}
                                       >
                                         PAYg session
                                       </div>
 
                                       <div
-                                        className={`text-white mt-4 ${
-                                          isExpanded
-                                            ? "opacity-100 block transition-all duration-300 ease-in-out"
-                                            : "opacity-0 hidden transition-all duration-300 ease-in-out"
-                                        }`}
+                                        className={`text-white mt-4 ${isExpanded
+                                          ? "opacity-100 block transition-all duration-300 ease-in-out"
+                                          : "opacity-0 hidden transition-all duration-300 ease-in-out"
+                                          }`}
                                       >
                                         <span className="text-3xl font-medium">
                                           Student&apos;s Note:
@@ -722,15 +704,14 @@ const SessionDashboard = ({
                                           "Your Student"}
                                       </span>
                                       <div
-                                        className={` ${
-                                          isExpanded
-                                            ? "opacity-100 block transition-all duration-300 ease-in-out"
-                                            : "opacity-0 hidden transition-all duration-300 ease-in-out "
-                                        }`}
+                                        className={` ${isExpanded
+                                          ? "opacity-100 block transition-all duration-300 ease-in-out"
+                                          : "opacity-0 hidden transition-all duration-300 ease-in-out "
+                                          }`}
                                       >
                                         <div className="flex  gap-6 items-center  mt-2">
                                           <span>
-                                            <Image  loading="lazy" 
+                                            <Image loading="lazy"
                                               onClick={() => {
                                                 setActiveFindEtutor(
                                                   "My eTutor"
@@ -744,7 +725,7 @@ const SessionDashboard = ({
                                             />
                                           </span>
                                           <span>
-                                            <Image  loading="lazy" 
+                                            <Image loading="lazy"
                                               onClick={() => {
                                                 setActiveFindEtutor(
                                                   "My eTutor"
@@ -766,7 +747,7 @@ const SessionDashboard = ({
                                               setTutor(request?.teacher);
                                             }}
                                           >
-                                            <Image  loading="lazy" 
+                                            <Image loading="lazy"
                                               src={profilewhite}
                                               alt="profileicon"
                                               className="w-5 h-5"
@@ -798,11 +779,10 @@ const SessionDashboard = ({
                                           .slice(0, 10)}`}
                                       </span>
                                       <div
-                                        className={`text-base sm:text-xl text-white ${
-                                          isExpanded
-                                            ? "opacity-100 block transition-all duration-300 ease-in-out"
-                                            : "opacity-0 hidden transition-all duration-300 ease-in-out"
-                                        }`}
+                                        className={`text-base sm:text-xl text-white ${isExpanded
+                                          ? "opacity-100 block transition-all duration-300 ease-in-out"
+                                          : "opacity-0 hidden transition-all duration-300 ease-in-out"
+                                          }`}
                                       >
                                         {`${new Date(
                                           request?.date
@@ -817,11 +797,10 @@ const SessionDashboard = ({
 
                                 {/* Buttons Section */}
                                 <div
-                                  className={`flex flex-col custom-2xl:flex-row gap-2  custom-2xl:gap-4  h-full  ${
-                                    isExpanded
-                                      ? "py-6 px-4 h-auto custom-2xl:h-28"
-                                      : "p-4"
-                                  } custom-2xl:pl-0 `}
+                                  className={`flex flex-col custom-2xl:flex-row gap-2  custom-2xl:gap-4  h-full  ${isExpanded
+                                    ? "py-6 px-4 h-auto custom-2xl:h-28"
+                                    : "p-4"
+                                    } custom-2xl:pl-0 `}
                                 >
                                   <button
                                     onClick={() =>
@@ -843,7 +822,7 @@ const SessionDashboard = ({
                         })}
                     </>
                   ) : (
-                    <Image  loading="lazy"  src={noschedual} alt="no" className="mx-auto " />
+                    <Image loading="lazy" src={noschedual} alt="no" className="mx-auto " />
                   )}
                 </div>
               )}
@@ -862,7 +841,7 @@ const SessionDashboard = ({
 
                   {/* Session Card */}
 
-                  {requests.length>0 && requests.filter(
+                  {requests.length > 0 && requests.filter(
                     (request) =>
                       request?.status === "accepted" &&
                       request?.meetingCompleted === true
@@ -879,11 +858,10 @@ const SessionDashboard = ({
                           return (
                             <div
                               key={request?._id}
-                              className={`w-full  bg-[#7565A4] rounded-lg custom-2xl:pl-9   ${
-                                isExpanded
-                                  ? "h-auto custom-2xl:h-fit transition-all duration-1000 ease-out"
-                                  : "h-auto custom-2xl:h-20 transition-all duration-300 ease-out"
-                              } overflow-hidden cursor-pointer`}
+                              className={`w-full  bg-[#7565A4] rounded-lg custom-2xl:pl-9   ${isExpanded
+                                ? "h-auto custom-2xl:h-fit transition-all duration-1000 ease-out"
+                                : "h-auto custom-2xl:h-20 transition-all duration-300 ease-out"
+                                } overflow-hidden cursor-pointer`}
                               onMouseEnter={() =>
                                 //@ts-ignore
                                 setexpandedRequestId(request?._id)
@@ -903,21 +881,19 @@ const SessionDashboard = ({
                                         {request?.subjects || ""}
                                       </span>
                                       <div
-                                        className={`text-white ${
-                                          isExpanded
-                                            ? "opacity-100 block transition-all duration-300 ease-in-out"
-                                            : "opacity-0 hidden transition-all duration-300 ease-in-out"
-                                        }`}
+                                        className={`text-white ${isExpanded
+                                          ? "opacity-100 block transition-all duration-300 ease-in-out"
+                                          : "opacity-0 hidden transition-all duration-300 ease-in-out"
+                                          }`}
                                       >
                                         PAYg session
                                       </div>
 
                                       <div
-                                        className={`text-white mt-4 ${
-                                          isExpanded
-                                            ? "opacity-100 block transition-all duration-300 ease-in-out"
-                                            : "opacity-0 hidden transition-all duration-300 ease-in-out"
-                                        }`}
+                                        className={`text-white mt-4 ${isExpanded
+                                          ? "opacity-100 block transition-all duration-300 ease-in-out"
+                                          : "opacity-0 hidden transition-all duration-300 ease-in-out"
+                                          }`}
                                       >
                                         <span className="text-3xl font-medium">
                                           Student&apos;s Note:
@@ -939,15 +915,14 @@ const SessionDashboard = ({
                                           "Your Student"}
                                       </span>
                                       <div
-                                        className={` ${
-                                          isExpanded
-                                            ? "opacity-100 block transition-all duration-300 ease-in-out"
-                                            : "opacity-0 hidden transition-all duration-300 ease-in-out "
-                                        }`}
+                                        className={` ${isExpanded
+                                          ? "opacity-100 block transition-all duration-300 ease-in-out"
+                                          : "opacity-0 hidden transition-all duration-300 ease-in-out "
+                                          }`}
                                       >
                                         <div className="flex  gap-6 items-center  mt-2">
                                           <span>
-                                            <Image  loading="lazy" 
+                                            <Image loading="lazy"
                                               onClick={() => {
                                                 setActiveFindEtutor(
                                                   "My eTutor"
@@ -961,7 +936,7 @@ const SessionDashboard = ({
                                             />
                                           </span>
                                           <span>
-                                            <Image  loading="lazy" 
+                                            <Image loading="lazy"
                                               onClick={() => {
                                                 setActiveFindEtutor(
                                                   "My eTutor"
@@ -983,7 +958,7 @@ const SessionDashboard = ({
                                               setTutor(request?.teacher);
                                             }}
                                           >
-                                            <Image  loading="lazy" 
+                                            <Image loading="lazy"
                                               src={profilewhite}
                                               alt="x"
                                               className="w-5 h-5"
@@ -1015,11 +990,10 @@ const SessionDashboard = ({
                                           .slice(0, 10)}`}
                                       </span>
                                       <div
-                                        className={`text-base sm:text-xl text-white ${
-                                          isExpanded
-                                            ? "opacity-100 block transition-all duration-300 ease-in-out"
-                                            : "opacity-0 hidden transition-all duration-300 ease-in-out"
-                                        }`}
+                                        className={`text-base sm:text-xl text-white ${isExpanded
+                                          ? "opacity-100 block transition-all duration-300 ease-in-out"
+                                          : "opacity-0 hidden transition-all duration-300 ease-in-out"
+                                          }`}
                                       >
                                         {`${new Date(
                                           request?.date
@@ -1034,9 +1008,8 @@ const SessionDashboard = ({
 
                                 {/* Buttons Section */}
                                 <div
-                                  className={`flex flex-col custom-2xl:flex-row gap-2  custom-2xl:gap-4  h-full ${
-                                    isExpanded ? "py-6 px-4" : "p-4"
-                                  } transition-all duration-300 ease-in-out  custom-2xl:pl-0 `}
+                                  className={`flex flex-col custom-2xl:flex-row gap-2  custom-2xl:gap-4  h-full ${isExpanded ? "py-6 px-4" : "p-4"
+                                    } transition-all duration-300 ease-in-out  custom-2xl:pl-0 `}
                                 >
                                   <button className="w-full bg-transparent  custom-2xl:h-full custom-2xl:w-auto  text-transparent px-8 py-2 rounded-md ">
                                     Edit Session
@@ -1052,7 +1025,7 @@ const SessionDashboard = ({
                         })}
                     </>
                   ) : (
-                    <Image  loading="lazy"  src={noschedual} alt="x" className="mx-auto " />
+                    <Image loading="lazy" src={noschedual} alt="x" className="mx-auto " />
                   )}
                 </div>
               )}
@@ -1204,26 +1177,25 @@ const SessionDashboard = ({
         {activeTab === "trial" && (
           <>
 
-          
+
             <div className="">
               {activeSubTab === "upcoming" && (
                 <>
                   <div className="px-1  custom-xl:px-4  mt-2 custom-2xl:mt-4">
-                    <div className="flex justify-between">
-                      <h1 className="text-2xl custom-2xl:text-5xl text-[#685AAD] font-bold">
+                    <div className="flex justify-between gap-3 flex-wrap sm:flex-nowrap sm:gap-x-14">
+                      <h1 className="text-2xl custom-2xl:text-5xl text-[#685AAD] font-bold text-nowrap">
                         New Students
                       </h1>
 
                       {/* right side search params-------------------------------- */}
 
-                      <div className="flex flex-wrap justify-end   gap-7  w-fit  ">
-                        <div className="relative order-2 custom-xl:order-1  h-fit   w-full custom-xl:w-fit ">
+                      <div className="flex flex-wrap justify-end   gap-4 custom-xl:gap-7  w-fit  ">
+                        <div className="relative order-2 custom-xl:order-1  h-fit   w-full  max-w-[20.5rem] custom-xl:max-w-fit custom-xl:w-fit ">
                           <div
-                            className={`bg-[#DBCAFF] text-[#8c7bc4]  sm:text-sm pl-10 pr-8 py-3 text-xl transition-all duration-500 rounded-full cursor-pointer select-none   flex items-center justify-between w-full custom-xl:w-[21.8rem] ${
-                              isOpen
-                                ? "border  border-[#a394d6]"
-                                : "border border-transparent"
-                            } `}
+                            className={`bg-[#DBCAFF] text-[#685AAD] placeholder-[#685aadb0] text-xl px-10  py-3 rounded-full border border-transparent w-full  custom-xl:w-[24.7rem] focus:outline-none focus:ring-0 flex justify-between gap-5 ${isOpen
+                              ? "border  border-[#a394d6]"
+                              : "border border-transparent"
+                              } `}
                             onClick={toggleDropdown}
                           >
                             <span className="text-xl pl-3 lowercase">
@@ -1239,10 +1211,10 @@ const SessionDashboard = ({
                           </div>
 
                           <div>
-                            <Image  loading="lazy" 
+                            <Image loading="lazy"
                               src={infoicon}
                               alt="x"
-                              className="h-6 w-6 absolute top-2 -left-12"
+                              className="h-6 w-6 absolute top-2 -left-12  "
                             />
                           </div>
                           {isOpen && (
@@ -1259,9 +1231,8 @@ const SessionDashboard = ({
                                 {options.map((option) => (
                                   <li
                                     key={option.value}
-                                    className={` first:pb-3 first:pt-0 py-3 cursor-pointer last:border-b-0 border-b border-[#8f81c7]  text-[#6C5BAA] text-lg max-w-[14.9rem]   ${
-                                      selectedOption === option.value ? "" : ""
-                                    }`}
+                                    className={` first:pb-3 first:pt-0 py-3 cursor-pointer last:border-b-0 border-b border-[#8f81c7]  text-[#6C5BAA] text-lg max-w-[14.9rem]   ${selectedOption === option.value ? "" : ""
+                                      }`}
                                     onClick={() =>
                                       handleOptionClick(option.value)
                                     }
@@ -1304,7 +1275,7 @@ const SessionDashboard = ({
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                           />
-                          <Image  loading="lazy" 
+                          <Image loading="lazy"
                             src={searchicon}
                             className="absolute right-8 top-1/2 transform -translate-y-1/2 text-[#6949ff] w-5 h-5 "
                             alt="x"
@@ -1314,11 +1285,11 @@ const SessionDashboard = ({
                     </div>
 
                     <div className="flex flex-col gap-2 custom-xl:gap-3  mt-5 custom-2xl:mt-8">
-                      {filteredData.filteredStudents.length>0 && filteredData.filteredStudents
+                      {filteredData.filteredStudents.length > 0 && filteredData.filteredStudents
                         .filter(
                           (student) =>
                             !requestsofteachers.some(
-                              (teacher:any) =>
+                              (teacher: any) =>
                                 teacher.teacher === session?.user?.id &&
                                 teacher.recipient === student._id
                             )
@@ -1334,7 +1305,7 @@ const SessionDashboard = ({
                                 <div className="flex flex-col items-center justify-center sm:justify-normal  w-full sm:w-fit  ">
                                   <div className="w-20 sm:w-28 custom-2xl:w-[156px] h-20 sm:h-28 custom-2xl:h-[156px] overflow-hidden   rounded-full mb-6">
                                     <img
-                                    //@ts-ignore
+                                      //@ts-ignore
                                       src={student?.user?.profilePicture || ""}
                                       alt="example"
                                     />
@@ -1370,21 +1341,21 @@ const SessionDashboard = ({
                                       </h3>
                                       <p className="text-[#473171] text-sm sm:text-lg">
                                         {
-                                        //@ts-ignore
-                                        student.user?.createdAt
-                                          ? new Date(
-                                            //@ts-ignore
+                                          //@ts-ignore
+                                          student.user?.createdAt
+                                            ? new Date(
+                                              //@ts-ignore
                                               student.user?.createdAt
                                             ).toLocaleDateString("en-GB")
-                                          : ""}
+                                            : ""}
                                       </p>
                                     </div>
                                     <div>
                                       <h3 className="text-white text-base sm:text-xl font-medium mb-1">
-                                        
+
                                       </h3>
                                       <p className="text-[#473171] text-sm sm:text-lg">
-                                      
+
                                       </p>
                                     </div>
                                   </div>
@@ -1417,7 +1388,7 @@ const SessionDashboard = ({
                                       }}
                                       className="bg-violet-500 text-white px-8 py-2 rounded-xl text-base sm:text-xl max-w-[169px] w-full font-normal"
                                     >
-                                        {apply === student._id ? 'Wait...' : 'Apply'}
+                                      {apply === student._id ? 'Wait...' : 'Apply'}
                                     </button>
                                   </div>
                                 </div>
@@ -1427,11 +1398,11 @@ const SessionDashboard = ({
                         ))}
 
                       <>
-                        {filteredData.filteredParents.length>0 &&filteredData.filteredParents
+                        {filteredData.filteredParents.length > 0 && filteredData.filteredParents
                           .filter(
                             (student) =>
                               !requestsofteachers.some(
-                                (teacher:any) =>
+                                (teacher: any) =>
                                   teacher.teacher === session?.user?.id &&
                                   teacher.recipient === student._id
                               )
@@ -1447,7 +1418,7 @@ const SessionDashboard = ({
                                   <div className="flex flex-col items-center justify-center sm:justify-normal  w-full sm:w-fit  ">
                                     <div className="w-20 sm:w-28 custom-2xl:w-[156px] h-20 sm:h-28 custom-2xl:h-[156px] overflow-hidden  flex items-center justify-center rounded-full mb-6">
                                       <img
-                                      //@ts-ignore
+                                        //@ts-ignore
                                         src={parent?.user?.profilePicture || ""}
                                         alt="example"
                                         className="object-cover w-full"
@@ -1484,21 +1455,21 @@ const SessionDashboard = ({
                                         </h3>
                                         <p className="text-[#473171] text-sm sm:text-lg">
                                           {
-                                          //@ts-ignore
-                                          parent.user?.createdAt
-                                            ? new Date(
-                                              //@ts-ignore
+                                            //@ts-ignore
+                                            parent.user?.createdAt
+                                              ? new Date(
+                                                //@ts-ignore
                                                 parent.user?.createdAt
                                               ).toLocaleDateString("en-GB")
-                                            : ""}
+                                              : ""}
                                         </p>
                                       </div>
                                       <div>
                                         <h3 className="text-white text-base sm:text-xl font-medium mb-1">
-                                          
+
                                         </h3>
                                         <p className="text-[#473171] text-sm sm:text-lg">
-                                       
+
                                         </p>
                                       </div>
                                     </div>
@@ -1531,7 +1502,7 @@ const SessionDashboard = ({
                                         }}
                                         className="bg-violet-500 text-white px-8 py-2 rounded-xl text-base sm:text-xl max-w-[169px] w-full font-normal"
                                       >
-                                          {apply === parent._id ? 'Wait...' : 'Apply'}
+                                        {apply === parent._id ? 'Wait...' : 'Apply'}
                                       </button>
                                     </div>
                                   </div>
@@ -1550,24 +1521,23 @@ const SessionDashboard = ({
 
             <div>
               {activeSubTab === "completed" && (
-                
+
                 <>
                   <div className="px-1  custom-xl:px-4  mt-2 custom-2xl:mt-4">
-                    <div className="flex justify-between">
-                      <h1 className="text-2xl custom-2xl:text-5xl text-[#685AAD] font-bold">
+                    <div className="flex justify-between gap-3 flex-wrap sm:flex-nowrap sm:gap-x-14">
+                      <h1 className="text-2xl custom-2xl:text-5xl text-[#685AAD] font-bold text-nowrap">
                         Find your Students
                       </h1>
 
                       {/* right side search params-------------------------------- */}
 
-                      <div className="flex flex-wrap justify-end   gap-7  w-fit  ">
-                        <div className="relative order-2 custom-xl:order-1  h-fit   w-full custom-xl:w-fit ">
+                      <div className="flex flex-wrap justify-end   gap-4 custom-xl:gap-7  w-fit ">
+                        <div className="relative order-2 custom-xl:order-1  h-fit   w-full  max-w-[20.5rem] custom-xl:max-w-fit custom-xl:w-fit ">
                           <div
-                            className={`bg-[#DBCAFF] text-[#8c7bc4]  sm:text-sm pl-10 pr-8 py-3 text-xl transition-all duration-500 rounded-full cursor-pointer select-none   flex items-center justify-between w-full custom-xl:w-[21.8rem] ${
-                              isOpen
-                                ? "border  border-[#a394d6]"
-                                : "border border-transparent"
-                            } `}
+                            className={`bg-[#DBCAFF] text-[#685AAD] placeholder-[#685aadb0] text-xl px-10  py-3 rounded-full border border-transparent w-full  custom-xl:w-[24.7rem] focus:outline-none focus:ring-0 flex justify-between gap-5 ${isOpen
+                              ? "border  border-[#a394d6]"
+                              : "border border-transparent"
+                              } `}
                             onClick={toggleDropdown}
                           >
                             <span className="text-xl pl-3 lowercase">
@@ -1583,7 +1553,7 @@ const SessionDashboard = ({
                           </div>
 
                           <div>
-                            <Image  loading="lazy" 
+                            <Image loading="lazy"
                               src={infoicon}
                               alt="x"
                               className="h-6 w-6 absolute top-2 -left-12"
@@ -1603,9 +1573,8 @@ const SessionDashboard = ({
                                 {options.map((option) => (
                                   <li
                                     key={option.value}
-                                    className={` first:pb-3 first:pt-0 py-3 cursor-pointer last:border-b-0 border-b border-[#8f81c7]  text-[#6C5BAA] text-lg max-w-[14.9rem]   ${
-                                      selectedOption === option.value ? "" : ""
-                                    }`}
+                                    className={` first:pb-3 first:pt-0 py-3 cursor-pointer last:border-b-0 border-b border-[#8f81c7]  text-[#6C5BAA] text-lg max-w-[14.9rem]   ${selectedOption === option.value ? "" : ""
+                                      }`}
                                     onClick={() =>
                                       handleOptionClick(option.value)
                                     }
@@ -1648,7 +1617,7 @@ const SessionDashboard = ({
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                           />
-                          <Image  loading="lazy" 
+                          <Image loading="lazy"
                             src={searchicon}
                             className="absolute right-8 top-1/2 transform -translate-y-1/2 text-[#6949ff] w-5 h-5 "
                             alt="x"
@@ -1682,8 +1651,8 @@ const SessionDashboard = ({
                                     </div>
                                     <span className="text-white text-base sm:text-xl custom-2xl:text-3xl font-medium text-center capitalize ">
                                       {
-                                      //@ts-ignore
-                                      request?.studentdetails.firstName || ""} {request?.IsTrialSession === true  && ( <span className="text-[#e6e4f2]">(Trial Session)</span>)}
+                                        //@ts-ignore
+                                        request?.studentdetails.firstName || ""} {request?.IsTrialSession === true && (<span className="text-[#e6e4f2]">(Trial Session)</span>)}
                                     </span>
                                   </div>
 
@@ -1714,17 +1683,17 @@ const SessionDashboard = ({
                                         <p className="text-[#473171] text-sm sm:text-lg">
                                           {request?.date
                                             ? new Date(
-                                                request?.date
-                                              ).toLocaleDateString("en-GB")
+                                              request?.date
+                                            ).toLocaleDateString("en-GB")
                                             : ""}
                                         </p>
                                       </div>
                                       <div>
                                         <h3 className="text-white text-base sm:text-xl font-medium mb-1">
-                                          
+
                                         </h3>
                                         <p className="text-[#473171] text-sm sm:text-lg">
-                                 
+
                                         </p>
                                       </div>
                                     </div>
@@ -1746,7 +1715,7 @@ const SessionDashboard = ({
                                         }}
                                         className="bg-[#FC7777] text-white px-8 py-2 rounded-xl text-base sm:text-xl max-w-[169px]  sm:max-w-[113px] w-full font-normal"
                                       >
-                                          {Wait === request?._id ? 'Wait...' : 'Deny'}
+                                        {Wait === request?._id ? 'Wait...' : 'Deny'}
                                       </button>
 
 
@@ -1754,7 +1723,7 @@ const SessionDashboard = ({
                                       <button
                                         onClick={() => {
                                           //@ts-ignore
-                                          if(request?.IsTrialSession === true){
+                                          if (request?.IsTrialSession === true) {
                                             setIsTrialSession(true)
                                           }
                                           updateBookingStatus(
@@ -1765,8 +1734,8 @@ const SessionDashboard = ({
                                         }}
                                         className="bg-violet-500 text-white px-8 py-2 rounded-xl text-base sm:text-xl max-w-[169px] w-full font-normal"
                                       >
-                                          
-                                         {accept === request?._id ? 'Wait...' : 'Accept'}
+
+                                        {accept === request?._id ? 'Wait...' : 'Accept'}
                                       </button>
                                     </div>
                                   </div>

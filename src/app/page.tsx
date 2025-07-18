@@ -10,7 +10,6 @@ import ParentsComments from "@/components/ParentsComments";
 import Payment from "@/components/Payment";
 import StudentsFaqs from "@/components/StudentsFaqs";
 import WhyeTutor from "@/components/WhyeTutor";
-import Image from "next/image";
 import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
