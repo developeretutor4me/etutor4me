@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
-
 import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
-
 import {
   subjectOptions,
   PurposeOfAttachment,
@@ -11,13 +9,17 @@ import {
   timezoneoptions,
   Teacher,
 } from "./Data";
-import useSWR from "swr"; 
+import useSWR from "swr";
 import GeneralTab from "./GeneralTab";
 import ContactInformation from "./ContactInformation";
 import ProfessionalExperience from "./ProfessionalExperience";
 import AcademicBackground from "./AcademicBackground";
 
-function Profile() {
+interface Profileprops {
+  onFnameChange: (fname: string) => void;
+  onprofilepicture: (profilepic: string) => void;
+}
+function Profile({ onFnameChange,onprofilepicture }: Profileprops) {
   const { toast } = useToast();
   const { data: session, update } = useSession();
   const [activeTab, setActiveTab] = useState("GENERAL");
@@ -432,7 +434,7 @@ function Profile() {
       setLevel(teacher?.level || 0);
       setBadge(
         teacher?.badge ||
-          "https://cdn4.vectorstock.com/i/1000x1000/85/48/emblem-badge-ribbon-vector-14398548.jpg"
+        "https://cdn4.vectorstock.com/i/1000x1000/85/48/emblem-badge-ribbon-vector-14398548.jpg"
       );
       setEarnedThisMonth(teacher?.EarnedThisMonth || 0);
       setEarnedLastMonth(teacher?.EarnedLastMonth || 0);
@@ -442,6 +444,11 @@ function Profile() {
       setIsApproved(teacher?.isApproved || false);
     }
   }, [teacher]);
+  useEffect(() => {
+    onFnameChange(firstName);
+    onprofilepicture(profilePicture)
+  }, [firstName, onFnameChange, onprofilepicture, profilePicture]);
+
 
   const toggleEdit = () => {
     setIsEditing((prev) => !prev);
@@ -716,11 +723,10 @@ function Profile() {
                 className={`flex items-center justify-center flex-nowrap  font-normal box-border sm:font-bold text-xs px-2  sm:text-[20px] sm:leading-[1.75rem]  transition-all
             ${tab.id === "GENERAL" && "rounded-tl-3xl"}
             ${tab.id === "ACADEMICBACKGROUND" && "rounded-tr-3xl"}
-            ${
-              tab.id === activeTab
-                ? "bg-[#EDE8FA] text-[#685AAD] transition-all"
-                : `text-white transition-all`
-            }`}
+            ${tab.id === activeTab
+                    ? "bg-[#EDE8FA] text-[#685AAD] transition-all"
+                    : `text-white transition-all`
+                  }`}
                 style={{ backgroundColor: getTabColor(tab.id) }}
               >
                 {tab.label}

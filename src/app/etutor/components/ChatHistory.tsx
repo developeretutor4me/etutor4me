@@ -27,7 +27,7 @@ const ChatHistory = () => {
 
   return (
     <div className="w-full h-full py-1">
-      <h2 className="text-[#534988] text-xl sm:text-2xl custom-2xl:text-6xl font-bold mb-8 ml-7">
+      <h2 className="text-[#534988] text-xl sm:text-2xl custom-xl:text-6xl font-bold mb-8 ml-7">
         Chat History
       </h2>
 

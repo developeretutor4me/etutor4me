@@ -116,14 +116,14 @@ function Chathistory({profilePicture,name}:chathistoryprops) {
         <Chat ticket={TicketData} name={name} img={profilePicture} />
       ) : (
         <div className="h-full">
-          <div className="flex justify-between  items-start custom-2xl:items-center  flex-wrap  gap-y-4 ">
+          <div className="flex justify-between  items-start custom-xl:items-center  flex-wrap  gap-y-4 ">
             <div className="flex gap-4 items-start custom-xl:items-center ">
-              <h1 className="text-xl sm:text-3xl custom-xl:text-[60.34px] text-[#685aad] font-bold custom-2xl:pl-8 custom-xl:pt-1 leading-normal">
+              <h1 className="text-xl sm:text-3xl custom-xl:text-[60.34px] text-[#685aad] font-bold custom-xl:pl-8 custom-xl:pt-1 leading-normal">
                 Ticket Inbox
               </h1>
             </div>
 
-            <div className="flex  justify-end   gap-2 custom-2xl:gap-7  w-fit   flex-col custom-2xl:flex-row  ">
+            <div className="flex  justify-end   gap-2 custom-xl:gap-7  w-fit   flex-col custom-xl:flex-row  ">
               {/* ---------search bar top------- */}
               <div className="relative w-fit  h-fit truncate ">
                 <input
@@ -143,7 +143,7 @@ function Chathistory({profilePicture,name}:chathistoryprops) {
 
               <div className="relative   h-fit   w-full custom-xl:w-fit ">
                 <div
-                  className={`bg-[#a296cc] text-[#e3dff0]   pl-5 custom-lg:pl-10 pr-4 custom-lg:pr-8 py-2 custom-lg:py-4 text-sm custom-xl:text-xl transition-all duration-500 rounded-md cursor-pointer select-none   flex items-center justify-between  custom-xl:w-[26.3rem] custom-2xl:w-[24.7rem] ${
+                  className={`bg-[#a296cc] text-[#e3dff0]   pl-5 custom-lg:pl-10 pr-4 custom-lg:pr-8 py-2 custom-lg:py-4 text-sm custom-xl:text-xl transition-all duration-500 rounded-md cursor-pointer select-none   flex items-center justify-between  custom-xl:w-[26.3rem] custom-xl:w-[24.7rem] ${
                     isOpen
                       ? "border  border-[#a394d6]"
                       : "border border-transparent"
@@ -209,7 +209,7 @@ function Chathistory({profilePicture,name}:chathistoryprops) {
 
           <section className="h-[80%] rounded-2xl sm:rounded-3xl custom-xl:rounded-[30px] bg-[#a296cc] mt-3 custom-xl:mt-9  leading-none  overflow-hidden  px-2 sm:px-4 custom-xl:px-8 py-3 sm:py-4 custom-xl:py-8">
             {isVisible && (
-              <div className="hidden custom-2xl:block">
+              <div className="hidden custom-xl:block">
                 <ul className=" flex  gap-8  w-full  font-medium text-white text-[22px] pt-1 ">
                   <li className="w-full max-w-[1%]  "></li>
                   <li className="w-full max-w-[20.4rem]  border-r">Topic</li>
@@ -217,7 +217,7 @@ function Chathistory({profilePicture,name}:chathistoryprops) {
                   <li className="w-full max-w-[14.7rem] border-r pl-3 ">
                     Assigned assistant{" "}
                   </li>
-                  <li className="w-full max-w-[13.3rem] pl-3.5 hidden custom-2xl:block">
+                  <li className="w-full max-w-[13.3rem] pl-3.5 hidden custom-xl:block">
                     Status
                   </li>
                 </ul>
@@ -226,7 +226,7 @@ function Chathistory({profilePicture,name}:chathistoryprops) {
 
             <div
               id="style-3"
-              className=" items flex flex-col gap-2 sm:gap-3 custom-xl:gap-5 custom-2xl:mt-7 overflow-y-scroll h-[95%] pr-2 custom-xl:pr-10    "
+              className=" items flex flex-col gap-2 sm:gap-3 custom-xl:gap-5 custom-xl:mt-7 overflow-y-scroll h-[95%] pr-2 custom-xl:pr-10    "
             >
               {sortedTickets.map((ticket: any, index: any) => (
                 <div
@@ -237,14 +237,14 @@ function Chathistory({profilePicture,name}:chathistoryprops) {
                       : "h-[60px] sm:h-[97px] overflow-hidden"
                   } `}
                 >
-                  <div className="h-[60px] sm:h-[97px] w-full rounded-md sm:rounded-xl  custom-lg:rounded-3xl flex items-center justify-between custom-xl:justify-normal  gap-2 custom-2xl:gap-8 px-4 custom-lg:px-[43px] ">
+                  <div className="h-[60px] sm:h-[97px] w-full rounded-md sm:rounded-xl  custom-lg:rounded-3xl flex items-center justify-between custom-xl:justify-normal  gap-2 custom-xl:gap-8 px-4 custom-lg:px-[43px] ">
                     {/* topic */}
                     <div
                       onClick={() => {
                         setchatopen(true);
                         setTicketData(ticket);
                       }}
-                      className="w-full hover:cursor-pointer custom-2xl:max-w-[20.47rem]  flex justify-between items-center  sm:border-r custom-2xl:border-r-0 truncate"
+                      className="w-full hover:cursor-pointer custom-xl:max-w-[20.47rem]  flex justify-between items-center  sm:border-r custom-xl:border-r-0 truncate"
                     >
                       <h1 className="text-white  text-sm sm:text-base md:text-xl custom-lg:text-2xl custom-xl:text-[24.94px] font-medium">
                         {ticket.topic}
@@ -252,11 +252,11 @@ function Chathistory({profilePicture,name}:chathistoryprops) {
                       <Image
                         src={verticalline}
                         alt=""
-                        className="hidden custom-2xl:block"
+                        className="hidden custom-xl:block"
                       />
                     </div>
                     {/* date */}
-                    <div className="w-full max-w-[17.1rem] sm:flex justify-between items-center pl-3  truncate hidden custom-xl:border-r custom-2xl:border-r-0 ">
+                    <div className="w-full max-w-[17.1rem] sm:flex justify-between items-center pl-3  truncate hidden custom-xl:border-r custom-xl:border-r-0 ">
                       <h1 className="text-white  text-sm sm:text-base md:text-xl custom-lg:text-2xl custom-xl:text-[24px] font-medium truncate">
                         {new Date(ticket.createdAt).toLocaleDateString(
                           "en-US",
@@ -281,12 +281,12 @@ function Chathistory({profilePicture,name}:chathistoryprops) {
                       <Image
                         src={verticalline}
                         alt=""
-                        className="hidden custom-2xl:block"
+                        className="hidden custom-xl:block"
                       />
                     </div>
 
                     {/* assigned assistant */}
-                    <div className="w-full custom-2xl:max-w-[14.8rem] custom-2xl:flex justify-between items-center  custom-2xl:pl-3   truncate hidden ">
+                    <div className="w-full custom-xl:max-w-[14.8rem] custom-xl:flex justify-between items-center  custom-xl:pl-3   truncate hidden ">
                       <div>
                         <h1 className=" text-white  text-sm sm:text-base md:text-xl custom-lg:text-2xl custom-xl:text-[24px] font-bold">
                           Lawrence
@@ -298,7 +298,7 @@ function Chathistory({profilePicture,name}:chathistoryprops) {
                       <Image src={verticalline} alt="" />
                     </div>
 
-                    <div className="w-full custom-2xl:max-w-[13.3rem]  pl-3.5  truncate hidden custom-xl:flex gap-4 items-center">
+                    <div className="w-full custom-xl:max-w-[13.3rem]  pl-3.5  truncate hidden custom-xl:flex gap-4 items-center">
                       <div
                         className={`${
                           ticket.status === "active"

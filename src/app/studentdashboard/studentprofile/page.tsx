@@ -285,35 +285,35 @@
 //           className=" hidden custom-lg:flex items-center space-x-4 relative -right-4 select-none "
 //         >
 //           {/* <Bell size={24} className="cursor-pointer text-darkBlue" /> */}
-//           <div className="flex gap-6 custom-2xl:gap-10 mr-2">
+//           <div className="flex gap-6 custom-xl:gap-10 mr-2">
 //             <Image  loading="lazy" 
 //               src={dark}
 //               alt=""
-//               className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
+//               className="w-5 h-5 custom-xl:w-6 custom-xl:h-6"
 //             />
 //             <Image  loading="lazy" 
 //               src={translate}
 //               alt=""
-//               className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
+//               className="w-5 h-5 custom-xl:w-6 custom-xl:h-6"
 //             />
 //             <Image  loading="lazy" 
 //               src={bell}
 //               alt=""
-//               className="w-5 h-5 custom-2xl:w-6 custom-2xl:h-6"
+//               className="w-5 h-5 custom-xl:w-6 custom-xl:h-6"
 //             />
 //           </div>
 
 //           <div
 //             onClick={toggleProfile}
-//             className={`flex bg-[#EDE8FA] hover:cursor-pointer  px-2 py-1 justify-between w-[9rem] custom-2xl:w-[12.5rem]   h-10 custom-2xl:h-11 items-center rounded-md ${
+//             className={`flex bg-[#EDE8FA] hover:cursor-pointer  px-2 py-1 justify-between w-[9rem] custom-xl:w-[12.5rem]   h-10 custom-xl:h-11 items-center rounded-md ${
 //               isProfileOpen ? "border border-[#685aad7a]" : "border-0"
 //             }`}
 //           >
-//             <div className="w-6 custom-2xl:w-7 h-6 custom-2xl:h-7  rounded-full overflow-hidden">
+//             <div className="w-6 custom-xl:w-7 h-6 custom-xl:h-7  rounded-full overflow-hidden">
 //             <img src={parentData?.user.profilePicture} alt=""  className="h-full w-full" />
 //             </div>
 
-//             <span className="text-sm  custom-2xl:text-base font-bold text-[#685AAD]">
+//             <span className="text-sm  custom-xl:text-base font-bold text-[#685AAD]">
 //               {firstNames}
 //             </span>
 
@@ -330,10 +330,10 @@
 //             )}
 //           </div>
 //           {isProfileOpen && (
-//             <div className="absolute right-0 mt-2 hover:cursor-pointer  bg-[#EDE8FA] font-bold rounded-md shadow-lg py-1 z-10 top-full w-[9rem] custom-2xl:w-[12.5rem] px-4 border border-[#685aad7a]">
+//             <div className="absolute right-0 mt-2 hover:cursor-pointer  bg-[#EDE8FA] font-bold rounded-md shadow-lg py-1 z-10 top-full w-[9rem] custom-xl:w-[12.5rem] px-4 border border-[#685aad7a]">
 //               <Link
 //                 href="/adminparent/parentprofile"
-//                 className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
+//                 className="block px-2 py-2 custom-xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
 //               >
 //                 Profile
 //               </Link>
@@ -344,7 +344,7 @@
 //   onClick={()=>{
 //     handleImpersonate()
 //   }}
-//   className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
+//   className="block px-2 py-2 custom-xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] "
 // >
 //   Back to Admin
 // </span>
@@ -355,13 +355,13 @@
 //                   localStorage.setItem("activeSidebarItem", "Settings");
 //                   router.push("/studentdashboard");
 //                 }}
-//                 className="block px-2  py-2 custom-2xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] hover:cursor-pointer"
+//                 className="block px-2  py-2 custom-xl:py-3 text-sm text-[#685AAD]  border-b border-[#685aad7a] hover:cursor-pointer"
 //               >
 //                 Settings
 //               </a>
 //               <a
 //                 onClick={() => signOut({ callbackUrl: "/" })}
-//                 className="block px-2 py-2 custom-2xl:py-3 text-sm text-[#685AAD] "
+//                 className="block px-2 py-2 custom-xl:py-3 text-sm text-[#685AAD] "
 //               >
 //                 Logout
 //               </a>
@@ -390,7 +390,7 @@
 //             </label>
 //             <input
 //               type="text"
-//               className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+//               className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
 //               readOnly={!editable}
 //               value={firstNames}
 //               onChange={(e) => setFirstName(e.target.value)}
@@ -403,7 +403,7 @@
 //             </label>
 //             <input
 //               type="text"
-//               className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+//               className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
 //               readOnly={!editable}
 //               value={Lastname}
 //               onChange={(e) => setLastname(e.target.value)}
@@ -416,7 +416,7 @@
 //             </label>
 //             <input
 //               type="text"
-//               className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+//               className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
 //               readOnly={!editable}
 //               value={Age}
 //               onChange={(e) => setAge(e.target.value)}
@@ -429,7 +429,7 @@
 //             </label>
 //             <input
 //               type="text"
-//               className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+//               className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
 //               readOnly={!editable}
 //               value={grade}
 //               onChange={(e) => setGrade(e.target.value)}
@@ -442,7 +442,7 @@
 //             </label>
 //             <input
 //               type="text"
-//               className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+//               className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
 //               readOnly
 //               value={studentid}
 //               onChange={(e) => Setstudentid(e.target.value)}
@@ -455,7 +455,7 @@
 //             </label>
 //             <input
 //               type="text"
-//               className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+//               className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
 //               readOnly={!editable}
 //               value={Institution}
 //               onChange={(e) => setInstitution(e.target.value)}
@@ -480,7 +480,7 @@
 //               </label>
 //               <div className="relative  select-none mt-2 sm:mt-4">
 //                 <div
-//                   className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2  sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
+//                   className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2  sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
 //                   onClick={toggleSubjectDropdown}
 //                 >
 //                   <span className="my-1">
@@ -608,13 +608,13 @@
 //           <div className="float-right">
 //             <button
 //               onClick={() => seteditable(false)}
-//               className="text-[#8653FF] font-medium  rounded-full bg-transparent  px-8 sm:px-16 py-2 sm:py-4 text-xl custom-2xl:text-3xl"
+//               className="text-[#8653FF] font-medium  rounded-full bg-transparent  px-8 sm:px-16 py-2 sm:py-4 text-xl custom-xl:text-3xl"
 //             >
 //               Cancel
 //             </button>
 //             <button
 //               onClick={handleSave}
-//               className="text-white rounded-full  font-medium  bg-[#8653FF] px-8 sm:px-16 py-2 sm:py-4 text-xl custom-2xl:text-3xl "
+//               className="text-white rounded-full  font-medium  bg-[#8653FF] px-8 sm:px-16 py-2 sm:py-4 text-xl custom-xl:text-3xl "
 //             >
 //               Save
 //             </button>
@@ -813,7 +813,7 @@ const PersonalInfoForm = () => {
   };
   return (
     <div className="min-h-screen w-full flex flex-col items-center  ">
-      <header className="flex justify-between items-center sm:items-start mb-7  w-full  pr-3  sm:pr-8 pt-3 custom-2xl:pt-5">
+      <header className="flex justify-between items-center sm:items-start mb-7  w-full  pr-3  sm:pr-8 pt-3 custom-xl:pt-5">
         <div className="px-4 sm:px-11 custom-lg:py-6 flex  items-center">
 
           {session?.user?.isAdmin === true ? (
@@ -874,7 +874,7 @@ const PersonalInfoForm = () => {
             </label>
             <input
               type="text"
-              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
+              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
               readOnly={!editable}
               value={firstNames}
               onChange={(e) => setFirstName(e.target.value)}
@@ -887,7 +887,7 @@ const PersonalInfoForm = () => {
             </label>
             <input
               type="text"
-              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
+              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
               readOnly={!editable}
               value={Lastname}
               onChange={(e) => setLastname(e.target.value)}
@@ -900,7 +900,7 @@ const PersonalInfoForm = () => {
             </label>
             <input
               type="text"
-              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
+              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
               readOnly={!editable}
               value={Age}
               onChange={(e) => setAge(e.target.value)}
@@ -913,7 +913,7 @@ const PersonalInfoForm = () => {
             </label>
             <input
               type="text"
-              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
+              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
               readOnly={!editable}
               value={grade}
               onChange={(e) => setGrade(e.target.value)}
@@ -926,7 +926,7 @@ const PersonalInfoForm = () => {
             </label>
             <input
               type="text"
-              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
+              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
               readOnly
               value={studentid}
               onChange={(e) => Setstudentid(e.target.value)}
@@ -939,7 +939,7 @@ const PersonalInfoForm = () => {
             </label>
             <input
               type="text"
-              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
+              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
               readOnly={!editable}
               value={Institution}
               onChange={(e) => setInstitution(e.target.value)}
@@ -953,7 +953,7 @@ const PersonalInfoForm = () => {
               </label>
               <div className="relative  select-none mt-2 sm:mt-4 ">
                 <div
-                  className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2  sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
+                  className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2  sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
                   onClick={toggleSubjectDropdown}
                 >
                   <span className="my-1">
@@ -1064,13 +1064,13 @@ const PersonalInfoForm = () => {
           <div className="float-right">
             <button
               onClick={() => seteditable(false)}
-              className="text-[#8653FF] font-medium  rounded-full bg-transparent  px-8 sm:px-16 py-2 sm:py-4 text-xl custom-2xl:text-3xl"
+              className="text-[#8653FF] font-medium  rounded-full bg-transparent  px-8 sm:px-16 py-2 sm:py-4 text-xl custom-xl:text-3xl"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
-              className="text-white rounded-full  font-medium  bg-[#8653FF] px-8 sm:px-16 py-2 sm:py-4 text-xl custom-2xl:text-3xl "
+              className="text-white rounded-full  font-medium  bg-[#8653FF] px-8 sm:px-16 py-2 sm:py-4 text-xl custom-xl:text-3xl "
             >
               Save
             </button>

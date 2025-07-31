@@ -45,17 +45,17 @@ const TutorListItem = ({
   onProfileClick,
 }: any) => (
   <div
-    className={`hidden sm:flex flex-row justify-between items-center py-2 sm:py-3 custom-2xl:py-6  pl-2 sm:pl-3  custom-2xl:pl-5 pr-4 custom-2xl:pr-8 cursor-pointer   rounded-lg md:rounded-2xl  bg-[#B4A5D7] max-h-[100.2px]  `}
+    className={`hidden sm:flex flex-row justify-between items-center py-2 sm:py-3 custom-xl:py-6  pl-2 sm:pl-3  custom-xl:pl-5 pr-4 custom-xl:pr-8 cursor-pointer   rounded-lg md:rounded-2xl  bg-[#B4A5D7] max-h-[100.2px]  `}
   >
     <div className="flex items-center" onClick={onClick}>
       <img
         src={tutor.user.profilePicture}
         alt={tutor.firstName}
-        className="rounded-full mr-2 hidden custom-xl:block custom-xl:mr-4 w-4 sm:w-7 h-4 sm:h-7  custom-2xl:h-[60px] custom-2xl:w-[60px]"
+        className="rounded-full mr-2 hidden custom-xl:block custom-xl:mr-4 w-4 sm:w-7 h-4 sm:h-7  custom-xl:h-[60px] custom-xl:w-[60px]"
       />
       <div className="flex-grow">
         <p
-          className={`font-semibold text-base  custom-2xl:text-[21.38px] custom-2xl:leading-[2rem]   truncate  max-w-[7.5rem]  ${isActive ? "text-white" : "text-white"
+          className={`font-semibold text-base  custom-xl:text-[21.38px] custom-xl:leading-[2rem]   truncate  max-w-[7.5rem]  ${isActive ? "text-white" : "text-white"
             }`}
         >
           {tutor.firstName?.slice(0, 7)}
@@ -64,13 +64,13 @@ const TutorListItem = ({
     </div>
 
     {/* icons */}
-    <div className="flex  justify-between items-end   custom-2xl:mt-0 w-full max-w-[2.9rem] sm:max-w-[4rem] custom-2xl:max-w-[6.33rem]   ">
+    <div className="flex  justify-between items-end   custom-xl:mt-0 w-full max-w-[2.9rem] sm:max-w-[4rem] custom-xl:max-w-[6.33rem]   ">
       <button onClick={onChatClick} className=" rounded-full ">
         <Image
           loading="lazy"
           src={purplechaticon}
           alt=""
-          className="w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-[26px] custom-2xl:h-[26px]"
+          className="w-3 sm:w-4  h-3 sm:h-4 custom-xl:w-[26px] custom-xl:h-[26px]"
         />
       </button>
       <button onClick={onFolderClick} className="  rounded-full">
@@ -78,7 +78,7 @@ const TutorListItem = ({
           loading="lazy"
           src={foldericonpurple}
           alt=""
-          className=" w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-[26px] custom-2xl:h-[26px]"
+          className=" w-3 sm:w-4  h-3 sm:h-4 custom-xl:w-[26px] custom-xl:h-[26px]"
         />
       </button>
       <button onClick={onProfileClick} className=" rounded-full">
@@ -86,7 +86,7 @@ const TutorListItem = ({
           loading="lazy"
           src={profileicon}
           alt=""
-          className="w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-[26px] custom-2xl:h-[26px]"
+          className="w-3 sm:w-4  h-3 sm:h-4 custom-xl:w-[26px] custom-xl:h-[26px]"
         />
       </button>
     </div>
@@ -100,14 +100,14 @@ const ChatMessage = ({ message, isUser }: any) => {
   return (
     <div className={`flex ${isUser ? "justify-end" : "justify-start"} mb-4`}>
       <div
-        className={` w-full rounded-lg custom-2xl:rounded-2xl p-2 custom-2xl:p-[18px] ${isUser ? "bg-[#8170B1] text-white max-w-[70%] custom-2xl:max-w-[586.11px]" : "bg-white text-[#473171] max-w-[70%] custom-2xl:max-w-[512.24px]"
+        className={` w-full rounded-lg custom-xl:rounded-2xl p-2 custom-xl:p-[18px] ${isUser ? "bg-[#8170B1] text-white max-w-[70%] custom-xl:max-w-[586.11px]" : "bg-white text-[#473171] max-w-[70%] custom-xl:max-w-[512.24px]"
           }`}
       >
-        <p className="text-sm sm:text-md custom-2xl:text-[25.27px] custom-xl:leading-[1.75rem] font-medium break-words  custom-2xl:mb-3">
+        <p className="text-sm sm:text-md custom-xl:text-[25.27px] custom-xl:leading-[1.75rem] font-medium break-words  custom-xl:mb-3">
           {message.content}
         </p>
         <span
-          className={`text-xs sm:text-sm custom-2xl:text-[20.41px] custom-xl:leading-[1.5rem] opacity-70 custom-2xl:mt-1 block ${isUser ? "text-white float-right" : "text-[#9B85C8]"
+          className={`text-xs sm:text-sm custom-xl:text-[20.41px] custom-xl:leading-[1.5rem] opacity-70 custom-xl:mt-1 block ${isUser ? "text-white float-right" : "text-[#9B85C8]"
             }`}
         >
           {message.timestamp
@@ -456,14 +456,14 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
   if (showChat) {
     return (
       <div className="bg-[#EDE8FA] w-full h-full max-h-[947px] rounded-3xl py-4 sm:py-8 pl-4 sm:pl-2 pr-4 custom-xl:px-8   mt-12 text-white">
-        <div className="flex h-full  gap-3 custom-2xl:gap-10 overflow-hidden     ">
+        <div className="flex h-full  gap-3 custom-xl:gap-10 overflow-hidden     ">
           {/* Sidebar */}
           <div className="hidden sm:block w-[29.1%]  bg-[#EDE8FA]   h-full  overflow-hidden">
-            <h2 className="text-xl custom-2xl:text-[39.07px] custom-2xl:leading-[2.25rem] font-bold text-[#685AAD] px-4 py-1 ml-4">
+            <h2 className="text-xl custom-xl:text-[39.07px] custom-xl:leading-[2.25rem] font-bold text-[#685AAD] px-4 py-1 ml-4">
               My Students
             </h2>
 
-            <div className=" hidden pt-6 custom-xl:pt-[53px] px-2 overflow-y-auto scrollbar-thin sm:flex flex-col gap-3 custom-2xl:gap-4  scrollbar-track-transparent scrollbar-thumb-[#685aad40]  scrollbar-thumb-rounded-3xl h-[90%]  ">
+            <div className=" hidden pt-6 custom-xl:pt-[53px] px-2 overflow-y-auto scrollbar-thin sm:flex flex-col gap-3 custom-xl:gap-4  scrollbar-track-transparent scrollbar-thumb-[#685aad40]  scrollbar-thumb-rounded-3xl h-[90%]  ">
               {recievedmessages.length > 0 &&
                 recievedmessages.map((message: any, index) => (
                   <TutorListItem
@@ -488,15 +488,15 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
           {/* Chat Area */}
           <div className="flex-grow flex flex-col rounded-3xl  bg-[#B4A5D7]  h-full    max-w-full">
             {/* Chat Header */}
-            <div className="bg-[#B4A5D7] py-3 custom-2xl:py-5  px-4 flex rounded-t-3xl  pl-6 custom-2xl:pl-10   ">
+            <div className="bg-[#B4A5D7] py-3 custom-xl:py-5  px-4 flex rounded-t-3xl  pl-6 custom-xl:pl-10   ">
               <Image
                 loading="lazy"
                 src={chaticon}
                 //@ts-ignore
                 alt={showmessages?.firstName}
-                className=" mr-3 custom-2xl:mr-5 w-5 custom-2xl:w-8 h-5 custom-2xl:h-8 mt-1"
+                className=" mr-3 custom-xl:mr-5 w-5 custom-xl:w-8 h-5 custom-xl:h-8 mt-1"
               />
-              <h2 className="text-xl custom-2xl:text-3xl font-bold text-white">
+              <h2 className="text-xl custom-xl:text-3xl font-bold text-white">
                 {
                   //@ts-ignore
                   showmessages?.firstName
@@ -507,7 +507,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
             {activeView === "chat" && (
               <>
                 {/* Messages */}
-                <div className="flex-grow p-1 custom-2xl:px-3 custom-2xl:py-6 bg-[#B4A5D7] border-t border-[#8b55ff51] mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
+                <div className="flex-grow p-1 custom-xl:px-3 custom-xl:py-6 bg-[#B4A5D7] border-t border-[#8b55ff51] mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
                   {Array.isArray(messages) && messages.length > 0
                     ? messages.map((msg, index) => (
                       <>
@@ -535,14 +535,14 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
                       placeholder="send a message"
-                      className="flex-grow py-1 sm:py-2 custom-2xl:py-4 pl-8 custom-2xl:pl-16 pr-8 custom-2xl:pr-16  bg-transparent text-white placeholder-[#b0a9d2] text-sm sm:text-base custom-2xl:text-[25.27px] custom-2xl:leading-[1.75rem] focus:outline-none"
+                      className="flex-grow py-1 sm:py-2 custom-xl:py-4 pl-8 custom-xl:pl-16 pr-8 custom-xl:pr-16  bg-transparent text-white placeholder-[#b0a9d2] text-sm sm:text-base custom-xl:text-[25.27px] custom-xl:leading-[1.75rem] focus:outline-none"
                     />
                     <button type="submit" className="">
                       <Image
                         loading="lazy"
                         src={sendicon}
                         alt="Send Icon"
-                        className="h-4  custom-2xl:h-6 w-4  custom-2xl:w-6 absolute right-9 top-1/2 transform -translate-y-1/2"
+                        className="h-4  custom-xl:h-6 w-4  custom-xl:w-6 absolute right-9 top-1/2 transform -translate-y-1/2"
                       />
                     </button>
                   </div>
@@ -552,7 +552,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
 
             {activeView === "folder" && (
               <>
-                <div className="flex-grow p-1 custom-2xl:p-3 bg-[#B4A5D7] border-t border-[#8b55ff51]   mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
+                <div className="flex-grow p-1 custom-xl:p-3 bg-[#B4A5D7] border-t border-[#8b55ff51]   mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
                   {Array.isArray(messages) &&
                     messages.length > 0 &&
                     messages.map(
@@ -591,7 +591,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                       )}
                       <button
                         onClick={sendFile}
-                        className="w-full sm:w-auto py-1 px-9 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors"
+                        className="w-full sm:w-auto py-1 px-9 text-base custom-xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors"
                       >
                         {isLoading ? "wait..." : "send"}
                       </button>
@@ -641,12 +641,12 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
           recievedmessages.map((message, index) => (
             <div
               key={index}
-              className="bg-[#B4A5D7] rounded-2xl custom-lg:rounded-[28px]   px-2 sm:px-8 custom-2xl:px-[50px] pt-2 sm:py-4  pb-2  custom-2xl:py-[32px] transition-all duration-300 "
+              className="bg-[#B4A5D7] rounded-2xl custom-lg:rounded-[28px]   px-2 sm:px-8 custom-xl:px-[50px] pt-2 sm:py-4  pb-2  custom-xl:py-[32px] transition-all duration-300 "
             >
               <div className="flex justify-between items-center gap-4 sm:gap-6  w-full pr-8 sm:pr-12">
-                <div className="  flex flex-row sm:justify-start items-center w-full gap-3 sm:gap-6 custom-2xl:gap-[45px] ">
+                <div className="  flex flex-row sm:justify-start items-center w-full gap-3 sm:gap-6 custom-xl:gap-[45px] ">
                   {/* Profile Image */}
-                  <div className="w-12 h-12 sm:w-16 sm:h-16 sm:min-w-16 sm:min-h-16 custom-2xl:min-w-[136.58px] custom-2xl:min-h-[136.58px] rounded-full relative overflow-hidden flex-shrink-0">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 sm:min-w-16 sm:min-h-16 custom-xl:min-w-[136.58px] custom-xl:min-h-[136.58px] rounded-full relative overflow-hidden flex-shrink-0">
                     <img
                       src={
                         //@ts-ignore
@@ -659,37 +659,37 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                   </div>
 
                   {/* Name and Courses */}
-                  <div className="flex flex-col custom-2xl:gap-3  justify-center  text-left   max-w-[10rem] custom-2xl:max-w-[15rem] w-full">
-                    <h2 className="font-bold text-base sm:text-lg custom-2xl:text-[37.6px] custom-2xl:leading-none ">
+                  <div className="flex flex-col custom-xl:gap-3  justify-center  text-left   max-w-[10rem] custom-xl:max-w-[15rem] w-full">
+                    <h2 className="font-bold text-base sm:text-lg custom-xl:text-[37.6px] custom-xl:leading-none ">
                       {
                         //@ts-ignore
                         message?.details?.firstName || ""
                       }
                     </h2>
 
-                    <p className=" hidden sm:block mb-1 text-base sm:text-lg custom-2xl:text-[23.87px] leading-[1.75rem] font-medium">
+                    <p className=" hidden sm:block mb-1 text-base sm:text-lg custom-xl:text-[23.87px] leading-[1.75rem] font-medium">
                       #2002627
                     </p>
-                    <p className="hidden sm:block text-white text-base sm:text-lg custom-2xl:text-[23.87px] leading-[1.75rem] font-medium">
+                    <p className="hidden sm:block text-white text-base sm:text-lg custom-xl:text-[23.87px] leading-[1.75rem] font-medium">
                       00 yo
                     </p>
                   </div>
 
                   {/* Subjects */}
-                  <div className="hidden sm:flex flex-col items-start justify-center custom-2xl:gap-4 w-full max-w-[8rem] custom-2xl:max-w-[13.2rem] ">
-                    <div className="flex flex-col custom-2xl:gap-y-1 items-start sm:text-left ">
-                      <span className="text-white text-base sm:text-lg custom-2xl:text-[24.89px] custom-2xl:leading-[1.75rem]  font-medium">
+                  <div className="hidden sm:flex flex-col items-start justify-center custom-xl:gap-4 w-full max-w-[8rem] custom-xl:max-w-[13.2rem] ">
+                    <div className="flex flex-col custom-xl:gap-y-1 items-start sm:text-left ">
+                      <span className="text-white text-base sm:text-lg custom-xl:text-[24.89px] custom-xl:leading-[1.75rem]  font-medium">
                         Grade:
                       </span>
-                      <p className=" text-[#473171] text-base custom-2xl:text-[22.53px] sm:leading-[1.75rem]">
+                      <p className=" text-[#473171] text-base custom-xl:text-[22.53px] sm:leading-[1.75rem]">
                         10th grade
                       </p>
                     </div>
-                    <div className="flex flex-col custom-2xl:gap-y-1 items-start sm:text-left ">
-                      <h3 className="text-white text-base sm:text-lg custom-2xl:text-[24.89px] custom-2xl:leading-[1.75rem]  font-medium">
+                    <div className="flex flex-col custom-xl:gap-y-1 items-start sm:text-left ">
+                      <h3 className="text-white text-base sm:text-lg custom-xl:text-[24.89px] custom-xl:leading-[1.75rem]  font-medium">
                         Sessions&nbsp;booked:
                       </h3>
-                      <p className=" text-[#473171] text-base custom-2xl:text-[22.53px] sm:leading-[1.75rem]">
+                      <p className=" text-[#473171] text-base custom-xl:text-[22.53px] sm:leading-[1.75rem]">
                         3 sessions
                       </p>
                     </div>
@@ -697,10 +697,10 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
 
                   <div className="text-center sm:text-left  hidden custom-xl:block">
                     <div className="mb-4">
-                      <h3 className="text-white text-base sm:text-lg custom-2xl:text-[28.53px] custom-2xl:leading-none font-medium custom-2xl:mb-2">
+                      <h3 className="text-white text-base sm:text-lg custom-xl:text-[28.53px] custom-xl:leading-none font-medium custom-xl:mb-2">
                         Subjects:
                       </h3>
-                      <ul className="text-[#473171] text-base custom-2xl:text-[21.31px] sm:leading-[1.75rem]  custom-2xl:space-y-0.5">
+                      <ul className="text-[#473171] text-base custom-xl:text-[21.31px] sm:leading-[1.75rem]  custom-xl:space-y-0.5">
                         <li className="font-medium">Mathematics</li>
                         <li>English</li>
                         <li>Chemistry</li>
@@ -716,7 +716,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                     loading="lazy"
                     src={messageicon}
                     alt=""
-                    className="w-5 sm:w-6 custom-2xl:w-[38.92px] hover:cursor-pointer"
+                    className="w-5 sm:w-6 custom-xl:w-[38.92px] hover:cursor-pointer"
                     onClick={() => {
                       setShowChat(true);
                       //@ts-ignore
@@ -727,7 +727,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                     loading="lazy"
                     src={folder}
                     alt=""
-                    className="w-5 sm:w-6 custom-2xl:w-[38.81px] hover:cursor-pointer"
+                    className="w-5 sm:w-6 custom-xl:w-[38.81px] hover:cursor-pointer"
                     onClick={() => {
                       setShowChat(true);
                       setActiveView("folder");
@@ -739,7 +739,7 @@ function MyEtutor({ tutor, showchatvalue }: MyEtutorprops) {
                     loading="lazy"
                     src={profile}
                     alt=""
-                    className="w-5 sm:w-6 custom-2xl:w-[38.81px] hover:cursor-pointer"
+                    className="w-5 sm:w-6 custom-xl:w-[38.81px] hover:cursor-pointer"
                   />
                 </div>
               </div>

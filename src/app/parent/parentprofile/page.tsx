@@ -174,7 +174,7 @@ const PersonalInfoForm = () => {
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center  ">
-      <header className="flex justify-between items-center sm:items-start mb-7  w-full  pr-3  sm:pr-8 pt-3 custom-2xl:pt-5">
+      <header className="flex justify-between items-center sm:items-start mb-7  w-full  pr-3  sm:pr-8 pt-3 custom-xl:pt-5">
         <div className="px-4 sm:px-11 custom-lg:py-6 flex  items-center">
 
           {session?.user?.isAdmin === true ? (
@@ -235,7 +235,7 @@ const PersonalInfoForm = () => {
             </label>
             <input
               type="text"
-              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
+              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
               readOnly={!editable}
               value={firstNames}
               onChange={(e) => setFirstName(e.target.value)}
@@ -248,7 +248,7 @@ const PersonalInfoForm = () => {
             </label>
             <input
               type="text"
-              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
+              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
               readOnly={!editable}
               value={Lastname}
               onChange={(e) => setLastname(e.target.value)}
@@ -261,7 +261,7 @@ const PersonalInfoForm = () => {
             </label>
             <input
               type="text"
-              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
+              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
               readOnly={!editable}
               value={Age}
               onChange={(e) => setAge(e.target.value)}
@@ -274,7 +274,7 @@ const PersonalInfoForm = () => {
             </label>
             <input
               type="text"
-              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
+              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
               readOnly
               value={grade}
               onChange={(e) => setGrade(e.target.value)}
@@ -287,7 +287,7 @@ const PersonalInfoForm = () => {
             </label>
             <input
               type="text"
-              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
+              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
               readOnly
               value={studentid}
               onChange={(e) => Setstudentid(e.target.value)}
@@ -300,7 +300,7 @@ const PersonalInfoForm = () => {
             </label>
             <input
               type="text"
-              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
+              className="mt-2 sm:mt-5 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-[22px] block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-[30.86px] md:leading-[2rem]"
               readOnly={!editable}
               value={Institution}
               onChange={(e) => setInstitution(e.target.value)}
@@ -314,7 +314,7 @@ const PersonalInfoForm = () => {
               </label>
               <div className="relative  select-none mt-2 sm:mt-4 ">
                 <div
-                  className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2  sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
+                  className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2  sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
                   onClick={toggleSubjectDropdown}
                 >
                   <span className="my-1">
@@ -425,13 +425,13 @@ const PersonalInfoForm = () => {
           <div className="float-right">
             <button
               onClick={() => seteditable(false)}
-              className="text-[#8653FF] font-medium  rounded-full bg-transparent  px-8 sm:px-16 py-2 sm:py-4 text-xl custom-2xl:text-3xl"
+              className="text-[#8653FF] font-medium  rounded-full bg-transparent  px-8 sm:px-16 py-2 sm:py-4 text-xl custom-xl:text-3xl"
             >
               Cancel
             </button>
             <button
               onClick={handleSave}
-              className="text-white rounded-full  font-medium  bg-[#8653FF] px-8 sm:px-16 py-2 sm:py-4 text-xl custom-2xl:text-3xl "
+              className="text-white rounded-full  font-medium  bg-[#8653FF] px-8 sm:px-16 py-2 sm:py-4 text-xl custom-xl:text-3xl "
             >
               Save
             </button>

@@ -33,7 +33,7 @@ function ResultsView({
                 <h1 className="text-5xl font-bold text-[#685AAD] px-1 mb-3">
                     Find your eTutor
                 </h1>
-                <div className="hidden custom-2xl:flex flex-wrap justify-end   gap-8 w-fit flex-col custom-xl:flex-row ">
+                <div className="hidden custom-xl:flex flex-wrap justify-end   gap-8 w-fit flex-col custom-xl:flex-row ">
                     <div className="relative order-2 custom-xl:order-1  h-fit   w-full custom-xl:w-fit">
                         <div
                             className={`bg-[#DBCAFF] text-[#8c7bc4] text-xs sm:text-sm pl-14 pr-12 py-3.5 transition-all duration-500 rounded-full cursor-pointer select-none   flex items-center justify-between w-full custom-xl:w-[21.5rem] ${isOpen
@@ -126,9 +126,9 @@ function ResultsView({
                         <div
                             // @ts-ignore
                             key={teacher?._id}
-                            className="flex flex-col custom-2xl:flex-row  justify-between bg-[#A296CC] rounded-3xl px-8 py-6 gap-6"
+                            className="flex flex-col custom-xl:flex-row  justify-between bg-[#A296CC] rounded-3xl px-8 py-6 gap-6"
                         >
-                            <div className="  h-fit  w-full custom-2xl:max-w-[20rem] ">
+                            <div className="  h-fit  w-full custom-xl:max-w-[20rem] ">
                                 <div className="flex flex-col sm:flex-row justify-start items-center gap-6">
                                     <img
                                         // @ts-ignore
@@ -191,7 +191,7 @@ function ResultsView({
                                 </div>
                             </div>
 
-                            <div className="  custom-2xl:max-w-[36rem] w-full ">
+                            <div className="  custom-xl:max-w-[36rem] w-full ">
                                 <h3 className="text-lg ">About me</h3>
                                 <p className="text-lg text-[#473171]">
                                     {
@@ -217,7 +217,7 @@ function ResultsView({
                                 </p>
                             </div>
 
-                            <div className="flex custom-2xl:flex-col items-center justify-between  flex-row w-full custom-2xl:w-32 ">
+                            <div className="flex custom-xl:flex-col items-center justify-between  flex-row w-full custom-xl:w-32 ">
                                 <div className="w-16 h-16  sm:min-w-32 sm:min-h-32">
                                     <Image
                                         loading="lazy"
@@ -251,7 +251,7 @@ function ResultsView({
 
                                 <button
                                     onClick={() => handleViewProfile(teacher)} // Pass the entire tutor object
-                                    className="bg-[#8558F9] text-white py-2 px-6 rounded-full custom-2xl:w-full hover:bg-purple-700 transition-colors"
+                                    className="bg-[#8558F9] text-white py-2 px-6 rounded-full custom-xl:w-full hover:bg-purple-700 transition-colors"
                                 >
                                     More info
                                 </button>

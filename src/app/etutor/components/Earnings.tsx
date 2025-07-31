@@ -103,8 +103,8 @@ const TutoringDashboard = ({ teacher }: earningprops) => {
       {/* Main Dashboard */}
       <div
         className={`bg-[#EDE8FA] rounded-[35px]  ${activeTab === "Previous sessions" || activeTab === "Earnings PDFs"
-          ? "px-6 custom-2xl:px-[57px]"
-          : "px-6 custom-2xl:px-20"
+          ? "px-6 custom-xl:px-[57px]"
+          : "px-6 custom-xl:px-20"
           }  py-7`}
       >
         {/* Custom Tabs */}
@@ -302,7 +302,7 @@ const TutoringDashboard = ({ teacher }: earningprops) => {
               <div className="text-sm sm:text-[22px] sm:leading-[1.75rem] px-3 md:px-6 w-full flex justify-between text-white">
                 <span>Date & time</span>
                 <span>Subjects</span>
-                <span className="hidden custom-2xl:block">Student username</span>
+                <span className="hidden custom-xl:block">Student username</span>
                 <span>Earnings</span>
                 <span>Status</span>
               </div>
@@ -311,7 +311,7 @@ const TutoringDashboard = ({ teacher }: earningprops) => {
                 <div className="bg-[#7565A4] px-3 sm:px-6 flex  justify-between py-2 sm:py-4 text-white text-sm sm:text-2xl rounded-lg sm:rounded-xl">
                   <span>Date & time</span>
                   <span>Subjects</span>
-                  <span className="hidden custom-2xl:block">Student username</span>
+                  <span className="hidden custom-xl:block">Student username</span>
                   <span>Earnings</span>
                   <span>Status</span>
                 </div>

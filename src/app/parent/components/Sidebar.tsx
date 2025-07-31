@@ -2,6 +2,7 @@ import Image from "next/image";
 import React from "react";
 import logo from "../../../../public/parentlogo.svg";
 import Adminlogo from "../../../../public/adminParentLogo.svg";
+import styles from "../DashboardGrid.module.css";
 
 interface SidebarProps {
     isSidebarOpen: boolean;
@@ -29,7 +30,7 @@ function Sidebar({
     return (
         <aside
             className={`${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-                } custom-lg:translate-x-0 fixed custom-lg:static inset-y-0 left-0 z-50 max-w-[20rem] custom-2xl:max-w-[400.6px] w-full  min-h-screen  rounded-tr-[35px] rounded-br-3xl bg-darkpurple text-white flex flex-col transition-transform duration-300 ease-in-out pl-5 pr-9 pt-8 custom-2xl:pt-[42px] pb-4`}
+                } ${styles.sidebar}  inset-y-0 left-0 z-[11111111111] max-w-[20rem] custom-2xl:max-w-[400.6px] w-full  h-screen overflow-y-auto scrollbar-none  rounded-tr-[35px] rounded-br-3xl bg-darkpurple text-white flex flex-col transition-transform duration-300 ease-in-out pl-5 pr-9 pt-8 custom-2xl:pt-[42px] pb-4`}
         >
             <div className="flex items-center mb-[24.5%] pb-2 pl-[22px] ">
                 {session.user.isAdmin === true ? (
@@ -66,7 +67,7 @@ function Sidebar({
                                             Setsetcomingvalue("upcoming");
                                         }
 
-                                        if (window.innerWidth < 1024) {
+                                        if (window.innerWidth < 1895) {
                                             setIsSidebarOpen(false);
                                         }
                                     }}
@@ -108,8 +109,8 @@ function Sidebar({
                                     onClick={() => {
                                         setActiveSidebarItem(item.name);
                                         if (window.innerWidth < 1024) {
-                                            setIsSidebarOpen(false);
                                         }
+                                        setIsSidebarOpen(false);
                                     }}
                                     className={`flex   hover:shadow-[0px_0px_5px_1px_rgba(255,255,255,0.3)] hover:transition-all duration-1000  items-center w-full px-6 custom-2xl:px-[29px]  py-3 sm:py-[13px] rounded-[22px]  transition-all  ${activeSidebarItem === item.name
                                         ? "bg-white text-customBlue"

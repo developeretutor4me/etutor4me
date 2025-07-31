@@ -11,7 +11,7 @@ const ChatHistory = () => {
 
   return (
     <div className="w-full h-full ">
-      <h2 className="text-[#685AAD] text-xl sm:text-2xl custom-2xl:text-5xl font-bold mb-7">Chat History</h2>
+      <h2 className="text-[#685AAD] text-xl sm:text-2xl custom-xl:text-5xl font-bold mb-7">Chat History</h2>
       <div className="bg-[#A296CC] rounded-3xl px-4 sm:px-8 py-4 sm:py-8 h-full w-full flex gap-5 flex-col">
         <div className='flex justify-between w-[85%] font-medium text-white text-xs sm:text-sm sm:text-md pl-11 '>
           <span>Topic</span>

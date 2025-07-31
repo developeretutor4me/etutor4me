@@ -97,7 +97,7 @@ function RecievedMessages({
                     </div>
                 </div>
                 {/* subject and info box */}
-                <div className="custom-xl:max-w-52  w-full  h-fit  custom-2xl:flex flex-col items-center custom-xl:items-start hidden ">
+                <div className="custom-xl:max-w-52  w-full  h-fit  custom-xl:flex flex-col items-center custom-xl:items-start hidden ">
                     <span className="text-[18.7px] leading-[1.5rem] font-medium">
                         Subjects:
                     </span>
@@ -107,7 +107,7 @@ function RecievedMessages({
                 </div>
 
                 {/* study and experience box */}
-                <div className=" flex-col gap-2  custom-xl:max-w-60 w-full custom-xl:items-start   hidden custom-2xl:flex">
+                <div className=" flex-col gap-2  custom-xl:max-w-60 w-full custom-xl:items-start   hidden custom-xl:flex">
                     <div className="flex flex-col items-center custom-xl:items-start">
                         <span className="text-[18.7px] leading-[1.5rem] font-medium text-white">
                             Study
@@ -131,7 +131,7 @@ function RecievedMessages({
 
             {/* accept deny box */}
 
-            <div className="flex flex-col items-end custom-2xl:items-start  w-full custom-xl:w-fit custom-xl:py-2">
+            <div className="flex flex-col items-end custom-xl:items-start  w-full custom-xl:w-fit custom-xl:py-2">
                 <div className=" h-full flex flex-col gap-6 w-fit custom-lg:w-fit">
                     <div className=" flex  h-fit w-full justify-between items-center custom-xl:items-start  gap-4 custom-xl:gap-14">
                         <Image

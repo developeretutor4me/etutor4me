@@ -49,18 +49,18 @@ const BundlesComponent = ({
 
   return (
     <div className="mx-auto px-4 py-2 w-full mb-5 sm:mb-10">
-      <div className="mb-5 custom-2xl:mb-11">
-        <h2 className="text-[#8653ff]  text-2xl  custom-xl:text-4xl custom-2xl:text-[64px] custom-2xl:leading-tight font-bold mb-3 ">
+      <div className="mb-5 custom-xl:mb-11">
+        <h2 className="text-[#8653ff]  text-2xl  custom-xl:text-4xl custom-xl:text-[64px] custom-xl:leading-tight font-bold mb-3 ">
           Choose your Preferences
         </h2>
-        <p className="custom-2xl:text-[35.17px] custom-2xl:leading-[2.25rem] text-[#584A91]">
+        <p className="custom-xl:text-[35.17px] custom-xl:leading-[2.25rem] text-[#584A91]">
           Purchase session bundles upfront and use them whenever you need
         </p>
       </div>
       <div className="border border-[#9c78f97a] w-[89.2%] mx-auto "></div>
 
-      <div className="mt-5 custom-2xl:mt-10">
-        <h1 className="text-2xl    custom-2xl:text-[51.47px] custom-2xl:leading-none font-bold text-[#685AAD] mb-5 custom-2xl:mb-8 ext-[#685aad]  ">
+      <div className="mt-5 custom-xl:mt-10">
+        <h1 className="text-2xl    custom-xl:text-[51.47px] custom-xl:leading-none font-bold text-[#685AAD] mb-5 custom-xl:mb-8 ext-[#685aad]  ">
           Bundles
         </h1>
 
@@ -83,7 +83,7 @@ const BundlesComponent = ({
             `}
             >
               <h2
-                className={`text-2xl  custom-2xl:text-[41.18px] custom-2xl:leading-[2.25rem] font-semibold  mb-2 custom-2xl:mb-4
+                className={`text-2xl  custom-xl:text-[41.18px] custom-xl:leading-[2.25rem] font-semibold  mb-2 custom-xl:mb-4
                 
                 ${
                   selectedCard === bundle.id
@@ -94,7 +94,7 @@ const BundlesComponent = ({
               >
                 {bundle.title}
               </h2>
-              <p className="text-lg custom-2xl:text-xl text-[#685AAD] font-normal leading-tight mb-2 custom-2xl:mb-8">
+              <p className="text-lg custom-xl:text-xl text-[#685AAD] font-normal leading-tight mb-2 custom-xl:mb-8">
                 {bundle.description}
               </p>
               <div className="flex sm:justify-between sm:items-center flex-col sm:flex-row">

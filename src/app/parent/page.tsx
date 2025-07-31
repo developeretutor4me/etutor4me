@@ -50,6 +50,12 @@ import setting from "../../../public/settingicon.svg";
 import link from "../../../public/linkicons.svg";
 import activityBlue from "../../../public/activityBlue.svg";
 import { useLastMessage } from "../admin/hooks/useLastMessage";
+import Image from "next/image";
+import styles from "./DashboardGrid.module.css";
+import etokiicon from "../../../public/etokiIcon.svg";
+import EPlusIcon from "../../../public/Plus circle.svg";
+import redeemIcon from "../../../public/redeem.svg";
+import etokipopup from '../../../public/etokipopup.svg'
 
 // Constants
 const SOCKET_URL = "https://etutor4me-production.up.railway.app";
@@ -731,7 +737,7 @@ const SessionsDashboard: React.FC = () => {
   // Render for parent role
   if (session?.user?.role === "parent") {
     return (
-      <div className="flex min-h-screen bg-white text-white relative z-0 max-w-[1920px] mx-auto">
+      <div className={`flex min-h-screen bg-white text-white relative z-0 max-w-[1920px] mx-auto ${styles.mainpage} `}>
         {/* Sidebar */}
         <Sidebar
           isSidebarOpen={isSidebarOpen}
@@ -746,17 +752,80 @@ const SessionsDashboard: React.FC = () => {
         />
 
         {/* Main content */}
-        <main className="flex-1 px-5 custom-lg:px-9 py-4 overflow-auto bg-transparent scrollbar-none max-h-screen overflow-y-auto">
-          <header className="flex justify-between items-center mb-8">
-            <div className="flex items-center">
+        <main className="flex-1 px-5 custom-lg:px-9 py-4 overflow-auto bg-transparent scrollbar-none max-h-screen overflow-y-auto overflow-x-hidden ">
+          <header className="flex justify-between items-start mb-8 h-fit">
+            <div className="flex items-start sm:w-full flex-col md:flex-row sm:max-w-[300px] custom-xl:max-w-[500px] custom-2xl:max-w-[700px]">
               <button
                 onClick={toggleSidebar}
-                className="custom-lg:hidden mr-4 text-darkBlue"
+                className={`${styles.menu}  mr-4 text-darkBlue`}
                 aria-label="Toggle sidebar"
               >
                 <Menu size={24} />
               </button>
 
+              {activeSidebarItem === "Dashboard" && (
+
+
+                <div className={`${styles.etokiebox} mt-12 md:mt-0 custom-xl:w-[80%] md:max-w-[40rem]   max-w-[400px] w-full  flex  items-start flex-col custom-2xl:flex-row gap-2 sm:gap-6   absolute sm:static  `}>
+                  <div className=" flex flex-col space-y-3 py-4 px-3 sm:px-6  bg-purple-100  rounded-2xl w-[100%] sm:w-[24rem] bg-[#EDE8FA]">
+                    <div className=" flex justify-between items-center bg-purple-300 rounded-full px-4 pl-6 py-[10px] bg-[#A296CC]">
+                      <div className="text-3xl font-bold text-white">{etokies}</div>
+                      <div className=" flex items-center justify-center">
+                        <Image
+                          loading="lazy"
+                          src={etokiicon}
+                          alt=""
+                          className="w-9 h-9"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="flex  space-x-6 mt-4 hover:cursor-pointer px-2 pt-2">
+                      <button
+                        onClick={() => {
+                          setActiveSidebarItem("Refer your Friends");
+                        }}
+                        className="flex-1 bg-[#685AAD] text-white py-[2px] px-4  rounded-md text-xs flex items-center justify-center gap-1 hover:cursor-pointer"
+                      >
+                        <Image
+                          loading="lazy"
+                          src={EPlusIcon}
+                          alt=""
+                          className="w-6 h-6 hover:cursor-pointer"
+                        />{" "}
+                        etokis
+                      </button>
+                      <button
+                        onClick={handleRedeem}
+                        onMouseEnter={() => {
+                          setRedeem(true);
+                        }}
+                        onMouseLeave={() => {
+                          setRedeem(false);
+                        }}
+                        className="flex-1 bg-[#8653FF] text-white py-[2px] px-4 rounded-md flex items-center justify-center gap-1 hover:cursor-pointer relative"
+                      >
+                        {radeemLoading ? "wait..." : "Redeem"}
+                        <Image
+                          loading="lazy"
+                          src={redeemIcon}
+                          alt=""
+                          className="w-6 h-6"
+                        />
+                        {redeem && (
+                          <div className="hover absolute w-[200px] sm:w-[280px] custom-lg:w-[340px] h-[88px] sm:h-[124px] custom-lg:h-[150px] top-8 custom-xl:top-0 left-20 custom-xl:left-40 ">
+                            <Image src={etokipopup} alt="" className="object-contain" />
+                          </div>
+                        )}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="bg-[#EDE8FA] rounded-lg font-bold px-8 py-3 text-center text-base text-[#685AAD] ">
+                    SESSIONS&nbsp;LEFT:&nbsp;{setsessionleft}
+                  </div>
+                </div>
+
+              )}
               {activeSidebarItem !== "Dashboard" && (
                 <div
                   onClick={handleBackNavigation}

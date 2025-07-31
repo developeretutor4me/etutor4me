@@ -56,9 +56,9 @@ const MembershipPayment = ({
   };
 
   return (
-    <div className="w-full  max-w-[1196px] mx-auto bg-white rounded-3xl drop-shadow-[0px_0px_10px_rgb(0,0,0,0.7)] p-8 md:p-12 custom-2xl:px-16 custom-2xl:py-12 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
+    <div className="w-full  max-w-[1196px] mx-auto bg-white rounded-3xl drop-shadow-[0px_0px_10px_rgb(0,0,0,0.7)] p-8 md:p-12 custom-xl:px-16 custom-xl:py-12 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-50">
       <div className="flex justify-between mb-5">
-        <h1 className="text-3xl md:text-4xl custom-2xl:text-[54.63px] custom-2xl:leading-none font-semibold text-[#9365ff] ">
+        <h1 className="text-3xl md:text-4xl custom-xl:text-[54.63px] custom-xl:leading-none font-semibold text-[#9365ff] ">
           Customize Your Membership Payment
         </h1>
         <X
@@ -69,17 +69,17 @@ const MembershipPayment = ({
         />
       </div>
 
-      <p className="text-[#776bb5] custom-2xl:text-[21.86px] custom-2xl:leading-[1.75rem]  mb-8 custom-2xl:mb-9">
+      <p className="text-[#776bb5] custom-xl:text-[21.86px] custom-xl:leading-[1.75rem]  mb-8 custom-xl:mb-9">
         Choose your preferred payment schedule for your 9-month Standard
         Membership with a Junior eTutor.
         <br />
         Select the option that best fits your budget and learning goals.
       </p>
 
-      <div className="flex flex-col md:flex-row gap-8 custom-2xl:gap-16">
-        <div className="flex-1 flex flex-col gap-6 custom-2xl:mt-4">
+      <div className="flex flex-col md:flex-row gap-8 custom-xl:gap-16">
+        <div className="flex-1 flex flex-col gap-6 custom-xl:mt-4">
           <button
-            className={` rounded-2xl p-6 custom-2xl:px-12 custom-2xl:py-[26px] text-left  ${
+            className={` rounded-2xl p-6 custom-xl:px-12 custom-xl:py-[26px] text-left  ${
               selectedOption === "full"
                 ? "border-[#776bb5] border-[3px]"
                 : "border-2 border-[#d2cee6]"
@@ -89,10 +89,10 @@ const MembershipPayment = ({
             onMouseLeave={() => setHoveredOption(null)}
           >
             <div className="flex justify-between items-center">
-              <span className="text-xl custom-2xl:text-3xl text-[#776bb5] font-medium">
+              <span className="text-xl custom-xl:text-3xl text-[#776bb5] font-medium">
                 Pay in Full
               </span>
-              <span className="text-xl custom-2xl:text-[27.49px] custom-2xl:leading-[2rem] font-semibold text-[#776bb5]">
+              <span className="text-xl custom-xl:text-[27.49px] custom-xl:leading-[2rem] font-semibold text-[#776bb5]">
                 15% discount
               </span>
             </div>
@@ -105,7 +105,7 @@ const MembershipPayment = ({
           </button>
 
           <button
-            className={` rounded-2xl p-6 custom-2xl:px-12 custom-2xl:py-[26px] text-left  ${
+            className={` rounded-2xl p-6 custom-xl:px-12 custom-xl:py-[26px] text-left  ${
               selectedOption === "quarterly"
                 ? "border-[#776bb5] border-[3px]"
                 : "border-2 border-[#dddaec]"
@@ -115,10 +115,10 @@ const MembershipPayment = ({
             onMouseLeave={() => setHoveredOption(null)}
           >
             <div className="flex justify-between items-center">
-              <span className="text-xl custom-2xl:text-3xl text-[#776bb5]">
+              <span className="text-xl custom-xl:text-3xl text-[#776bb5]">
                 Pay Every 3 Months
               </span>
-              <span className="text-xl custom-2xl:text-[27.49px] custom-2xl:leading-[2rem] font-semibold text-[#776bb5]">
+              <span className="text-xl custom-xl:text-[27.49px] custom-xl:leading-[2rem] font-semibold text-[#776bb5]">
                 10% discount
               </span>
             </div>
@@ -132,7 +132,7 @@ const MembershipPayment = ({
           </button>
 
           <button
-            className={` rounded-2xl p-6 custom-2xl:px-12 custom-2xl:py-[26px] text-left ${
+            className={` rounded-2xl p-6 custom-xl:px-12 custom-xl:py-[26px] text-left ${
               selectedOption === "monthly"
                 ? "border-[#776bb5] border-[3px]"
                 : "border-2 border-[#dddaec]"
@@ -142,7 +142,7 @@ const MembershipPayment = ({
             onMouseLeave={() => setHoveredOption(null)}
           >
             <div className="flex justify-between items-center">
-              <span className="text-xl custom-2xl:text-3xl text-[#776bb5] ">
+              <span className="text-xl custom-xl:text-3xl text-[#776bb5] ">
                 Pay Monthly
               </span>
             </div>
@@ -155,22 +155,22 @@ const MembershipPayment = ({
           </button>
         </div>
 
-        <div className="md:w-[363px]  custom-2xl:mr-3 custom-2xl:mt-1">
-          <div className="border  rounded-3xl custom-xl:rounded-[45px] p-6 custom-2xl:px-14 custom-2xl:py-10 mb-8 custom-2xl:mb-10 border-[#685AAD]">
+        <div className="md:w-[363px]  custom-xl:mr-3 custom-xl:mt-1">
+          <div className="border  rounded-3xl custom-xl:rounded-[45px] p-6 custom-xl:px-14 custom-xl:py-10 mb-8 custom-xl:mb-10 border-[#685AAD]">
             <div className="mb-4">
-              <h2 className="text-xl custom-2xl:text-3xl text-[#685aad] font-medium">
+              <h2 className="text-xl custom-xl:text-3xl text-[#685aad] font-medium">
                 Package duration
               </h2>
-              <p className="text-[#8653ff] custom-2xl:text-2xl font-medium">
+              <p className="text-[#8653ff] custom-xl:text-2xl font-medium">
                 9 months
               </p>
             </div>
 
             <div className="mb-6">
-              <h2 className="text-xl custom-2xl:text-3xl text-[#685aad] font-medium">
+              <h2 className="text-xl custom-xl:text-3xl text-[#685aad] font-medium">
                 eTutor&apos;s Level
               </h2>
-              <p className="text-[#8653ff] custom-2xl:text-2xl font-medium">
+              <p className="text-[#8653ff] custom-xl:text-2xl font-medium">
                 {tutorLevel}{" "}
                 <span className="text-sm">
                   / Level{" "}
@@ -187,7 +187,7 @@ const MembershipPayment = ({
 
             <div className="border-t border-[#c2a9ff] pt-5">
               <div className="flex justify-between items-center mb-2">
-                <h2 className="text-xl custom-2xl:text-[34.2px] custom-2xl:leading-[2.25rem] text-[#685aad] font-medium">
+                <h2 className="text-xl custom-xl:text-[34.2px] custom-xl:leading-[2.25rem] text-[#685aad] font-medium">
                   Total :
                 </h2>
                 <span className="text-3xl text-[#8653FF] font-medium">
@@ -202,7 +202,7 @@ const MembershipPayment = ({
 
           <button
           onClick={subscibe}
-          className=" custom-2xl:mb-5 w-full bg-[#8653ff] text-white py-3.5 rounded-2xl text-lg custom-2xl:text-3xl font-medium hover:bg-[#6b37e2] duration-200 transition-colors">
+          className=" custom-xl:mb-5 w-full bg-[#8653ff] text-white py-3.5 rounded-2xl text-lg custom-xl:text-3xl font-medium hover:bg-[#6b37e2] duration-200 transition-colors">
             {loading ? "Wait...":"Proceed to Checkout"} 
           </button>
         </div>

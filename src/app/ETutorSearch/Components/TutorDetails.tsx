@@ -39,7 +39,7 @@ const TutorDetails = ({filteredTutors}:TutorDetailsprops) => {
         <div key={teacher._id} className=" flex w-100 gap-12 border-b last:border-b-0 justify-between border-[#9C8BBD] mx-12 lg:mx-6 py-16 mb:py-8 mb:flex-col mb:mx-0 mb:gap-4 tb:flex-col tb:w-full ">
           <div className="flex w-[35%] gap-8 justify-between items-center mb:justify-between mb:gap-4 mb:w-full tb:w-[60%] tb:m-auto">
             <div className="w-56 h-56  overflow-hidden rounded-2xl    mb:w-1/3 mb:h-auto xl:w-40 xl:h-40 lg:w-36 lg:h-36">
-              <img src={teacher?.user?.profilePicture} className=" object-cover" alt="tutor" />
+              <img src={teacher?.user?.profilePicture} className=" object-cover aspect-square" alt="tutor" />
             </div>
             <div className="flex text-[44px] flex-col gap-3  xl:text-4xl lg:text-2xl mb:gap-1 mb:text-3xl">
               <h3 className=" text-[#473171] font-semibold mb:text-xl ">

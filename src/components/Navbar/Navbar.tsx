@@ -128,7 +128,7 @@ const Navbar = () => {
 
       {/* //mobile navbar */}
 
-      <div className="custom-2xl:hidden block w-full relative">
+      <div className="custom-2xl:hidden block w-full relative  ">
         <div className="flex justify-between items-center w-full">
           <div>
             <Link href="/">
@@ -162,7 +162,7 @@ const Navbar = () => {
         </div>
 
         <div
-          className={`absolute top-0 left-0 w-full transition-all duration-300 transform ${
+          className={`absolute top-0 left-0 w-full transition-all duration-300 transform  px-4 py-4  ${
             isOpen
               ? "translate-y-12 opacity-100"
               : "-translate-y-full opacity-0"

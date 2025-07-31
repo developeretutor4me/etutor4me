@@ -22,7 +22,7 @@ function DropDown() {
               <PopoverTrigger asChild>
                 <button
                   className={`flex items-center justify-around  ${
-                    isDropDownOpen ? "w-[211px] border" : "w-[196px]"
+                    isDropDownOpen ? "w-[211px] border" : " border custom-2xl:border-none w-[196px]"
                   } !origin-center  transform ease-in transition-all duration-100  h-[51px] hover:border border-[#534988] rounded-lg px-4 py-2 text-sm  border-purple-100 hover:bg-gray-50`}
                 >
                   <span className="text-[#534988] text-[23px]">

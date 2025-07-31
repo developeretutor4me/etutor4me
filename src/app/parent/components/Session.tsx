@@ -244,7 +244,7 @@ const SessionDashboard = ({
   return (
     <>
       {/* <MySessionComp /> */}
-      <div className="w-full  h-full pt-4 bg-[#EDE8FA]  rounded-[35px]   relative mt-10">
+      <div className="w-full  h-full pt-4 bg-[#EDE8FA]  rounded-[35px]   relative mt-16 sm:mt-10">
         <div className="flex justify-between items-start mb-4 absolute top-0 left-0 w-full">
           <div className=" grid grid-cols-3   rounded-tl-[35px] rounded-tr-[35px] h-10 sm:h-[89px] w-full">
             {tabs.map((tab) => (
@@ -261,7 +261,7 @@ const SessionDashboard = ({
                     : "transition-all"
                   }
             ${tab.id === "trial"
-                    ? "rounded-tr-3xl  custom-2xl:rounded-none transition-all"
+                    ? "rounded-tr-3xl  custom-xl:rounded-none transition-all"
                     : "transition-all"
                   }
               
@@ -273,11 +273,11 @@ const SessionDashboard = ({
             ))}
           </div>
 
-          <div className="bg-white h-10 sm:h-[89px] w-[38%] rounded-bl-3xl     transition-all  hidden custom-2xl:flex items-start  justify-center px-4 custom-lg:px-8 pb-4 rounded-tr-3xl">
+          <div className="bg-white h-10 sm:h-[89px] w-[38%] rounded-bl-3xl     transition-all  hidden custom-xl:flex items-start  justify-center px-4 custom-lg:px-8 pb-4 rounded-tr-3xl">
             {activeTab === "trial" ? (
               ""
             ) : (
-              <div className="text-[#685AAD] font-bold text-xs px-2 transition-all  w-[80%]   md:text-sm custom-2xl:text-2xl h-full  rounded-md sm:rounded-xl mb-1 uppercase  bg-[#EDE8FA]  flex items-center justify-center ">
+              <div className="text-[#685AAD] font-bold text-xs px-2 transition-all  w-[80%]   md:text-sm custom-xl:text-2xl h-full  rounded-md sm:rounded-xl mb-1 uppercase  bg-[#EDE8FA]  flex items-center justify-center ">
                 Sessions&nbsp;left: {parentdata?.user.sessionsPerMonth || 0}
               </div>
             )}
@@ -338,9 +338,9 @@ const SessionDashboard = ({
                 {activeSubTab === "upcoming" && (
                   <>
                     {/* new one */}
-                    <div className="px-2  py-2 custom-2xl:px-7 custom-2xl:py-5 w-full space-y-6">
+                    <div className="px-2  py-2 custom-xl:px-7 custom-xl:py-5 w-full space-y-6">
                       {/* Header Row */}
-                      <div className="hidden custom-2xl:grid custom-2xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-2xl:pl-9  w-[68%] text-white">
+                      <div className="hidden  custom-xl:grid custom-xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-xl:pl-9  w-[68%] text-white">
                         <div className="px-4  ">Subject and level</div>
                         <div className="px-4  ">eTutor</div>
                         <div className="px-4  ">Duration</div>
@@ -367,9 +367,9 @@ const SessionDashboard = ({
                               return (
                                 <div
                                   key={request._id}
-                                  className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-2xl:pl-9  ${isExpanded
-                                    ? "h-auto custom-2xl:h-28"
-                                    : "h-auto custom-2xl:h-20"
+                                  className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-xl:pl-9  ${isExpanded
+                                    ? "h-auto custom-xl:h-28"
+                                    : "h-auto custom-xl:h-20"
                                     } overflow-hidden cursor-pointer`}
                                   // @ts-ignore
                                   onMouseEnter={() =>
@@ -377,16 +377,16 @@ const SessionDashboard = ({
                                   }
                                   onMouseLeave={() => setexpandedRequestId(null)}
                                 >
-                                  <div className="flex flex-col  custom-2xl:flex-row custom-2xl:items-start h-full">
+                                  <div className="flex flex-col  custom-xl:flex-row custom-xl:items-start h-full">
                                     {/* Content Section */}
-                                    <div className="flex-1 p-4 flex flex-col custom-2xl:flex-row items-start custom-2xl:items-center">
-                                      <div className="grid grid-cols-2 custom-2xl:grid-cols-4 gap-4 w-full">
+                                    <div className="flex-1 p-4 flex flex-col custom-xl:flex-row items-start custom-xl:items-center">
+                                      <div className="grid grid-cols-2 custom-xl:grid-cols-4 gap-4 w-full">
                                         {/* Subject */}
-                                        <div className="flex flex-col custom-2xl:block transition-all duration-300 ease-in-out custom-2xl:pt-2">
-                                          <span className="text-white/60 text-sm custom-2xl:hidden mb-1 text-white">
+                                        <div className="flex flex-col custom-xl:block transition-all duration-300 ease-in-out custom-xl:pt-2">
+                                          <span className="text-white/60 text-sm custom-xl:hidden mb-1 text-white">
                                             Subject and level
                                           </span>
-                                          <span className="text-white text-base custom-2xl:text-xl  font-medium">
+                                          <span className="text-white text-base custom-xl:text-xl  font-medium">
                                             {request.subjects || ""}
                                           </span>
                                           <div
@@ -400,11 +400,11 @@ const SessionDashboard = ({
                                         </div>
 
                                         {/* Tutor */}
-                                        <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                          <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                        <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                          <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                             eTutor
                                           </span>
-                                          <span className="text-white text-base custom-2xl:text-xl ">
+                                          <span className="text-white text-base custom-xl:text-xl ">
                                             {
                                               // @ts-ignore
                                               request.teacher?.contactInformation
@@ -470,21 +470,21 @@ const SessionDashboard = ({
                                         </div>
 
                                         {/* Duration */}
-                                        <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                          <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                        <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                          <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                             Duration
                                           </span>
-                                          <span className="text-white text-base custom-2xl:text-xl">
+                                          <span className="text-white text-base custom-xl:text-xl">
                                             {request.duration || ""}
                                           </span>
                                         </div>
 
                                         {/* Date/Time */}
-                                        <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                          <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                        <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                          <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                             Date and Time
                                           </span>
-                                          <span className="text-white text-base custom-2xl:text-xl">
+                                          <span className="text-white text-base custom-xl:text-xl">
                                             {`${new Date(request.date)
                                               .toLocaleDateString("en-GB")
                                               .replace(/\//g, "/")
@@ -509,19 +509,19 @@ const SessionDashboard = ({
 
                                     {/* Buttons Section */}
                                     <div
-                                      className={`flex flex-col custom-2xl:flex-row gap-2  custom-2xl:gap-4  h-full ${isExpanded ? "py-6 px-4" : "p-4"
-                                        } transition-all duration-300 ease-in-out  custom-2xl:pl-0 `}
+                                      className={`flex flex-col custom-xl:flex-row gap-2  custom-xl:gap-4  h-full ${isExpanded ? "py-6 px-4" : "p-4"
+                                        } transition-all duration-300 ease-in-out  custom-xl:pl-0 `}
                                     >
                                       <button
                                         onClick={() =>
                                           setActiveFindEtutor("Find eTutor")
                                         }
-                                        className="w-full  custom-2xl:h-full custom-2xl:w-auto bg-[#473171] text-white px-8 py-2 rounded-md text-sm custom-2xl:text-xl hover:bg-[#3d2961] transition-colors"
+                                        className="w-full  custom-xl:h-full custom-xl:w-auto bg-[#473171] text-white px-8 py-2 rounded-md text-sm custom-xl:text-xl hover:bg-[#3d2961] transition-colors"
                                       >
                                         Edit Session
                                       </button>
                                       <a href={request.joinLink} target="_blank">
-                                        <button className="w-full custom-2xl:h-full  custom-2xl:w-auto bg-[#8653FF] text-white px-8 py-2 rounded-md text-sm custom-2xl:text-xl hover:bg-[#7340ff] transition-colors">
+                                        <button className="w-full custom-xl:h-full  custom-xl:w-auto bg-[#8653FF] text-white px-8 py-2 rounded-md text-sm custom-xl:text-xl hover:bg-[#7340ff] transition-colors">
                                           Meeting Link
                                         </button>
                                       </a>
@@ -541,9 +541,9 @@ const SessionDashboard = ({
 
               <div>
                 {activeSubTab === "completed" && (
-                  <div className="px-2  py-2 custom-2xl:px-7 custom-2xl:py-5 w-full space-y-6">
+                  <div className="px-2  py-2 custom-xl:px-7 custom-xl:py-5 w-full space-y-6">
                     {/* Header Row */}
-                    <div className="hidden custom-2xl:grid custom-2xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-2xl:pl-9  w-[68%] text-white">
+                    <div className="hidden custom-xl:grid custom-xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-xl:pl-9  w-[68%] text-white">
                       <div className="px-4  ">Subject and level</div>
                       <div className="px-4  ">eTutor</div>
                       <div className="px-4  ">Duration</div>
@@ -569,9 +569,9 @@ const SessionDashboard = ({
                             return (
                               <div
                                 key={request._id}
-                                className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-2xl:pl-9  ${isExpanded
-                                  ? "h-auto custom-2xl:h-28"
-                                  : "h-auto custom-2xl:h-20"
+                                className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-xl:pl-9  ${isExpanded
+                                  ? "h-auto custom-xl:h-28"
+                                  : "h-auto custom-xl:h-20"
                                   } overflow-hidden cursor-pointer`}
                                 // @ts-ignore
                                 onMouseEnter={() =>
@@ -579,16 +579,16 @@ const SessionDashboard = ({
                                 }
                                 onMouseLeave={() => setexpandedRequestId(null)}
                               >
-                                <div className="flex flex-col  custom-2xl:flex-row custom-2xl:items-start h-full">
+                                <div className="flex flex-col  custom-xl:flex-row custom-xl:items-start h-full">
                                   {/* Content Section */}
-                                  <div className="flex-1 p-4 flex flex-col custom-2xl:flex-row items-start custom-2xl:items-center">
-                                    <div className="grid grid-cols-2 custom-2xl:grid-cols-4 gap-4 w-full">
+                                  <div className="flex-1 p-4 flex flex-col custom-xl:flex-row items-start custom-xl:items-center">
+                                    <div className="grid grid-cols-2 custom-xl:grid-cols-4 gap-4 w-full">
                                       {/* Subject */}
-                                      <div className="flex flex-col custom-2xl:block transition-all duration-300 ease-in-out custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1 text-white">
+                                      <div className="flex flex-col custom-xl:block transition-all duration-300 ease-in-out custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1 text-white">
                                           Subject and level
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl  font-medium">
+                                        <span className="text-white text-base custom-xl:text-xl  font-medium">
                                           {request.subjects || ""} /{" "}
                                           {request.level || ""}
                                         </span>
@@ -603,11 +603,11 @@ const SessionDashboard = ({
                                       </div>
 
                                       {/* Tutor */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           eTutor
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl ">
+                                        <span className="text-white text-base custom-xl:text-xl ">
                                           {
                                             // @ts-ignore
                                             request.teacher?.contactInformation
@@ -668,21 +668,21 @@ const SessionDashboard = ({
                                       </div>
 
                                       {/* Duration */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           Duration
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl">
+                                        <span className="text-white text-base custom-xl:text-xl">
                                           {request.duration || ""}
                                         </span>
                                       </div>
 
                                       {/* Date/Time */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1 text-white">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1 text-white">
                                           Date and Time
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl">
+                                        <span className="text-white text-base custom-xl:text-xl">
                                           {`${new Date(request.date)
                                             .toLocaleDateString("en-GB")
                                             .replace(/\//g, "-")
@@ -703,14 +703,14 @@ const SessionDashboard = ({
 
                                   {/* Buttons Section */}
                                   <div
-                                    className={`flex flex-col custom-2xl:flex-row gap-2  custom-2xl:gap-4  h-full ${isExpanded ? "py-6 px-4" : "p-4"
-                                      } transition-all duration-300 ease-in-out  custom-2xl:pl-0 `}
+                                    className={`flex flex-col custom-xl:flex-row gap-2  custom-xl:gap-4  h-full ${isExpanded ? "py-6 px-4" : "p-4"
+                                      } transition-all duration-300 ease-in-out  custom-xl:pl-0 `}
                                   >
-                                    <button className="w-full bg-transparent  custom-2xl:h-full custom-2xl:w-auto  text-transparent px-8 py-2 rounded-md ">
+                                    <button className="w-full bg-transparent  custom-xl:h-full custom-xl:w-auto  text-transparent px-8 py-2 rounded-md ">
                                       Edit Session
                                     </button>
 
-                                    <button className="w-full custom-2xl:h-full  custom-2xl:w-auto bg-[#8753ff73] text-white px-14 py-2 rounded-md text-sm custom-2xl:text-xl  transition-colors">
+                                    <button className="w-full custom-xl:h-full  custom-xl:w-auto bg-[#8753ff73] text-white px-14 py-2 rounded-md text-sm custom-xl:text-xl  transition-colors">
                                       Completed
                                     </button>
                                   </div>
@@ -735,9 +735,9 @@ const SessionDashboard = ({
                 {activeSubTab === "upcoming" && (
                   <>
                     {/* new one */}
-                    <div className="px-2  py-2 custom-2xl:px-7 custom-2xl:py-5 w-full space-y-6">
+                    <div className="px-2  py-2 custom-xl:px-7 custom-xl:py-5 w-full space-y-6">
                       {/* Header Row */}
-                      <div className="hidden custom-2xl:grid custom-2xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-2xl:pl-9  w-[68%] text-white">
+                      <div className="hidden custom-xl:grid custom-xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-xl:pl-9  w-[68%] text-white">
                         <div className="px-4  ">Subject and level</div>
                         <div className="px-4  ">eTutor</div>
                         <div className="px-4  ">Duration</div>
@@ -764,9 +764,9 @@ const SessionDashboard = ({
                               return (
                                 <div
                                   key={request._id}
-                                  className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-2xl:pl-9  ${isExpanded
-                                    ? "h-auto custom-2xl:h-28"
-                                    : "h-auto custom-2xl:h-20"
+                                  className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-xl:pl-9  ${isExpanded
+                                    ? "h-auto custom-xl:h-28"
+                                    : "h-auto custom-xl:h-20"
                                     } overflow-hidden cursor-pointer`}
                                   // @ts-ignore
                                   onMouseEnter={() =>
@@ -774,16 +774,16 @@ const SessionDashboard = ({
                                   }
                                   onMouseLeave={() => setexpandedRequestId(null)}
                                 >
-                                  <div className="flex flex-col  custom-2xl:flex-row custom-2xl:items-start h-full">
+                                  <div className="flex flex-col  custom-xl:flex-row custom-xl:items-start h-full">
                                     {/* Content Section */}
-                                    <div className="flex-1 p-4 flex flex-col custom-2xl:flex-row items-start custom-2xl:items-center">
-                                      <div className="grid grid-cols-2 custom-2xl:grid-cols-4 gap-4 w-full">
+                                    <div className="flex-1 p-4 flex flex-col custom-xl:flex-row items-start custom-xl:items-center">
+                                      <div className="grid grid-cols-2 custom-xl:grid-cols-4 gap-4 w-full">
                                         {/* Subject */}
-                                        <div className="flex flex-col custom-2xl:block transition-all duration-300 ease-in-out custom-2xl:pt-2">
-                                          <span className="text-white/60 text-sm custom-2xl:hidden mb-1 text-white">
+                                        <div className="flex flex-col custom-xl:block transition-all duration-300 ease-in-out custom-xl:pt-2">
+                                          <span className="text-white/60 text-sm custom-xl:hidden mb-1 text-white">
                                             Subject and level
                                           </span>
-                                          <span className="text-white text-base custom-2xl:text-xl  font-medium">
+                                          <span className="text-white text-base custom-xl:text-xl  font-medium">
                                             {request.subjects || ""}
                                           </span>
                                           <div
@@ -797,11 +797,11 @@ const SessionDashboard = ({
                                         </div>
 
                                         {/* Tutor */}
-                                        <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                          <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                        <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                          <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                             eTutor
                                           </span>
-                                          <span className="text-white text-base custom-2xl:text-xl ">
+                                          <span className="text-white text-base custom-xl:text-xl ">
                                             {
                                               // @ts-ignore
                                               request.teacher?.contactInformation
@@ -867,21 +867,21 @@ const SessionDashboard = ({
                                         </div>
 
                                         {/* Duration */}
-                                        <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                          <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                        <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                          <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                             Duration
                                           </span>
-                                          <span className="text-white text-base custom-2xl:text-xl">
+                                          <span className="text-white text-base custom-xl:text-xl">
                                             {request.duration || ""}
                                           </span>
                                         </div>
 
                                         {/* Date/Time */}
-                                        <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                          <span className="text-white/60 text-sm custom-2xl:hidden mb-1 text-white">
+                                        <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                          <span className="text-white/60 text-sm custom-xl:hidden mb-1 text-white">
                                             Date and Time
                                           </span>
-                                          <span className="text-white text-base custom-2xl:text-xl">
+                                          <span className="text-white text-base custom-xl:text-xl">
                                             {`${new Date(request.date)
                                               .toLocaleDateString("en-GB")
                                               .replace(/\//g, "/")
@@ -906,19 +906,19 @@ const SessionDashboard = ({
 
                                     {/* Buttons Section */}
                                     <div
-                                      className={`flex flex-col custom-2xl:flex-row gap-2  custom-2xl:gap-4  h-full ${isExpanded ? "py-6 px-4" : "p-4"
-                                        } transition-all duration-300 ease-in-out  custom-2xl:pl-0 `}
+                                      className={`flex flex-col custom-xl:flex-row gap-2  custom-xl:gap-4  h-full ${isExpanded ? "py-6 px-4" : "p-4"
+                                        } transition-all duration-300 ease-in-out  custom-xl:pl-0 `}
                                     >
                                       <button
                                         onClick={() =>
                                           setActiveFindEtutor("Find eTutor")
                                         }
-                                        className="w-full  custom-2xl:h-full custom-2xl:w-auto bg-[#473171] text-white px-8 py-2 rounded-md text-sm custom-2xl:text-xl hover:bg-[#3d2961] transition-colors"
+                                        className="w-full  custom-xl:h-full custom-xl:w-auto bg-[#473171] text-white px-8 py-2 rounded-md text-sm custom-xl:text-xl hover:bg-[#3d2961] transition-colors"
                                       >
                                         Edit Session
                                       </button>
                                       <a href={request.joinLink} target="_blank">
-                                        <button className="w-full custom-2xl:h-full  custom-2xl:w-auto bg-[#8653FF] text-white px-8 py-2 rounded-md text-sm custom-2xl:text-xl hover:bg-[#7340ff] transition-colors">
+                                        <button className="w-full custom-xl:h-full  custom-xl:w-auto bg-[#8653FF] text-white px-8 py-2 rounded-md text-sm custom-xl:text-xl hover:bg-[#7340ff] transition-colors">
                                           Meeting Link
                                         </button>
                                       </a>
@@ -937,9 +937,9 @@ const SessionDashboard = ({
               </div>
               <div>
                 {activeSubTab === "completed" && (
-                  <div className="px-2  py-2 custom-2xl:px-7 custom-2xl:py-5 w-full space-y-6">
+                  <div className="px-2  py-2 custom-xl:px-7 custom-xl:py-5 w-full space-y-6">
                     {/* Header Row */}
-                    <div className="hidden custom-2xl:grid custom-2xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-2xl:pl-9  w-[68%] text-white">
+                    <div className="hidden custom-xl:grid custom-xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-xl:pl-9  w-[68%] text-white">
                       <div className="px-4  ">Subject and level</div>
                       <div className="px-4  ">eTutor</div>
                       <div className="px-4  ">Duration</div>
@@ -965,9 +965,9 @@ const SessionDashboard = ({
                             return (
                               <div
                                 key={request._id}
-                                className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-2xl:pl-9  ${isExpanded
-                                  ? "h-auto custom-2xl:h-28"
-                                  : "h-auto custom-2xl:h-20"
+                                className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-xl:pl-9  ${isExpanded
+                                  ? "h-auto custom-xl:h-28"
+                                  : "h-auto custom-xl:h-20"
                                   } overflow-hidden cursor-pointer`}
                                 // @ts-ignore
                                 onMouseEnter={() =>
@@ -975,16 +975,16 @@ const SessionDashboard = ({
                                 }
                                 onMouseLeave={() => setexpandedRequestId(null)}
                               >
-                                <div className="flex flex-col  custom-2xl:flex-row custom-2xl:items-start h-full">
+                                <div className="flex flex-col  custom-xl:flex-row custom-xl:items-start h-full">
                                   {/* Content Section */}
-                                  <div className="flex-1 p-4 flex flex-col custom-2xl:flex-row items-start custom-2xl:items-center">
-                                    <div className="grid grid-cols-2 custom-2xl:grid-cols-4 gap-4 w-full">
+                                  <div className="flex-1 p-4 flex flex-col custom-xl:flex-row items-start custom-xl:items-center">
+                                    <div className="grid grid-cols-2 custom-xl:grid-cols-4 gap-4 w-full">
                                       {/* Subject */}
-                                      <div className="flex flex-col custom-2xl:block transition-all duration-300 ease-in-out custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1 text-white">
+                                      <div className="flex flex-col custom-xl:block transition-all duration-300 ease-in-out custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1 text-white">
                                           Subject and level
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl  font-medium">
+                                        <span className="text-white text-base custom-xl:text-xl  font-medium">
                                           {request.subjects || ""} /{" "}
                                           {request.level || ""}
                                         </span>
@@ -999,11 +999,11 @@ const SessionDashboard = ({
                                       </div>
 
                                       {/* Tutor */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           eTutor
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl ">
+                                        <span className="text-white text-base custom-xl:text-xl ">
                                           {
                                             // @ts-ignore
                                             request.teacher?.contactInformation
@@ -1064,21 +1064,21 @@ const SessionDashboard = ({
                                       </div>
 
                                       {/* Duration */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           Duration
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl">
+                                        <span className="text-white text-base custom-xl:text-xl">
                                           {request.duration || ""}
                                         </span>
                                       </div>
 
                                       {/* Date/Time */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1 text-white">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1 text-white">
                                           Date and Time
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl">
+                                        <span className="text-white text-base custom-xl:text-xl">
                                           {`${new Date(request.date)
                                             .toLocaleDateString("en-GB")
                                             .replace(/\//g, "-")
@@ -1099,14 +1099,14 @@ const SessionDashboard = ({
 
                                   {/* Buttons Section */}
                                   <div
-                                    className={`flex flex-col custom-2xl:flex-row gap-2  custom-2xl:gap-4  h-full ${isExpanded ? "py-6 px-4" : "p-4"
-                                      } transition-all duration-300 ease-in-out  custom-2xl:pl-0 `}
+                                    className={`flex flex-col custom-xl:flex-row gap-2  custom-xl:gap-4  h-full ${isExpanded ? "py-6 px-4" : "p-4"
+                                      } transition-all duration-300 ease-in-out  custom-xl:pl-0 `}
                                   >
-                                    <button className="w-full bg-transparent  custom-2xl:h-full custom-2xl:w-auto  text-transparent px-8 py-2 rounded-md ">
+                                    <button className="w-full bg-transparent  custom-xl:h-full custom-xl:w-auto  text-transparent px-8 py-2 rounded-md ">
                                       Edit Session
                                     </button>
 
-                                    <button className="w-full custom-2xl:h-full  custom-2xl:w-auto bg-[#8753ff73] text-white px-14 py-2 rounded-md text-sm custom-2xl:text-xl  transition-colors">
+                                    <button className="w-full custom-xl:h-full  custom-xl:w-auto bg-[#8753ff73] text-white px-14 py-2 rounded-md text-sm custom-xl:text-xl  transition-colors">
                                       Completed
                                     </button>
                                   </div>
@@ -1131,7 +1131,7 @@ const SessionDashboard = ({
                 {activeSubTab === "upcoming" && (
                   <div className="px-1  custom-xl:px-4">
                     {/* top title */}
-                    <div className="w-full ml-[14%] custom-xl:w-[60%] custom-2xl:flex justify-between mb-1 sm:mb-4 custom-xl:px-4 hidden  mt-5  text-white  ">
+                    <div className="w-full ml-[14%] custom-xl:w-[60%] custom-xl:flex justify-between mb-1 sm:mb-4 custom-xl:px-4 hidden  mt-5  text-white  ">
                       <span className="px-2 custom-xl:px-0 text-xs sm:text-xl">
                         Name and availability
                       </span>
@@ -1250,7 +1250,7 @@ const SessionDashboard = ({
                                     setWaiting({ id: teacher._id, action: "rejected" });
                                     updateRequestStatus(teacher._id, "rejected");
                                   }}
-                                  className="w-full sm:w-auto py-2 px-7 text-base custom-2xl:text-xl rounded-full bg-transparent capitalize hover:bg-opacity-90 transition-colors"
+                                  className="w-full sm:w-auto py-2 px-7 text-base custom-xl:text-xl rounded-full bg-transparent capitalize hover:bg-opacity-90 transition-colors"
                                 >
 
                                   {waiting.id === teacher._id && waiting.action === "rejected" ? "Wait..." : "Deny"}
@@ -1263,7 +1263,7 @@ const SessionDashboard = ({
                                     setActiveFindEtutor("Find eTutor");
                                     setTutor(teacher.teacher);
                                   }}
-                                  className="w-full sm:w-auto py-2 px-7 text-base custom-2xl:text-xl rounded-full bg-[#8358F7] capitalize hover:bg-opacity-90 transition-colors"
+                                  className="w-full sm:w-auto py-2 px-7 text-base custom-xl:text-xl rounded-full bg-[#8358F7] capitalize hover:bg-opacity-90 transition-colors"
                                 >
 
                                   {waiting.id === teacher._id && waiting.action === "accepted" ? "Wait..." : "Accept"}
@@ -1301,7 +1301,7 @@ const SessionDashboard = ({
                 {activeSubTab === "completed" && (
                   <div className="px-1  custom-xl:px-4">
                     {/* top title */}
-                    <div className="w-full ml-[14%] custom-xl:w-[60%] custom-2xl:flex justify-between mb-1 sm:mb-4 custom-xl:px-4 hidden  mt-5   text-white">
+                    <div className="w-full ml-[14%] custom-xl:w-[60%] custom-xl:flex justify-between mb-1 sm:mb-4 custom-xl:px-4 hidden  mt-5   text-white">
                       <span className="px-2 custom-xl:px-0 text-xs sm:text-xl">
                         Name and availability
                       </span>

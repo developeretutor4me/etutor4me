@@ -19,7 +19,7 @@ export default function Home() {
       } ${
         currentPage == "contact" &&
         "max-w-[96%] px-9 py-11 mx-auto min-h-screen h-full"
-      }   bg-[#EDE8FA] justify-center px-7 custom-2xl:px-[73px] rounded-3xl py-14`}
+      }   bg-[#EDE8FA] justify-center px-7 custom-xl:px-[73px] rounded-3xl py-14`}
     >
       {currentPage === "faq" && (
         <FAQSection

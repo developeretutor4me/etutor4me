@@ -372,18 +372,18 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
 
 
   return (
-    <div className="custom-2xl:max-h-[896px] h-full overflow-hidden rounded-[30px] relative  bg-[#EDE8FA] text-white mt-[66px]">
-      <div className="px-5 custom-2xl:px-[42px] py-5 custom-2xl:py-[46px] flex gap-2 sm:gap-8 custom-2xl:gap-[68px]  h-full">
+    <div className="custom-xl:max-h-[896px] h-full overflow-hidden rounded-[30px] relative  bg-[#EDE8FA] text-white mt-[66px]">
+      <div className="px-5 custom-xl:px-[42px] py-5 custom-xl:py-[46px] flex gap-2 sm:gap-8 custom-xl:gap-[68px]  h-full">
         {/* left side bar */}
         <div
-          // className="bg-[#B4A5D7]  max-w-[20rem] custom-2xl:max-w-[26.4rem] w-full  rounded-3xl  min-h-screen  px-5 custom-2xl:px-10 "
-          className={` ${isSidebarOpen ? "-translate-x-96 custom-2xl:translate-x-0" : ""
-            } bg-[#b4a5d7]  absolute transform transition-all duration-500 z-50 custom-2xl:static  max-w-[20rem] custom-2xl:max-w-[26.4rem] w-full  rounded-[30px]  min-h-full  px-5 custom-2xl:px-9 `}
+          // className="bg-[#B4A5D7]  max-w-[20rem] custom-xl:max-w-[26.4rem] w-full  rounded-3xl  min-h-screen  px-5 custom-xl:px-10 "
+          className={` ${isSidebarOpen ? "-translate-x-96 custom-xl:translate-x-0" : ""
+            } bg-[#b4a5d7]  absolute transform transition-all duration-500 z-50 overflow-y-auto scrollbar-none custom-xl:static  max-w-[20rem] custom-xl:max-w-[26.4rem] w-full  rounded-[30px]  min-h-full  px-5 custom-xl:px-9 `}
 
 
         >
           <div className="m-auto w-full  flex flex-col items-center  mt-20">
-            <div className="rounded-full w-[5rem] h-[5rem] custom-2xl:w-[11.4rem] custom-2xl:h-[11.4rem]  overflow-hidden flex items-center">
+            <div className="rounded-full w-[5rem] h-[5rem] custom-xl:w-[11.4rem] custom-xl:h-[11.4rem]  overflow-hidden flex items-center">
 
               <img
                 src={uploadedImage || teacher?.user?.profilePicture}
@@ -393,7 +393,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
               />
             </div>
 
-            <p className="relative text-sm sm:text-lg custom-2xl:text-xl  text-[#534988] font-bold mt-2 cursor-pointer">
+            <p className="relative text-sm sm:text-lg custom-xl:text-xl  text-[#534988] font-bold mt-2 cursor-pointer">
               <input
                 type="file"
                 accept="image/*"
@@ -407,7 +407,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
             </p>
             {image && (
               <button
-                className="w-full sm:w-auto py-1 px-9 mt-6 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors"
+                className="w-full sm:w-auto py-1 px-9 mt-6 text-base custom-xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors"
                 onClick={() => {
                   handleUpload()
                 }}
@@ -422,7 +422,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
 
           <div className="space-y-4 mt-[137px] ">
             <button
-              className={`w-[99%] py-4  px-[38px] text-center rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-[30px] custom-2xl:leading-[2rem]  font-roboto font-medium transition-all flex  ${activeTab === "personal"
+              className={`w-[99%] py-4  px-[38px] text-center rounded-3xl text-sm custom-xl:text-lg custom-xl:text-[30px] custom-xl:leading-[2rem]  font-roboto font-medium transition-all flex  ${activeTab === "personal"
                 ? "bg-white text-[#685AAD]"
                 : " text-[#685AAD]"
                 }`}
@@ -435,7 +435,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
               Personal information
             </button>
             <button
-              className={`w-[99%] py-4  px-[38px] rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-[30px] custom-2xl:leading-[2rem]  font-roboto font-medium transition-all flex ${activeTab === "account"
+              className={`w-[99%] py-4  px-[38px] rounded-3xl text-sm custom-xl:text-lg custom-xl:text-[30px] custom-xl:leading-[2rem]  font-roboto font-medium transition-all flex ${activeTab === "account"
                 ? "bg-white text-[#685AAD]"
                 : "text-[#685AAD]"
                 }`}
@@ -447,7 +447,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
               Account settings
             </button>
             <button
-              className={`w-[99%] py-4  px-[38px] rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-[30px] custom-2xl:leading-[2rem]  font-roboto font-medium transition-all flex ${activeTab === "Academic"
+              className={`w-[99%] py-4  px-[38px] rounded-3xl text-sm custom-xl:text-lg custom-xl:text-[30px] custom-xl:leading-[2rem]  font-roboto font-medium transition-all flex ${activeTab === "Academic"
                 ? "bg-white text-[#685AAD]"
                 : "text-[#685AAD]"
                 }`}
@@ -463,20 +463,20 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
 
         {/* right side content */}
         <div className="w-full  relative ">
-          <Menu className="text-black  absolute right-0 custom-2xl:hidden block" onClick={toggleSidebar} />
+          <Menu className="text-black  absolute right-0 custom-xl:hidden block" onClick={toggleSidebar} />
           {activeTab === "personal" && (
             <div className="space-y-4 mt-8 sm:mt-12 md:mt-[70px] ">
               <h2 className="text-3xl sm:text-4xl md:text-[67px] font-roboto  text-[#685AAD] font-bold ">
                 Personal information
               </h2>
-              <div className="grid grid-cols-1 custom-2xl:grid-cols-[45.4%_45.4%] gap-6 sm:gap-8 md:gap-[53px] pt-8 sm:pt-12 md:pt-[72px] ">
+              <div className="grid grid-cols-1 custom-xl:grid-cols-[45.4%_45.4%] gap-6 sm:gap-8 md:gap-[53px] pt-8 sm:pt-12 md:pt-[72px] ">
                 <div className="w-full">
                   <label className="block text-lg sm:text-3xl font-medium font-roboto text-[#685AAD]">
                     First Name
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
                     disabled
                     value={firstNames}
                   />
@@ -487,7 +487,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
                     disabled
                     value={Lastname}
                   />
@@ -498,7 +498,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
                     disabled
                     value={teacher?.contactInformation?.country || "Not Available"}
                   />
@@ -509,18 +509,18 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
                     disabled
                     value={teacher?.contactInformation.city || "Not Available"}
                   />
                 </div>
-                <div className="w-full custom-2xl:col-span-2 ">
+                <div className="w-full custom-xl:col-span-2 ">
                   <label className="block text-lg sm:text-3xl font-medium font-roboto text-[#685AAD]">
                     Street Name
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full custom-2xl:w-[47%] rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full custom-xl:w-[47%] rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
                     disabled
                     value={teacher?.contactInformation?.streetname || "Not Available"}
                   />
@@ -531,7 +531,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
           {activeTab === "account" && subactive === "" && (
             <div className="space-y-4 mt-8">
               <div className="flex flex-col gap-5">
-                <div className=" custom-2xl:max-w-[54%] w-full mb-2.5">
+                <div className=" custom-xl:max-w-[54%] w-full mb-2.5">
                   <div className="max-w-xl ">
                     <div className="flex justify-between items-center  mb-2.5">
                       <label className="block text-lg sm:text-[27.08px] sm:leading-[2.25rem] font-medium font-roboto text-[#685AAD] ">
@@ -631,7 +631,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
                   </div>
                 </div>
 
-                <div className="custom-2xl:max-w-[54%] w-full">
+                <div className="custom-xl:max-w-[54%] w-full">
                   <div className="flex justify-between items-center ">
                     <label className="block text-lg sm:text-[27.08px] sm:leading-[2.25rem] font-medium font-roboto text-[#685AAD] ">
                       Email Address
@@ -646,7 +646,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
                   <div className="mt-1 flex rounded-md shadow-sm">
                     <input
                       type="text"
-                      className="mt-2 sm:mt-2 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl bg-[#B4A5D7] text-[#F0EDF7]    leading-[1.75rem] text-lg sm:text-xl md:text-[24.37px]  "
+                      className="mt-2 sm:mt-2 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl bg-[#B4A5D7] text-[#F0EDF7]    leading-[1.75rem] text-lg sm:text-xl md:text-[24.37px]  "
                       value={email}
                     />
                   </div>
@@ -655,14 +655,14 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
                 <div className="w-[90%] border-t border-[#685aad89] mt-11 mb-6 mx-auto"></div>
               </div>
 
-              <div className="grid grid-cols-1 custom-2xl:grid-cols-[45.8%_45.8%] gap-8">
+              <div className="grid grid-cols-1 custom-xl:grid-cols-[45.8%_45.8%] gap-8">
                 <div>
                   <label className="block text-lg sm:text-[27.08px] sm:leading-[2.25rem] font-medium font-roboto text-[#685AAD] ">
                     Old password
                   </label>
                   <input
                     type="password"
-                    className="mt-4  placeholder-[#F0EDF7]  sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl  bg-[#B4A5D7] text-lg sm:text-xl text-[#F0EDF7]  md:text-[24.37px]   leading-[1.75rem]"
+                    className="mt-4  placeholder-[#F0EDF7]  sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl  bg-[#B4A5D7] text-lg sm:text-xl text-[#F0EDF7]  md:text-[24.37px]   leading-[1.75rem]"
                     placeholder="old password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
@@ -686,7 +686,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
                   </label>
                   <input
                     type="password"
-                    className="mt-4 placeholder-[#F0EDF7]  sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl  bg-[#B4A5D7] text-lg sm:text-xl text-[#F0EDF7]  md:text-[24.37px]   leading-[1.75rem]"
+                    className="mt-4 placeholder-[#F0EDF7]  sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl  bg-[#B4A5D7] text-lg sm:text-xl text-[#F0EDF7]  md:text-[24.37px]   leading-[1.75rem]"
                     placeholder="new password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
@@ -700,7 +700,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
                   </label>
                   <input
                     type="password"
-                    className="mt-4 placeholder-[#F0EDF7]   sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl  bg-[#B4A5D7] text-lg sm:text-xl text-[#F0EDF7]  md:text-[24.37px]   leading-[1.75rem]"
+                    className="mt-4 placeholder-[#F0EDF7]   sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl  bg-[#B4A5D7] text-lg sm:text-xl text-[#F0EDF7]  md:text-[24.37px]   leading-[1.75rem]"
                     placeholder="repeat password"
                     value={confirmNewPassword}
                     onChange={(e) => setConfirmNewPassword(e.target.value)}
@@ -713,13 +713,13 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
                   setCurrentPassword("");
                   setNewPassword("");
                   setConfirmNewPassword("");
-                }} className={` ${currentPassword != "" && newPassword != "" && confirmNewPassword != "" ? " bg-[#FC7777]" : "bg-[#f0d1e0]"} rounded-lg text-sm sm:text-lg custom-2xl:text-2xl font-medium  px-3 sm:px-5 custom-2xl:px-10  py-1 sm:py-2 custom-2xl:py-3`}>
+                }} className={` ${currentPassword != "" && newPassword != "" && confirmNewPassword != "" ? " bg-[#FC7777]" : "bg-[#f0d1e0]"} rounded-lg text-sm sm:text-lg custom-xl:text-2xl font-medium  px-3 sm:px-5 custom-xl:px-10  py-1 sm:py-2 custom-xl:py-3`}>
                   cancel
                 </button>
                 <button
                   disabled={(currentPassword === "" && newPassword === "" && confirmNewPassword === "")}
                   onClick={hanldeupdatepassword}
-                  className={` ${currentPassword != "" && newPassword != "" && confirmNewPassword != "" ? " bg-[#8653FF]" : "bg-[#D8CAFB]"}  rounded-lg text-sm sm:text-lg custom-2xl:text-2xl font-medium  px-3 sm:px-5 custom-2xl:px-10  py-1 sm:py-2 custom-2xl:py-3`}
+                  className={` ${currentPassword != "" && newPassword != "" && confirmNewPassword != "" ? " bg-[#8653FF]" : "bg-[#D8CAFB]"}  rounded-lg text-sm sm:text-lg custom-xl:text-2xl font-medium  px-3 sm:px-5 custom-xl:px-10  py-1 sm:py-2 custom-xl:py-3`}
                 >
                   save changes
                 </button>
@@ -728,26 +728,26 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
           )}
           {subactive === "email" && (
             <div className="mt-40 flex flex-col gap-12 items-center ">
-              <div className=" w-full custom-2xl:w-[90%]">
+              <div className=" w-full custom-xl:w-[90%]">
                 <label className="text-lg sm:text-[34px] sm:leading-[2rem] font-semibold   text-[#685AAD] ">
                   New Email Address{" "}
                 </label>
                 <input
                   type="email"
-                  className="mt-4  placeholder-[#F0EDF7]   sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl  text-[#F0EDF7]  bg-[#B4A5D7] text-lg sm:text-xl md:text-[27px] leading-[1.75rem]"
+                  className="mt-4  placeholder-[#F0EDF7]   sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl  text-[#F0EDF7]  bg-[#B4A5D7] text-lg sm:text-xl md:text-[27px] leading-[1.75rem]"
                   placeholder="enter new email address"
                   value={newEmail}
                   onChange={(e) => setNewEmail(e.target.value)}
                   required
                 />
               </div>
-              <div className="w-full custom-2xl:w-[90%]">
+              <div className="w-full custom-xl:w-[90%]">
                 <label className="text-lg sm:text-[34px] sm:leading-[2rem] font-semibold   text-[#685AAD] ">
                   Current Password{" "}
                 </label>
                 <input
                   type="password"
-                  className="mt-4  placeholder-[#F0EDF7]   sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl  text-[#F0EDF7]  bg-[#B4A5D7] text-lg sm:text-xl md:text-[27px] leading-[1.75rem]"
+                  className="mt-4  placeholder-[#F0EDF7]   sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl  text-[#F0EDF7]  bg-[#B4A5D7] text-lg sm:text-xl md:text-[27px] leading-[1.75rem]"
                   placeholder="enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -757,13 +757,13 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
               <div className="flex justify-end space-x-3 pt-7 ">
                 <button
                   onClick={() => setsubactive("")}
-                  className=" bg-[#FC7777] rounded-lg text-sm sm:text-lg custom-2xl:text-[32.08px] custom-2xl:leading-[2rem] font-medium  px-3 sm:px-5 custom-2xl:px-10  py-1 sm:py-2 custom-2xl:py-4"
+                  className=" bg-[#FC7777] rounded-lg text-sm sm:text-lg custom-xl:text-[32.08px] custom-xl:leading-[2rem] font-medium  px-3 sm:px-5 custom-xl:px-10  py-1 sm:py-2 custom-xl:py-4"
                 >
                   cancel
                 </button>
                 <button
                   onClick={handleSubmit}
-                  className="bg-[#8653FF]  rounded-lg text-sm sm:text-lg custom-2xl:text-[32.08px] custom-2xl:leading-[2rem] font-medium  px-3 sm:px-5 custom-2xl:px-10  py-1 sm:py-2 custom-2xl:py-4"
+                  className="bg-[#8653FF]  rounded-lg text-sm sm:text-lg custom-xl:text-[32.08px] custom-xl:leading-[2rem] font-medium  px-3 sm:px-5 custom-xl:px-10  py-1 sm:py-2 custom-xl:py-4"
                 >
                   save changes
                 </button>
@@ -776,14 +776,14 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
               <h2 className="text-3xl sm:text-4xl md:text-[67px] font-roboto  text-[#685AAD] font-bold ">
                 Academic records
               </h2>
-              <div className=" grid grid-cols-1 custom-2xl:grid-cols-[45.4%_45.4%] gap-6 sm:gap-8 md:gap-12 pt-8 sm:pt-12 md:pt-20 ">
+              <div className=" grid grid-cols-1 custom-xl:grid-cols-[45.4%_45.4%] gap-6 sm:gap-8 md:gap-12 pt-8 sm:pt-12 md:pt-20 ">
                 <div className="w-full">
                   <label className="block text-lg sm:text-3xl font-medium font-roboto text-[#685AAD]">
                     Highest Degree
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
                     disabled
                     value={teacher?.education?.highestDegree || "Not Available"}
                   />
@@ -795,7 +795,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
                     disabled
                     value={teacher?.experience?.internationalExperience || "Not Available"}
                   />
@@ -807,31 +807,31 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
                     disabled
                     value={teacher?.education?.graduationSchool || "Not Available"}
                   />
                 </div>
 
-                <div className="w-full hidden custom-2xl:block">
+                <div className="w-full hidden custom-xl:block">
                   <label className="block text-lg sm:text-xl font-semibold text-transparent">
                     State / City
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-3xl"
                     disabled
                     value={"Not Available"}
                   />
                 </div>
 
-                <div className="w-full custom-2xl:col-span-2 ">
+                <div className="w-full custom-xl:col-span-2 ">
                   <label className="block text-lg sm:text-3xl font-medium font-roboto text-[#685AAD]">
                     Language Skills
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full custom-2xl:w-[47%] rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-2xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full custom-xl:w-[47%] rounded-xl text-white bg-[#B4A5D7] text-lg sm:text-xl md:text-2xl"
                     disabled
                     value={teacher?.experience?.languages || "Not Available"}
                   />
@@ -840,7 +840,7 @@ const UserProfile = ({ teacher, profilePicture }: UserProfileprops) => {
             </div>
           )}
           {activeTab === "Academic" && (
-            <button className="bg-[#FC7777] float-right custom-2xl:absolute bottom-0 right-0 px-8 py-2 rounded-lg mt-12">
+            <button className="bg-[#FC7777] float-right custom-xl:absolute bottom-0 right-0 px-8 py-2 rounded-lg mt-12">
               <Image loading="lazy" src={editiconwhite} alt="" className="w-16" />
             </button>
           )}

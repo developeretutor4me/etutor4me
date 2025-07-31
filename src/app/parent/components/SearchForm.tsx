@@ -35,9 +35,9 @@ function SearchForm({
     setIsLevelOpen
 }: any) {
     return (
-        <div className="space-y-4  bg-[#EDE8FA] px-[21px] py-6 rounded-3xl custom-2xl:rounded-[40px] max-w-[1001px] mx-auto mt-3   min-h-screen   ">
+        <div className="space-y-4  bg-[#EDE8FA] px-[21px] py-6 rounded-3xl custom-xl:rounded-[40px] max-w-[1001px] mx-auto mt-3   min-h-screen   ">
             <div className="flex justify-between items-center flex-col custom-xl:flex-row space-x-2 pt-[26px]">
-                <h1 className=" text-3xl custom-2xl:text-[46.15px] custom-2xl:leading-none font-bold text-[#685AAD] pl-10">
+                <h1 className=" text-3xl custom-xl:text-[46.15px] custom-xl:leading-none font-bold text-[#685AAD] pl-10">
                     Find eTutor
                 </h1>
 
@@ -118,7 +118,7 @@ function SearchForm({
                 <div className="w-full max-w-[36rem] mx-auto">
                     <div className="relative  select-none">
                         <div
-                            className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
+                            className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
                             onClick={toggleSubjectDropdown}
                         >
                             <span>
@@ -209,7 +209,7 @@ function SearchForm({
                 <div className="w-full max-w-[36rem] mx-auto mt-5">
                     <div className="relative w-full select-none">
                         <div
-                            className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
+                            className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
                             onClick={toggleLevelDropdown}
                         >
                             <span>{selectedLevel || "select level"}</span>
@@ -251,7 +251,7 @@ function SearchForm({
                 <div className="w-full max-w-[36rem] mx-auto mt-4">
                     <div className="relative  select-none">
                         <div
-                            className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
+                            className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
                             onClick={toggleGenderDropdown}
                         >
                             <span>{selectedGender || "select gender"}</span>

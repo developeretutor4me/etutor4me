@@ -111,12 +111,11 @@ const DashboardGrid = ({
   return (
     <>
       <div
-        className={`custom-2xl:w-full max-w-[66rem] mb-4  mt-12 sm:mt-0   ${isLargeScreen ? "flex-row gap-11" : "flex-col gap-4"
-          } flex sm:hidden  items-start       `}
+        className={`custom-2xl:w-full max-w-[66rem] mb-4  mt-12 sm:mt-0 flex flex-col gap-4   custom-lg:flex-row custom-lg:gap-11   items-start  ${styles.dashboardTopbox}      `}
       >
         {/* 1 */}
         <div
-          className={` flex flex-col space-y-2 pb-3 pt-4 px-4  bg-purple-100  rounded-3xl w-[100%] custom-2xl:w-[18rem] bg-[#EDE8FA]`}
+          className={` ${styles.firstcard} flex flex-col space-y-2 pb-3 pt-4 px-4  bg-purple-100  rounded-3xl w-[100%] custom-2xl:w-[18rem] bg-[#EDE8FA]`}
         >
           <div className=" flex justify-between items-center bg-purple-300 rounded-2xl px-4 pl-6 pr-6 py-[10px] bg-[#ffffff84]">
             <div className="text-3xl font-bold text-[#685AAD] truncate">
@@ -151,7 +150,7 @@ const DashboardGrid = ({
         </div>
         {/* 2 */}
         <div
-          className={` flex flex-col space-y-2 pb-2 pt-4 px-4  bg-purple-100  rounded-3xl w-[100%] custom-2xl:w-[18rem] bg-[#EDE8FA]`}
+          className={` ${styles.secondcard} flex flex-col space-y-2 pb-2 pt-4 px-4  bg-purple-100  rounded-3xl w-[100%] custom-2xl:w-[18rem] bg-[#EDE8FA]`}
         >
           <div className=" flex justify-between items-center bg-purple-300 rounded-2xl px-4 pl-6 py-[10px] bg-[#ffffff84]">
             <div className="text-3xl font-bold text-[#685AAD] truncate max-w-[12rem]">
@@ -188,7 +187,7 @@ const DashboardGrid = ({
         </div>
         {/* 3 */}
         <div
-          className={`flex  gap-5 items-center pb-1 pt-3 px-6  bg-purple-100  rounded-3xl w-full ${isLargeScreen ? "max-w-[23rem]" : "w-full sm:max-w-[18rem]"
+          className={`${styles.thirdcard} flex  gap-5 items-center pb-1 pt-3 px-6  bg-purple-100  rounded-3xl w-full ${isLargeScreen ? "max-w-[23rem]" : "w-full "
             } bg-[#EDE8FA]`}
         >
           <div className="level h-[103px]">
@@ -243,6 +242,8 @@ const DashboardGrid = ({
           </div>
         </div>
       </div>
+
+
       <div className={styles.gridContainer}>
         <div className={`${styles.todaysSchedule} px-[26px] py-4 rounded-2xl`}>
           <div className="flex  justify-between items-center px-1">
@@ -307,8 +308,7 @@ const DashboardGrid = ({
           </div>
         </div>
 
-        <div
-          className={`${styles.calendar} px-[26px] py-4 rounded-2xl overflow-y-auto scrollbar-none`}
+        <div className={`${styles.calendar} px-[26px] py-4 rounded-2xl overflow-y-auto scrollbar-none`}
         >
           <div className="flex  justify-between items-center px-1">
             <h1 className="font-bold   text-[33.22px] text-[#685AAD] ">
@@ -397,8 +397,7 @@ const DashboardGrid = ({
           </div>
         </div>
 
-        <div
-          className={`${styles.completedSessions} px-[24px] py-6 rounded-2xl`}
+        <div className={`${styles.completedSessions} px-[24px] py-6 rounded-2xl`}
         >
           <div className="flex  justify-between items-center">
             <h1 className="font-bold text-[25px] leading-[1.75rem] uppercase text-[#685AAD]">
@@ -473,8 +472,7 @@ const DashboardGrid = ({
           </div>
         </div>
 
-        <div
-          className={`${styles.referFriends} px-[25px] py-4 rounded-2xl flex flex-col justify-between overflow-y-auto scrollbar-none`}
+        <div className={`${styles.referFriends} px-[25px] py-4 rounded-2xl flex flex-col justify-between overflow-y-auto scrollbar-none`}
         >
           <div className="flex  justify-between items-center ">
             <h1 className="font-bold text-[25px] text-[#685AAD] uppercase">
@@ -499,8 +497,7 @@ const DashboardGrid = ({
           </div>
         </div>
 
-        <div
-          className={`${styles.support} px-[26px] py-4 rounded-2xl flex flex-col justify-between`}
+        <div className={`${styles.support} px-[26px] py-4 rounded-2xl flex flex-col justify-between`}
         >
           <div className="flex  justify-between items-center px-1">
             <h1 className="font-bold text-[25px] text-[#685AAD]">
@@ -522,8 +519,7 @@ const DashboardGrid = ({
           </div>
         </div>
 
-        <div
-          className={`${styles.trialSession} px-[26px] py-4 rounded-2xl flex flex-col justify-between`}
+        <div className={`${styles.trialSession} px-[26px] py-4 rounded-2xl flex flex-col justify-between`}
         >
           <div className="flex  flex-col">
             <h1 className="uppercase font-bold text-[25px] text-[#685AAD]">
@@ -547,8 +543,7 @@ const DashboardGrid = ({
           </div>
         </div>
 
-        <div
-          className={`${styles.chatBox} px-[26px] py-4 rounded-2xl flex flex-col justify-between`}
+        <div className={`${styles.chatBox} px-[26px] py-4 rounded-2xl flex flex-col justify-between`}
         >
           <div className="flex  justify-between items-center px-1">
             <h1 className="font-bold text-[25px] text-[#685AAD]">CHAT</h1>

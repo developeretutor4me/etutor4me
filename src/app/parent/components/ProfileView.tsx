@@ -81,9 +81,9 @@ function ProfileView({
         );
     }
     return (
-        <div className="bg-[#EDE8FA] rounded-3xl p-8 flex flex-col custom-2xl:flex-row gap-5">
+        <div className="bg-[#EDE8FA] rounded-3xl p-8 flex flex-col custom-xl:flex-row gap-5">
             {/* Left column */}
-            <div className="w-full custom-2xl:w-[63%] space-y-4">
+            <div className="w-full custom-xl:w-[63%] space-y-4">
                 {/* Profile card */}
                 <div className="bg-[#A296CC] rounded-3xl pl-6 py-6 pr-3 sm:pr-8 ">
                     <div className="flex items-center justify-between gap-4">
@@ -303,7 +303,7 @@ function ProfileView({
                     setIsmemberOpen(false);
                     setIsDurationOpen(false);
                 }}
-                className=" w-full custom-2xl:w-[37%] space-y-4"
+                className=" w-full custom-xl:w-[37%] space-y-4"
             >
                 {/* Booking card */}
                 <div className="bg-[#A296CC] rounded-3xl p-10 ">

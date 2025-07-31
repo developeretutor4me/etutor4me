@@ -79,14 +79,14 @@ function MyFiles() {
 
   return (
     <div className="mt-10 px-1 h-full ">
-      <div className="bg-[#EDE8FA] rounded-3xl  py-7 custom-2xl:py-7 px-3 sm:px-6 custom-2xl:px-[27px] h-fit ">
+      <div className="bg-[#EDE8FA] rounded-3xl  py-7 custom-xl:py-7 px-3 sm:px-6 custom-xl:px-[27px] h-fit ">
         {/* top header  */}
         <div className="flex justify-between custom-xl:items-center flex-wrap gap-2 ">
-          <h1 className="text-xl sm:text-2xl custom-2xl:text-[39.46px] custom-2xl:leading-[2.25rem] text-[#685AAD] font-bold pl-2 sm:pl-9 ">
+          <h1 className="text-xl sm:text-2xl custom-xl:text-[39.46px] custom-xl:leading-[2.25rem] text-[#685AAD] font-bold pl-2 sm:pl-9 ">
             My Files
           </h1>
 
-          <div className="flex w-fit gap-2 sm:gap-4 flex-col custom-xl:flex-row custom-2xl:gap-10 pt-0.5 sm:pr-6 custom-xl:items-center ">
+          <div className="flex w-fit gap-2 sm:gap-4 flex-col custom-xl:flex-row custom-xl:gap-10 pt-0.5 sm:pr-6 custom-xl:items-center ">
             <DropDown
               options={SortOptions}
               selected={selectedOption}
@@ -97,7 +97,7 @@ function MyFiles() {
             <div className="2xl:min-w-[23.7rem] relative">
               <input
                 type="text"
-                className="px-4 py-[7px] custom-2xl:py-3.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-sm custom-lg:text-xl placeholder:text-white"
+                className="px-4 py-[7px] custom-xl:py-3.5 block w-full rounded-lg text-white bg-[#B4A5D7] text-sm custom-lg:text-xl placeholder:text-white"
                 placeholder="Search by name"
                 onChange={handleSearchChange}
               />
@@ -106,10 +106,10 @@ function MyFiles() {
           </div>
         </div>
 
-        <div className="bg-[#B4A5D7] mt-7 rounded-xl sm:rounded-3xl custom-2xl:rounded-[30.92px] h-[495px] px-3 sm:px-7 custom-2xl:pl-[38px] custom-2xl:pr-[34px] py-5 sm:py-7 ">
-          <div className=" w-full custom-2xl:space-y-6 h-full">
+        <div className="bg-[#B4A5D7] mt-7 rounded-xl sm:rounded-3xl custom-xl:rounded-[30.92px] h-[495px] px-3 sm:px-7 custom-xl:pl-[38px] custom-xl:pr-[34px] py-5 sm:py-7 ">
+          <div className=" w-full custom-xl:space-y-6 h-full">
             {/* Header Row */}
-            <div className="hidden custom-2xl:grid custom-2xl:grid-cols-5  mb-2 text-sm custom-lg  sm:text-[19.16px] sm:leading-[1.75rem] font-medium custom-2xl:pl-[130px]  w-[78%] gap-9   text-white">
+            <div className="hidden custom-xl:grid custom-xl:grid-cols-5  mb-2 text-sm custom-lg  sm:text-[19.16px] sm:leading-[1.75rem] font-medium custom-xl:pl-[130px]  w-[78%] gap-9   text-white">
               <div className="pl-4 ">File Name</div>
               <div className=" text-end  ">Size</div>
               <div className="text-end pr-6   ">Type</div>
@@ -118,7 +118,7 @@ function MyFiles() {
             </div>
             <div
               id="style-2"
-              className="h-[100%] custom-2xl:h-[85%] overflow-y-auto first:space-y-0  space-y-2 sm:space-y-4 pr-3 sm:pr-7 custom-2xl:pr-[34px]"
+              className="h-[100%] custom-xl:h-[85%] overflow-y-auto first:space-y-0  space-y-2 sm:space-y-4 pr-3 sm:pr-7 custom-xl:pr-[34px]"
             >
               {isLoading || error || docs.length === 0 ? (
                 <div className="w-full h-full flex items-center justify-center">
@@ -143,14 +143,14 @@ function MyFiles() {
           </div>
         </div>
 
-        <h1 className="text-xl py-6 custom-2xl:py-[52px] sm:text-2xl custom-2xl:text-[39.46px] custom-2xl:leading-[1rem] text-[#685AAD] font-bold pl-2 sm:pl-9 ">
+        <h1 className="text-xl py-6 custom-xl:py-[52px] sm:text-2xl custom-xl:text-[39.46px] custom-xl:leading-[1rem] text-[#685AAD] font-bold pl-2 sm:pl-9 ">
           Quick Access
         </h1>
-        <div className="bg-[#B4A5D7]  rounded-xl sm:rounded-3xl custom-2xl:rounded-[30.92px] h-[495px] px-3 sm:px-7 custom-2xl:pl-[38px] custom-2xl:pr-[34px] py-5 sm:py-7 ">
-          <div className=" w-full custom-2xl:space-y-6 h-full">
+        <div className="bg-[#B4A5D7]  rounded-xl sm:rounded-3xl custom-xl:rounded-[30.92px] h-[495px] px-3 sm:px-7 custom-xl:pl-[38px] custom-xl:pr-[34px] py-5 sm:py-7 ">
+          <div className=" w-full custom-xl:space-y-6 h-full">
             <div
               id="style-2"
-              className="h-[100%]  overflow-y-auto first:space-y-0 flex flex-col gap-4  space-y-2 sm:space-y-4 pr-3 sm:pr-7 custom-2xl:pr-[34px]"
+              className="h-[100%]  overflow-y-auto first:space-y-0 flex flex-col gap-4  space-y-2 sm:space-y-4 pr-3 sm:pr-7 custom-xl:pr-[34px]"
             >
               {isLoading
                 ? "Loading"

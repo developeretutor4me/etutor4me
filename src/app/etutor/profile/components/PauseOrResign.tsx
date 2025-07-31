@@ -321,7 +321,7 @@ function PauseOrResign({ teacher }: pauseorresignprops) {
         {resignRequest !="" ? (
 
         <div className="bg-[#EDE8FA]  mt-[151px] px-14 pt-16 pb-28 rounded-3xl relative">
-          <h1 className="text-xl sm:text-2xl custom-2xl:text-6xl text-[#685AAD] font-bold  mb-9 ">
+          <h1 className="text-xl sm:text-2xl custom-xl:text-6xl text-[#685AAD] font-bold  mb-9 ">
             {(resignRequest && resignRequest?.filter((req: any) => (req.status === "pending"))) ? "Request Pending":"Pause or Resign"}
            
           </h1>
@@ -370,7 +370,7 @@ function PauseOrResign({ teacher }: pauseorresignprops) {
         </div>
         ):(
         <div className="bg-[#EDE8FA]  mt-[151px] px-14 pt-16 pb-28 rounded-3xl relative">
-          <h1 className="text-xl sm:text-2xl custom-2xl:text-6xl text-[#685AAD] font-bold  mb-9 ">
+          <h1 className="text-xl sm:text-2xl custom-xl:text-6xl text-[#685AAD] font-bold  mb-9 ">
             {(filterRequest.length > 0 && filterRequest?.filter((req: any) => (req.status === "pending"))) ? "Request Pending":"Pause or Resign"}
            
           </h1>
@@ -426,7 +426,7 @@ function PauseOrResign({ teacher }: pauseorresignprops) {
           <div className="flex flex-col my-16 gap-10 ">
             {/* want to pause */}
             <div className="bg-[#EDE8FA]   pl-24 pr-16  pt-16 pb-5 rounded-3xl relative max-w-[91rem]  w-full mx-auto">
-              <h1 className="text-xl sm:text-2xl custom-2xl:text-6xl text-[#685AAD] font-bold  mb-5  ">
+              <h1 className="text-xl sm:text-2xl custom-xl:text-6xl text-[#685AAD] font-bold  mb-5  ">
                 Pause Tutoring
               </h1>
               <p className="text-3xl leading-snug text-[#6B5692] mb-40">
@@ -461,7 +461,7 @@ function PauseOrResign({ teacher }: pauseorresignprops) {
 
             {/* want to resign */}
             <div className="bg-[#EDE8FA]   pl-24 pr-16  pt-16 pb-5 rounded-3xl relative max-w-[91rem] w-full  mx-auto">
-              <h1 className="text-xl sm:text-2xl custom-2xl:text-6xl text-[#685AAD] font-bold  mb-5  ">
+              <h1 className="text-xl sm:text-2xl custom-xl:text-6xl text-[#685AAD] font-bold  mb-5  ">
                 Resign from Tutoring
               </h1>
               <p className="text-3xl leading-snug text-[#6B5692] mb-20">
@@ -501,7 +501,7 @@ function PauseOrResign({ teacher }: pauseorresignprops) {
       {activeview === "Pause" && (
         <div className="bg-white absolute top-0 left-0 z-50 min-h-screen w-screen py-[84px] px-[125px]">
           <div className="bg-[#EDE8FA]   px-24 py-20 rounded-3xl relative   w-full mx-auto">
-            <h1 className="text-xl sm:text-2xl custom-2xl:text-6xl text-[#685AAD] font-bold  mb-9  pt-1  ">
+            <h1 className="text-xl sm:text-2xl custom-xl:text-6xl text-[#685AAD] font-bold  mb-9  pt-1  ">
               Request to Pause Tutoring
             </h1>
             <p className="text-3xl leading-snug text-[#6B5692] mb-28">
@@ -590,7 +590,7 @@ function PauseOrResign({ teacher }: pauseorresignprops) {
               <div className="w-full max-w-[35.5rem] relative mt-9">
                 {/* Input field */}
                 <div
-                  className={`w-full bg-[#B4A5D7] text-white text-sm custom-lg:text-xl custom-2xl:text-2xl pl-10 pr-8 py-2 sm:py-6 rounded-lg cursor-pointer flex justify-between items-center ${
+                  className={`w-full bg-[#B4A5D7] text-white text-sm custom-lg:text-xl custom-xl:text-2xl pl-10 pr-8 py-2 sm:py-6 rounded-lg cursor-pointer flex justify-between items-center ${
                     isOpen && "border-2 border-white"
                   }`}
                   onClick={() => setIsOpen(!isOpen)}
@@ -616,7 +616,7 @@ function PauseOrResign({ teacher }: pauseorresignprops) {
                         >
                           <ChevronLeft className="w-8 h-8 font-bold" />
                         </button>
-                        <h2 className="text-white font-medium text-sm sm:text-xl custom-2xl:text-3xl">
+                        <h2 className="text-white font-medium text-sm sm:text-xl custom-xl:text-3xl">
                           {months[currentDate.getMonth()]}{" "}
                           {currentDate.getFullYear()}
                         </h2>
@@ -634,7 +634,7 @@ function PauseOrResign({ teacher }: pauseorresignprops) {
                           (day, index) => (
                             <div
                               key={index}
-                              className="text-center text-white text-sm sm:text-lg custom-2xl:text-2xl font-medium"
+                              className="text-center text-white text-sm sm:text-lg custom-xl:text-2xl font-medium"
                             >
                               {day}
                             </div>
@@ -659,7 +659,7 @@ function PauseOrResign({ teacher }: pauseorresignprops) {
                               }
                             }}
                             className={`
-                  p-2 text-center rounded-full text-sm sm:text-lg custom-2xl:text-2xl font-medium
+                  p-2 text-center rounded-full text-sm sm:text-lg custom-xl:text-2xl font-medium
                   ${day.isCurrentMonth ? "text-white " : "text-[#d3c6ef]"}
                   ${
                     //@ts-ignore
@@ -736,7 +736,7 @@ function PauseOrResign({ teacher }: pauseorresignprops) {
       {activeview === "resign" && (
         <div className="bg-white absolute top-0 left-0 z-50 min-h-screen w-screen py-[84px] px-[125px]">
           <div className="bg-[#EDE8FA]   px-24 py-20 rounded-3xl relative   w-full mx-auto">
-            <h1 className="text-xl sm:text-2xl custom-2xl:text-6xl text-[#685AAD] font-bold  mb-9  pt-1  ">
+            <h1 className="text-xl sm:text-2xl custom-xl:text-6xl text-[#685AAD] font-bold  mb-9  pt-1  ">
               Request to Resign from Tutoring
             </h1>
             <p className="text-3xl leading-snug text-[#6B5692] mb-28">

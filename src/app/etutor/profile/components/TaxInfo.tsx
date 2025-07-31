@@ -50,7 +50,7 @@ function TaxInfo() {
   return (
     <div className="my-16 ">
       <div className="bg-[#EDE8FA]  pt-12 pb-16 px-12 rounded-3xl">
-        <h1 className="text-xl sm:text-2xl custom-2xl:text-4xl text-[#685AAD] font-bold">
+        <h1 className="text-xl sm:text-2xl custom-xl:text-4xl text-[#685AAD] font-bold">
           Country of tax residency <span className="text-[#FC7777]"> *</span>
         </h1>
 
@@ -104,7 +104,7 @@ function TaxInfo() {
         </div>
       </div>
       <div className="bg-[#EDE8FA] mt-16 rounded-3xl py-14 px-12">
-        <h1 className="text-xl sm:text-2xl custom-2xl:text-4xl text-[#685AAD] font-bold">
+        <h1 className="text-xl sm:text-2xl custom-xl:text-4xl text-[#685AAD] font-bold">
           Tax Information
         </h1>
         <div className="mt-16 pt-1">

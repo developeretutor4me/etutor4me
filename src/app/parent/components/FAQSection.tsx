@@ -18,18 +18,18 @@ const FAQSection = ({ onNeedMoreHelp, onChatHistory }:any) => {
   };
 
   return (
-    <div className=" w-full  h-fit flex flex-col custom-2xl:flex-row">
+    <div className=" w-full  h-fit flex flex-col custom-xl:flex-row">
         <div className='  w-full h-full'>
-      <h2 className="text-lg sm:text-2xl custom-2xl:text-[45px] custom-2xl:leading-[2.25rem] font-bold text-[#685AAD] mb-0">Frequently Asked Questions</h2>
-      <ul className="mt-3 sm:mt-6 custom-2xl:mt-12 pt-1 px-2 custom-2xl:px-8 ">
+      <h2 className="text-lg sm:text-2xl custom-xl:text-[45px] custom-xl:leading-[2.25rem] font-bold text-[#685AAD] mb-0">Frequently Asked Questions</h2>
+      <ul className="mt-3 sm:mt-6 custom-xl:mt-12 pt-1 px-2 custom-xl:px-8 ">
         {faqs.map((faq, index) => (
-          <li key={index} className="py-4 custom-2xl:py-10 text-sm sm:text-lg custom-2xl:text-[28.15px] custom-2xl:leading-[2rem] border-b text-[#534988]  border-[#ada7cfc4] last:border-b-0  ">
+          <li key={index} className="py-4 custom-xl:py-10 text-sm sm:text-lg custom-xl:text-[28.15px] custom-xl:leading-[2rem] border-b text-[#534988]  border-[#ada7cfc4] last:border-b-0  ">
             <button
               onClick={() => toggleFAQ(index)}
               className="w-full text-left py-3  flex   gap-10 items-center cursor-pointer text-[#534988] hover:bg-[#EDE8FA] transition-colors"
             >
               
-              <Image  loading="lazy"  src={downarrow} alt="" className={ ` h-3 custom-2xl:h-7   w-3 custom-2xl:w-7 text-black font-thin transition-transform ${openIndex === index ? 'transform rotate-180' : ''}`} />
+              <Image  loading="lazy"  src={downarrow} alt="" className={ ` h-3 custom-xl:h-7   w-3 custom-xl:w-7 text-black font-thin transition-transform ${openIndex === index ? 'transform rotate-180' : ''}`} />
               <span>{faq.question}</span>
             </button>
             {openIndex === index && (
@@ -43,16 +43,16 @@ const FAQSection = ({ onNeedMoreHelp, onChatHistory }:any) => {
       </div>
 
 
-      <div className="mt-6   custom-2xl:pl-11 w-fit mx-auto  flex justify-end flex-col gap-2 custom-2xl:gap-4 ">
+      <div className="mt-6   custom-xl:pl-11 w-fit mx-auto  flex justify-end flex-col gap-2 custom-xl:gap-4 ">
         <button 
           onClick={onChatHistory} 
-          className="w-full bg-[#8558F9] text-white text-base custom-2xl:text-2xl py-2 px-14 rounded-full hover:bg-opacity-90 transition-colors"
+          className="w-full bg-[#8558F9] text-white text-base custom-xl:text-2xl py-2 px-14 rounded-full hover:bg-opacity-90 transition-colors"
         >
           Chat&nbsp;history
         </button>
         <button 
           onClick={onNeedMoreHelp} 
-          className="w-full bg-[#FF7777] text-white text-base custom-2xl:text-2xl py-2 px-14 rounded-full hover:bg-opacity-90 transition-colors"
+          className="w-full bg-[#FF7777] text-white text-base custom-xl:text-2xl py-2 px-14 rounded-full hover:bg-opacity-90 transition-colors"
         >
           Need&nbsp;More&nbsp;Help?
         </button>

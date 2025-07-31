@@ -88,12 +88,12 @@ const ContactForm = ({currentPage}:ContactFormprops) => {
                 Request Submitted
               </h2>
 
-              <p className="text-xs sm:text-base custom-xl:text-3xl custom-2xl:text-[32.48px]  text-[#7669b5] pl-2 mb-2 custom-xl:mb-11 pt-0.5">
-                <p className="custom-2xl:py-1.5">
+              <p className="text-xs sm:text-base custom-xl:text-3xl custom-xl:text-[32.48px]  text-[#7669b5] pl-2 mb-2 custom-xl:mb-11 pt-0.5">
+                <p className="custom-xl:py-1.5">
                   Thank you for describing your issue in detail! We appreciate
                   your input
                 </p>
-                <p className="custom-2xl:py-1.5">
+                <p className="custom-xl:py-1.5">
                   and will get back to you as soon as possible.
                 </p>
               </p>
@@ -213,7 +213,7 @@ const ContactForm = ({currentPage}:ContactFormprops) => {
             onSubmit={handleSubmit}
           >
             <div>
-              <h3 className="text-[#7669b5] pl-1 text-lg sm:text-2xl custom-2xl:text-[35.1px] font-medium mb-2 sm:mb-7">
+              <h3 className="text-[#7669b5] pl-1 text-lg sm:text-2xl custom-xl:text-[35.1px] font-medium mb-2 sm:mb-7">
                 Additional comments
               </h3>
 
@@ -225,7 +225,7 @@ const ContactForm = ({currentPage}:ContactFormprops) => {
                   }}
                   placeholder="Additional comments"
                   rows={5}
-                  className="w-full rounded-xl p-3 text-sm sm:text-xl custom-2xl:text-2xl sm:p-5  border-2 border-[#776bb5] text-[#958bc6] placeholder:text-[#958bc6]"
+                  className="w-full rounded-xl p-3 text-sm sm:text-xl custom-xl:text-2xl sm:p-5  border-2 border-[#776bb5] text-[#958bc6] placeholder:text-[#958bc6]"
                 ></textarea>
                 <button
                   type="submit"

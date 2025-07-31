@@ -64,69 +64,11 @@ function DashboardGrid({
       >
         {/* <NotificationPage /> */}
       </div>
-      {/* <Dashboard /> */}
 
       {/* top left box TOKIs */}
-      <div className=" custom-xl:w-[80%] sm:max-w-[40rem]   flex  items-start flex-col custom-2xl:flex-row gap-6 absolute top-14 custom-lg:top-0 mt-4  ">
-        <div className=" flex flex-col space-y-3 py-4 px-6  bg-purple-100  rounded-2xl w-[100%] sm:w-[24rem] bg-[#EDE8FA]">
-          <div className=" flex justify-between items-center bg-purple-300 rounded-full px-4 pl-6 py-[10px] bg-[#A296CC]">
-            <div className="text-3xl font-bold text-white">{etokies}</div>
-            <div className=" flex items-center justify-center">
-              <Image
-                loading="lazy"
-                src={etokiicon}
-                alt=""
-                className="w-9 h-9"
-              />
-            </div>
-          </div>
 
-          <div className="flex  space-x-6 mt-4 hover:cursor-pointer px-2 pt-2">
-            <button
-              onClick={() => {
-                setActiveSidebarItem("Refer your Friends");
-              }}
-              className="flex-1 bg-[#685AAD] text-white py-[2px] px-4  rounded-md text-xs flex items-center justify-center gap-1 hover:cursor-pointer"
-            >
-              <Image
-                loading="lazy"
-                src={EPlusIcon}
-                alt=""
-                className="w-6 h-6 hover:cursor-pointer"
-              />{" "}
-              etokis
-            </button>
-            <button
-              onClick={handleRedeem}
-              onMouseEnter={() => {
-                setredeem(true);
-              }}
-              onMouseLeave={() => {
-                setredeem(false);
-              }}
-              className="flex-1 bg-[#8653FF] text-white py-[2px] px-4 rounded-md flex items-center justify-center gap-1 hover:cursor-pointer relative"
-            >
-              {radeemLoading ? "wait..." : "Redeem"}
-              <Image
-                loading="lazy"
-                src={redeemIcon}
-                alt=""
-                className="w-6 h-6"
-              />
-              {redeem && (
-                <div className="hover absolute w-[200px] sm:w-[280px] custom-lg:w-[340px] h-[88px] sm:h-[124px] custom-lg:h-[150px] top-8 custom-xl:top-0 left-20 custom-xl:left-40 ">
-                  <Image src={etokipopup} alt="" className="object-contain" />
-                </div>
-              )}
-            </button>
-          </div>
-        </div>
-        <div className="bg-[#EDE8FA] rounded-lg font-bold px-8 py-3 text-center text-base text-[#685AAD] ">
-          SESSIONS&nbsp;LEFT: {setsessionleft}
-        </div>
-      </div>
 
-      <div className="block mb-60  sm:mb-64 custom-lg:mb-[135px] text-transparent">
+      <div className="  mb-40 sm:mb-0  custom-2xl:mb-10 2xl:mb-[135px] text-transparent">
         a
       </div>
 
@@ -453,7 +395,7 @@ function DashboardGrid({
 
         {/* ---------refer friends--------- */}
         <div
-          className={`${styles.referfriends}  bg-[#EDE8FA] text-[#685AAD] flex flex-col gap-2 justify-between rounded-2xl px-6 py-5  text-xl  hover:cursor-pointer`}
+          className={`${styles.referfriends} overflow-auto scrollbar-none  bg-[#EDE8FA] text-[#685AAD] flex flex-col gap-2 justify-between rounded-2xl px-6 py-5  text-xl  hover:cursor-pointer`}
           onClick={() => {
             setActiveSidebarItem("Refer your Friends");
           }}

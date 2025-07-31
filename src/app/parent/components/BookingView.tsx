@@ -95,7 +95,7 @@ function BookingView({
                         <div className="w-full max-w-[36rem] mx-auto">
                             <div className="relative  select-none">
                                 <div
-                                    className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
+                                    className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
                                     onClick={toggleSubjectDropdown}
                                 >
                                     <span>
@@ -188,7 +188,7 @@ function BookingView({
                         <div className="w-full max-w-[36rem] mx-auto mt-4">
                             <div className="relative w-full select-none">
                                 <div
-                                    className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
+                                    className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
                                     onClick={toggleLevelDropdown}
                                 >
                                     <span>{selectedLevel || "select level"}</span>
@@ -248,7 +248,7 @@ function BookingView({
                                 <div className="w-full max-w-[482px] mx-auto relative">
                                     {/* Input field */}
                                     <div
-                                        className="w-full bg-[#DBCAFF] text-[#a394d6] text-sm custom-lg:text-xl custom-2xl:text-2xl pl-10 pr-8 py-2 sm:py-3 rounded-full cursor-pointer flex justify-between items-center"
+                                        className="w-full bg-[#DBCAFF] text-[#a394d6] text-sm custom-lg:text-xl custom-xl:text-2xl pl-10 pr-8 py-2 sm:py-3 rounded-full cursor-pointer flex justify-between items-center"
                                         onClick={() => setIsOpen(!isOpen)}
                                     >
                                         <span className="text-purple-400">
@@ -276,7 +276,7 @@ function BookingView({
                                                 >
                                                     <ChevronLeft className="w-8 h-8 font-bold" />
                                                 </button>
-                                                <h2 className="text-[#685AAD] font-medium text-sm sm:text-xl custom-2xl:text-3xl">
+                                                <h2 className="text-[#685AAD] font-medium text-sm sm:text-xl custom-xl:text-3xl">
                                                     {months[currentDate.getMonth()]}{" "}
                                                     {currentDate.getFullYear()}
                                                 </h2>
@@ -294,7 +294,7 @@ function BookingView({
                                                     (day, index) => (
                                                         <div
                                                             key={index}
-                                                            className="text-center text-[#76639b] text-sm sm:text-lg custom-2xl:text-2xl font-medium"
+                                                            className="text-center text-[#76639b] text-sm sm:text-lg custom-xl:text-2xl font-medium"
                                                         >
                                                             {day}
                                                         </div>
@@ -319,7 +319,7 @@ function BookingView({
                                                             }
                                                         }}
                                                         className={`
-                  p-2 text-center rounded-full text-sm sm:text-lg custom-2xl:text-2xl font-medium
+                  p-2 text-center rounded-full text-sm sm:text-lg custom-xl:text-2xl font-medium
                   ${day.isCurrentMonth ? "text-[#685aad] " : "text-[#d3c6ef]"}
                   ${
                                                             // @ts-ignore
@@ -346,7 +346,7 @@ function BookingView({
                                 <div className="w-full  relative">
                                     {/* Input field */}
                                     <div
-                                        className="relative  w-full bg-[#DBCAFF] text-[#a394d6] text-sm custom-lg:text-xl custom-2xl:text-2xl pl-10 pr-3 py-2 sm:py-2 sm:pr-3 sm:pl-6 rounded-full cursor-pointer flex justify-between items-center"
+                                        className="relative  w-full bg-[#DBCAFF] text-[#a394d6] text-sm custom-lg:text-xl custom-xl:text-2xl pl-10 pr-3 py-2 sm:py-2 sm:pr-3 sm:pl-6 rounded-full cursor-pointer flex justify-between items-center"
                                     // onClick={() => setIsOpentime(!isOpentime)}
                                     >
                                         <span className="text-[#a394d6]">Start time</span>

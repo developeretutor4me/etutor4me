@@ -13,6 +13,7 @@ import { signOut, useSession } from "next-auth/react";
 
 // Icons - Lucide
 import { ChevronDown, ChevronLeft, ChevronUp, Menu } from "lucide-react";
+import styles from "./DashboardGrid.module.css";
 
 // Custom Hooks
 import { useEtokies } from "../admin/hooks/useEtokies";
@@ -321,7 +322,7 @@ export default function Home() {
         {/* Sidebar */}
         <aside
           className={` ${isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-            } custom-lg:translate-x-0 fixed custom-lg:static inset-y-0 left-0 z-50 max-w-[20rem] sm:max-w-[25rem] w-full  h-screen overflow-y-auto scrollbar-none rounded-tr-3xl rounded-br-3xl bg-[#E6E4F2] text-white flex flex-col transition-transform duration-300 ease-in-out pl-5 pr-9 pt-8 custom-2xl:pt-11 pb-4`}
+          } ${styles.sidebar}   inset-y-0 left-0 z-[11111111111] max-w-[18rem] custom-xl:max-w-[20rem] custom-2xl:max-w-[25rem] w-full  h-screen overflow-y-auto scrollbar-none rounded-tr-3xl rounded-br-3xl bg-[#E6E4F2] text-white flex flex-col transition-transform duration-300 ease-in-out pl-5 pr-9 pt-8 custom-2xl:pt-11 pb-4`}
         >
           <div className="flex items-center mb-[23.5%] pb-2 pl-7">
             {session.user.isAdmin === true ? (
@@ -329,14 +330,14 @@ export default function Home() {
                 loading="lazy"
                 src={adminlogo}
                 alt=""
-                className="w-52 sm:w-[17rem]"
+                className="w-[204px] custom-2xl:w-[17rem]"
               />
             ) : (
               <Image
                 loading="lazy"
                 src={logo}
                 alt=""
-                className="w-52 sm:w-[17rem]"
+                className="w-[204px] custom-2xl:w-[17rem]"
               />
             )}
           </div>
@@ -357,7 +358,7 @@ export default function Home() {
                       onClick={() => {
                         setPreviousSidebarItem(activeSidebarItem);
                         setActiveSidebarItem(item.name);
-                        if (window.innerWidth < 1024) {
+                        if (window.innerWidth < 1895) {
                           setIsSidebarOpen(false);
                         }
                       }}
@@ -369,11 +370,11 @@ export default function Home() {
                       <Image
                         loading="lazy"
                         src={item.icon}
-                        className="w-5 sm:w-6 h-5 sm:h-6 mr-7"
+                        className="w-[18px] custom-2xl:w-6 h-[18px] custom-2xl:h-6 mr-5 custom-2xl:mr-7"
                         alt=""
                       />
                       <p
-                        className={`text-[#cac7d8] text-xl font-medium ${activeSidebarItem === item.name
+                        className={`text-[#cac7d8] text-base custom-2xl:text-xl font-medium ${activeSidebarItem === item.name
                           ? "text-customBlue"
                           : "text-darkpurple"
                           }`}
@@ -394,7 +395,7 @@ export default function Home() {
                     <button
                       onClick={() => {
                         setActiveSidebarItem(item.name);
-                        if (window.innerWidth < 1024) {
+                        if (window.innerWidth < 1895) {
                           setIsSidebarOpen(false);
                         }
                       }}
@@ -406,11 +407,11 @@ export default function Home() {
                       <Image
                         loading="lazy"
                         src={item.icon}
-                        className="w-5 sm:w-6 h-5 sm:h-6 mr-7"
+                        className="w-[18px] custom-2xl:w-6 h-[18px] custom-2xl:h-6 mr-5 custom-2xl:mr-7"
                         alt=""
                       />
                       <p
-                        className={`text-[#cac7d8] text-xl font-medium ${activeSidebarItem === item.name
+                        className={`text-[#cac7d8] text-base custom-2xl:text-xl  font-medium ${activeSidebarItem === item.name
                           ? "text-customBlue"
                           : "text-darkpurple"
                           }`}
@@ -424,9 +425,9 @@ export default function Home() {
           </nav>
         </aside>
 
-        <div className="flex min-h-screen bg-white relative z-0 max-w-[1920px] w-full mx-auto overflow-y-auto">
+        <div className="flex min-h-screen bg-white relative z-0 max-w-[1920px] w-full mx-auto overflow-y-auto ">
           {/* Main content */}
-          <main className="flex-1 px-2 custom-lg:px-7 py-4 overflow-auto  bg-transparent">
+          <main className="flex-1 px-2 custom-lg:px-7 py-4 overflow-auto  bg-transparent overflow-x-hidden ">
             <header
               className={`flex justify-between items-start px-4 sm:px-0  ${activeSidebarItem === "Session overview" ? "mb-2" : "mb-8"
                 }`}
@@ -434,20 +435,19 @@ export default function Home() {
               <div className="flex items-start">
                 <button
                   onClick={toggleSidebar}
-                  className="custom-lg:hidden mr-4 text-darkBlue"
+                  className= {` mr-4 text-darkBlue ${styles.menu}`}
                 >
                   <Menu size={24} />
                 </button>
 
                 {activeSidebarItem === "Dashboard" ? (
-                  <>
+                  <div className={`overflow-hidden  ${styles.topbox}`} >
                     <div
-                      className={`custom-2xl:w-full max-w-[66rem] mb-4  mt-12 sm:mt-0 hidden  ${isLargeScreen ? "flex-row gap-11" : "flex-col gap-4"
-                        } sm:flex  items-start       `}
+                      className={`${styles.mainbox} custom-2xl:w-full max-w-[66rem] mb-4  mt-12 sm:mt-0 hidden   ${isLargeScreen ? "flex-row gap-11" : " gap-4"
+                        } custom-lg:flex  items-start      `}
                     >
                       {/* 1 */}
-                      <div
-                        className={` flex flex-col space-y-2 pb-3 pt-4 px-4  bg-purple-100  rounded-3xl w-[100%] custom-2xl:w-[18rem] bg-[#EDE8FA]`}
+                      <div className={`${styles.firstcard} flex flex-col space-y-2 pb-3 pt-4 px-4  bg-purple-100  rounded-3xl w-[100%] custom-lg:w-[18rem] bg-[#EDE8FA]`}
                       >
                         <div className=" flex justify-between items-center bg-purple-300 rounded-2xl px-4 pl-6 pr-6 py-[10px] bg-[#ffffff84]">
                           <div className="text-3xl font-bold text-[#685AAD] truncate">
@@ -481,8 +481,7 @@ export default function Home() {
                         </div>
                       </div>
                       {/* 2 */}
-                      <div
-                        className={` flex flex-col space-y-2 pb-2 pt-4 px-4  bg-purple-100  rounded-3xl w-[100%] custom-2xl:w-[18rem] bg-[#EDE8FA]`}
+                      <div className={`${styles.secondcard} flex flex-col space-y-2 pb-2 pt-4 px-4  bg-purple-100  rounded-3xl w-[100%] custom-lg:w-[18rem] bg-[#EDE8FA]`}
                       >
                         <div className=" flex justify-between items-center bg-purple-300 rounded-2xl px-4 pl-6 py-[10px] bg-[#ffffff84]">
                           <div className="text-3xl font-bold text-[#685AAD] truncate max-w-[12rem]">
@@ -524,9 +523,8 @@ export default function Home() {
                         </div>
                       </div>
                       {/* 3 */}
-                      <div
-                        className={`flex  gap-5 items-center pb-1 pt-3 px-6  bg-purple-100  rounded-3xl w-full ${isLargeScreen ? "max-w-[23rem]" : "max-w-[18rem]"
-                          } bg-[#EDE8FA]`}
+                      <div className={`${styles.thirdcard} flex  gap-5 items-center pb-1 pt-3 px-6  bg-purple-100  rounded-3xl w-full ${isLargeScreen ? "max-w-[23rem]" : "max-w-[18rem]"
+                        } bg-[#EDE8FA]`}
                       >
                         <div className="level h-[103px]">
                           <Image
@@ -585,7 +583,7 @@ export default function Home() {
                         </div>
                       </div>
                     </div>
-                  </>
+                  </div>
                 ) : (
                   <div
                     onClick={() => {
@@ -614,7 +612,7 @@ export default function Home() {
 
               <div
                 ref={targetRef}
-                className="flex items-center space-x-4 relative -right-4 select-none "
+                className="flex items-center space-x-4 relative -right-4 select-none   sm:pr-4 custom-lg:pr-0"
               >
                 {/* <Bell size={24} className="cursor-pointer text-darkBlue" /> */}
                 <div className="flex gap-4 custom-2xl:gap-6 mr-2">

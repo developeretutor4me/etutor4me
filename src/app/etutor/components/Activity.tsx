@@ -57,7 +57,7 @@ function Activity({ teacher,etokiesprop ,sessionData}: activityprops) {
           </div>
         </div>
 
-        <div className="data grid grid-cols-1 custom-lg:grid-cols-2 custom-2xl:grid-cols-3  mt-3 sm:mt-6 custom-lg:mt-8 custom-xl:mt-12 gap-x-9 custom-xl:gap-x-12 gap-y-2 sm:gap-y-4 custom-lg:gap-y-7 custom-xl:gap-y-10">
+        <div className="data grid grid-cols-1 custom-lg:grid-cols-2 custom-xl:grid-cols-3  mt-3 sm:mt-6 custom-lg:mt-8 custom-xl:mt-12 gap-x-9 custom-xl:gap-x-12 gap-y-2 sm:gap-y-4 custom-lg:gap-y-7 custom-xl:gap-y-10">
           <div className="">
             <label className="block text-lg sm:text-3xl pl-12 font-medium text-[#8276bc]">
               Age
@@ -138,7 +138,7 @@ function Activity({ teacher,etokiesprop ,sessionData}: activityprops) {
       
       </div>
 
-      <div className="space-y-2 custom-lg:col-span-2 w-full max-w-full custom-2xl:order-2 order-1  mt-11">
+      <div className="space-y-2 custom-lg:col-span-2 w-full max-w-full custom-xl:order-2 order-1  mt-11">
           <label className="block text-lg sm:text-2xl font-semibold text-[#9085C4] pl-4 sm:pl-8 md:pl-12">
             Qualifications
           </label>
@@ -151,8 +151,8 @@ function Activity({ teacher,etokiesprop ,sessionData}: activityprops) {
             />
           </div>
         </div>
-      <div className="flex justify-between gap-6 custom-2xl:flex-row flex-col   pt-3">
-        <div className=" w-full max-w-[28rem] custom-2xl:order-1 order-2">
+      <div className="flex justify-between gap-6 custom-xl:flex-row flex-col   pt-3">
+        <div className=" w-full max-w-[28rem] custom-xl:order-1 order-2">
           <label className="block text-lg sm:text-3xl pl-12 font-medium text-[#8276bc]">
             eTutor&apos;s etokis
           </label>
@@ -216,7 +216,7 @@ function Activity({ teacher,etokiesprop ,sessionData}: activityprops) {
         </div>
 
         {/* additional information */}
-        <div className="space-y-2 custom-lg:col-span-2 w-full max-w-[50rem] custom-2xl:order-2 order-1">
+        <div className="space-y-2 custom-lg:col-span-2 w-full max-w-[50rem] custom-xl:order-2 order-1">
           <label className="block text-lg sm:text-2xl font-semibold text-[#9085C4] pl-4 sm:pl-8 md:pl-12">
             Additional Information
           </label>

@@ -52,17 +52,17 @@ const TutorListItem = ({
   
 }: any) => (
   <div
-    className={` hidden sm:flex flex-row justify-between items-center py-2 sm:py-3 custom-2xl:py-6  pl-2 sm:pl-3 custom-2xl:pl-5 pr-4 custom-2xl:pr-9 cursor-pointer   rounded-lg md:rounded-xl  bg-[#A296CC]  `}
+    className={` hidden sm:flex flex-row justify-between items-center py-2 sm:py-3 custom-xl:py-6  pl-2 sm:pl-3 custom-xl:pl-5 pr-4 custom-xl:pr-9 cursor-pointer   rounded-lg md:rounded-xl  bg-[#A296CC]  `}
   >
     <div className="flex items-center" onClick={onClick}>
       <img
         src={tutor.user.profilePicture}
         alt={tutor.contactInformation.firstName}
-        className="rounded-full mr-4 w-4 sm:w-7 h-4 sm:h-7  custom-2xl:h-[60px] custom-2xl:w-[60px]"
+        className="rounded-full mr-4 w-4 sm:w-7 h-4 sm:h-7  custom-xl:h-[60px] custom-xl:w-[60px] aspect-square object-cover"
       />
       <div className="flex-grow">
         <p
-          className={`font-semibold text-base custom-2xl:text-2xl hidden md:block  truncate  ${
+          className={`font-semibold text-base custom-xl:text-2xl hidden md:block  truncate  ${
             isActive ? "text-white" : "text-white"
           }`}
         >
@@ -72,26 +72,26 @@ const TutorListItem = ({
     </div>
 
     {/* icons */}
-    <div className="flex  justify-between items-end   custom-2xl:mt-0 w-full max-w-[2.9rem] sm:max-w-[4rem] custom-2xl:max-w-[6.8rem]  ">
+    <div className="flex  justify-between items-end   custom-xl:mt-0 w-full max-w-[2.9rem] sm:max-w-[4rem] custom-xl:max-w-[6.8rem]  ">
       <button onClick={onChatClick} className=" rounded-full ">
         <Image  loading="lazy" 
           src={purplechaticon}
           alt=""
-          className=" w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-7 custom-2xl:h-7"
+          className=" w-3 sm:w-4  h-3 sm:h-4 custom-xl:w-7 custom-xl:h-7"
         />
       </button>
       <button onClick={onFolderClick} className="  rounded-full">
         <Image  loading="lazy" 
           src={foldericonpurple}
           alt=""
-          className=" w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-7 custom-2xl:h-7"
+          className=" w-3 sm:w-4  h-3 sm:h-4 custom-xl:w-7 custom-xl:h-7"
         />
       </button>
       <button onClick={onProfileClick} className=" rounded-full">
         <Image  loading="lazy" 
           src={profileicon}
           alt=""
-          className=" w-3 sm:w-4  h-3 sm:h-4 custom-2xl:w-7 custom-2xl:h-7"
+          className=" w-3 sm:w-4  h-3 sm:h-4 custom-xl:w-7 custom-xl:h-7"
         />
       </button>
     </div>
@@ -106,18 +106,18 @@ const ChatMessage = ({ message, isUser }: any) => {
     <div
       className={`flex ${
         isUser ? "justify-end" : "justify-start"
-      } mb-2 custom-2xl:mb-4`}
+      } mb-2 custom-xl:mb-4`}
     >
       <div
-        className={`max-w-[70%] rounded-lg custom-2xl:rounded-2xl px-2 py-1 custom-2xl:p-3 ${
+        className={`max-w-[70%] rounded-lg custom-xl:rounded-2xl px-2 py-1 custom-xl:p-3 ${
           isUser ? "bg-[#685AAD] text-white" : "bg-white text-[#473171]"
         }`}
       >
-        <p className="text-sm sm:text-base custom-2xl:text-xl font-medium break-words transition-all">
+        <p className="text-sm sm:text-base custom-xl:text-xl font-medium break-words transition-all">
           {message.content}
         </p>
         <span
-          className={`text-xs custom-2xl:text-base opacity-70 custom-2xl:mt-1 block ${
+          className={`text-xs custom-xl:text-base opacity-70 custom-xl:mt-1 block ${
             isUser ? "text-white float-right" : "text-[#9B85C8]"
           }`}
         >
@@ -487,14 +487,14 @@ function MyEtutor({
   if (showChat) {
     return (
       <div className="bg-[#EDE8FA] w-full max-h-[947px] h-full rounded-3xl p-6  mt-11 text-white">
-        <div className="flex h-full  gap-3 custom-2xl:gap-4 overflow-hidden     ">
+        <div className="flex h-full  gap-3 custom-xl:gap-4 overflow-hidden     ">
           {/* Sidebar */}
           <div className="hidden sm:block w-[30.2%]  bg-[#EDE8FA]  border-red-700 h-full  overflow-hidden">
-            <h2 className="text-xl custom-2xl:text-4xl font-bold text-[#685AAD] px-4 py-4 ml-6">
+            <h2 className="text-xl custom-xl:text-4xl font-bold text-[#685AAD] px-4 py-4 ml-6">
               My eTutors
             </h2>
 
-            <div className=" hidden pt-6  overflow-y-auto scrollbar-thin sm:flex flex-col gap-3 custom-2xl:gap-6  scrollbar-track-transparent scrollbar-thumb-[#685aad40]  scrollbar-thumb-rounded-3xl h-[90%]  ">
+            <div className=" hidden pt-6  overflow-y-auto scrollbar-thin sm:flex flex-col gap-3 custom-xl:gap-6  scrollbar-track-transparent scrollbar-thumb-[#685aad40]  scrollbar-thumb-rounded-3xl h-[90%]  ">
               {recievedmessages.length > 0 &&
                 recievedmessages.map((message:any, index) => (
                   <TutorListItem
@@ -519,13 +519,13 @@ function MyEtutor({
           {/* Chat Area */}
           <div className="flex-grow flex flex-col rounded-3xl  bg-[#A296CC]  h-full    max-w-full">
             {/* Chat Header */}
-            <div className="bg-[#A296CC] py-3 custom-2xl:py-5  px-4 flex rounded-t-3xl  pl-6 custom-2xl:pl-10   ">
+            <div className="bg-[#A296CC] py-3 custom-xl:py-5  px-4 flex rounded-t-3xl  pl-6 custom-xl:pl-10   ">
               <Image  loading="lazy" 
                 src={chaticon}
                 alt=""
-                className=" mr-3 custom-2xl:mr-5 w-5 custom-2xl:w-8 h-5 custom-2xl:h-8 mt-1"
+                className=" mr-3 custom-xl:mr-5 w-5 custom-xl:w-8 h-5 custom-xl:h-8 mt-1"
               />
-              <h2 className="text-xl custom-2xl:text-3xl font-bold text-white">
+              <h2 className="text-xl custom-xl:text-3xl font-bold text-white">
                 {tutor?.contactInformation?.firstName}
               </h2>
             </div>
@@ -533,7 +533,7 @@ function MyEtutor({
             {activeView === "chat" && (
               <>
                 {/* Messages */}
-                <div className="flex-grow p-1 custom-2xl:p-3 bg-[#A296CC] border-t border-[#8b55ff51] mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
+                <div className="flex-grow p-1 custom-xl:p-3 bg-[#A296CC] border-t border-[#8b55ff51] mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
                   {Array.isArray(messages) && messages.length > 0
                     ? messages.map((msg, index) => (
                         <>
@@ -561,13 +561,13 @@ function MyEtutor({
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
                       placeholder="send a message"
-                      className="flex-grow py-1 sm:py-2 custom-2xl:py-4 pl-8 custom-2xl:pl-16 pr-8 custom-2xl:pr-16  bg-transparent text-white placeholder-[#b0a9d2] text-sm sm:text-base custom-2xl:text-xl focus:outline-none"
+                      className="flex-grow py-1 sm:py-2 custom-xl:py-4 pl-8 custom-xl:pl-16 pr-8 custom-xl:pr-16  bg-transparent text-white placeholder-[#b0a9d2] text-sm sm:text-base custom-xl:text-xl focus:outline-none"
                     />
                     <button type="submit" className="">
                       <Image  loading="lazy" 
                         src={sendicon}
                         alt="Send Icon"
-                        className="h-4  custom-2xl:h-6 w-4  custom-2xl:w-6 absolute right-9 top-1/2 transform -translate-y-1/2"
+                        className="h-4  custom-xl:h-6 w-4  custom-xl:w-6 absolute right-9 top-1/2 transform -translate-y-1/2"
                       />
                     </button>
                   </div>
@@ -577,7 +577,7 @@ function MyEtutor({
 
 {activeView === "folder" && (
               <>
-                <div className="flex-grow p-1 custom-2xl:p-3 bg-[#A296CC] border-t border-[#8b55ff51]   mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
+                <div className="flex-grow p-1 custom-xl:p-3 bg-[#A296CC] border-t border-[#8b55ff51]   mx-4 overflow-y-scroll scrollbar-thin scrollbar-track-transparent scrollbar-thumb-[#685aad40] scrollbar-thumb-rounded-3xl">
                   {Array.isArray(messages) &&
                     messages.length > 0 &&
                     messages.map(
@@ -612,7 +612,7 @@ function MyEtutor({
                         </button>
                       </div>
                     )}
-                      <button onClick={sendFile} className="w-full sm:w-auto py-1 px-9 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors">
+                      <button onClick={sendFile} className="w-full sm:w-auto py-1 px-9 text-base custom-xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors">
                         {isLoading ? "wait..." : "send"}
                       </button>
                       
@@ -665,7 +665,7 @@ function MyEtutor({
                 <div className="absolute bg-[#a296cc] w-[300px] right-0 -top-[105px] px-3 py-2 rounded-xl transform scale-0 origin-bottom-right group-hover:scale-100 transition-all duration-300 ease-in-out">Please fill out this monthly form about your etutor. it helps improve your experience and ensure better performance</div>
                 <button onClick={()=>{setPerformanceform(true)}}>
 
-              <Image src={formIcon} alt="" className="w-3 sm:w-5 custom-xl:w-[31px]" />
+              <Image src={formIcon} alt="" className="w-3 sm:w-5 custom-xl:w-[31px] hidden" />
                 </button>
               </div>
               {/* name and tier box */}
@@ -731,7 +731,7 @@ function MyEtutor({
                 </div>
               </div>
               {/* subject and info box */}
-              <div className="custom-xl:max-w-52  w-full  h-fit custom-2xl:flex flex-col items-center custom-xl:items-start hidden ">
+              <div className="custom-xl:max-w-52  w-full  h-fit custom-xl:flex flex-col items-center custom-xl:items-start hidden ">
                 <span className="text-md">Subjects:</span>
                 <p className="  text-[#473171] text-md text-center custom-xl:text-start">
                   {message?.details?.experience?.subjectsTutored.join(",")}
@@ -739,7 +739,7 @@ function MyEtutor({
               </div>
 
               {/* study and experience box */}
-              <div className=" flex-col gap-2  custom-xl:max-w-52 w-full custom-xl:items-start  hidden custom-2xl:flex">
+              <div className=" flex-col gap-2  custom-xl:max-w-52 w-full custom-xl:items-start  hidden custom-xl:flex">
                 <div className="flex flex-col items-center custom-xl:items-start">
                   <span className="text-md text-white">Study</span>
                   <p className="text-md text-[#473171]">
@@ -759,7 +759,7 @@ function MyEtutor({
 
               {/* accept deny box */}
 
-              <div className="flex flex-col items-end custom-2xl:items-start  w-full custom-xl:w-fit custom-xl:py-2">
+              <div className="flex flex-col items-end custom-xl:items-start  w-full custom-xl:w-fit custom-xl:py-2">
                 <div className=" h-full flex flex-col gap-6 w-fit custom-lg:w-fit">
                   <div className=" flex  h-fit w-full justify-between items-center custom-xl:items-start  gap-4 custom-xl:gap-14">
                     <button  onClick={() => {
@@ -809,7 +809,7 @@ function MyEtutor({
       </div>
     </div>
     {performanceform && (
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  z-50  w-screen custom-xl:flex custom-xl:items-center custom-xl:justify-center backdrop-blur-sm h-full">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2  z-[99999999999999999999999999]  w-screen custom-xl:flex custom-xl:items-center custom-xl:justify-center backdrop-blur-sm h-full">
         <EtutorPerformanceForm close={setPerformanceform}/>
       </div>
     )}

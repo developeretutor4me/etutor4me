@@ -37,7 +37,7 @@ const MeeteTutors = () => {
           More eTutors
         </Link>
       </div>
-      <div className="flex   flex-wrap items-center   relative gap-2 sm:gap-11 py-5 custom-lg:py-10 custom-xl:py-[67px] ">
+      <div className="flex   flex-wrap items-center   relative gap-2 sm:gap-4  2xl:gap-11  py-5 custom-lg:py-10 custom-xl:py-[67px] ">
         {teacher
           .filter(
             (teacher: any) =>
@@ -50,12 +50,13 @@ const MeeteTutors = () => {
           .slice(0, 4)
           .map((teacher: any) => (
             <div
-              className=" flex flex-col  max-h-[543px] w-24 sm:w-40 custom-lg:w-52 custom-xl:w-72 custom-2xl:w-96 bg-cardbg px-11 py-[30px] rounded-3xl gap-1  lg:rounded-2xl lg:p-4 lg:gap-2 xl:p-7 mb:rounded-2xl mb:px-2 mb:py-2"
+              className=" flex flex-col  max-h-[543px] w-24 sm:w-40 custom-lg:w-52 custom-xl:w-72 custom-2xl:w-96 bg-cardbg px-11 py-[30px] rounded-3xl gap-1  sm:flex-1  lg:rounded-2xl lg:p-4 lg:gap-2 xl:p-7 mb:rounded-2xl mb:px-2 mb:py-2"
               key={teacher._id}
             >
               <div className="relative mx-auto max-w-[100%] w-full max-h-[100%] h-full rounded-2xl ">
                 <img
-                  className="object-cover rounded-2xl "
+
+                  className="object-cover rounded-2xl aspect-square"
                   alt=""
                   src={teacher?.user?.profilePicture}
                 />
@@ -66,24 +67,24 @@ const MeeteTutors = () => {
                     teacher?.level == "1"
                       ? level1
                       : teacher?.level == "2"
-                      ? level2
-                      : teacher?.level == "3"
-                      ? level3
-                      : teacher?.level == "4"
-                      ? level4
-                      : teacher?.level == "5"
-                      ? level5
-                      : teacher?.level == "6"
-                      ? level6
-                      : teacher?.level == "7"
-                      ? level7
-                      : teacher?.level == "8"
-                      ? level8
-                      : teacher?.level == "9"
-                      ? level9
-                      : teacher?.level == "10"
-                      ? level10
-                      : level1
+                        ? level2
+                        : teacher?.level == "3"
+                          ? level3
+                          : teacher?.level == "4"
+                            ? level4
+                            : teacher?.level == "5"
+                              ? level5
+                              : teacher?.level == "6"
+                                ? level6
+                                : teacher?.level == "7"
+                                  ? level7
+                                  : teacher?.level == "8"
+                                    ? level8
+                                    : teacher?.level == "9"
+                                      ? level9
+                                      : teacher?.level == "10"
+                                        ? level10
+                                        : level1
                   }
                   // style={{ right: "-13.5%", bottom: "-11%" }}
                   className="w-8 sm:w-12 h-8 sm:h-12 custom-lg:w-16 custom-lg:h-16 custom-xl:w-[94.94px] custom-xl:h-[98.12px] absolute mb:right-[-5%] xl:right-[-8%] right-[-13.5%] xl:bottom-[-10%] bottom-[-10%]"
@@ -92,12 +93,12 @@ const MeeteTutors = () => {
               <h3 className="text-darkBlue custom-lg:pt-[22px] capitalize custom-xl:text-[51.27px] custom-xl:leading-none font-extrabold lg:text-3xl xl:text-4xl text-sm sm:text-2xl truncate">
                 {teacher?.contactInformation?.firstName}
               </h3>
-              <p className="text-customBlue custom-xl:text-[36px]  lg:text-xl xl:text-2xl text-sm sm:text-2xl custom-2xl:mt-3">
+              <p className="text-customBlue custom-xl:text-[36px]  lg:text-xl xl:text-2xl text-sm sm:text-base custom-2xl:mt-3">
                 {teacher?.totalbooking > 0
                   ? teacher?.totalbooking + "+ Bookings"
                   : "No Bookings"}
               </p>
-              <p className="text-[#473171] custom-xl:text-[36.21px] custom-xl:leading-tight  lg:text-xl xl:text-2xl text-sm sm:text-2xl custom-2xl:mt-2 font-bold mb:leading-none ">
+              <p className="text-[#473171] custom-xl:text-[36.21px] custom-xl:leading-tight  lg:text-xl xl:text-2xl text-sm sm:text-base custom-2xl:mt-2 font-bold mb:leading-none ">
                 $60<span className="text-[#887cc4] font-light">/session</span>
               </p>
             </div>

@@ -24,7 +24,7 @@ function Dropdown({ targetRef, toggleProfile, firstName, isProfileOpen, session,
     return (
         <div
             ref={targetRef}
-            className="flex items-center space-x-4 relative -right-0 custom-lg:-right-[22px]  select-none"
+            className="flex items-center space-x-4 relative -right-0 custom-lg:-right-[22px]  select-none pr-4 sm:pr-0"
         >
             {/* <Bell size={24} className="cursor-pointer text-darkBlue" /> */}
             <div className="flex gap-3 custom-xl:gap-6 custom-2xl:gap-[37px] mr-0 custom-xl:mr-5">

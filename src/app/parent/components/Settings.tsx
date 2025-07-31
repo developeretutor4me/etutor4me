@@ -444,17 +444,17 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
 
   return (
     <div className="min-h-screen  overflow-hidden rounded-3xl relative  bg-[#EDE8FA] text-white mt-16">
-      <div className="px-5 custom-2xl:px-10 py-5 custom-2xl:py-10 flex gap-2 sm:gap-8 custom-2xl:gap-16 ">
+      <div className="px-5 custom-xl:px-10 py-5 custom-xl:py-10 flex gap-2 sm:gap-8 custom-xl:gap-16 ">
         {/* left side bar */}
 
         <div
-          className={` ${isSidebarOpen ? "-translate-x-96 custom-2xl:translate-x-0" : ""
-            } bg-[#A296CC]  absolute transform transition-all duration-500 z-50 custom-2xl:static font-roboto max-w-[20rem] custom-2xl:max-w-[26.4rem] w-full  rounded-3xl  min-h-screen  px-5 custom-2xl:px-10 `}
+          className={` ${isSidebarOpen ? "-translate-x-96 custom-xl:translate-x-0" : ""
+            } bg-[#A296CC]  absolute transform transition-all duration-500 z-50 custom-xl:static font-roboto max-w-[20rem] custom-xl:max-w-[26.4rem] w-full  rounded-3xl  min-h-screen  px-5 custom-xl:px-10 `}
         >
 
           <div className="m-auto w-full  flex flex-col items-center  mt-20">
             <div
-              className="rounded-full w-[5rem] h-[5rem] custom-2xl:w-[11.4rem] custom-2xl:h-[11.4rem]   overflow-hidden flex items-center justify-center"
+              className="rounded-full w-[5rem] h-[5rem] custom-xl:w-[11.4rem] custom-xl:h-[11.4rem]   overflow-hidden flex items-center justify-center"
             >
 
               <img
@@ -466,7 +466,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
               />
             </div>
 
-            <p className="!hover:cursor-pointer relative text-sm sm:text-lg custom-2xl:text-xl font-roboto text-[#534988] font-bold mt-2 ">
+            <p className="!hover:cursor-pointer relative text-sm sm:text-lg custom-xl:text-xl font-roboto text-[#534988] font-bold mt-2 ">
               <input
                 type="file"
                 accept="image/*"
@@ -483,7 +483,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
             </p>
             {image && (
               <button
-                className="w-full sm:w-auto py-1 px-9 mt-6 text-base custom-2xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors"
+                className="w-full sm:w-auto py-1 px-9 mt-6 text-base custom-xl:text-base rounded-sm bg-[#8358F7] hover:bg-[#4a3683] capitalize hover:bg-opacity-90 transition-colors"
                 onClick={() => {
                   handleUpload()
                 }}
@@ -498,7 +498,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
 
           <div className="space-y-2 mt-[137px] ">
             <button
-              className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all flex  ${activeTab === "personal"
+              className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-xl:text-2xl font-bold transition-all flex  ${activeTab === "personal"
                   ? "bg-white text-[#685AAD]"
                   : " text-[#685AAD]"
                 }`}
@@ -511,7 +511,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
             </button>
 
             <button
-              className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all flex ${activeTab === "account"
+              className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-xl:text-2xl font-bold transition-all flex ${activeTab === "account"
                   ? "bg-white text-[#685AAD]"
                   : "text-[#685AAD]"
                 }`}
@@ -527,7 +527,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
 
                 <button
                   key={request.requestId}
-                  className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all duration-1000 flex text-[#685AAD] truncate `}
+                  className={`w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-xl:text-2xl font-bold transition-all duration-1000 flex text-[#685AAD] truncate `}
                   onClick={() => handleImpersonate(request.studentUserId, request.StudentEmail)}
                   onMouseEnter={() => setIshovered(request.requestId)}
                   onMouseLeave={() => setIshovered(null)}
@@ -555,8 +555,8 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
 
 
             <Link href="/parent/addStudent">
-              <button className="w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-2xl:text-2xl font-bold transition-all flex  items-center  gap-1 custom-2xl:gap-3 text-[#685AAD]">
-                <Image loading="lazy" src={plusicon} alt="" className="w-4 custom-2xl:w-8" />
+              <button className="w-full py-4  px-9 rounded-3xl text-sm custom-xl:text-lg custom-xl:text-2xl font-bold transition-all flex  items-center  gap-1 custom-xl:gap-3 text-[#685AAD]">
+                <Image loading="lazy" src={plusicon} alt="" className="w-4 custom-xl:w-8" />
                 add&nbsp;a child
               </button>
             </Link>
@@ -565,21 +565,21 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
 
         {/* right side content */}
         <div className="w-full font-roboto relative ">
-                    <Menu className="text-black  absolute right-0 custom-2xl:hidden block" onClick={toggleSidebar} />
+                    <Menu className="text-black  absolute right-0 custom-xl:hidden block" onClick={toggleSidebar} />
 
           {activeTab === "personal" && (
             <div className="space-y-4 mt-8 sm:mt-12 md:mt-16 px-4 sm:px-6 md:px-8">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-roboto text-[#685AAD] font-bold ml-4 sm:ml-8 md:ml-14">
                 Personal information
               </h2>
-              <div className="grid grid-cols-1 custom-2xl:grid-cols-2 gap-6 sm:gap-8 md:gap-12 pt-8 sm:pt-12 md:pt-20 ">
+              <div className="grid grid-cols-1 custom-xl:grid-cols-2 gap-6 sm:gap-8 md:gap-12 pt-8 sm:pt-12 md:pt-20 ">
                 <div className="w-full">
                   <label className="block text-lg sm:text-xl font-semibold text-[#9085C4] pl-4 sm:pl-8 md:pl-12">
                     First Name
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                     disabled
                     value={firstNames}
                   />
@@ -590,7 +590,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                     disabled
                     value={Lastname}
                   />
@@ -601,7 +601,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                     disabled
                     value={parentDataSWR?.parentPersonalInformation?.country || "Loading..."}
                   />
@@ -612,18 +612,18 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                     disabled
                     value={parentDataSWR?.parentPersonalInformation?.city || "Loading..."}
                   />
                 </div>
-                <div className="w-full custom-2xl:col-span-2 ">
+                <div className="w-full custom-xl:col-span-2 ">
                   <label className="block text-lg sm:text-xl font-semibold text-[#9085C4] pl-4 sm:pl-8 md:pl-12">
                     Street Name
                   </label>
                   <input
                     type="text"
-                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full custom-2xl:w-[47%] rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+                    className="mt-2 sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full custom-xl:w-[47%] rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                     disabled
                     value={parentDataSWR?.parentPersonalInformation?.streetName || "Loading..."}
                   />
@@ -634,7 +634,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
           {activeTab === "account" && subactive === "" && (
             <div className="space-y-4 mt-10">
               <div className="flex flex-col gap-8">
-                <div className=" custom-2xl:max-w-[55%] w-full   mb-2.5">
+                <div className=" custom-xl:max-w-[55%] w-full   mb-2.5">
                   <div className="max-w-xl ">
                     <div className="flex justify-between items-center px-12 mb-3.5">
                       <label className="text-lg sm:text-xl font-semibold   text-[#685AAD]  ">
@@ -666,7 +666,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
                     </div>
 
                     {!isEditing ? (
-                      <div className="bg-purple-100 rounded-full py-[9px] sm:py-[14px] custom-2xl:py-5 px-10  text-[#685AAD] bg-[#DBCAFF]">
+                      <div className="bg-purple-100 rounded-full py-[9px] sm:py-[14px] custom-xl:py-5 px-10  text-[#685AAD] bg-[#DBCAFF]">
                         <p className="text-[#685AAD] bg-[#DBCAFF] text-lg truncate">
                           {fetchedPhonenumber}
                         </p>
@@ -674,7 +674,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
                     ) : (
                       <div className=" text-[#685AAD] bg-[#DBCAFF] rounded-full  ">
                         <div className="relative">
-                          <div className="bg-purple-100 rounded-full py-[7px] sm:py-[12px] custom-2xl:py-[18px] px-10 flex items-center ">
+                          <div className="bg-purple-100 rounded-full py-[7px] sm:py-[12px] custom-xl:py-[18px] px-10 flex items-center ">
                             <button
                               onClick={() => setShowDropdown(!showDropdown)}
                               className="flex items-center  pr-3 min-w-fit"
@@ -734,7 +734,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
                   </div>
                 </div>
 
-                <div className="custom-2xl:max-w-[55%] w-full">
+                <div className="custom-xl:max-w-[55%] w-full">
                   <div className="flex justify-between items-center px-12">
                     <label className="text-lg sm:text-xl font-semibold   text-[#685AAD]  ">
                       Email Address
@@ -749,7 +749,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
                   <div className="mt-1 flex rounded-md shadow-sm">
                     <input
                       type="text"
-                      className="mt-2 sm:mt-2 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+                      className="mt-2 sm:mt-2 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                       value={email}
                     />
                   </div>
@@ -758,14 +758,14 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
                 <div className="w-[90%] border border-[#685aad89] mt-8"></div>
               </div>
 
-              <div className="grid grid-cols-1 custom-2xl:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 custom-xl:grid-cols-2 gap-4">
                 <div>
                   <label className="text-lg sm:text-xl font-semibold   text-[#685AAD] pl-12">
                     Old password
                   </label>
                   <input
                     type="password"
-                    className="mt-4  placeholder-[#685aad5b]  sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+                    className="mt-4  placeholder-[#685aad5b]  sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                     placeholder="old password"
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
@@ -789,7 +789,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
                   </label>
                   <input
                     type="password"
-                    className="mt-4 placeholder-[#685aad5b]  sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+                    className="mt-4 placeholder-[#685aad5b]  sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                     placeholder="new password"
                     value={newPassword}
                     onChange={(e) => setNewPassword(e.target.value)}
@@ -803,7 +803,7 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
                   </label>
                   <input
                     type="password"
-                    className="mt-4 placeholder-[#685aad5b]   sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+                    className="mt-4 placeholder-[#685aad5b]   sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                     placeholder="repeat password"
                     value={confirmNewPassword}
                     onChange={(e) => setConfirmNewPassword(e.target.value)}
@@ -812,12 +812,12 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
                 </div>
               </div>
               <div className="flex justify-end space-x-3 pt-7 ">
-                <button className=" bg-[#685AAD] rounded-full text-sm sm:text-lg custom-2xl:text-2xl font-medium  px-3 sm:px-5 custom-2xl:px-10  py-1 sm:py-2 custom-2xl:py-3">
+                <button className=" bg-[#685AAD] rounded-full text-sm sm:text-lg custom-xl:text-2xl font-medium  px-3 sm:px-5 custom-xl:px-10  py-1 sm:py-2 custom-xl:py-3">
                   cancel
                 </button>
                 <button
                   onClick={hanldeupdatepassword}
-                  className="bg-[#8653FF]  rounded-full text-sm sm:text-lg custom-2xl:text-2xl font-medium  px-3 sm:px-5 custom-2xl:px-10  py-1 sm:py-2 custom-2xl:py-3"
+                  className="bg-[#8653FF]  rounded-full text-sm sm:text-lg custom-xl:text-2xl font-medium  px-3 sm:px-5 custom-xl:px-10  py-1 sm:py-2 custom-xl:py-3"
                 >
                   {loading ? "Please wait..." : "save changes"}
                 </button>
@@ -826,26 +826,26 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
           )}
           {subactive === "email" && (
             <div className="mt-40 flex flex-col gap-12 items-center ">
-              <div className=" w-full custom-2xl:w-[90%]">
+              <div className=" w-full custom-xl:w-[90%]">
                 <label className="text-lg sm:text-2xl font-semibold   text-[#685AAD] pl-12">
                   New Email Address{" "}
                 </label>
                 <input
                   type="email"
-                  className="mt-4  placeholder-[#685aad5b]  sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+                  className="mt-4  placeholder-[#685aad5b]  sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                   placeholder="enter new email address"
                   value={newEmail}
                   onChange={(e) => setNewEmail(e.target.value)}
                   required
                 />
               </div>
-              <div className="w-full custom-2xl:w-[90%]">
+              <div className="w-full custom-xl:w-[90%]">
                 <label className="text-lg sm:text-2xl font-semibold   text-[#685AAD] pl-12">
                   Current Password{" "}
                 </label>
                 <input
                   type="password"
-                  className="mt-4  placeholder-[#685aad5b]  sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-2xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
+                  className="mt-4  placeholder-[#685aad5b]  sm:mt-4 pl-4 sm:pl-8 md:pl-12 pr-4 py-2 sm:py-3 custom-xl:py-5 block w-full rounded-full text-[#685AAD] bg-[#DBCAFF] text-lg sm:text-xl md:text-2xl"
                   placeholder="enter your password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -855,13 +855,13 @@ const UserProfile = ({ Uploadedprofilepicture }: userprofileprops) => {
               <div className="flex justify-end space-x-3 pt-7 ">
                 <button
                   onClick={() => setsubactive("")}
-                  className=" bg-[#685AAD] rounded-full text-sm sm:text-lg custom-2xl:text-3xl font-medium  px-3 sm:px-5 custom-2xl:px-10  py-1 sm:py-2 custom-2xl:py-3"
+                  className=" bg-[#685AAD] rounded-full text-sm sm:text-lg custom-xl:text-3xl font-medium  px-3 sm:px-5 custom-xl:px-10  py-1 sm:py-2 custom-xl:py-3"
                 >
                   cancel
                 </button>
                 <button
                   onClick={handleSubmit}
-                  className="bg-[#8653FF]  rounded-full text-sm sm:text-lg custom-2xl:text-3xl font-medium  px-3 sm:px-5 custom-2xl:px-10  py-1 sm:py-2 custom-2xl:py-3"
+                  className="bg-[#8653FF]  rounded-full text-sm sm:text-lg custom-xl:text-3xl font-medium  px-3 sm:px-5 custom-xl:px-10  py-1 sm:py-2 custom-xl:py-3"
                 >
                   {loading ? "Please wait..." : "save changes"}
                 </button>

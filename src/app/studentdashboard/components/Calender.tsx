@@ -195,7 +195,7 @@ const SessionCalendarComponent = ({
           <div className="flex w-full rounded-t-3xl mb-6 transition-all justify-between ">
             <div className=" w-full flex">
               <button
-                className={`w-full font-bold text-xs sm:text-sm custom-2xl:text-2xl px-4 uppercase py-2 custom-2xl:py-4 rounded-tl-3xl transition-all ${
+                className={`w-full font-bold text-xs sm:text-sm custom-xl:text-2xl px-4 uppercase py-2 custom-xl:py-4 rounded-tl-3xl transition-all ${
                   activeSessionTab === "unconfirmed"
                     ? "bg-[#EDE8FA] text-[#685AAD] transition-all"
                     : activeSessionTab === "confirmed"
@@ -207,7 +207,7 @@ const SessionCalendarComponent = ({
                 Unconfirmed
               </button>
               <button
-                className={`w-full font-bold text-xs sm:text-sm custom-2xl:text-2xl px-4 uppercase py-2 custom-2xl:py-4 transition-all ${
+                className={`w-full font-bold text-xs sm:text-sm custom-xl:text-2xl px-4 uppercase py-2 custom-xl:py-4 transition-all ${
                   activeSessionTab === "confirmed"
                     ? "bg-[#EDE8FA] text-[#685AAD] transition-all"
                     : activeSessionTab === "unconfirmed transition-all"
@@ -219,7 +219,7 @@ const SessionCalendarComponent = ({
                 Confirmed
               </button>
               <button
-                className={`w-full font-bold text-xs sm:text-sm custom-2xl:text-2xl px-4 uppercase py-2 custom-2xl:py-4  transition-all rounded-tr-3xl custom-2xl:rounded-none ${
+                className={`w-full font-bold text-xs sm:text-sm custom-xl:text-2xl px-4 uppercase py-2 custom-xl:py-4  transition-all rounded-tr-3xl custom-xl:rounded-none ${
                   activeSessionTab === "canceled"
                     ? "bg-[#EDE8FA] text-[#685AAD] transition-all"
                     : "bg-[#6B5692] text-white transition-all"
@@ -230,7 +230,7 @@ const SessionCalendarComponent = ({
               </button>
             </div>
 
-            <div className=" w-[40%] bg-white rounded-bl-lg hidden custom-2xl:block"></div>
+            <div className=" w-[40%] bg-white rounded-bl-lg hidden custom-xl:block"></div>
           </div>
 
           <div className="w-full  px-4">
@@ -238,7 +238,7 @@ const SessionCalendarComponent = ({
               {activeSessionTab === "unconfirmed" && (
                 <>
                   <div className="">
-                    <div className="hidden custom-2xl:grid custom-2xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-2xl:pl-9  w-[68%] text-white">
+                    <div className="hidden custom-xl:grid custom-xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-xl:pl-9  w-[68%] text-white">
                       <div className="px-4  ">Subject and level</div>
                       <div className="px-4  ">eTutor</div>
                       <div className="px-4  ">Duration</div>
@@ -256,10 +256,10 @@ const SessionCalendarComponent = ({
                             return (
                               <div
                                 key={request._id}
-                                className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-2xl:pl-9 group  ${
+                                className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-xl:pl-9 group  ${
                                   isExpanded
-                                    ? "h-auto custom-2xl:h-28"
-                                    : "h-auto custom-2xl:h-20"
+                                    ? "h-auto custom-xl:h-28"
+                                    : "h-auto custom-xl:h-20"
                                 } overflow-hidden cursor-pointer`}
                                 onMouseEnter={() =>
                                   // @ts-ignore
@@ -267,16 +267,16 @@ const SessionCalendarComponent = ({
                                 }
                                 onMouseLeave={() => setexpandedRequestId(null)}
                               >
-                                <div className="flex flex-col  custom-2xl:flex-row custom-2xl:items-start h-full">
+                                <div className="flex flex-col  custom-xl:flex-row custom-xl:items-start h-full">
                                   {/* Content Section */}
-                                  <div className="flex-1 p-4 flex flex-col custom-2xl:flex-row items-start custom-2xl:items-center">
-                                    <div className="grid grid-cols-2 custom-2xl:grid-cols-4 gap-4 w-full">
+                                  <div className="flex-1 p-4 flex flex-col custom-xl:flex-row items-start custom-xl:items-center">
+                                    <div className="grid grid-cols-2 custom-xl:grid-cols-4 gap-4 w-full">
                                       {/* Subject */}
-                                      <div className="flex flex-col custom-2xl:block transition-all duration-300 ease-in-out custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1 text-white">
+                                      <div className="flex flex-col custom-xl:block transition-all duration-300 ease-in-out custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1 text-white">
                                           Subject and level
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl  font-medium">
+                                        <span className="text-white text-base custom-xl:text-xl  font-medium">
                                           {request.subjects || ""}
                                         </span>
                                         <div
@@ -291,11 +291,11 @@ const SessionCalendarComponent = ({
                                       </div>
 
                                       {/* Tutor */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           eTutor
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl ">
+                                        <span className="text-white text-base custom-xl:text-xl ">
                                           {request.teacher?.contactInformation
                                           // @ts-ignore
                                             .firstName || "Your Teacher"}
@@ -352,11 +352,11 @@ const SessionCalendarComponent = ({
                                       </div>
 
                                       {/* Duration */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           Duration
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl">
+                                        <span className="text-white text-base custom-xl:text-xl">
                                           {
                                           // @ts-ignore
                                           request?.duration || ""}
@@ -364,11 +364,11 @@ const SessionCalendarComponent = ({
                                       </div>
 
                                       {/* Date/Time */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           Date and Time
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl">
+                                        <span className="text-white text-base custom-xl:text-xl">
                                           {`${new Date(request.date)
                                             .toLocaleDateString("en-GB")
                                             .replace(/\//g, "/")
@@ -394,24 +394,24 @@ const SessionCalendarComponent = ({
 
                                   {/* Buttons Section */}
                                   <div
-                                    className={`flex flex-col custom-2xl:flex-row gap-2  custom-2xl:gap-4  h-full ${
+                                    className={`flex flex-col custom-xl:flex-row gap-2  custom-xl:gap-4  h-full ${
                                       isExpanded ? "py-6 px-4" : "p-4"
-                                    } transition-all duration-300 ease-in-out  custom-2xl:pl-0 `}
+                                    } transition-all duration-300 ease-in-out  custom-xl:pl-0 `}
                                   >
                                     <button
                                       onClick={() =>
                                         setActiveFindEtutor("Find eTutor")
                                       }
-                                      className="w-full  custom-2xl:h-full custom-2xl:w-auto bg-[#473171] text-white px-8 py-2 rounded-md text-sm custom-2xl:text-xl hover:bg-[#3d2961] transition-colors"
+                                      className="w-full  custom-xl:h-full custom-xl:w-auto bg-[#473171] text-white px-8 py-2 rounded-md text-sm custom-xl:text-xl hover:bg-[#3d2961] transition-colors"
                                     >
                                       Edit Session
                                     </button>
 
-                                    <button className="w-full custom-2xl:h-full flex items-center justify-center gap-3  custom-2xl:w-auto bg-transparent text-white px-8 py-2 rounded-md text-sm custom-2xl:text-xl transition-all">
+                                    <button className="w-full custom-xl:h-full flex items-center justify-center gap-3  custom-xl:w-auto bg-transparent text-white px-8 py-2 rounded-md text-sm custom-xl:text-xl transition-all">
                                       <Image  loading="lazy" 
                                         src={pending}
                                         alt=""
-                                        className="transition-transform duration-300 custom-2xl:group-hover:rotate-90 custom-2xl:group-hover:scale-125"
+                                        className="transition-transform duration-300 custom-xl:group-hover:rotate-90 custom-xl:group-hover:scale-125"
                                       />
                                       Pending
                                     </button>
@@ -430,7 +430,7 @@ const SessionCalendarComponent = ({
               {activeSessionTab === "confirmed" && (
                 <>
                   <div className="">
-                    <div className="hidden custom-2xl:grid custom-2xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-2xl:pl-9  w-[68%] text-white">
+                    <div className="hidden custom-xl:grid custom-xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-xl:pl-9  w-[68%] text-white">
                       <div className="px-4  ">Subject and level</div>
                       <div className="px-4  ">eTutor</div>
                       <div className="px-4  ">Duration</div>
@@ -448,10 +448,10 @@ const SessionCalendarComponent = ({
                             return (
                               <div
                                 key={request._id}
-                                className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-2xl:pl-9 group  ${
+                                className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-xl:pl-9 group  ${
                                   isExpanded
-                                    ? "h-auto custom-2xl:h-28"
-                                    : "h-auto custom-2xl:h-20"
+                                    ? "h-auto custom-xl:h-28"
+                                    : "h-auto custom-xl:h-20"
                                 } overflow-hidden cursor-pointer`}
                                 onMouseEnter={() =>
                                   // @ts-ignore
@@ -459,16 +459,16 @@ const SessionCalendarComponent = ({
                                 }
                                 onMouseLeave={() => setexpandedRequestId(null)}
                               >
-                                <div className="flex flex-col  custom-2xl:flex-row custom-2xl:items-start h-full">
+                                <div className="flex flex-col  custom-xl:flex-row custom-xl:items-start h-full">
                                   {/* Content Section */}
-                                  <div className="flex-1 p-4 flex flex-col custom-2xl:flex-row items-start custom-2xl:items-center">
-                                    <div className="grid grid-cols-2 custom-2xl:grid-cols-4 gap-4 w-full">
+                                  <div className="flex-1 p-4 flex flex-col custom-xl:flex-row items-start custom-xl:items-center">
+                                    <div className="grid grid-cols-2 custom-xl:grid-cols-4 gap-4 w-full">
                                       {/* Subject */}
-                                      <div className="flex flex-col custom-2xl:block transition-all duration-300 ease-in-out custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1 text-white">
+                                      <div className="flex flex-col custom-xl:block transition-all duration-300 ease-in-out custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1 text-white">
                                           Subject and level
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl  font-medium">
+                                        <span className="text-white text-base custom-xl:text-xl  font-medium">
                                           {request.subjects || ""}
                                         </span>
                                         <div
@@ -483,11 +483,11 @@ const SessionCalendarComponent = ({
                                       </div>
 
                                       {/* Tutor */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           eTutor
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl ">
+                                        <span className="text-white text-base custom-xl:text-xl ">
                                           {
                                           // @ts-ignore
                                           request.teacher?.contactInformation.firstName || "Your Teacher"}
@@ -544,11 +544,11 @@ const SessionCalendarComponent = ({
                                       </div>
 
                                       {/* Duration */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           Duration
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl">
+                                        <span className="text-white text-base custom-xl:text-xl">
                                           {
                                           // @ts-ignore
                                           request?.duration || ""}
@@ -556,11 +556,11 @@ const SessionCalendarComponent = ({
                                       </div>
 
                                       {/* Date/Time */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           Date and Time
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl">
+                                        <span className="text-white text-base custom-xl:text-xl">
                                           {`${new Date(request.date)
                                             .toLocaleDateString("en-GB")
                                             .replace(/\//g, "/")
@@ -586,21 +586,21 @@ const SessionCalendarComponent = ({
 
                                   {/* Buttons Section */}
                                   <div
-                                    className={`flex flex-col custom-2xl:flex-row gap-2  custom-2xl:gap-4  h-full ${
+                                    className={`flex flex-col custom-xl:flex-row gap-2  custom-xl:gap-4  h-full ${
                                       isExpanded ? "py-6 px-4" : "p-4"
-                                    } transition-all duration-300 ease-in-out  custom-2xl:pl-0 `}
+                                    } transition-all duration-300 ease-in-out  custom-xl:pl-0 `}
                                   >
                                     <button
                                       onClick={() =>
                                         setActiveFindEtutor("Find eTutor")
                                       }
-                                      className="w-full  custom-2xl:h-full custom-2xl:w-auto bg-[#473171] text-white px-8 py-2 rounded-md text-sm custom-2xl:text-xl hover:bg-[#3d2961] transition-colors"
+                                      className="w-full  custom-xl:h-full custom-xl:w-auto bg-[#473171] text-white px-8 py-2 rounded-md text-sm custom-xl:text-xl hover:bg-[#3d2961] transition-colors"
                                     >
                                       Edit Session
                                     </button>
 
                                     <a href={request.joinLink} target="_blank">
-                                      <button className="w-full custom-2xl:h-full  custom-2xl:w-auto bg-[#8653FF] text-white px-8 py-2 rounded-md text-sm custom-2xl:text-xl hover:bg-[#7340ff] transition-colors">
+                                      <button className="w-full custom-xl:h-full  custom-xl:w-auto bg-[#8653FF] text-white px-8 py-2 rounded-md text-sm custom-xl:text-xl hover:bg-[#7340ff] transition-colors">
                                         Meeting Link
                                       </button>
                                     </a>
@@ -619,7 +619,7 @@ const SessionCalendarComponent = ({
               {activeSessionTab === "canceled" && (
                 <>
                   <div className="">
-                    <div className="hidden custom-2xl:grid custom-2xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-2xl:pl-9  w-[68%] text-white">
+                    <div className="hidden custom-xl:grid custom-xl:grid-cols-4 mb-5 text-sm custom-lg:text-xl custom-xl:pl-9  w-[68%] text-white">
                       <div className="px-4  ">Subject and level</div>
                       <div className="px-4  ">eTutor</div>
                       <div className="px-4  ">Duration</div>
@@ -637,10 +637,10 @@ const SessionCalendarComponent = ({
                             return (
                               <div
                                 key={request._id}
-                                className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-2xl:pl-9 group  ${
+                                className={`w-full transition-all duration-300 ease-in-out bg-[#564589] rounded-lg custom-xl:pl-9 group  ${
                                   isExpanded
-                                    ? "h-auto custom-2xl:h-28"
-                                    : "h-auto custom-2xl:h-20"
+                                    ? "h-auto custom-xl:h-28"
+                                    : "h-auto custom-xl:h-20"
                                 } overflow-hidden cursor-pointer`}
                                 onMouseEnter={() =>
                                   // @ts-ignore
@@ -648,16 +648,16 @@ const SessionCalendarComponent = ({
                                 }
                                 onMouseLeave={() => setexpandedRequestId(null)}
                               >
-                                <div className="flex flex-col  custom-2xl:flex-row custom-2xl:items-start h-full">
+                                <div className="flex flex-col  custom-xl:flex-row custom-xl:items-start h-full">
                                   {/* Content Section */}
-                                  <div className="flex-1 p-4 flex flex-col custom-2xl:flex-row items-start custom-2xl:items-center">
-                                    <div className="grid grid-cols-2 custom-2xl:grid-cols-4 gap-4 w-full">
+                                  <div className="flex-1 p-4 flex flex-col custom-xl:flex-row items-start custom-xl:items-center">
+                                    <div className="grid grid-cols-2 custom-xl:grid-cols-4 gap-4 w-full">
                                       {/* Subject */}
-                                      <div className="flex flex-col custom-2xl:block transition-all duration-300 ease-in-out custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block transition-all duration-300 ease-in-out custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           Subject and level
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl  font-medium">
+                                        <span className="text-white text-base custom-xl:text-xl  font-medium">
                                           {request.subjects || ""}
                                         </span>
                                         <div
@@ -672,11 +672,11 @@ const SessionCalendarComponent = ({
                                       </div>
 
                                       {/* Tutor */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           eTutor
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl ">
+                                        <span className="text-white text-base custom-xl:text-xl ">
                                           {
                                           // @ts-ignore
                                           request.teacher?.contactInformation.firstName || "Your Teacher"}
@@ -733,11 +733,11 @@ const SessionCalendarComponent = ({
                                       </div>
 
                                       {/* Duration */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           Duration
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl">
+                                        <span className="text-white text-base custom-xl:text-xl">
                                           {
                                           // @ts-ignore
                                           request?.duration || ""}
@@ -745,11 +745,11 @@ const SessionCalendarComponent = ({
                                       </div>
 
                                       {/* Date/Time */}
-                                      <div className="flex flex-col custom-2xl:block custom-2xl:pt-2 text-white">
-                                        <span className="text-white/60 text-sm custom-2xl:hidden mb-1">
+                                      <div className="flex flex-col custom-xl:block custom-xl:pt-2 text-white">
+                                        <span className="text-white/60 text-sm custom-xl:hidden mb-1">
                                           Date and Time
                                         </span>
-                                        <span className="text-white text-base custom-2xl:text-xl">
+                                        <span className="text-white text-base custom-xl:text-xl">
                                           {`${new Date(request.date)
                                             .toLocaleDateString("en-GB")
                                             .replace(/\//g, "/")
@@ -775,15 +775,15 @@ const SessionCalendarComponent = ({
 
                                   {/* Buttons Section */}
                                   <div
-                                    className={`flex flex-col custom-2xl:flex-row gap-2  custom-2xl:gap-4  h-full ${
+                                    className={`flex flex-col custom-xl:flex-row gap-2  custom-xl:gap-4  h-full ${
                                       isExpanded ? "py-6 px-4" : "p-4"
-                                    } transition-all duration-300 ease-in-out  custom-2xl:pl-0 `}
+                                    } transition-all duration-300 ease-in-out  custom-xl:pl-0 `}
                                   >
                                     <button
                                       onClick={() =>
                                         setActiveFindEtutor("Find eTutor")
                                       }
-                                      className="w-full  custom-2xl:h-full custom-2xl:w-auto bg-[#473171] text-white px-8 py-2 rounded-md text-sm custom-2xl:text-xl hover:bg-[#3d2961] transition-colors"
+                                      className="w-full  custom-xl:h-full custom-xl:w-auto bg-[#473171] text-white px-8 py-2 rounded-md text-sm custom-xl:text-xl hover:bg-[#3d2961] transition-colors"
                                     >
                                       Edit Session
                                     </button>
@@ -805,29 +805,29 @@ const SessionCalendarComponent = ({
       );
     } else {
       return (
-        <div className="w-full  flex flex-col custom-2xl:flex-row gap-9 text-white">
+        <div className="w-full  flex flex-col custom-xl:flex-row gap-9 text-white">
 
 
-          <div className="flex  flex-wrap custom-2xl:flex-col gap-4 mt-6 ">
+          <div className="flex  flex-wrap custom-xl:flex-col gap-4 mt-6 ">
 
             <div className="flex  flex-col gap-4">
-            <div className="monthswitch bg-[#A296CC] w-[12rem] text-white select-none custom-2xl:w-[18.7rem] box-border uppercase  py-3.5 px-8 rounded-full  h-fit flex text-base custom-2xl:text-2xl items-center  justify-between font-medium">
+            <div className="monthswitch bg-[#A296CC] w-[12rem] text-white select-none custom-xl:w-[18.7rem] box-border uppercase  py-3.5 px-8 rounded-full  h-fit flex text-base custom-xl:text-2xl items-center  justify-between font-medium">
               {/* to switch previous month */}
               <span onClick={handlePrevious} className="hover:cursor-pointer ">
-                <ChevronLeft className="w-4 custom-2xl:w-7" />
+                <ChevronLeft className="w-4 custom-xl:w-7" />
               </span>
               <span>{format(currentDate, "MMM - yyyy")}</span>
               {/* to switch next month */}
               <span onClick={handleNext} className="hover:cursor-pointer">
-                <ChevronRight className="w-4 custom-2xl:w-7" />
+                <ChevronRight className="w-4 custom-xl:w-7" />
               </span>
             </div>
 
-            <div className="monthswitch bg-[#A296CC] w-[12rem] text-white select-none custom-2xl:w-[18.7rem] box-border uppercase py-3.5 px-8 rounded-full  h-fit flex text-base custom-2xl:text-2xl items-center  justify-between font-medium">
+            <div className="monthswitch bg-[#A296CC] w-[12rem] text-white select-none custom-xl:w-[18.7rem] box-border uppercase py-3.5 px-8 rounded-full  h-fit flex text-base custom-xl:text-2xl items-center  justify-between font-medium">
               {/* to switch the month view */}
               <ChevronLeft
                 onClick={() => setView("month")}
-                className={`hover:cursor-pointer  w-4 custom-2xl:w-7 ${
+                className={`hover:cursor-pointer  w-4 custom-xl:w-7 ${
                   view === "month" && "text-[#ffffff3d]"
                 }`}
               />
@@ -835,14 +835,14 @@ const SessionCalendarComponent = ({
               {/* to switch the week view */}
               <ChevronRight
                 onClick={() => setView("week")}
-                className={`hover:cursor-pointer w-4 custom-2xl:w-7 ${
+                className={`hover:cursor-pointer w-4 custom-xl:w-7 ${
                   view === "week" && "text-[#ffffff3f]"
                 }`}
               />
             </div>
             </div>
 
-            <div className="mt-2 custom-2xl:mt-9 pl-2.5 flex flex-col gap-2 custom-2xl:gap-3">
+            <div className="mt-2 custom-xl:mt-9 pl-2.5 flex flex-col gap-2 custom-xl:gap-3">
               {/* Confirmed Box */}
               <div
                 className="flex items-center gap-3 group hover:cursor-pointer"
@@ -858,7 +858,7 @@ const SessionCalendarComponent = ({
                   &nbsp;
                 </div>
                 <div
-                  className={`h-7 w-[14.6rem] py-[21px] px-8 text-base custom-2xl:text-2xl font-medium rounded-2xl flex items-center ${
+                  className={`h-7 w-[14.6rem] py-[21px] px-8 text-base custom-xl:text-2xl font-medium rounded-2xl flex items-center ${
                     confirmedState
                       ? "bg-[#8558f9]"
                       : "bg-[#aa8bfb] group-hover:bg-[#aa8bfb]"
@@ -883,7 +883,7 @@ const SessionCalendarComponent = ({
                   &nbsp;
                 </div>
                 <div
-                  className={`h-7 w-[14.6rem] py-[21px] px-8 text-base custom-2xl:text-2xl font-medium rounded-2xl flex items-center ${
+                  className={`h-7 w-[14.6rem] py-[21px] px-8 text-base custom-xl:text-2xl font-medium rounded-2xl flex items-center ${
                     unconfirmedState
                       ? "bg-[#4ddfea]"
                       : "bg-[#83e9f1] group-hover:bg-[#4DDFEA]"
@@ -908,7 +908,7 @@ const SessionCalendarComponent = ({
                   &nbsp;
                 </div>
                 <div
-                  className={`h-7 w-[14.6rem] py-[21px] px-8 text-base custom-2xl:text-2xl font-medium rounded-2xl flex items-center ${
+                  className={`h-7 w-[14.6rem] py-[21px] px-8 text-base custom-xl:text-2xl font-medium rounded-2xl flex items-center ${
                     canceledState
                       ? "bg-[#ff9580]"
                       : "bg-[#ffb5a7] group-hover:bg-[#FF9580]"
@@ -923,15 +923,15 @@ const SessionCalendarComponent = ({
                 
 
             {view === "month" && (
-          <div className="calendar bg-[#EDE8FA] w-full rounded-xl custom-2xl:rounded-3xl px-4 custom-2xl:px-7 py-4 custom-2xl:py-7 ">
-              <div className="grid grid-cols-7 gap-1 sm:gap-3 custom-2xl:gap-5 ">
+          <div className="calendar bg-[#EDE8FA] w-full rounded-xl custom-xl:rounded-3xl px-4 custom-xl:px-7 py-4 custom-xl:py-7 ">
+              <div className="grid grid-cols-7 gap-1 sm:gap-3 custom-xl:gap-5 ">
                 {/* Week day headers */}
                 {view === "month" &&
                   ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"].map(
                     (day) => (
                       <span
                         key={day}
-                        className="text-center text-[#A296CC]  flex flex-row-reverse pr-2 custom-2xl:pr-6 text-xs custom-lg:text-sm custom-2xl:text-xl font-medium custom-2xl:font-semibold  "
+                        className="text-center text-[#A296CC]  flex flex-row-reverse pr-2 custom-xl:pr-6 text-xs custom-lg:text-sm custom-xl:text-xl font-medium custom-xl:font-semibold  "
                       >
                         {day}
                       </span>
@@ -949,7 +949,7 @@ const SessionCalendarComponent = ({
                       className="aspect-square p-1 custom-xl:p-2 relative  bg-white flex flex-row-reverse rounded-md custom-xl:rounded-xl  "
                     >
                       <span
-                        className={`font-semibold text-xs custom-lg:text-sm custom-2xl:text-xl px-1 custom-2xl:px-2   ${
+                        className={`font-semibold text-xs custom-lg:text-sm custom-xl:text-xl px-1 custom-xl:px-2   ${
                           isCurrentMonth ? "text-[#A296CC]" : "text-[#ECE8FC]"
                         }`}
                       >
@@ -978,7 +978,7 @@ const SessionCalendarComponent = ({
                                 setActiveSessionTab("canceled");
                               }
                             }}
-                            className={`absolute bottom-2 left-2 right-2    custom-2xl:p-1.5 rounded-sm sm:rounded-full text-xs custom-2xl:text-sm flex items-center justify-center hover:cursor-pointer ${
+                            className={`absolute bottom-2 left-2 right-2    custom-xl:p-1.5 rounded-sm sm:rounded-full text-xs custom-xl:text-sm flex items-center justify-center hover:cursor-pointer ${
                               session.status === "accepted"
                                 ? "bg-[#8558f9]"
                                 : session.status === "pending"
@@ -999,7 +999,7 @@ const SessionCalendarComponent = ({
                                   : session.status === "pending"
                                   ? "bg-[#4ddfea]"
                                   : "bg-[#ff9580]"
-                              } text-white p-4  h-28 w-36  py-2 flex  items-start absolute  top-11 sm:top-20 custom-xl:top-28 custom-2xl:top-[133px]   left-1/2 transform -translate-x-1/2  z-50 rounded-3xl transition-all duration-300 `}
+                              } text-white p-4  h-28 w-36  py-2 flex  items-start absolute  top-11 sm:top-20 custom-xl:top-28 custom-xl:top-[133px]   left-1/2 transform -translate-x-1/2  z-50 rounded-3xl transition-all duration-300 `}
                             >
                               <div className="space-y-1 w-full">
                                 <div className="text-2xl font-semibold border-b border-white">
@@ -1033,7 +1033,7 @@ const SessionCalendarComponent = ({
                   return (
                     <div
                       key={weekIndex}
-                      className=" rounded-xl custom-2xl:rounded-3xl px-4 custom-2xl:px-7  pt-4 custom-2xl:pt-7 pb-5 custom-2xl:pb-8  bg-[#EDE8FA] "
+                      className=" rounded-xl custom-xl:rounded-3xl px-4 custom-xl:px-7  pt-4 custom-xl:pt-7 pb-5 custom-xl:pb-8  bg-[#EDE8FA] "
                     >
 
                       <div className="grid grid-cols-7 gap-4 text-[#A296CC] text-xl font-medium">
@@ -1041,7 +1041,7 @@ const SessionCalendarComponent = ({
                           (day) => (
                             <div
                               key={day}
-                              className="text-center text-[#A296CC]  flex flex-row-reverse pr-2 custom-2xl:pr-6 text-xs custom-lg:text-sm custom-2xl:text-xl font-medium custom-2xl:font-semibold   "
+                              className="text-center text-[#A296CC]  flex flex-row-reverse pr-2 custom-xl:pr-6 text-xs custom-lg:text-sm custom-xl:text-xl font-medium custom-xl:font-semibold   "
                             >
                               {day}
                             </div>
@@ -1072,13 +1072,13 @@ const SessionCalendarComponent = ({
                             }}
                               key={dayIndex}
                               className={`
-                                sm:min-h-[8rem]   custom-lg:h-[10rem] custom-2xl:min-h-[25rem] p-1  sm:p-2   rounded-lg custom-2xl:rounded-2xl  flex  flex-col sm:pr-3 
+                                sm:min-h-[8rem]   custom-lg:h-[10rem] custom-xl:min-h-[25rem] p-1  sm:p-2   rounded-lg custom-xl:rounded-2xl  flex  flex-col sm:pr-3 
                                 ${session ? ( session.status === "accepted"? "bg-[#8558f9] text-white hover:cursor-pointer": session.status === "pending"? "bg-[#4ddfea] hover:cursor-pointer text-white":session.status === "rejected" ? "bg-[#ff9580] hover:cursor-pointer text-white": "") :"bg-white text-[#A296CC] "}
                                 ${!isCurrentMonth ? "text-[#ECE8FC]" : ""}
                                 ${isToday(day) ? "" : ""}
                               `}
                             >
-                              <div className="font-semibold text-xs custom-lg:text-sm custom-2xl:text-xl px-1 custom-2xl:px-2 flex flex-row-reverse ">
+                              <div className="font-semibold text-xs custom-lg:text-sm custom-xl:text-xl px-1 custom-xl:px-2 flex flex-row-reverse ">
                                 {dayString}
                               </div>
 
@@ -1091,16 +1091,16 @@ const SessionCalendarComponent = ({
                                   : session.status === "pending"
                                   ? "bg-[#4ddfea]"
                                   : "bg-[#ff9580]"
-                              } text-white p-1 custom-2xl:p-2  h-fit w-full  py-2 custom-2xl::flex  items-start   rounded-xl custom-2xl:rounded-3xl transition-all duration-300 hidden truncate `}
+                              } text-white p-1 custom-xl:p-2  h-fit w-full  py-2 custom-xl::flex  items-start   rounded-xl custom-xl:rounded-3xl transition-all duration-300 hidden truncate `}
                             >
                               <div className="space-y-1 w-full">
-                                <div className="text-xs custom-xl:text-sm custom-2xl:text-xl font-semibold border-b border-white">
+                                <div className="text-xs custom-xl:text-sm custom-xl:text-xl font-semibold border-b border-white">
                                   Session
                                 </div>
-                                <div className="text-xs custom-xl:text-sm custom-2xl:text-base  ">
+                                <div className="text-xs custom-xl:text-sm custom-xl:text-base  ">
                                   {session.subjects}
                                 </div>
-                                <div className="text-xs custom-xl:text-sm custom-2xl:text-base">{session.time}</div>
+                                <div className="text-xs custom-xl:text-sm custom-xl:text-base">{session.time}</div>
                               </div>
                             </div>
                           )}
@@ -1125,9 +1125,9 @@ const SessionCalendarComponent = ({
 
   return (
     <div className="w-full min-h-screen  relative ">
-      <div className="flex space-x-4 mb-4  w-fit bg-[#9B85C8] p-3 custom-2xl:p-4 rounded-full absolute -top-3 custom-xl:-top-16 custom-2xl:-top-20 custom-xl:left-[150px] transition-all ">
+      <div className="flex space-x-4 mb-4  w-fit bg-[#9B85C8] p-3 custom-xl:p-4 rounded-full absolute -top-3 custom-xl:-top-16 custom-xl:-top-20 custom-xl:left-[150px] transition-all ">
         <button
-          className={`px-8 py-1 custom-2xl:px-[86px] custom-2xl:py-[15px] transition-all rounded-full text-base custom-2xl:text-xl font-bold uppercase bg-[#EDE8FA] text-[#6B5692] ${
+          className={`px-8 py-1 custom-xl:px-[86px] custom-xl:py-[15px] transition-all rounded-full text-base custom-xl:text-xl font-bold uppercase bg-[#EDE8FA] text-[#6B5692] ${
             activeTab === "sessions"
               ? "bg-color2 text-white transition-all"
               : "bg-[#EDE8FA] text-[#6c5794] transition-all"
@@ -1137,7 +1137,7 @@ const SessionCalendarComponent = ({
           Sessions
         </button>
         <button
-          className={`px-8 py-1 custom-2xl:px-[81px] custom-2xl:py-[15px] rounded-full transition-all text-base custom-2xl:text-xl font-bold uppercase bg-[#EDE8FA] text-[#6B5692] ${
+          className={`px-8 py-1 custom-xl:px-[81px] custom-xl:py-[15px] rounded-full transition-all text-base custom-xl:text-xl font-bold uppercase bg-[#EDE8FA] text-[#6B5692] ${
             activeTab === "calendar"
               ? "bg-color2 text-white transition-all"
               : "bg-[#EDE8FA] text-[#6B5692] transition-all"

@@ -60,11 +60,11 @@ const ContactForm = () => {
 
   return (
     <div className=" w-full  px-7">
-      <h2 className="text-[#685AAD]  text-xl sm:text-2xl custom-2xl:text-5xl font-bold mb-9">
+      <h2 className="text-[#685AAD]  text-xl sm:text-2xl custom-xl:text-5xl font-bold mb-9">
         Please provide your details and describe your issue
       </h2>
       <form className="" onSubmit={handleSubmit}>
-        <div className="mb-8 sm:mb-16 grid grid-cols-1 gap-x-16 gap-y-10 max-w-[51rem]  custom-2xl:grid-cols-2">
+        <div className="mb-8 sm:mb-16 grid grid-cols-1 gap-x-16 gap-y-10 max-w-[51rem]  custom-xl:grid-cols-2">
           {/* First Name in the first column */}
           <input
             type="text"
@@ -91,7 +91,7 @@ const ContactForm = () => {
 
           />
           {/* Empty space to maintain 2-column layout */}
-          <div className="hidden custom-2xl:block"></div>
+          <div className="hidden custom-xl:block"></div>
           {/* Topic in the first column */}
           <input
             type="text"
@@ -103,7 +103,7 @@ const ContactForm = () => {
         </div>
 
         <div>
-          <h3 className="text-[#685AAD]  text-xl sm:text-2xl custom-2xl:text-5xl font-bold mb-5 sm:mb-10">
+          <h3 className="text-[#685AAD]  text-xl sm:text-2xl custom-xl:text-5xl font-bold mb-5 sm:mb-10">
             Additional Information
           </h3>
           <textarea

@@ -278,7 +278,7 @@ const ETutorSearch = () => {
   const SearchForm = () => (
     <div className="space-y-4  bg-[#EDE8FA] px-6 py-6 rounded-3xl max-w-[62.5rem] mx-auto  min-h-screen ">
       <div className="flex justify-between items-center flex-col custom-xl:flex-row space-x-2 pt-7">
-        <h1 className=" text-3xl custom-2xl:text-5xl font-bold text-[#685AAD] pl-8">
+        <h1 className=" text-3xl custom-xl:text-5xl font-bold text-[#685AAD] pl-8">
           Find eTutor
         </h1>
 
@@ -345,7 +345,7 @@ const ETutorSearch = () => {
         <div className="w-full max-w-[36rem] mx-auto">
           <div className="relative  select-none">
             <div
-              className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
+              className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
               onClick={toggleSubjectDropdown}
             >
               <span>
@@ -425,7 +425,7 @@ const ETutorSearch = () => {
         <div className="w-full max-w-[36rem] mx-auto mt-4">
           <div className="relative w-full select-none">
             <div
-              className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
+              className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
               onClick={toggleLevelDropdown}
             >
               <span>{selectedLevel || "select level"}</span>
@@ -457,7 +457,7 @@ const ETutorSearch = () => {
         <div className="w-full max-w-[36rem] mx-auto mt-4">
           <div className="relative  select-none">
             <div
-              className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
+              className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
               onClick={toggleGenderDropdown}
             >
               <span>{selectedGender || "select gender"}</span>
@@ -546,10 +546,10 @@ const ETutorSearch = () => {
         {filteredTutors.map((tutor) => (
           <div
             key={tutor.id}
-            className="flex flex-col custom-2xl:flex-row  justify-between bg-[#A296CC] rounded-3xl px-8 py-6 gap-6"
+            className="flex flex-col custom-xl:flex-row  justify-between bg-[#A296CC] rounded-3xl px-8 py-6 gap-6"
           >
             {/* Left column: Image, Name, Bio, Price */}
-            <div className="  h-fit  w-full custom-2xl:max-w-[20rem] ">
+            <div className="  h-fit  w-full custom-xl:max-w-[20rem] ">
               <div className="flex flex-col sm:flex-row justify-start items-center gap-6">
                 <img
                   src={tutor.image}
@@ -590,7 +590,7 @@ const ETutorSearch = () => {
             </div>
 
             {/* Middle column: About me, Study, Teaching Experience */}
-            <div className="  custom-2xl:max-w-[36rem] w-full ">
+            <div className="  custom-xl:max-w-[36rem] w-full ">
               <h3 className="text-lg ">About me</h3>
               <p className="text-lg text-[#473171]">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
@@ -611,12 +611,12 @@ const ETutorSearch = () => {
             </div>
 
             {/* Right column: Availability, Subjects, Badge, More info button */}
-            <div className="flex custom-2xl:flex-col items-center justify-between  flex-row w-full custom-2xl:w-32 ">
+            <div className="flex custom-xl:flex-col items-center justify-between  flex-row w-full custom-xl:w-32 ">
               <Image  loading="lazy"  src={badge} alt="" className="w-16 sm:min-w-32 " />
 
               <button
                 onClick={() => handleViewProfile(tutor)}
-                className="bg-[#8558F9] text-white py-2 px-6 rounded-full custom-2xl:w-full hover:bg-purple-700 transition-colors"
+                className="bg-[#8558F9] text-white py-2 px-6 rounded-full custom-xl:w-full hover:bg-purple-700 transition-colors"
               >
                 More info
               </button>
@@ -628,9 +628,9 @@ const ETutorSearch = () => {
   );
 
   const ProfileView = () => (
-    <div className="bg-[#EDE8FA] rounded-3xl p-8 flex flex-col custom-2xl:flex-row gap-5">
+    <div className="bg-[#EDE8FA] rounded-3xl p-8 flex flex-col custom-xl:flex-row gap-5">
       {/* Left column */}
-      <div className="w-full custom-2xl:w-[63%] space-y-4">
+      <div className="w-full custom-xl:w-[63%] space-y-4">
         {/* Profile card */}
         <div className="bg-[#A296CC] rounded-3xl pl-6 py-6 pr-3 sm:pr-8 ">
           <div className="flex items-center justify-between gap-4">
@@ -779,7 +779,7 @@ const ETutorSearch = () => {
       </div>
 
       {/* Right column */}
-      <div className=" w-full custom-2xl:w-[37%] space-y-4">
+      <div className=" w-full custom-xl:w-[37%] space-y-4">
         {/* Booking card */}
         <div className="bg-[#A296CC] rounded-3xl p-10 ">
           <h2 className="text-xl sm:text-5xl font-bold mb-4">
@@ -957,7 +957,7 @@ const ETutorSearch = () => {
           <div className="w-full max-w-[36rem] mx-auto">
             <div className="relative  select-none">
               <div
-                className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
+                className="w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center"
                 onClick={toggleSubjectDropdown}
               >
                 <span>
@@ -1037,7 +1037,7 @@ const ETutorSearch = () => {
           <div className="w-full max-w-[36rem] mx-auto mt-4">
             <div className="relative w-full select-none">
               <div
-                className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
+                className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
                 onClick={toggleLevelDropdown}
               >
                 <span>{selectedLevel || "select level"}</span>
@@ -1069,7 +1069,7 @@ const ETutorSearch = () => {
           <div className="w-full max-w-[36rem] mx-auto mt-4">
             <div className="relative  select-none">
               <div
-                className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-2xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
+                className={`w-full bg-[#DBCAFF] text-[#a394d6]  text-sm custom-lg:text-xl custom-xl:text-2xl pr-7 sm:pr-14 pl-10 sm:pl-20 py-2 sm:py-4 rounded-full cursor-pointer flex justify-between items-center`}
                 onClick={toggleGenderDropdown}
               >
                 <span>{selectedGender || "select gender"}</span>
@@ -1116,7 +1116,7 @@ const ETutorSearch = () => {
             <div className="w-full max-w-[36rem] mx-auto relative ">
               <input
                 type="date"
-                className={`w-full bg-[#DBCAFF] text-[#a394d6] text-sm custom-lg:text-xl custom-2xl:text-2xl pl-10 pr-16 py-2 sm:py-4 rounded-full cursor-pointer`}
+                className={`w-full bg-[#DBCAFF] text-[#a394d6] text-sm custom-lg:text-xl custom-xl:text-2xl pl-10 pr-16 py-2 sm:py-4 rounded-full cursor-pointer`}
                 value={bookingInfo.date || ""}
                 onChange={(e) =>
                   handleBookingInputChange("date", e.target.value)
@@ -1138,7 +1138,7 @@ const ETutorSearch = () => {
             <div className="w-full max-w-[36rem] mx-auto mt-8 relative border-2 ">
               <input
                 type="time"
-                className={`w-full bg-[#DBCAFF] text-[#a394d6] text-sm custom-lg:text-xl custom-2xl:text-2xl pl-10 pr-16 py-2 sm:py-4 rounded-full cursor-pointer`}
+                className={`w-full bg-[#DBCAFF] text-[#a394d6] text-sm custom-lg:text-xl custom-xl:text-2xl pl-10 pr-16 py-2 sm:py-4 rounded-full cursor-pointer`}
                 value={bookingInfo.time || ""}
                 onChange={(e) =>
                   handleBookingInputChange("time", e.target.value)
