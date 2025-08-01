@@ -10,7 +10,6 @@ import activity from "../../../../public/activityicon.svg";
 import setting from "../../../../public/settingicon.svg";
 import link from "../../../../public/linkicons.svg";
 
-
 export const subjectOptions = [
   { value: "Mathematics", label: "Mathematics" },
   { value: "Algebra", label: "Algebra" },
@@ -123,4 +122,6 @@ export interface BookingRequest {
   date: string;
   time: string;
   status: string;
+  duration: string;
 }
+

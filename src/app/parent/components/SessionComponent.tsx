@@ -1,87 +1,88 @@
 "use client";
 import { useState } from "react";
 import styles from "./session.module.css";
-export default function MySessionComp() {
-  const [activetab, setactivetab] = useState("individual");
 
-  const getTabColors = (tabName: string) => {
-    if (activetab === "individual") {
-      if (tabName === "group") return "#9B85C8";
-      if (tabName === "trial") return "#6B5692";
-    } else if (activetab === "group") {
-      if (tabName === "individual") return "#6B5692";
-      if (tabName === "trial") return "#9B85C8";
-    } else if (activetab === "trial") {
-      if (tabName === "group") return "#9B85C8";
-      if (tabName === "individual") return "#6B5692";
-    }
-    return "#EDE8FA"; // Active tab color
-  };
+export default function SessionComponent() {
+    const [activetab, setactivetab] = useState("individual");
 
-  return (
-    <div className={`${styles.maindiv} `}>
-      {/* Individual Tab */}
-      <div
-        onClick={() => setactivetab("individual")}
-        className={`${styles.individualtab} individualtab `}
-        style={{ backgroundColor: getTabColors("individual") }}
-      >
-        {/* Top arc (was before) */}
-        <button
-          className={`
+    const getTabColors = (tabName: string) => {
+        if (activetab === "individual") {
+            if (tabName === "group") return "#9B85C8";
+            if (tabName === "trial") return "#6B5692";
+        } else if (activetab === "group") {
+            if (tabName === "individual") return "#6B5692";
+            if (tabName === "trial") return "#9B85C8";
+        } else if (activetab === "trial") {
+            if (tabName === "group") return "#9B85C8";
+            if (tabName === "individual") return "#6B5692";
+        }
+        return "#EDE8FA"; // Active tab color
+    };
+
+    return (
+        <div className={`${styles.maindiv} `}>
+            {/* Individual Tab */}
+            <div
+                onClick={() => setactivetab("individual")}
+                className={`${styles.individualtab} individualtab `}
+                style={{ backgroundColor: getTabColors("individual") }}
+            >
+                {/* Top arc (was before) */}
+                <button
+                    className={`
             ${activetab === "individual" ? "text-[#685AAD]" : "text-white"}`}
-          style={{ backgroundColor: getTabColors("individual") }}
-        >
-          <span className="">INDIVIDUAL SESSION</span>
-        </button>
-        {/* Bubble bump (was after) */}
-        <div
-          className={`${styles.bubble} bubble ${getTabColors("individual")}`}
-        />
-      </div>
+                    style={{ backgroundColor: getTabColors("individual") }}
+                >
+                    <span className="">INDIVIDUAL SESSION</span>
+                </button>
+                {/* Bubble bump (was after) */}
+                <div
+                    className={`${styles.bubble} bubble ${getTabColors("individual")}`}
+                />
+            </div>
 
-      {/* Group Tab */}
-      <div className={`${styles.grouptab} grouptab`}>
-        <div
-          onClick={() => setactivetab("group")}
-          className={`${styles.subgrouptab}`}
-          style={{ backgroundColor: getTabColors("group") }}
-        >
-          <button
-            className={`
+            {/* Group Tab */}
+            <div className={`${styles.grouptab} grouptab`}>
+                <div
+                    onClick={() => setactivetab("group")}
+                    className={`${styles.subgrouptab}`}
+                    style={{ backgroundColor: getTabColors("group") }}
+                >
+                    <button
+                        className={`
             ${activetab === "group" ? "text-[#685AAD]" : "text-white"}`}
-            style={{ backgroundColor: getTabColors("group") }}
-          >
-            <span className="">GROUP SESSION</span>
-          </button>
-          <div className="bubble" />
-        </div>
-      </div>
+                        style={{ backgroundColor: getTabColors("group") }}
+                    >
+                        <span className="">GROUP SESSION</span>
+                    </button>
+                    <div className="bubble" />
+                </div>
+            </div>
 
-      {/* Trial Tab */}
-      <div className={`${styles.trialtab} trialtab`}>
-        <div
-          onClick={() => setactivetab("trial")}
-          className={`${styles.subtrialtab}`}
-          style={{ backgroundColor: getTabColors("trial") }}
-        >
-          <button
-            className={` 
+            {/* Trial Tab */}
+            <div className={`${styles.trialtab} trialtab`}>
+                <div
+                    onClick={() => setactivetab("trial")}
+                    className={`${styles.subtrialtab}`}
+                    style={{ backgroundColor: getTabColors("trial") }}
+                >
+                    <button
+                        className={` 
             ${activetab === "trial" ? "text-[#685AAD]" : "text-white"} `}
-            style={{ backgroundColor: getTabColors("trial") }}
-          >
-            <span className="">TRIAL SESSION</span>
-          </button>
-          <div className={`bubble`} />
-        </div>
-      </div>
+                        style={{ backgroundColor: getTabColors("trial") }}
+                    >
+                        <span className="">TRIAL SESSION</span>
+                    </button>
+                    <div className={`bubble`} />
+                </div>
+            </div>
 
-      {/* Active content display */}
-      <div className={`${styles.contentdiv} border border-red-950`}>
+            {/* Active content display */}
+            <div className={`${styles.contentdiv} `}>
+              
+            </div>
 
-      </div>
-
-      <style jsx>{`
+            <style jsx>{`
         .individualtab .bubble {
           position: absolute;
           top: -3.8%;
@@ -232,6 +233,6 @@ export default function MySessionComp() {
           }
         }
       `}</style>
-    </div>
-  );
+        </div>
+    );
 }

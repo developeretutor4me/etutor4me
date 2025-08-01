@@ -92,3 +92,39 @@ export const durations = [
     discount: "15% off",
   },
 ];
+
+export interface Student {
+  profile: {
+    firstName: String;
+  };
+  email: string;
+  contactInformation: {
+    country: string;
+    phone: string;
+    address: string;
+  };
+}
+
+export interface Teacher {
+  name: string;
+  email: string;
+  contactInformation: {
+    country: string;
+    phone: string;
+    address: string;
+  };
+}
+
+export interface BookingRequest {
+  duration: string;
+  meetingCompleted: boolean;
+  joinLink: string | undefined;
+  _id: string;
+  student: Student;
+  teacher: Teacher;
+  subjects: string[];
+  level: string;
+  date: string;
+  time: string;
+  status: string;
+}

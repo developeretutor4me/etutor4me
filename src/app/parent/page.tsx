@@ -839,7 +839,7 @@ const SessionsDashboard: React.FC = () => {
               )}
 
               {activeSidebarItem === "My Sessions" && (
-                <h1 className="text-[#685AAD] text-3xl custom-lg:text-[40px] custom-xl:text-[54px] custom-lg:leading-none font-extrabold ml-0 absolute top-16 sm:relative sm:top-3 left-3 custom-xl:left-5">
+                <h1 className="text-[#685AAD] text-3xl custom-lg:text-[40px] custom-xl:text-[54px] custom-lg:leading-none font-extrabold ml-0 hidden sm:block top-16 relative sm:top-3 left-3 custom-xl:left-5">
                   My&nbsp;Sessions
                 </h1>
               )}

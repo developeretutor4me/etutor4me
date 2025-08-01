@@ -106,7 +106,7 @@ function Dropdown({ targetRef, toggleProfile, firstName, isProfileOpen, session,
                 )}
             </div>
             {isProfileOpen && (
-                <div className="absolute right-0 mt-2 hover:cursor-pointer  bg-[#EDE8FA] font-bold rounded-[10px] shadow-lg py-1 z-10 top-full w-[9rem] custom-lg:w-[12.5rem] px-5 border border-[#685aad7a]">
+                <div className="absolute right-0 mt-2 hover:cursor-pointer  bg-[#EDE8FA] font-bold rounded-[10px] shadow-lg py-1 z-[1111111111111111111] top-full w-[9rem] custom-lg:w-[12.5rem] px-5 border border-[#685aad7a]">
                     <Link
                         href="/studentdashboard/studentprofile"
                         className="block px-2 py-2 custom-2xl:py-[15px] text-sm custom-lg:text-[16px] text-[#685AAD]  border-b border-[#685aad7a] "

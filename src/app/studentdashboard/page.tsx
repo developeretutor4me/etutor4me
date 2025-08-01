@@ -1,8 +1,6 @@
 "use client";
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { ChevronLeft, Menu } from "lucide-react";
-import logo from "../../../public/studentdashlogo.svg";
-import Adminlogo from "../../../public/StudentAdminLogo.svg";
 import Image from "next/image";
 import Session from "./components/Session";
 import Calender from "./components/Calender";
@@ -16,7 +14,6 @@ import UsefulLinks from "./components/UsefulLinks";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import useSWR from "swr";
-import io from "socket.io-client";
 import styles from "./DashboardGrid.module.css";
 import etokiicon from "../../../public/etokiIcon.svg";
 import EPlusIcon from "../../../public/Plus circle.svg";
@@ -595,7 +592,7 @@ const SessionsDashboard = () => {
                       setActiveSidebarItem(previousSidebarItem); // Navigate back to previous item
                     }
                   }}
-                  className="flex cursor-pointer  items-center relative top-4"
+                  className=" cursor-pointer  items-center relative top-4 hidden sm:flex"
                 >
                   <ChevronLeft
                     className="mr-2 cursor-pointer text-[#685AAD]"
@@ -609,7 +606,7 @@ const SessionsDashboard = () => {
               )}
 
               {activeSidebarItem === "My Sessions" && (
-                <h1 className="text-[#685AAD]  text-sm sm:text-md custom-lg:text-5xl  font-extrabold ml-0 sm:ml-6 absolute top-16 left-16 sm:relative sm:top-3 sm:left-8">
+                <h1 className="text-[#685AAD]  text-sm sm:text-md custom-lg:text-5xl  font-extrabold ml-0 sm:ml-6 absolute top-16 hidden md:block left-16 sm:relative sm:top-3 sm:left-8">
                   My&nbsp;Sessions
                 </h1>
               )}
